@@ -21,7 +21,7 @@ public class DBCPInitListener implements ServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
-		System.out.println("contextInitialized() 실행");
+		System.out.println("contextInitialized() 실행 Hyun");
 		String poolConfig = sce.getServletContext().getInitParameter("poolConfig");
 		Properties prop = new Properties();
 		try {
