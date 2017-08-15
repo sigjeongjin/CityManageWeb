@@ -6,6 +6,6 @@ package com.city.api.service;
  * FavoritesRegisterService 즐겨찾기 등록			frs
  */
 
-public class FavoritesService {
+public class FavoritesServiceApp {
 
 }

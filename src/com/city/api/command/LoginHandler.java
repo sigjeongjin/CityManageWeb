@@ -3,13 +3,13 @@ package com.city.api.command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.city.api.service.LoginService;
+import com.city.api.service.LoginServiceApp;
 
 
 public class LoginHandler implements CommandJsonHandler {
 	
 
-	private LoginService loginService = new LoginService();
+	private LoginServiceApp loginService = new LoginServiceApp();
 
 	@Override
 	public String process(HttpServletRequest req, HttpServletResponse res) 

@@ -9,35 +9,29 @@ package com.city.web.service;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import com.city.api.dao.MemberDao;
-import com.city.api.service.LoginFailException;
-import com.city.api.service.User;
 import com.city.model.Member;
+import com.city.web.dao.MemberDao;
 
 import jdbc.connection.ConnectionProvider;
 
 public class LoginService {
+
 	private MemberDao memberDao = new MemberDao();
 
-	public User login(String id, String password) {
+	public Member login(String memberId, String memberPwd) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
-			Member member = memberDao.selectById(conn, id);
+			Member member = memberDao.selectById(conn, memberId);
 			if (member == null) {
-				throw new LoginFailException();
+				System.out.println("LoginSFail-1");
+				throw new RuntimeException();
 			}
-			if (!member.matchPassword(password)) {
-				throw new LoginFailException();
+			if (!member.matchPassword(memberPwd)) {
+				System.out.println("LoginSFail-2");
+				throw new RuntimeException();
 			}
-			return new User(member.getMemberId(), member.getMemberName());
+			return new Member(member.getMemberId(), member.getMemberName());
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
-
-		
-	}
-
-
-
-
-
+}

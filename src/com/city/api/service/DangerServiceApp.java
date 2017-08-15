@@ -17,6 +17,6 @@ package com.city.api.service;
 
 
 
-public class DangerService {
+public class DangerServiceApp {
 
 }

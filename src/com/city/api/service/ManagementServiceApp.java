@@ -6,6 +6,6 @@ package com.city.api.service;
  *  */
 
 
-public class ManagementService {
+public class ManagementServiceApp {
 
 }

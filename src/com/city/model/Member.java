@@ -1,40 +1,39 @@
 package com.city.model;
 
-import java.util.Date;
 
 public class Member {
 
 	private String memberId;
 	private String memberPwd;
 	private String memberName;
-	private String memberPhone;
-	private Date regDate;
+	private String memberPhone;	
 	private String memberEmail;
 	private String memberPhoto;
 	private String memberAuthorization;
 	private String memberDeleteCode;
 	private String cityGeocode;
 	private String stateGeocode;
-
-
+	
 	public Member() {
 
 	}
 
-	public Member(String memberId, String memberPwd, String memberName, String memberPhone,
-			Date regDate, String memberEmail, String memberPhoto, String  memberAuthorization, String memberDeleteCode
-			, String cityGeocode, String stateGeocode) {
+	public Member(String memberId, String memberPwd, String memberName, String memberPhone, String memberEmail,
+					String memberPhoto, String  memberAuthorization, String cityGeocode, String stateGeocode) {
 		this.memberId = memberId;
 		this.memberPwd = memberPwd;
 		this.memberName = memberName;
 		this.memberPhone = memberPhone;
-		this.regDate = regDate;
 		this.memberEmail = memberEmail;
-		this.memberPhone = memberPhone;
+		this.memberPhoto = memberPhoto;
 		this.memberAuthorization = memberAuthorization;
-		this.memberDeleteCode = memberDeleteCode;
 		this.cityGeocode = cityGeocode;
 		this.stateGeocode = stateGeocode;
+	}
+
+	public Member(String memberId, String memberName) {
+		this.memberId = memberId;
+		this.memberName = memberName;
 	}
 
 	public String getMemberId() {
@@ -51,10 +50,6 @@ public class Member {
 
 	public String getMemberPhone() {
 		return memberPhone;
-	}
-
-	public Date getRegDate() {
-		return regDate;
 	}
 
 	public String getMemberEmail() {
@@ -97,10 +92,6 @@ public class Member {
 		this.memberPhone = memberPhone;
 	}
 
-	public void setRegDate(Date regDate) {
-		this.regDate = regDate;
-	}
-
 	public void setMemberEmail(String memberEmail) {
 		this.memberEmail = memberEmail;
 	}
@@ -124,6 +115,7 @@ public class Member {
 	public void setStateGeocode(String stateGeocode) {
 		this.stateGeocode = stateGeocode;
 	}
+
 	public boolean matchPassword(String Pwd) {
 		return memberPwd.equals(Pwd);
 	}

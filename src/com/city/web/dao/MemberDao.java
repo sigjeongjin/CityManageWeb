@@ -12,34 +12,62 @@ import com.city.model.Member;
 import jdbc.JdbcUtil;
 
 public class MemberDao {
-    	
-	public int insert(Connection conn, Member member) throws SQLException {
+	
+	public int insertMember(Connection conn, Member member) throws SQLException {
 		PreparedStatement pstmt = null;
 		try 
 		{ 
 			pstmt = conn.prepareStatement(
 					"insert into member " +
-					"(memberId, memberPwd, memberName, memberPhone, memberEmail, regDate) " +
-					"values (?, ?, ?, ?, ?)");
+					"(member_id, member_pwd, member_name, member_phone, member_email, member_photo, member_authorization, city_geocode, state_geocode) " +
+					"values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			pstmt.setString(1, member.getMemberId());
 			pstmt.setString(2, member.getMemberPwd());
 			pstmt.setString(3, member.getMemberName());
 			pstmt.setString(4, member.getMemberPhone());
 			pstmt.setString(5, member.getMemberEmail());
-			pstmt.setTimestamp(6, new Timestamp(member.getRegDate().getTime()));
+			pstmt.setString(6, member.getMemberPhoto());
+			pstmt.setString(7, member.getMemberAuthorization());
+			pstmt.setString(8, member.getCityGeocode());
+			pstmt.setString(9, member.getStateGeocode());
 			return pstmt.executeUpdate();
 		} finally {
 			JdbcUtil.close(pstmt);
 		}
 	}
 	
-	public Member select(Connection conn, String userId) throws SQLException {
+	public Member selectByIdAndPwd(Connection conn, String memberId, String memberPwd) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
 			pstmt = conn.prepareStatement(
-					"select * from member where userId=?");
-			pstmt.setString(1, userId);
+//					"select member_id, member_pwd from member where member_id=? and member_pwd= ?");
+					"select member_id, member_pwd, member_name from member where member_id=? and member_pwd=?");
+			pstmt.setString(1, memberId);
+			pstmt.setString(2, memberPwd);
+			
+			
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+//				rs.getString("member_id");
+//				rs.getString("member_pwd");
+				return makeMemberFromResultSet(rs);
+			} else {
+				return null;
+			}
+		} finally {
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(rs);
+		}
+	}
+	
+	public Member selectById(Connection conn, String memberId) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement(
+					"select * from member where member_id=?");
+			pstmt.setString(1, memberId);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				return makeMemberFromResultSet(rs);
@@ -54,12 +82,16 @@ public class MemberDao {
 	
 	private Member makeMemberFromResultSet(ResultSet rs) throws SQLException {
 		Member member = new Member();
-		member.setMemberId(rs.getString("memberId"));
-		member.setMemberPwd(rs.getString("memberPwd"));
-		member.setMemberName(rs.getString("memberName"));
-		member.setMemberPhone(rs.getString("memberPhone"));
-		member.setMemberEmail(rs.getString("memberEmail"));
-		member.setRegDate(rs.getTimestamp("regDate"));
+		member.setMemberId(rs.getString("member_id"));
+		member.setMemberPwd(rs.getString("member_pwd"));
+		member.setMemberName(rs.getString("member_name"));
+		member.setMemberPhone(rs.getString("member_phone"));
+		member.setMemberEmail(rs.getString("member_email"));
+		member.setMemberPhoto(rs.getString("member_photo"));
+		member.setMemberAuthorization(rs.getString("member_authorization"));
+		member.setMemberDeleteCode(rs.getString("member_delete_code"));
+		member.setCityGeocode(rs.getString("city_geocode"));
+		member.setStateGeocode(rs.getString("state_geocode"));
 
 		return member;
 	}
@@ -68,9 +100,24 @@ public class MemberDao {
 		return date == null ? null : new Date(date.getTime());
 	}
 
-	public Member selectById(Connection conn, String id) {
+	public void update(Connection conn, Member member) throws SQLException {
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement("update member set member_pwd = ?, member_name = ?, member_phone = ?, member_email = ? where member_id = ?");
+			System.out.println("--"+ member.getMemberPwd());
+			System.out.println("--"+ member.getMemberName());
+//			System.out.println("--"+ member.getCityGeocode());
+			pstmt.setString(1, member.getMemberPwd());
+			pstmt.setString(2, member.getMemberName());
+			pstmt.setString(3, member.getMemberPhone());
+			pstmt.setString(4, member.getMemberEmail());
+			//pstmt.setString(6, member.getMemberPhoto());
+			pstmt.setString(5, member.getMemberId());
+			pstmt.executeUpdate();
+		} finally {
+			JdbcUtil.close(pstmt);
+		}
 		
-		return null;
 	}
    
 }

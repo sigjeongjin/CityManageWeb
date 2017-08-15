@@ -10,6 +10,6 @@ package com.city.api.service;
  * */
 
 
-public class RegisterService {
+public class RegisterServiceApp {
 
 }

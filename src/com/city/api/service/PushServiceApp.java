@@ -4,6 +4,6 @@ package com.city.api.service;
  * PushRecordListService 푸시 이력 리스트 조화     	prls
  * */
 
-public class PushService {
+public class PushServiceApp {
 
 }
