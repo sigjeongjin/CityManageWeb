@@ -78,6 +78,7 @@ public class ControllerUsingURI extends HttpServlet {
 		String viewPage = null;
 		try {
 			viewPage = handler.process(request, response);
+			System.out.println("viewPage : "+viewPage);
 		} catch (Exception e) {
 			throw new ServletException(e);
 		}

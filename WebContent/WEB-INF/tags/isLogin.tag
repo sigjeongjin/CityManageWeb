@@ -2,7 +2,7 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
 <%
 	HttpSession httpSession = request.getSession(false);
-	if (httpSession != null && httpSession.getAttribute("authMember") != null) {
+	if (httpSession != null && httpSession.getAttribute("authMemberId") != null) {
 %>
 <jsp:doBody />
 <%

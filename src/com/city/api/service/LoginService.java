@@ -1,4 +1,4 @@
-package com.city.web.service;
+package com.city.api.service;
 
 /*
  * loginservice 로그인
@@ -10,28 +10,25 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import com.city.api.dao.MemberDao;
 import com.city.model.Member;
-import com.city.web.dao.MemberDao;
+
 
 import jdbc.connection.ConnectionProvider;
 
 public class LoginService {
-
 	private MemberDao memberDao = new MemberDao();
 
-	public HashMap<String, String> login(String memberId, String memberPwd) {
+	public String login(String memberId, String memberPwd) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
 			
-			HashMap<String, String> idAndName = new HashMap<String, String>();
-			
-			idAndName = memberDao.selectByIdAndPwd(conn, memberId, memberPwd);
-			
+			String idAndName = memberDao.selectByIdAndPwd(conn, memberId, memberPwd);
+			String resultCode = "200";
 			if (idAndName == null) {
 				System.out.println("LoginSFail-1");
 				throw new NullPointerException();
 			}
-
-			return idAndName;
+			return resultCode;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);

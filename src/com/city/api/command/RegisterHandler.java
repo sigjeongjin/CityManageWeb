@@ -3,14 +3,14 @@ package com.city.api.command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.city.api.service.LoginServiceApp;
+import com.city.api.service.LoginService;
 import com.city.model.Member;
 
 
 public class RegisterHandler implements CommandJsonHandler {
 
 
-	private LoginServiceApp loginService = new LoginServiceApp();
+	private LoginService loginService = new LoginService();
 
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {

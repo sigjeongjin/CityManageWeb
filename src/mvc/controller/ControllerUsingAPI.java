@@ -21,7 +21,7 @@ import com.city.api.command.CommandJsonHandler;
 
 
 
-public class ControllerUsingApp extends HttpServlet {
+public class ControllerUsingAPI extends HttpServlet {
 	
 	private Map<String, CommandJsonHandler> commandHandlerMap = new HashMap<>();
 	

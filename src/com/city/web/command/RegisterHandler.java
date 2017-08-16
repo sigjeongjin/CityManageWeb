@@ -1,5 +1,7 @@
 package com.city.web.command;
 
+import java.sql.SQLException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -7,7 +9,6 @@ import com.city.model.Member;
 import com.city.web.service.RegisterService;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-
 
 public class RegisterHandler implements CommandHandler {
 
@@ -30,32 +31,30 @@ public class RegisterHandler implements CommandHandler {
 		return "view/registerForm.jsp";
 	}
 
-	private String processSubmit(HttpServletRequest request, HttpServletResponse response) 
-	throws Exception {
-		
-//		String savePath = request.getServletContext().getRealPath("pic");
-//		int maxSize = 5*1024*1024;  //최대 업로될 파일크기 5Mb
-//		MultipartRequest multi = new MultipartRequest(request, savePath, maxSize, "utf-8", new DefaultFileRenamePolicy());
-//		
-//		String fileName = multi.getFilesystemName("memberPhoto");
-//		String fileFullPath = savePath + "/" + fileName;
-	
-		Member member = new Member();
-		member.setMemberId(request.getParameter("memberId"));
-		member.setMemberPwd(request.getParameter("memberPwd"));
-		member.setMemberName(request.getParameter("memberName"));
-		member.setMemberPhone(request.getParameter("memberPhone"));
-		member.setMemberEmail(request.getParameter("memberEmail"));
-		member.setMemberPhoto(request.getParameter("memberPhoto"));
-//		member.setMemberPhoto(multi.getFilesystemName("memberPhoto"));
-//		member.setMemberPhoto(fileFullPath);
-		member.setMemberAuthorization(request.getParameter("memberAuthorization"));
-//		member.setMemberDeleteCode(request.getParameter("memberDeleteCode"));
-		member.setCityGeocode(request.getParameter("cityGeocode"));
-		member.setStateGeocode(request.getParameter("stateGeocode"));
+	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		registerService.register(member);
+		String saveFolder = "/upload";
+		String realFolder = request.getServletContext().getRealPath(saveFolder); // saveFilepath
+		System.out.println("realFolder : " + realFolder);
+		int maxSize = 5 * 1024 * 1024; // 최대 업로될 파일크기 5Mb
+		MultipartRequest multi = new MultipartRequest(request, realFolder, maxSize, "utf-8",
+				new DefaultFileRenamePolicy());
+
+		Member member = new Member();
+		member.setMemberId(multi.getParameter("memberId"));
+		member.setMemberPwd(multi.getParameter("memberPwd"));
+		member.setMemberName(multi.getParameter("memberName"));
+		member.setMemberPhone(multi.getParameter("memberPhone"));
+		member.setMemberEmail(multi.getParameter("memberEmail"));
+		member.setMemberPhoto(multi.getFilesystemName("memberPhoto"));
+		member.setMemberAuthorization(multi.getParameter("memberAuthorization"));
+		// member.setMemberDeleteCode(multi.getParameter("memberDeleteCode"));
+		member.setCityGeocode(multi.getParameter("cityGeocode"));
+		member.setStateGeocode(multi.getParameter("stateGeocode"));
+
+		String strId = registerService.register(member);
 		request.setAttribute("memberJoin", member);
-		return "view/welcomeForm.jsp";
+		return "view/welcomeForm.jsp";	
+
 	}
 }

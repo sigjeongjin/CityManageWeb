@@ -1,7 +1,7 @@
 package com.city.model;
 
 
-public class Member {
+public class Member{
 
 	private String memberId;
 	private String memberPwd;
@@ -14,28 +14,6 @@ public class Member {
 	private String cityGeocode;
 	private String stateGeocode;
 	
-	public Member() {
-
-	}
-
-	public Member(String memberId, String memberPwd, String memberName, String memberPhone, String memberEmail,
-					String memberPhoto, String  memberAuthorization, String cityGeocode, String stateGeocode) {
-		this.memberId = memberId;
-		this.memberPwd = memberPwd;
-		this.memberName = memberName;
-		this.memberPhone = memberPhone;
-		this.memberEmail = memberEmail;
-		this.memberPhoto = memberPhoto;
-		this.memberAuthorization = memberAuthorization;
-		this.cityGeocode = cityGeocode;
-		this.stateGeocode = stateGeocode;
-	}
-
-	public Member(String memberId, String memberName) {
-		this.memberId = memberId;
-		this.memberName = memberName;
-	}
-
 	public String getMemberId() {
 		return memberId;
 	}

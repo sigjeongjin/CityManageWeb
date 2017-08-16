@@ -19,38 +19,30 @@ public class RegisterService {
 
 	private MemberDao memberDao = new MemberDao();
 
-	public void register(Member memberReq) {
+	public String register(Member member) {
+
+		String flag = null;
 		Connection conn = null;
 
 		try {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
 
-			Member member = memberDao.selectById(conn, memberReq.getMemberId());
-			
-			if (member != null) {
-				JdbcUtil.rollback(conn);
-				throw new RuntimeException();
-			}
-			
-			memberDao.insertMember(conn, new Member(
-					memberReq.getMemberId(),
-					memberReq.getMemberPwd(),
-					memberReq.getMemberName(),
-					memberReq.getMemberPhone(),
-					memberReq.getMemberEmail(),
-					memberReq.getMemberPhoto(),
-					memberReq.getMemberAuthorization(),
-					memberReq.getCityGeocode(),
-					memberReq.getStateGeocode())
-			);
-			
-			System.out.println("회원가입 OK");
+			String strId = memberDao.insertMember(conn, member);
 			conn.commit();
+
+			if (strId != null) {
+				flag = "Y";
+				return flag;
+			} else {
+				flag = "N";
+				throw new SQLException();
+			}
 		} catch (SQLException e) {
 			JdbcUtil.rollback(conn);
 		} finally {
 			JdbcUtil.close(conn);
 		}
+		return null;
 	}
 }

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 
 import com.city.model.Member;
 
@@ -13,7 +14,7 @@ import jdbc.JdbcUtil;
 
 public class MemberDao {
 	
-	public int insertMember(Connection conn, Member member) throws SQLException {
+	public String insertMember(Connection conn, Member member) throws SQLException {
 		PreparedStatement pstmt = null;
 		try 
 		{ 
@@ -30,28 +31,28 @@ public class MemberDao {
 			pstmt.setString(7, member.getMemberAuthorization());
 			pstmt.setString(8, member.getCityGeocode());
 			pstmt.setString(9, member.getStateGeocode());
-			return pstmt.executeUpdate();
+			return Integer.toString(pstmt.executeUpdate());		
 		} finally {
 			JdbcUtil.close(pstmt);
 		}
 	}
 	
-	public Member selectByIdAndPwd(Connection conn, String memberId, String memberPwd) throws SQLException {
+	public HashMap<String, String> selectByIdAndPwd(Connection conn, String memberId, String memberPwd) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		
+		HashMap<String, String> idAndName = new HashMap<String, String>();
 		try {
 			pstmt = conn.prepareStatement(
-//					"select member_id, member_pwd from member where member_id=? and member_pwd= ?");
-					"select member_id, member_pwd, member_name from member where member_id=? and member_pwd=?");
+					"select member_id, member_name from member where member_id=? and member_pwd= ?");
 			pstmt.setString(1, memberId);
-			pstmt.setString(2, memberPwd);
-			
-			
+			pstmt.setString(2, memberPwd);		
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-//				rs.getString("member_id");
-//				rs.getString("member_pwd");
-				return makeMemberFromResultSet(rs);
+				idAndName.put("memberId", rs.getString("member_id"));
+				idAndName.put("memberName", rs.getString("member_name"));
+				System.out.println("data 있음");
+				return idAndName;
 			} else {
 				return null;
 			}
@@ -96,10 +97,6 @@ public class MemberDao {
 		return member;
 	}
 	
-	private Date toDate(Timestamp date) {
-		return date == null ? null : new Date(date.getTime());
-	}
-
 	public void update(Connection conn, Member member) throws SQLException {
 		PreparedStatement pstmt = null;
 		try {

@@ -1,5 +1,7 @@
 package com.city.web.command;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,13 +31,15 @@ public class LoginHandler implements CommandHandler {
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String memberId = trim(request.getParameter("memberId"));
 		String memberPwd = trim(request.getParameter("memberPwd"));
-
+		HashMap<String, String> idAndName = new HashMap<String, String>();
 		try {
-			Member member = loginService.login(memberId, memberPwd);
-			request.getSession().setAttribute("authMember", member);
-			response.sendRedirect(request.getContextPath() + "/index.jsp");
-			return null;
+			idAndName = loginService.login(memberId, memberPwd);
+			request.getSession().setAttribute("authMemberId", idAndName.get("memberId"));
+			request.getSession().setAttribute("authMemberName", idAndName.get("memberName"));
+			
+			return "index.jsp";
 		} catch (RuntimeException e) {
+			System.out.println("RuntimeException");
 			return "view/loginFrom.jsp";
 		}
 	}

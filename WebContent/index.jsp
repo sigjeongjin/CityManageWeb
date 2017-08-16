@@ -35,7 +35,7 @@ pageEncoding = "UTF-8"%>
 		<u:isLogin>
 			<div class="article">
 				안녕하세요?<br>
-				${authMember.memberName}님.<br>
+				${authMemberName}님.<br>
  				<a href = "logout.do">[로그아웃]</a>
 				<a href = "changeMemberInfo.do">[회원정보 변경]</a>
 			</div>
