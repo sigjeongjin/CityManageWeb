@@ -22,36 +22,24 @@ public class MemberManageService {
 
 	private MemberDao memberDao = new MemberDao();
 
-	public void MemberUpdate(Member memberReq) {
+	public String MemberUpdate(Member member) {
+
 		Connection conn = null;
+		String mU = null;
+
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 
-			System.out.println("memberId" + memberReq.getMemberId());
-			
-			Member member = memberDao.selectById(conn, memberReq.getMemberId());
-			if (member == null) {
-				throw new NullPointerException();
-			}
-			
-			System.out.println("없니??" + memberReq.getMemberId());
-			System.out.println("없니??" + memberReq.getMemberPwd());
-			System.out.println("없니??" + memberReq.getMemberName());
-//			memberDao.update(conn, new Member(
-//					memberReq.getMemberId(),
-//					memberReq.getMemberPwd(),
-//					memberReq.getMemberName(),
-//					memberReq.getMemberPhone(),
-//					memberReq.getMemberEmail(),
-//					memberReq.getMemberPhoto(),
-//					memberReq.getMemberAuthorization(),
-//					memberReq.getCityGeocode(),
-//					memberReq.getStateGeocode())
-//			);
-			
-			memberDao.update(conn, memberReq);
+			String strId = memberDao.update(conn, member);
 			conn.commit();
+			if (strId != null) {
+				mU = "Y";
+				return mU;
+			} else {
+				mU = "N";
+				throw new SQLException();
+			}
 		} catch (SQLException e) {
 			JdbcUtil.rollback(conn);
 			throw new RuntimeException(e);

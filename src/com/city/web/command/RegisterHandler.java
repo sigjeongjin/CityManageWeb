@@ -48,13 +48,11 @@ public class RegisterHandler implements CommandHandler {
 		member.setMemberEmail(multi.getParameter("memberEmail"));
 		member.setMemberPhoto(multi.getFilesystemName("memberPhoto"));
 		member.setMemberAuthorization(multi.getParameter("memberAuthorization"));
-		// member.setMemberDeleteCode(multi.getParameter("memberDeleteCode"));
 		member.setCityGeocode(multi.getParameter("cityGeocode"));
 		member.setStateGeocode(multi.getParameter("stateGeocode"));
 
-		String strId = registerService.register(member);
-		request.setAttribute("memberJoin", member);
-		return "view/welcomeForm.jsp";	
+		String rs = registerService.register(member);
+		return "index.jsp";	
 
 	}
 }

@@ -97,20 +97,18 @@ public class MemberDao {
 		return member;
 	}
 	
-	public void update(Connection conn, Member member) throws SQLException {
+	public String update(Connection conn, Member member) throws SQLException {
 		PreparedStatement pstmt = null;
 		try {
-			pstmt = conn.prepareStatement("update member set member_pwd = ?, member_name = ?, member_phone = ?, member_email = ? where member_id = ?");
-			System.out.println("--"+ member.getMemberPwd());
-			System.out.println("--"+ member.getMemberName());
-//			System.out.println("--"+ member.getCityGeocode());
+			pstmt = conn.prepareStatement("update member "
+					+ "set member_pwd = ?, member_name = ?, member_phone = ?, member_email = ?, member_photo = ? where member_id = ?");
 			pstmt.setString(1, member.getMemberPwd());
 			pstmt.setString(2, member.getMemberName());
 			pstmt.setString(3, member.getMemberPhone());
 			pstmt.setString(4, member.getMemberEmail());
-			//pstmt.setString(6, member.getMemberPhoto());
-			pstmt.setString(5, member.getMemberId());
-			pstmt.executeUpdate();
+			pstmt.setString(5, member.getMemberPhoto());
+			pstmt.setString(6, member.getMemberId());
+			return Integer.toString(pstmt.executeUpdate());
 		} finally {
 			JdbcUtil.close(pstmt);
 		}

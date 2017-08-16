@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.servlet.RequestDispatcher;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -72,9 +72,10 @@ public class ControllerUsingAPI extends HttpServlet {
 		
 		CommandJsonHandler handler = commandHandlerMap.get(command);
 		
-		JSONObject result = null;
+		//JSONObject result = null;
+		String result = null;
 		try {
-			//result = handler.process(request, response);
+			result = handler.process(request, response);
 		} catch (Exception e) {
 			throw new ServletException(e);
 		}

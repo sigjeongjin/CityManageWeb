@@ -3,6 +3,7 @@ package com.city.api.command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.city.api.dao.Result;
 import com.city.api.service.LoginService;
 import com.google.gson.Gson;
 
@@ -22,26 +23,30 @@ public class LoginHandler implements CommandJsonHandler {
 		}
 	}
 
-	private String processForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+	private String processForm(HttpServletRequest request, HttpServletResponse response) {
 		return this.processSubmit(request, response);
 	}
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) {
 		String memberId = trim(request.getParameter("memberId"));
 		String memberPwd = trim(request.getParameter("memberPwd"));
-		
-		System.out.println("memberId : " + memberId);
-		System.out.println("memberPwd : " + memberPwd);
-		String resultCode = loginService.login(memberId, memberPwd);
-		System.out.println("resultCode : " + resultCode);
-		Gson gson = new Gson();
-		
-		return gson.toJson(resultCode);
+
+		try {
+			Result result = new Result();
+			result.setResultCode(loginService.login(memberId, memberPwd));
+
+			if (result.getResultCode() == "200") {
+				result.setResultMessage("success");
+			}
+			Gson gson = new Gson();
+			return gson.toJson(result);
+		} catch (Exception e) {
+			System.out.println("에러");
+		}
+		return null;
 	}
-	
+
 	private String trim(String str) {
 		return str == null ? null : str.trim();
 	}
-
 }

@@ -1,28 +1,31 @@
-package com.city.web.service;
+package com.city.api.service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
 import com.city.model.Member;
-import com.city.web.dao.MemberDao;
+import com.city.api.dao.MemberDao;
 
 import jdbc.JdbcUtil;
 import jdbc.connection.ConnectionProvider;
 
 /* 
- * RegisterService 회원가입
+ * RegisterService 회원가입				  rs
+ * PwdConfirmService 비밀번호 확인			  pcs
+ * PwdChangService 비밀번호 변경			  pcs
+ * ProfileImageChangeService 프로필 사진 변경   pics
  * 
  * 
  * */
 
-public class RegisterService {
 
+public class RegisterService {
 	private MemberDao memberDao = new MemberDao();
 
 	public String register(Member member) {
 
-		Connection conn = null;
 		String rs = null;
+		Connection conn = null;
 
 		try {
 			conn = ConnectionProvider.getConnection(); // transaction
@@ -30,11 +33,12 @@ public class RegisterService {
 
 			String strId = memberDao.insertMember(conn, member);
 			conn.commit();
+
 			if (strId != null) {
-				rs = "Y";
+				rs = "200";
 				return rs;
 			} else {
-				rs = "N";
+				rs = "400";
 				throw new SQLException();
 			}
 		} catch (SQLException e) {

@@ -22,9 +22,9 @@ public class LoginService {
 	public String login(String memberId, String memberPwd) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
 			
-			String idAndName = memberDao.selectByIdAndPwd(conn, memberId, memberPwd);
-			String resultCode = "200";
-			if (idAndName == null) {
+			String resultCode = memberDao.selectByIdAndPwd(conn, memberId, memberPwd);	
+			
+			if (resultCode == null) {
 				System.out.println("LoginSFail-1");
 				throw new NullPointerException();
 			}

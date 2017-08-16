@@ -53,18 +53,14 @@ pageEncoding = "UTF-8"%>
 		<h2>register</h2>
 		
 	<div class="article">
-		<form id="welcome" name="welcome" action="changeMemberInfo.do" method="post">
+		<form id="welcome" name="welcome" action="changeMemberInfo.do" method="post" enctype="multipart/form-data">
 			<table>
 				<tr>
 					<th colspan="2">정보 입력</th>
 				</tr>
-<!-- 				<tr>
-					<td>프로필 사진</td>
-					<td><input type="file" id="mfile" name="upFile" ></td>
-				</tr> -->
 				<tr>
 					<td>아이디</td>
-					<td><input type="text" id="mMemberId" name="memberId" maxlength="20" value="${authMember.memberId}"disabled></td>
+					<td><input type="text" id="mMemberId" name="memberId" maxlength="20" value="${authMemberId}"disabled></td>
 				</tr>
 	<%-- 			<tr>
 					<td>현재 비밀번호</td>

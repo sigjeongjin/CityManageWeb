@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.city.model.Member;
 import com.city.web.service.MemberManageService;
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 public class MemberUpdateHandler implements CommandHandler {
 	
@@ -26,22 +28,30 @@ public class MemberUpdateHandler implements CommandHandler {
 		return "view/changeMemberInfoForm.jsp";
 	}
 
-	private String processSubmit(HttpServletRequest request, HttpServletResponse response) {
-		Member member = (Member) request.getSession().getAttribute("authMember");
-	
-		System.out.println("bb"+request.getParameter("newPwd"));
-		//member.setMemberId(member.getMemberId());
-		member.setMemberPwd(request.getParameter("newPwd"));
-		member.setMemberName(request.getParameter("newName"));
-		member.setMemberPhone(request.getParameter("newPhone"));
-		member.setMemberEmail(request.getParameter("newEmail"));
-//		member.setMemberPhoto(request.getParameter("newPhoto"));
-
+	private String processSubmit(HttpServletRequest request, HttpServletResponse response)throws Exception {
 		
+		String saveFolder = "/upload";
+		String realFolder = request.getServletContext().getRealPath(saveFolder); // saveFilepath
+		System.out.println("realFolder : " + realFolder);
+		int maxSize = 5 * 1024 * 1024; // 최대 업로될 파일크기 5Mb
+		MultipartRequest multi = new MultipartRequest(request, realFolder, maxSize, "utf-8",
+				new DefaultFileRenamePolicy());
+
+		Member member = new Member();	
+		String memberId = (String) request.getSession().getAttribute("authMemberId");
+		member.setMemberId(memberId);
+		member.setMemberPwd(multi.getParameter("newPwd"));
+		member.setMemberName(multi.getParameter("newName"));
+		member.setMemberPhone(multi.getParameter("newPhone"));
+		member.setMemberEmail(multi.getParameter("newEmail"));
+		member.setMemberPhoto(multi.getFilesystemName("newPhoto"));
+
 		memberManageService.MemberUpdate(member);
+		
+		//request.getSession().setAttribute("authMemberName", multi.getParameter("newName"));
+		request.getSession().setAttribute("authMemberName", member.getMemberName());
+		
 		return "index.jsp";
+		
 	}
-
-
-
 }
