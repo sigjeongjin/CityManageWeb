@@ -25,22 +25,22 @@ city_geocode			VARCHAR(10)		NOT NULL 					COMMENT '시/도 코드'
 
 -- 2017.08.16 테이블 분리로 스키마 정보 변경
 CREATE TABLE sensor_info (
-  sensor_id 			VARCHAR(15) 	NOT NULL	PRIMARY KEY		COMMENT '센서 아이디, w:수질, t:쓰레기통, s: 금연구역, g:도시가스',
-  latitude 				DOUBLE			NOT NULL 	DEFAULT '0' 	COMMENT '위도',
-  longitude 			DOUBLE 			NOT NULL 	DEFAULT '0' 	COMMENT '경도',
-  create_datetime 		datetime 		NOT NULL 					COMMENT '등록 날짜',
-  installation_datetime datetime 		NOT NULL 					COMMENT '센서 설치 날짜',
-  memo 					VARCHAR(500)   	DEFAULT NULL 				COMMENT '비고',
-  city_geocode 			VARCHAR(10) 	DEFAULT NULL 				COMMENT '시/도 코드',
-  state_geocode			VARCHAR(10) 	DEFAULT NULL 				COMMENT '시/군/구 코드'
+sensor_id 				VARCHAR(15) 	NOT NULL	PRIMARY KEY		COMMENT '센서 아이디, w:수질, t:쓰레기통, s: 금연구역, g:도시가스',
+latitude 				DOUBLE			NOT NULL 	DEFAULT '0' 	COMMENT '위도',
+longitude 				DOUBLE 			NOT NULL 	DEFAULT '0' 	COMMENT '경도',
+create_datetime 		datetime 		NOT NULL 					COMMENT '등록 날짜',
+installation_datetime 	datetime 		NOT NULL 					COMMENT '센서 설치 날짜',
+memo 					VARCHAR(500)   	DEFAULT NULL 				COMMENT '비고',
+city_geocode 			VARCHAR(10) 	DEFAULT NULL 				COMMENT '시/도 코드',
+state_geocode			VARCHAR(10) 	DEFAULT NULL 				COMMENT '시/군/구 코드'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE favorites_info (
-  favorites_id 	INT 			NOT NULL PRIMARY KEY AUTO_INCREMENT 	COMMENT '아이디',
-  sensor_id 	VARCHAR(15) 	NOT NULL 								COMMENT '센서 아이디',
-  bookmark 		VARCHAR(1) 		NOT NULL 								COMMENT '즐겨찾기 여부, Y : 즐겨찾기 설정 N : 즐겨찾기 비설정',
-  member_id 	VARCHAR(20) 	NOT NULL 								COMMENT '회원 아이디'
+favorites_id 	INT 			NOT NULL PRIMARY KEY AUTO_INCREMENT 	COMMENT '아이디',
+sensor_id 		VARCHAR(15) 	NOT NULL 								COMMENT '센서 아이디',
+bookmark 		VARCHAR(1) 		NOT NULL 								COMMENT '즐겨찾기 여부, Y : 즐겨찾기 설정 N : 즐겨찾기 비설정',
+member_id 		VARCHAR(20) 	NOT NULL 								COMMENT '회원 아이디'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE push_history_info(
@@ -81,7 +81,6 @@ CREATE TABLE gm_sensor_info (
   operation_status 		VARCHAR(1) 		NOT NULL 	DEFAULT 'N' 	COMMENT '센서 동작 상태, Y : 동작중 N : 고장'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
 -- 2017.08.16 push 발송을 위한 push_token 값과 회원 id 매핑하는 클래스 생성
 CREATE TABLE push_info(
 push_token				VARCHAR(200)	NOT NULL 	PRIMARY KEY		COMMENT '푸쉬 토큰키, firebase token key' ,
@@ -91,3 +90,37 @@ member_phone			VARCHAR(15)		NOT NULL 					COMMENT '회원 휴대폰'
 
 -- 2017.08.16 push_id 컬럼 생성
 ALTER TABLE push_history_info ADD (push_id INT);
+
+-- 2017.08.17 city_geocode, state_geocode option 변경(NULL)
+alter table member modify city_geocode VARCHAR(10) NULL;
+alter table member modify state_geocode VARCHAR(10) NULL;
+
+-- 2017.08.17 tm,wm,sm,gm colums 추가
+alter table tm_sensor_info add sensor_notice_standard	INT(5)	Not Null COMMENT '기준 초과시 Push 알림'
+alter table wm_sensor_info add sensor_notice_standard	INT(5)	Not Null COMMENT '기준 초과시 Push 알림'
+alter table sm_sensor_info add sensor_notice_standard	INT(5)	Not Null COMMENT '기준 초과시 Push 알림'
+alter table gm_sensor_info add sensor_notice_standard	INT(5)	Not Null COMMENT '기준 초과시 Push 알림'
+
+-- 2017.08.17 tm,wm,sm,gm 센서리스트 논의에 따른 table drop
+DROP TABLE `citymanage`.`sm_sensor_info`;
+DROP TABLE `citymanage`.`gm_sensor_info`;
+DROP TABLE `citymanage`.`wm_sensor_info`;
+
+-- 2017.08.17 table 수정
+ALTER TABLE `citymanage`.`sensor_info` 
+CHANGE COLUMN `sensor_id` `manage_id` VARCHAR(15) NOT NULL COMMENT '센서 아이디, w:수질, t:쓰레기통, s: 금연구역, g:도시가스' ,
+CHANGE COLUMN `installation_datetime` `sensor_types` VARCHAR(5) NOT NULL COMMENT '센서 타입들' , 
+RENAME TO  `citymanage`.`location_management` ;
+
+-- 2017.08.17 table 수정
+ALTER TABLE `citymanage`.`tm_sensor_info` 
+CHANGE COLUMN `locking` `manage_id` VARCHAR(15) NOT NULL DEFAULT 'N' ,
+CHANGE COLUMN `generous` `sensor_info` VARCHAR(1) NOT NULL DEFAULT 'N' COMMENT 'Y:이상 상태 , N :정상 상태' ,
+CHANGE COLUMN `flame_detection` `installation_datetime` TIMESTAMP NOT NULL ,
+CHANGE COLUMN `stink` `sensor_type` VARCHAR(2) NOT NULL COMMENT 'wl:수위센서, wq:수질센서, g:만적센서, fd:불꽃감지센서, s:악취센서' ,
+ADD COLUMN `sensor_notice_standard` INT(5) NULL COMMENT 'PUSH알림 기준값' AFTER `operation_status`;
+ALTER TABLE `citymanage`.`tm_sensor_info` 
+RENAME TO  `citymanage`.`sensor_info` ;
+
+ALTER TABLE `citymanage`.`sensor_info` 
+CHANGE COLUMN `sensor_type` `sensor_type` VARCHAR(2) NOT NULL COMMENT 'wl:수위센서, wq:수질센서, g:만적센서, fd:불꽃감지센서, s:악취센서, sm:연기감지센서, sd:충격감지센서, gd:압력농도센서, lr:잠금센서' ;

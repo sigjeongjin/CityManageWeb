@@ -76,9 +76,5 @@
 	    <servlet-name>ControllerUsingAPI</servlet-name>
 	    <url-pattern>*.app</url-pattern>
 	 </servlet-mapping>
-	 
-	 	 
-
-	  
 
 </web-app>
