@@ -79,6 +79,14 @@ button:hover {
  	text-align: center;	
 }
 
+.registerArticle {
+	font-family: Droid Sans Fallback;
+	margin-top: 15px;
+ 	text-align: center;	
+ 	font-size: 13px;
+}
+
+
 /* Change styles for span and cancel button on extra small screens */
 @media screen and (max-width: 300px) {
     span.psw {

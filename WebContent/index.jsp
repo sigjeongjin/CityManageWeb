@@ -8,7 +8,8 @@ pageEncoding = "UTF-8"%>
 <meta http-equiv = "Content-Type" content = "text/html; charset = UTF-8">
 <title>IotSystem</title>
 <link rel="stylesheet" type="text/css" href="../css/tabsBody.css">
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 
@@ -21,8 +22,15 @@ pageEncoding = "UTF-8"%>
   <button class="tablinks" onclick="openCity(event, 'gmSensorManage')">도시가스 관리</button>
   <button class="tablinks" onclick="openCity(event, 'smSensorManage')">금연구역관리</button>
   <button class="tablinks" onclick="openCity(event, 'pushHistoryManage')">PUSH이력관리</button>
+
+	<div class="logoutArticle">
+		<p>${authMemberName}<a href = "changeMemberInfo.do"><i class="material-icons" style="font-size:20px">settings</i></a></p>
+	</div>
 </div>
 
+<div class="logoutArticle">
+	<a href = "logout.do">☆로그아웃</a>
+</div>
 
 <div id="memberManage" class="tabcontent">
   <h3>회원관리</h3>
@@ -54,20 +62,11 @@ pageEncoding = "UTF-8"%>
   <p>PUSH다 이자식아</p>
 </div>
 
-	<div class="logout.doArticle">
-		안녕하세요?<br>
-		${authMemberName}님.<br>
-		<a href = "logout.do">[로그아웃]</a>
-		<a href = "changeMemberInfo.do">[회원정보 변경]</a>
-	</div>
 </u:isLogin>
 
 <u:notLogin>
 	<jsp:include page="/view/loginForm.jsp" flush="true"/>
-	<div class="loginArticle">
-		안녕하세요?<br>
-		<a href = "register.do">[회원가입]</a>
-	</div>
+
 </u:notLogin>
 	
 <script>
