@@ -42,6 +42,8 @@ public class RegisterService {
 				throw new SQLException();
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Register fail");
 			JdbcUtil.rollback(conn);
 		} finally {
 			JdbcUtil.close(conn);

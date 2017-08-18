@@ -1,11 +1,12 @@
 <%@page language = "java" contentType="text/html; charset = UTF-8"
 pageEncoding = "UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="u" tagdir="/WEB-INF/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv = "Content-Type" content = "text/html; charset = UTF-8">
-<title>login</title>
+<title>IotSystem</title>
 <style>
 	body {
 	    font-family: Verdana,sans-serif;
@@ -15,7 +16,7 @@ pageEncoding = "UTF-8"%>
 	div#content {
 	    margin: 5px;
 	    padding: 10px;
-	    background-color: #ff8080;  
+	    background-color: #ff8080; 
 	}
 	div.article {
     margin: 10px;
@@ -26,28 +27,29 @@ pageEncoding = "UTF-8"%>
 </style>
 </head>
 <body>
-	<jsp:include page="header.jsp" flush="true"/>
+	<jsp:include page="/view/header.jsp" flush="true"/>
 	
 	<div id="content">
-		<h2>로그인</h2>
+		<h2>index</h2>
 		
-	<div class="article">
-		<fieldset>
-		<legend>Login:</legend>
-			<form action="login.do" method="post">
-
-				아이디:<br>
-				<input type="text" name="memberId" maxlength="20" value="${param.memberId}"><br>
-				
-				비밀번호:<br>
-				<input type="password" name="memberPwd" maxlength="20"><br>
-
-				<input type="submit" value="로그인">
-			</form>
+		<u:isLogin>
+			<div class="article">
+				안녕하세요?<br>
+				${authMemberName}님.<br>
+ 				<a href = "logout.do">[로그아웃]</a>
+				<a href = "changeMemberInfo.do">[회원정보 변경]</a>
+			</div>
+		</u:isLogin>
 		
-		</fieldset>
+		<u:notLogin>
+			<div class="article">
+				안녕하세요?<br>
+				<a href = "register.do">[회원가입]</a>
+				<a href = "login.do">[로그인]</a>
+			</div>
+		</u:notLogin>
+		
 	</div>
 	
-	</div>
 </body>
 </html>

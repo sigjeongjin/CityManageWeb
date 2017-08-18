@@ -5,9 +5,8 @@ pageEncoding = "UTF-8"%>
 <html>
 <head>
 <meta http-equiv = "Content-Type" content = "text/html; charset = UTF-8">
-<title>SignUp</title>
-
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/form/css/loginForm.css">
+<title>SignIn</title>
+<link rel="stylesheet" type="text/css" href="../css/loginForm.css">
 </head>
 
 <form action="login.do" method="post">
@@ -16,17 +15,15 @@ pageEncoding = "UTF-8"%>
 <fieldset>
   <div class="container">
     <label><b>아이디</b></label>
-    <input type="text" placeholder="Enter Username" name="memberId" maxlength="20" value="${param.memberId}" required>
+    <input type="text" placeholder="아이디를 입력해주세요." name="memberId" maxlength="20" value="${param.memberId}" required>
     
     <label><b>비밀번호</b></label>
-    <input type="password" placeholder="Enter Password" name="memberPwd" maxlength="20" required>
-        
-    <button type="submit" value="Login">Login</button>
+    <input type="password" placeholder="비밀번호  입력해주세요." name="memberPwd" maxlength="20" required>
+    	<div class="btncenter">
+    		<button type="submit" value="signin">로그인</button>
+    	</div> 
   </div>
   </fieldset>
 </form>
-</body>
-</html>
-
 </body>
 </html>

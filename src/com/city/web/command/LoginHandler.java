@@ -5,7 +5,6 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.city.model.Member;
 import com.city.web.service.LoginService;
 
 public class LoginHandler implements CommandHandler {
@@ -25,7 +24,7 @@ public class LoginHandler implements CommandHandler {
 	}
 
 	private String processForm(HttpServletRequest request, HttpServletResponse response) {
-		return "view/loginForm.jsp";
+		return "/view/loginForm.jsp";
 	}
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {

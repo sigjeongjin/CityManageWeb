@@ -24,13 +24,13 @@ form {
 }
 
 label {
+	text-align: left;
 	margin-top: 10px;
 	color : #444444;
 }
 
 fieldset {
 	width: 350px;
-/*	border: 3px solid #F2F2F2; */
  	border: 3px solid #1C9FE1; 
     border-radius: 15px;
     margin: 0 auto; 
@@ -39,7 +39,6 @@ fieldset {
 
 /* Full-width inputs */
 input[type=text], input[type=password] {
-	text-align: left;
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -48,22 +47,23 @@ input[type=text], input[type=password] {
     border-radius: 5px;
     box-sizing: border-box;    
 }
+
 input[type=submit] {
 	text-align: center;
-	align: center;
 }
 
 /* Set a style for all buttons */
 button {
+	position: center;
     background-color: #00AABD;
     color: white;
     padding: 12px 20px;
-    margin: 10px 0;
+    margin: 10px 0; 
+   	margin-top: 30px; 
     border: none;
     border-radius: 4px;
     cursor: pointer;
     width: 100px;
-    text-align: center;
 }
 
 /* Add a hover effect for buttons */
@@ -74,6 +74,9 @@ button:hover {
 /* Add padding to containers */
 .container {
     padding: 16px;
+}
+.btncenter {
+ 	text-align: center;	
 }
 
 /* Change styles for span and cancel button on extra small screens */

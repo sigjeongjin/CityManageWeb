@@ -1,7 +1,5 @@
 package com.city.web.command;
 
-import java.sql.SQLException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -47,11 +45,11 @@ public class RegisterHandler implements CommandHandler {
 		member.setMemberPhone(multi.getParameter("memberPhone"));
 		member.setMemberEmail(multi.getParameter("memberEmail"));
 		member.setMemberPhoto(multi.getFilesystemName("memberPhoto"));
-		member.setMemberAuthorization(multi.getParameter("memberAuthorization"));
+		member.setMemberAuthorization("ADMIN");
 		member.setCityGeocode(multi.getParameter("cityGeocode"));
 		member.setStateGeocode(multi.getParameter("stateGeocode"));
 
-		String rs = registerService.register(member);
+		registerService.register(member);
 		return "index.jsp";	
 
 	}
