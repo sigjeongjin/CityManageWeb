@@ -63,9 +63,9 @@ pageEncoding = "UTF-8"%>
 </form>
 </body>
 
-<!-- <script type="text/javascript">
+<script type="text/javascript">
 	
 	var memberListForm = document.memberList;
 	memberListForm.submit();
-</script> -->
+</script>
 </html>

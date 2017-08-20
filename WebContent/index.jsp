@@ -15,18 +15,18 @@ pageEncoding = "UTF-8"%>
 
 <u:isLogin>
 <div class="tab">
-  <button class="tablinks" onclick="openCity(event, 'IotSystem')" id="defaultOpen">IotSystem</button>
-  <button class="tablinks" onclick="openCity(event, 'memberManage')">회원관리</button>
-  <button class="tablinks" onclick="openCity(event, 'tmSensorManage')">쓰레기통관리</button>
-  <button class="tablinks" onclick="openCity(event, 'wmSensorManage')">수질관리</button>
-  <button class="tablinks" onclick="openCity(event, 'gmSensorManage')">도시가스 관리</button>
-  <button class="tablinks" onclick="openCity(event, 'smSensorManage')">금연구역관리</button>
-  <button class="tablinks" onclick="openCity(event, 'pushHistoryManage')">PUSH이력관리</button>
+  <button class="tablinks" onclick="openMenu(event, 'IotSystem')" id="defaultOpen">IotSystem</button>
+  <button class="tablinks" onclick="openMenu(event, 'memberManage')">회원관리</button>
+  <button class="tablinks" onclick="openMenu(event, 'tmSensorManage')">쓰레기통관리</button>
+  <button class="tablinks" onclick="openMenu(event, 'wmSensorManage')">수질관리</button>
+  <button class="tablinks" onclick="openMenu(event, 'gmSensorManage')">도시가스 관리</button>
+  <button class="tablinks" onclick="openMenu(event, 'smSensorManage')">금연구역관리</button>
+  <button class="tablinks" onclick="openMenu(event, 'pushHistoryManage')">PUSH이력관리</button>
 
 <div class="SettringsArticle">
 	<p> 
  		 안녕하세요? ${authMemberName}님
- 		<i class="material-icons" style="font-size:20px" onclick="openCity(event, 'settings')">settings</i>
+ 		<i class="material-icons" style="font-size:20px" onclick="openMenu(event, 'settings')">settings</i>
 	</p>
 </div>
 
@@ -87,7 +87,7 @@ pageEncoding = "UTF-8"%>
 </u:notLogin>
 	
 <script>
-function openCity(evt, cityName) {
+function openMenu(evt, cityName) {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
     for (i = 0; i < tabcontent.length; i++) {
