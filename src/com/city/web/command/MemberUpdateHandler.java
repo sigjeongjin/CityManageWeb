@@ -25,7 +25,7 @@ public class MemberUpdateHandler implements CommandHandler {
 	}
 	
 	private String processForm(HttpServletRequest request, HttpServletResponse response) {
-		return "view/changeMemberInfoForm.jsp";
+		return "view/registerForm.jsp";
 	}
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response)throws Exception {

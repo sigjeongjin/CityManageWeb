@@ -23,13 +23,9 @@ pageEncoding = "UTF-8"%>
   <button class="tablinks" onclick="openCity(event, 'smSensorManage')">금연구역관리</button>
   <button class="tablinks" onclick="openCity(event, 'pushHistoryManage')">PUSH이력관리</button>
 
-<div class="SettringsArticle">
-	<p> 
- 		 안녕하세요? ${authMemberName}님
- 		<i class="material-icons" style="font-size:20px" onclick="openCity(event, 'settings')">settings</i>
-	</p>
-</div>
-
+	<div class="logoutArticle">
+		<p>${authMemberName}<a href = "changememberInfoaa.do"><i class="material-icons" style="font-size:20px">settings</i></a></p>
+	</div>
 </div>
 
 <div class="logoutArticle">
@@ -44,7 +40,6 @@ pageEncoding = "UTF-8"%>
 </div>
 
 <div id="memberManage" class="tabcontent">
-<jsp:include page="view/registerForm.jsp" flush="true"/>
   <h3>회원관리</h3>
   <p>화원이다 이자식아</p>
 </div>
@@ -74,16 +69,11 @@ pageEncoding = "UTF-8"%>
   <p>PUSH다 이자식아</p>
 </div>
 
-<div id="settings" class="tabcontent">
-<jsp:include page="view/changeMemberInfoForm.jsp" flush="true"/>
-  <h3>정보변경</h3>
-  <p>정보변경이다 이자식아</p>
-</div>
-
 </u:isLogin>
 
 <u:notLogin>
 	<jsp:include page="/view/loginForm.jsp" flush="true"/>
+
 </u:notLogin>
 	
 <script>

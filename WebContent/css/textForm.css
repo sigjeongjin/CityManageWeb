@@ -1,5 +1,5 @@
 @CHARSET "UTF-8";
-/* Style inputs with type="text", select elements and textareas */
+
 form {
 	width: 700px;
 	margin: 0 auto; 
@@ -20,6 +20,7 @@ h2 {
 label {
 	margin-top: 10px;
 	color : #444444;
+	margin-right: 10px;
 }
 
 input[type=text], input[type=password], input[type=file], input[type=email], select {
@@ -46,7 +47,7 @@ button {
 }
 
 /* Add a hover effect for buttons */
-button:hover {
+button:hover, i:hover {
 	background-color: #009499;
 }
 
@@ -60,4 +61,20 @@ button:hover {
 
 .btncenter {
  	text-align: center;	
+}
+
+table{
+	margin-right: 10px;
+	text-align: left; 
+}
+
+th, td {
+    padding: 5px;
+    text-align: left;    
+}
+
+.SettringsArticle {
+	text-align: right; 
+	margin: 10px;
+	color: white;
 }

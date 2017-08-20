@@ -5,9 +5,6 @@ pageEncoding = "UTF-8"%>
 <%@ page import="java.util.*"%>
 <%@ page import="java.io.*"%>
 
-
-<script src="../js/jquery-1.11.0.min.js"></script>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -81,8 +78,7 @@ pageEncoding = "UTF-8"%>
 					<td>memo</td>
 					<td><input type="text" id="memo" name="memo" value="${param.memo}"></td>
 				</tr>
-				</tr>
-					<tr>
+				<tr>
 					<td>sensorNoticeStandard</td>
 					<td><input type="text" id="memo" name="memo" value="${param.sensorNoticeStandard}"></td>
 				</tr>

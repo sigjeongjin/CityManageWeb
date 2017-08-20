@@ -2,6 +2,9 @@ package com.city.web.service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import com.city.model.Member;
 import com.city.web.dao.MemberDao;
@@ -45,6 +48,24 @@ public class MemberManageService {
 			throw new RuntimeException(e);
 		} finally {
 			JdbcUtil.close(conn);
+		}
+	}
+
+	public List<Member> MemberList() {
+		try (Connection conn = ConnectionProvider.getConnection()) {
+
+			List<Member> mL = new ArrayList<Member>();
+
+			mL = memberDao.selectMemberList(conn);
+
+			if (mL == null) {
+				System.out.println("memberList null");
+				throw new NullPointerException();
+			}
+			return mL;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 }
