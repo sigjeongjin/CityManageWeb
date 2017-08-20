@@ -1,12 +1,9 @@
 package com.city.web.command;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.city.model.Member;
+import com.city.web.service.MemberListPage;
 import com.city.web.service.MemberManageService;
 
 public class MemberListHandler implements CommandHandler{
@@ -25,39 +22,22 @@ public class MemberListHandler implements CommandHandler{
 		}
 	}
 
-	private String processForm(HttpServletRequest request, HttpServletResponse response) {
-		
-		System.out.println("들어왓니?");
-		List<Member> memberList = memberManageService.MemberList();
-		request.setAttribute("memberList", memberList);
-		
-		System.out.println("memberList" + memberList);
-		return "/view/memberListView.jsp";
-
+	private String processForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return this.processSubmit(request, response);
 	}
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		System.out.println("들어왓니?");
-		List<Member> memberList = new ArrayList<Member>();
-		memberList = memberManageService.MemberList();
-		request.setAttribute("memberList", memberList);
-		
-		System.out.println("memberList" + memberList);
-		
-		
-		ArrayList<String> list = (ArrayList) request.getAttribute("memberList");
-
-		System.out.println("memberList -aa" + memberList);
-		
-		for (int i = 0; i < list.size(); i++) {
-
-			System.out.println(list.get(i) + "<br>");
-
+		String pageNoVal = request.getParameter("pageNo");
+		int pageNo = 1;
+		if (pageNoVal != null) {
+			pageNo = Integer.parseInt(pageNoVal);
 		}
-
 		
-/*		List<Member> x = (ArrayList<Member>)request.getAttribute(...)*/
+		MemberListPage memberListPage = memberManageService.getMemberListPage(pageNo);
+		request.setAttribute("memberListPage", memberListPage);
+		
+
 		return "/view/memberListView.jsp";
 	}
 

@@ -4,9 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -81,32 +80,37 @@ public class MemberDao {
 		}
 		
 	}
+	
+	public int selectCount(Connection conn) throws SQLException {
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("select count(*) from member");
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+			return 0;
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(stmt);
+		}
+	}
 
-	public List<Member> selectMemberList(Connection conn) throws SQLException {
+	public List<Member> selectMemberList(Connection conn, int startRow, int size) throws SQLException {
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		List<Member> memberList = new ArrayList<Member>();
-		
 		try {
-			pstmt = conn.prepareStatement(
-					"select member_authorization, member_name, member_id, member_email, member_phone, city_geocode, state_geocode from member");	
+			pstmt = conn.prepareStatement("select * from member orders limit ?, ?");	
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, size);
 			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				Member member = new Member();
-				member.setMemberAuthorization(rs.getString("member_authorization"));
-				member.setMemberName(rs.getString("member_name"));
-				member.setMemberId(rs.getString("member_id"));		
-				member.setMemberEmail(rs.getString("member_email"));
-				member.setMemberPhone(rs.getString("member_phone"));
-				member.setCityGeocode(rs.getString("city_geocode"));
-				member.setStateGeocode(rs.getString("state_geocode"));
-				memberList.add(member);
-				System.out.println("data 있음aa");
-				return memberList;
-			} else {
-				return null;
+			List<Member> memberList = new ArrayList<>();
+			while(rs.next()) {
+				memberList.add(makeMemberFromResultSet(rs));
 			}
+			return memberList;
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);
@@ -125,7 +129,7 @@ public class MemberDao {
 		member.setMemberDeleteCode(rs.getString("member_delete_code"));
 		member.setCityGeocode(rs.getString("city_geocode"));
 		member.setStateGeocode(rs.getString("state_geocode"));
-
+	
 		return member;
 	}
 	
@@ -147,7 +151,6 @@ public class MemberDao {
 			JdbcUtil.close(rs);
 		}
 	}
-   
 }
 
 

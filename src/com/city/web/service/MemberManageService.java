@@ -2,8 +2,6 @@ package com.city.web.service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import com.city.model.Member;
@@ -24,6 +22,7 @@ import jdbc.connection.ConnectionProvider;
 public class MemberManageService {
 
 	private MemberDao memberDao = new MemberDao();
+	private int size = 10;
 
 	public String MemberUpdate(Member member) {
 
@@ -51,7 +50,7 @@ public class MemberManageService {
 		}
 	}
 
-	public List<Member> MemberList() {
+/*	public List<Member> MemberList() {
 		try (Connection conn = ConnectionProvider.getConnection()) {
 
 			List<Member> mL = new ArrayList<Member>();
@@ -65,6 +64,17 @@ public class MemberManageService {
 			return mL;
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+	}*/
+	
+	public MemberListPage getMemberListPage(int pageNum) {
+		try (Connection conn = ConnectionProvider.getConnection()) {
+			int total = memberDao.selectCount(conn);
+			List<Member> content = memberDao.selectMemberList(
+					conn, (pageNum - 1) * size, size);
+			return new MemberListPage(total, pageNum, size, content);
+		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
