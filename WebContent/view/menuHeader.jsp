@@ -44,9 +44,6 @@ pageEncoding = "UTF-8"%>
 </div>
 
 <div id="memberManage" class="tabcontent">
-<%-- 
-	<jsp:include page="view/memberListView.jsp" flush="true"/> --%>
-	<jsp:forward page="memberList.do"/>
   <h3>회원관리</h3>
   <p>화원이다 이자식아</p>
 </div>
@@ -77,9 +74,7 @@ pageEncoding = "UTF-8"%>
 </div>
 
 <div id="settings" class="tabcontent">
-<jsp:include page="view/changeMemberInfoForm.jsp" flush="true"/>
-  <h3>정보변경</h3>
-  <p>정보변경이다 이자식아</p>
+<jsp:include page="changeMemberInfoForm.jsp" flush="true"/>
 </div>
 
 </u:isLogin>

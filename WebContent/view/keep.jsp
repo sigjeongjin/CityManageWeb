@@ -77,7 +77,7 @@ pageEncoding = "UTF-8"%>
 </div>
 
 <div id="settings" class="tabcontent">
-<jsp:include page="view/changeMemberInfoForm.jsp" flush="true"/>
+<%-- <jsp:include page="view/changeMemberInfoForm.jsp" flush="true"/> --%>
   <h3>정보변경</h3>
   <p>정보변경이다 이자식아</p>
 </div>
