@@ -9,8 +9,24 @@ pageEncoding = "UTF-8"%>
 <link rel="stylesheet" type="text/css" href="../css/tableForm.css">
 </head>
 <body>
-<form id="memberList" name="memberList" action="memberList.do" method="post">
+<jsp:include page="menuHeader.jsp" flush="true"/>
+<h2>회원 리스트</h2>
+<!-- <form id="memberList" name="memberList" action="memberList.do" method="post"> -->
 <div class="container">
+
+<form action="memberList.do" method="post">
+	<select id="memberSelect" name="memberSelect">
+		<option value="member_authorization">구분</option>
+		<option value="member_name">이름</option>
+		<option value="member_id">아이디</option>
+		<option value="member_email">이메일</option>
+		<option value="member_phone">전화번호</option>
+		<option value="cityGeocode">시/도</option>
+		<option value="stateGeocode">시/군/구</option>
+    </select>
+    <input type="text" id="memberInput" placeholder="Search for names.." name="memberInput">  
+<input type = submit value="선택">
+</form> 
 <table>
 	<tr>
 		<th>번호</th>
@@ -29,13 +45,13 @@ pageEncoding = "UTF-8"%>
 	</tr>
 </c:if>
 
-<c:forEach var="member" items="${memberListPage.content}">
+<c:forEach var="member" items="${memberListPage.content}" varStatus="status">
 	<tr>
-		<td></td>
+		<td>${(status.index + 1) + (memberListPage.currentPage -1) * 10}</td>
 		<td>${member.memberAuthorization}</td>
 		<td>${member.memberName}</td>
 		<td>${member.memberId}</td>
-		<td>${member.memberEmail}</td>
+		<td>${member.memberEmail}</td>	
 		<td>${member.memberPhone}</td>
 		<td>${member.cityGeocode}</td>
 		<td>${member.stateGeocode}</td>
@@ -45,27 +61,21 @@ pageEncoding = "UTF-8"%>
 	<tr>
 		<td colspan="9">
 			<c:if test="${memberListPage.startPage > 5}">
-			<a href="list.do?pageNo=${memberListPage.startPage - 5}">[이전]</a>
+			<a href="memberList.do?pageNo=${memberListPage.startPage - 5}">[이전]</a>
 			</c:if>
 			<c:forEach var="pNo" 
 					   begin="${memberListPage.startPage}" 
 					   end="${memberListPage.endPage}">
-			<a href="list.do?pageNo=${pNo}">[${pNo}]</a>
+			<a href="memberList.do?pageNo=${pNo}">[${pNo}]</a>
 			</c:forEach>
 			<c:if test="${articlePage.endPage < articlePage.totalPages}">
-			<a href="list.do?pageNo=${memberListPage.startPage + 5}">[다음]</a>
+			<a href="memberList.do?pageNo=${memberListPage.startPage + 5}">[다음]</a>
 			</c:if>
 		</td>
 	</tr>
 </c:if>
 </table>
 </div>
-</form>
 </body>
 
-<!-- <script type="text/javascript">
-	
-	var memberListForm = document.memberList;
-	memberListForm.submit();
-</script> -->
 </html>

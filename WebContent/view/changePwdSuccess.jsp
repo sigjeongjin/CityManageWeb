@@ -25,7 +25,7 @@ pageEncoding = "UTF-8"%>
 </style>
 </head>
 <body>
-	<jsp:include page="header.jsp" flush="true"/>
+
 	
 	<div id="content">
 		<h2>change password</h2>

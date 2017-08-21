@@ -15,92 +15,32 @@ pageEncoding = "UTF-8"%>
 
 <u:isLogin>
 <div class="tab">
-  <button class="tablinks" onclick="openCity(event, 'IotSystem')" id="defaultOpen">IotSystem</button>
-  <button class="tablinks" onclick="openCity(event, 'memberManage')">회원관리</button>
-  <button class="tablinks" onclick="openCity(event, 'tmSensorManage')">쓰레기통관리</button>
-  <button class="tablinks" onclick="openCity(event, 'wmSensorManage')">수질관리</button>
-  <button class="tablinks" onclick="openCity(event, 'gmSensorManage')">도시가스 관리</button>
-  <button class="tablinks" onclick="openCity(event, 'smSensorManage')">금연구역관리</button>
-  <button class="tablinks" onclick="openCity(event, 'pushHistoryManage')">PUSH이력관리</button>
-
+	<a href="memberList.do"><button>회원관리</button></a>
+	<a href="memberList.do"><button>쓰레기통관리</button></a>
+	<a href="memberList.do"><button>수질관리</button></a>
+	<a href="memberList.do"><button>도시가스관리</button></a>
+	<a href="memberList.do"><button>금연구역관리</button></a>
+	<a href="memberList.do"><button>Push이력관리</button></a>
+	<a href="changememberInfo.do"><button><i class="material-icons" style="font-size:20px" onclick="openCity(event, 'settings')">settings</i></button></a>
+	
 	<div class="SettringsArticle">
-
-	<p> 
- 		 안녕하세요? ${authMemberName}님
- 		<i class="material-icons" style="font-size:20px" onclick="openCity(event, 'settings')">settings</i>
-	</p>
+		안녕하세요?<br>
+ 		${authMemberName}님
 	</div>
 </div>
-
-<div class="logoutArticle">
-	<a href = "logout.do">☆로그아웃</a>
-</div>
-
-<!-- menu page  -->
-
-<div id="IotSystem" class="tabcontent">
-  <h3>IotSystem</h3>
-  <p>디폴트다 이자식아</p>
-</div>
-
-<div id="memberManage" class="tabcontent">
-  <h3>회원관리</h3>
-  <p>화원이다 이자식아</p>
-</div>
-
-<div id="tmSensorManage" class="tabcontent">
-  <h3>쓰레기통관리</h3>
-  <p>쓰레기통이다 이자식아</p> 
-</div>
-
-<div id="wmSensorManage" class="tabcontent">
-  <h3>수질관리</h3>
-  <p>수질이다 이자식아</p>
-</div>
-
-<div id="gmSensorManage" class="tabcontent">
-  <h3>도시가스</h3>
-  <p>도시가스다 이자식아</p>
-</div>
-
-<div id="smSensorManage" class="tabcontent">
-  <h3>금연구역관리</h3>
-  <p>금연구역이다 이자식아</p>
-</div>
-
-<div id="pushHistoryManage" class="tabcontent">
-  <h3>PUSH이력관리</h3>
-  <p>PUSH다 이자식아</p>
-</div>
-
-<div id="settings" class="tabcontent">
-<jsp:include page="changeMemberInfoForm.jsp" flush="true"/>
-</div>
+	<div class="logoutArticle">
+		<a href = "logout.do">☆로그아웃</a>
+	</div>
+	
+	<div class="main">
+	</div>
 
 </u:isLogin>
 
 <u:notLogin>
-	<jsp:include page="/view/loginForm.jsp" flush="true"/>
+<%-- 	<jsp:forward page="/view/loginForm.jsp"> --%>
+ 	<jsp:include page="/view/loginForm.jsp" flush="true"/>
 </u:notLogin>
-	
-<script>
-function openCity(evt, cityName) {
-    var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-    document.getElementById(cityName).style.display = "block";
-    evt.currentTarget.className += " active";
-}
 
-// Get the element with id="defaultOpen" and click on it
-document.getElementById("defaultOpen").click();
-</script>
-	
 </body>
 </html>

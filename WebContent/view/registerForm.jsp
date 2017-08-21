@@ -33,9 +33,6 @@ pageEncoding = "UTF-8"%>
 		<label><b>사진</b></label>
 			<input type="file" id="mMemberPhone" name="memberPhoto" maxlength="20" value="${param.memberPhoto}" required>
 		
-		<label><b>시/도 Code</b></label>
-			<input type="text" id="mCityGeocode" name="cityGeocode" value="${param.cityGeocode}" required>
-		
 			<div class="btncenter">
     			<button type="submit" value="signup">가입</button>
     		</div> 

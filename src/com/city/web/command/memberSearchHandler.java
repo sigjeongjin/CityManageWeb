@@ -1,13 +1,13 @@
 package com.city.web.command;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.city.web.service.MemberListPage;
+
 import com.city.web.service.MemberManageService;
 
-
-public class MemberListHandler implements CommandHandler{
+public class memberSearchHandler implements CommandHandler {
 
 	private MemberManageService memberManageService = new MemberManageService();
 
@@ -23,25 +23,24 @@ public class MemberListHandler implements CommandHandler{
 		}
 	}
 
-	private String processForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return this.processSubmit(request, response);
+	private String processForm(HttpServletRequest request, HttpServletResponse response) {
+		return "/view/memberListView.jsp";
 	}
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		
-		String pageNoVal = request.getParameter("pageNo");
-		int pageNo = 1;
-		if (pageNoVal != null) {
-			pageNo = Integer.parseInt(pageNoVal);
+		String memberSelect = trim(request.getParameter("memberSelect"));
+		String memberInput = trim(request.getParameter("memberInput"));
+	
+		try {
+			memberManageService.search(memberSelect, memberInput);
+			return "index.jsp";
+		} catch (RuntimeException e) {
+			System.out.println("RuntimeException");
+			return "view/memberListView.jsp";
 		}
-		
-		MemberListPage memberListPage = memberManageService.getMemberListPage(pageNo);
-		request.setAttribute("memberListPage", memberListPage);
-		
+	}
 
-		return "/view/memberListView.jsp";
+	private String trim(String str) {
+		return str == null ? null : str.trim();
 	}
 }
-
-

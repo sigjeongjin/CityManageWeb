@@ -12,7 +12,7 @@ pageEncoding = "UTF-8"%>
 <h1>IoT System</h1>
 <h2>종합 도시관리 시스템</h2>
 <fieldset>
-	<div class="container">
+	<div class="loginContainer">
     	<label><b>아이디</b></label>
     	<input type="text" placeholder="아이디를 입력해주세요." name="memberId" maxlength="20" value="${param.memberId}" required>
     

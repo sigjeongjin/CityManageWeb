@@ -3,8 +3,6 @@
 body {
 	font-family: Droid Sans Fallback;
 	background-color: #F2F2F2;
-	margin: 0 auto; 
-    padding: 0 auto;
 }
 
 h2 {
@@ -68,7 +66,7 @@ table {
     border-collapse: collapse;
     border-radius: 5px;
     width: 100%;
-    
+    margin-top: 50px;  
 }
 
 td, th {
@@ -87,4 +85,3 @@ tr:nth-child(even) {
 	margin: 10px;
 	color: white;
 }
-

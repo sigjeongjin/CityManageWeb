@@ -26,7 +26,7 @@ public class RegisterHandler implements CommandHandler {
 
 	private String processForm(HttpServletRequest request, HttpServletResponse response) {
 
-		return "view/changeMemberInfoForm.jsp";
+		return "view/registerForm.jsp";
 	}
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -46,8 +46,6 @@ public class RegisterHandler implements CommandHandler {
 		member.setMemberEmail(multi.getParameter("memberEmail"));
 		member.setMemberPhoto(multi.getFilesystemName("memberPhoto"));
 		member.setMemberAuthorization("ADMIN");
-		member.setCityGeocode(multi.getParameter("cityGeocode"));
-		member.setStateGeocode(multi.getParameter("stateGeocode"));
 
 		registerService.register(member);
 		return "index.jsp";	

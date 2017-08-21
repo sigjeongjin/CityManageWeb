@@ -21,7 +21,7 @@ public class MemberDao {
 		{ 
 			pstmt = conn.prepareStatement(
 					"insert into member " +
-					"(member_id, member_pwd, member_name, member_phone, member_email, member_photo, member_authorization, city_geocode, state_geocode) " +
+					"(member_id, member_pwd, member_name, member_phone, member_email, member_photo, member_authorization) " +
 					"values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			pstmt.setString(1, member.getMemberId());
 			pstmt.setString(2, member.getMemberPwd());
@@ -30,8 +30,6 @@ public class MemberDao {
 			pstmt.setString(5, member.getMemberEmail());
 			pstmt.setString(6, member.getMemberPhoto());
 			pstmt.setString(7, member.getMemberAuthorization());
-			pstmt.setString(8, member.getCityGeocode());
-			pstmt.setString(9, member.getStateGeocode());
 			return Integer.toString(pstmt.executeUpdate());		
 		} finally {
 			JdbcUtil.close(pstmt);
@@ -102,7 +100,7 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			pstmt = conn.prepareStatement("select * from member orders limit ?, ?");	
+			pstmt = conn.prepareStatement("select * from member limit ?, ?");	
 			pstmt.setInt(1, startRow);
 			pstmt.setInt(2, size);
 			rs = pstmt.executeQuery();
@@ -143,6 +141,32 @@ public class MemberDao {
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				return makeMemberFromResultSet(rs);
+			} else {
+				return null;
+			}
+		} finally {
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(rs);
+		}
+	}
+
+	public Member selectSearchrList(Connection conn, String memberSelect, String memberInput) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement(
+					"select * from member where " + memberSelect + "=?" + "limit ?, ?");
+			pstmt.setString(1, memberInput);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				Member member = new Member();
+				member.setMemberId(rs.getString("memberSelect"));
+				member.setMemberName(rs.getString("member_name"));
+				member.setMemberPhone(rs.getString("member_phone"));
+				member.setMemberEmail(rs.getString("member_email"));
+				member.setMemberPhoto(rs.getString("member_photo"));
+				member.setMemberAuthorization(rs.getString("member_authorization"));
+				return member;
 			} else {
 				return null;
 			}

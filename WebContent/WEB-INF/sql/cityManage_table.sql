@@ -124,3 +124,16 @@ RENAME TO  `citymanage`.`sensor_info` ;
 
 ALTER TABLE `citymanage`.`sensor_info` 
 CHANGE COLUMN `sensor_type` `sensor_type` VARCHAR(2) NOT NULL COMMENT 'wl:수위센서, wq:수질센서, g:만적센서, fd:불꽃감지센서, s:악취센서, sm:연기감지센서, sd:충격감지센서, gd:압력농도센서, lr:잠금센서' ;
+
+-- 2017.08.21 colum 추가
+ALTER TABLE `citymanage`.`location_management` 
+ADD COLUMN `manage_type` VARCHAR(2) NULL DEFAULT NULL AFTER `state_geocode`;
+
+-- 2017.08.21 colum 변경
+ALTER TABLE `citymanage`.`favorites_info` 
+CHANGE COLUMN `sensor_id` `manage_id` VARCHAR(15) NOT NULL COMMENT '센서 아이디' ;
+
+ALTER TABLE `citymanage`.`favorites_info` 
+CHANGE COLUMN `sensor_id` `manage_id` VARCHAR(15) NOT NULL COMMENT '센서 아이디' ;
+ALTER TABLE `citymanage`.`push_history_info` 
+CHANGE COLUMN `sensor_id` `manage_id` VARCHAR(15) NOT NULL COMMENT '센서 아이디' ;

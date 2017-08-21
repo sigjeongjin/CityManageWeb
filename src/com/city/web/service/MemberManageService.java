@@ -2,6 +2,7 @@ package com.city.web.service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 
 import com.city.model.Member;
@@ -15,7 +16,7 @@ import jdbc.connection.ConnectionProvider;
  * 	memberList 멤버 리스트  			mL
  *  memberUpdate 멤버 정보 업데이트		mU
  *  memberDelete 멤버 정보 삭제			mD
- *  
+ *  memberSearch 멤버 정보 검색			mS
  * 
  */
 
@@ -78,4 +79,22 @@ public class MemberManageService {
 			throw new RuntimeException(e);
 		}
 	}
+
+	public Member search(String memberSelect, String memberInput) {
+		try (Connection conn = ConnectionProvider.getConnection()) {
+
+			Member mS = memberDao.selectSearchrList(conn, memberSelect, memberInput);
+
+			if (mS == null) {
+				System.out.println("memberList null");
+				throw new NullPointerException();
+			}
+			return mS;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+	}
+	
+	
 }
