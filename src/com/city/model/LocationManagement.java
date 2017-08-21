@@ -8,10 +8,11 @@ public class LocationManagement {
 	private double latitude;
 	private double longitude;
 	private Date createDatetime;
-	private String sensorTypes;
 	private String memo;
 	private String cityGeocode;
 	private String stateGeocode;
+	private String sensorTypes;
+	private String manageTypes;
 
 	public String getManageId() {
 		return manageId;
@@ -45,14 +46,6 @@ public class LocationManagement {
 		this.createDatetime = createDatetime;
 	}
 
-	public String getSensorTypes() {
-		return sensorTypes;
-	}
-
-	public void setSensorTypes(String sensorTypes) {
-		this.sensorTypes = sensorTypes;
-	}
-
 	public String getMemo() {
 		return memo;
 	}
@@ -75,5 +68,21 @@ public class LocationManagement {
 
 	public void setStateGeocode(String stateGeocode) {
 		this.stateGeocode = stateGeocode;
+	}
+
+	public String getSensorTypes() {
+		return sensorTypes;
+	}
+
+	public void setSensorTypes(String sensorTypes) {
+		this.sensorTypes = sensorTypes;
+	}
+
+	public String getManageTypes() {
+		return manageTypes;
+	}
+
+	public void setManageTypes(String manageTypes) {
+		this.manageTypes = manageTypes;
 	}
 }

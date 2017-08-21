@@ -94,20 +94,61 @@ public class MemberDao {
 			JdbcUtil.close(stmt);
 		}
 	}
-
+	
+	public int selectCount(Connection conn, String memberSelect, String memberInput) throws SQLException {
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("select count(*) from member where " + memberSelect + "=" + memberInput);
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+			return 0;
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(stmt);
+		}
+	}
+	
 	public List<Member> selectMemberList(Connection conn, int startRow, int size) throws SQLException {
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		
 		try {
-			pstmt = conn.prepareStatement("select * from member limit ?, ?");	
-			pstmt.setInt(1, startRow);
-			pstmt.setInt(2, size);
-			rs = pstmt.executeQuery();
+				pstmt = conn.prepareStatement("select * from member limit ?, ?");	
+				pstmt.setInt(1, startRow);
+				pstmt.setInt(2, size);
+				rs = pstmt.executeQuery();			
+	
+				List<Member> memberList = new ArrayList<>();
+				while(rs.next()) {
+					memberList.add(makeMemberFromResultSet(rs));
+				}	
+				return memberList;
+			} finally {
+				JdbcUtil.close(pstmt);
+				JdbcUtil.close(rs);
+			}
+	}
+	
+	public List<Member> searchMemberList(Connection conn, int startRow, int size, String memberSelect, String memberInput) throws SQLException {
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+				pstmt = conn.prepareStatement("select * from member where " + memberSelect + "=?"  + "limit ?, ?");
+				pstmt.setString(1, memberInput);
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, size);
+				rs = pstmt.executeQuery();	
+			
 			List<Member> memberList = new ArrayList<>();
 			while(rs.next()) {
 				memberList.add(makeMemberFromResultSet(rs));
-			}
+			}	
 			return memberList;
 		} finally {
 			JdbcUtil.close(pstmt);

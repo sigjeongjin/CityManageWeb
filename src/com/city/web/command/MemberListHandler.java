@@ -29,7 +29,6 @@ public class MemberListHandler implements CommandHandler{
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		
 		String pageNoVal = request.getParameter("pageNo");
 		int pageNo = 1;
 		if (pageNoVal != null) {

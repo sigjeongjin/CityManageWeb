@@ -11,21 +11,21 @@ pageEncoding = "UTF-8"%>
 <body>
 <jsp:include page="menuHeader.jsp" flush="true"/>
 <h2>회원 리스트</h2>
-<!-- <form id="memberList" name="memberList" action="memberList.do" method="post"> -->
 <div class="container">
 
-<form action="memberList.do" method="post">
+<form action="memberSearch.do" method="post">
 	<select id="memberSelect" name="memberSelect">
+		<option value="allMember">전체</option>
 		<option value="member_authorization">구분</option>
 		<option value="member_name">이름</option>
 		<option value="member_id">아이디</option>
 		<option value="member_email">이메일</option>
 		<option value="member_phone">전화번호</option>
-		<option value="cityGeocode">시/도</option>
-		<option value="stateGeocode">시/군/구</option>
+		<option value="city_geocode">시/도</option>
+		<option value="state_geocode">시/군/구</option>
     </select>
     <input type="text" id="memberInput" placeholder="Search for names.." name="memberInput">  
-<input type = submit value="선택">
+<button type = submit value="선택">선택</button>
 </form> 
 <table>
 	<tr>
@@ -77,5 +77,4 @@ pageEncoding = "UTF-8"%>
 </table>
 </div>
 </body>
-
 </html>

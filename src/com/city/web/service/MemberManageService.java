@@ -50,25 +50,8 @@ public class MemberManageService {
 			JdbcUtil.close(conn);
 		}
 	}
-
-/*	public List<Member> MemberList() {
-		try (Connection conn = ConnectionProvider.getConnection()) {
-
-			List<Member> mL = new ArrayList<Member>();
-
-			mL = memberDao.selectMemberList(conn);
-
-			if (mL == null) {
-				System.out.println("memberList null");
-				throw new NullPointerException();
-			}
-			return mL;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
-	}*/
 	
+	// 전체 페이지
 	public MemberListPage getMemberListPage(int pageNum) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
 			int total = memberDao.selectCount(conn);
@@ -79,6 +62,18 @@ public class MemberManageService {
 			throw new RuntimeException(e);
 		}
 	}
+	// 검색 페이지
+	public MemberListPage getMemberListPage(int pageNum, String memberSelect, String memberInput) {
+		try (Connection conn = ConnectionProvider.getConnection()) {
+			int total = memberDao.selectCount(conn);
+			List<Member> content = memberDao.searchMemberList(
+					conn, (pageNum - 1) * size, size, memberSelect, memberInput);	
+			return new MemberListPage(total, pageNum, size, content);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 
 	public Member search(String memberSelect, String memberInput) {
 		try (Connection conn = ConnectionProvider.getConnection()) {

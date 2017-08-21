@@ -17,6 +17,19 @@ label {
 	margin-right: 10px;
 }
 
+div.allContainer {
+	width: 100%;
+}
+
+div.manageContainer {
+	text-align: right; 
+}
+div.manageContainer.button {
+	width: 100px;
+	height: 30px;
+}
+
+
 input[type=text], input[type=password], input[type=file], input[type=email], select {
     width: 100%; /* Full width */
     padding: 12px; /* Some padding */  
@@ -85,3 +98,4 @@ tr:nth-child(even) {
 	margin: 10px;
 	color: white;
 }
+
