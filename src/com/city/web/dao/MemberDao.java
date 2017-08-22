@@ -14,15 +14,13 @@ import com.city.model.Member;
 import jdbc.JdbcUtil;
 
 public class MemberDao {
-	
+
 	public String insertMember(Connection conn, Member member) throws SQLException {
 		PreparedStatement pstmt = null;
-		try 
-		{ 
-			pstmt = conn.prepareStatement(
-					"insert into member " +
-					"(member_id, member_pwd, member_name, member_phone, member_email, member_photo, member_authorization) " +
-					"values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		try {
+			pstmt = conn.prepareStatement("insert into member "
+					+ "(member_id, member_pwd, member_name, member_phone, member_email, member_photo, member_authorization) "
+					+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			pstmt.setString(1, member.getMemberId());
 			pstmt.setString(2, member.getMemberPwd());
 			pstmt.setString(3, member.getMemberName());
@@ -30,22 +28,23 @@ public class MemberDao {
 			pstmt.setString(5, member.getMemberEmail());
 			pstmt.setString(6, member.getMemberPhoto());
 			pstmt.setString(7, member.getMemberAuthorization());
-			return Integer.toString(pstmt.executeUpdate());		
+			return Integer.toString(pstmt.executeUpdate());
 		} finally {
 			JdbcUtil.close(pstmt);
 		}
 	}
-	
-	public HashMap<String, String> selectByIdAndPwd(Connection conn, String memberId, String memberPwd) throws SQLException {
+
+	public HashMap<String, String> selectByIdAndPwd(Connection conn, String memberId, String memberPwd)
+			throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		HashMap<String, String> idAndName = new HashMap<String, String>();
 		try {
-			pstmt = conn.prepareStatement(
-					"select member_id, member_name from member where member_id=? and member_pwd= ?");
+			pstmt = conn
+					.prepareStatement("select member_id, member_name from member where member_id=? and member_pwd= ?");
 			pstmt.setString(1, memberId);
-			pstmt.setString(2, memberPwd);		
+			pstmt.setString(2, memberPwd);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				idAndName.put("memberId", rs.getString("member_id"));
@@ -60,7 +59,7 @@ public class MemberDao {
 			JdbcUtil.close(rs);
 		}
 	}
-	
+
 	public String update(Connection conn, Member member) throws SQLException {
 		PreparedStatement pstmt = null;
 		try {
@@ -76,9 +75,9 @@ public class MemberDao {
 		} finally {
 			JdbcUtil.close(pstmt);
 		}
-		
+
 	}
-	
+
 	public int selectCount(Connection conn) throws SQLException {
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -94,13 +93,41 @@ public class MemberDao {
 			JdbcUtil.close(stmt);
 		}
 	}
-	
+
+//	public int selectCount(Connection conn, String memberSelect, String memberInput) throws SQLException {
+//		Statement stmt = null;
+//		ResultSet rs = null;
+//		try {
+//			stmt = conn.createStatement();
+//
+//			if (memberSelect.equals("all")) {
+//				rs = stmt.executeQuery("select count(*) from member");
+//			} else {
+//				rs = stmt.executeQuery("select count(*) from member where " + memberSelect + "=" + memberInput);
+//				
+//			}
+//			if (rs.next()) {
+//				return rs.getInt(1);
+//			}
+//			return 0;
+//		} finally {
+//			JdbcUtil.close(rs);
+//			JdbcUtil.close(stmt);
+//		}
+//	}
+
 	public int selectCount(Connection conn, String memberSelect, String memberInput) throws SQLException {
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery("select count(*) from member where " + memberSelect + "=" + memberInput);
+
+			if (memberSelect.equals("all")) {
+				rs = stmt.executeQuery("select count(*) from member");
+			} else {
+				rs = stmt.executeQuery("select count(*) from member where " + memberSelect + "=" + "'" + memberInput + "'");
+				
+			}
 			if (rs.next()) {
 				return rs.getInt(1);
 			}
@@ -110,52 +137,61 @@ public class MemberDao {
 			JdbcUtil.close(stmt);
 		}
 	}
-	
+	// /memberList.do
 	public List<Member> selectMemberList(Connection conn, int startRow, int size) throws SQLException {
-		
+
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		try {
-				pstmt = conn.prepareStatement("select * from member limit ?, ?");	
-				pstmt.setInt(1, startRow);
-				pstmt.setInt(2, size);
-				rs = pstmt.executeQuery();			
-	
-				List<Member> memberList = new ArrayList<>();
-				while(rs.next()) {
-					memberList.add(makeMemberFromResultSet(rs));
-				}	
-				return memberList;
-			} finally {
-				JdbcUtil.close(pstmt);
-				JdbcUtil.close(rs);
-			}
-	}
-	
-	public List<Member> searchMemberList(Connection conn, int startRow, int size, String memberSelect, String memberInput) throws SQLException {
-		
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		try {
-				pstmt = conn.prepareStatement("select * from member where " + memberSelect + "=?"  + "limit ?, ?");
-				pstmt.setString(1, memberInput);
-				pstmt.setInt(2, startRow);
-				pstmt.setInt(3, size);
-				rs = pstmt.executeQuery();	
-			
+			pstmt = conn.prepareStatement("select * from member limit ?, ?");
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, size);
+			rs = pstmt.executeQuery();
+
 			List<Member> memberList = new ArrayList<>();
-			while(rs.next()) {
+			while (rs.next()) {
 				memberList.add(makeMemberFromResultSet(rs));
-			}	
+			}
 			return memberList;
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);
 		}
 	}
-	
+
+	// /memberSearch.do
+	public List<Member> searchMemberList(Connection conn, int startRow, int size, String memberSelect,
+			String memberInput) throws SQLException {
+
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			if (memberSelect.equals("all")) {
+				pstmt = conn.prepareStatement("select * from member " + "limit ?, ?");
+				pstmt.setInt(1, startRow);
+				pstmt.setInt(2, size);
+			} else {
+				pstmt = conn.prepareStatement("select * from member where " + memberSelect + "=?" + "limit ?, ?");
+				pstmt.setString(1, memberInput);
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, size);
+			}
+
+			rs = pstmt.executeQuery();
+
+			List<Member> memberList = new ArrayList<>();
+			while (rs.next()) {
+				memberList.add(makeMemberFromResultSet(rs));
+			}
+			return memberList;
+		} finally {
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(rs);
+		}
+	}
+
 	private Member makeMemberFromResultSet(ResultSet rs) throws SQLException {
 		Member member = new Member();
 		member.setMemberId(rs.getString("member_id"));
@@ -168,16 +204,15 @@ public class MemberDao {
 		member.setMemberDeleteCode(rs.getString("member_delete_code"));
 		member.setCityGeocode(rs.getString("city_geocode"));
 		member.setStateGeocode(rs.getString("state_geocode"));
-	
+
 		return member;
 	}
-	
+
 	public Member selectById(Connection conn, String memberId) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			pstmt = conn.prepareStatement(
-					"select * from member where member_id=?");
+			pstmt = conn.prepareStatement("select * from member where member_id=?");
 			pstmt.setString(1, memberId);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
@@ -195,8 +230,7 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			pstmt = conn.prepareStatement(
-					"select * from member where " + memberSelect + "=?" + "limit ?, ?");
+			pstmt = conn.prepareStatement("select * from member where " + memberSelect + "=?" + "limit ?, ?");
 			pstmt.setString(1, memberInput);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
@@ -217,5 +251,3 @@ public class MemberDao {
 		}
 	}
 }
-
-

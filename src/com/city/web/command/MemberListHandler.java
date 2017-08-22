@@ -13,22 +13,6 @@ public class MemberListHandler implements CommandHandler{
 
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		if (request.getMethod().equalsIgnoreCase("GET")) {
-			return processForm(request, response);
-		} else if (request.getMethod().equalsIgnoreCase("POST")) {
-			return processSubmit(request, response);
-		} else {
-			response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-			return null;
-		}
-	}
-
-	private String processForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return this.processSubmit(request, response);
-	}
-
-	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 		String pageNoVal = request.getParameter("pageNo");
 		int pageNo = 1;
 		if (pageNoVal != null) {
@@ -42,5 +26,4 @@ public class MemberListHandler implements CommandHandler{
 		return "/view/memberListView.jsp";
 	}
 }
-
 

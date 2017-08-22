@@ -62,10 +62,11 @@ public class MemberManageService {
 			throw new RuntimeException(e);
 		}
 	}
+	
 	// 검색 페이지
 	public MemberListPage getMemberListPage(int pageNum, String memberSelect, String memberInput) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
-			int total = memberDao.selectCount(conn);
+			int total = memberDao.selectCount(conn, memberSelect, memberInput);
 			List<Member> content = memberDao.searchMemberList(
 					conn, (pageNum - 1) * size, size, memberSelect, memberInput);	
 			return new MemberListPage(total, pageNum, size, content);

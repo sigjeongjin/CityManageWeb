@@ -13,8 +13,8 @@ pageEncoding = "UTF-8"%>
 <div class="allContainer">
 <h2>수질관리 리스트</h2>
 <div class="manageContainer">
-<form action="managementarea.do" method="post">
-<button type = submit value="관리지역등록">관리지역등록</button>
+<form action="managementareaCity.do" method="post">
+<button type = submit id="wm" name="wm" value="wm">관리지역등록</button>
 </form>
 </div>
 

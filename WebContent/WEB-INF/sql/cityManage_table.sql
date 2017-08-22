@@ -137,3 +137,8 @@ ALTER TABLE `citymanage`.`favorites_info`
 CHANGE COLUMN `sensor_id` `manage_id` VARCHAR(15) NOT NULL COMMENT '센서 아이디' ;
 ALTER TABLE `citymanage`.`push_history_info` 
 CHANGE COLUMN `sensor_id` `manage_id` VARCHAR(15) NOT NULL COMMENT '센서 아이디' ;
+
+-- 2017.08.22 type 변경
+ALTER TABLE `citymanage`.`location_management` 
+CHANGE COLUMN `sensor_types` modify VARCHAR(50) NOT NULL 
+COMMENT '센서 타입들, "wl:수위센서, wq:수질센서, g:만적센서, fd:불꽃감지센서, s:악취센서, sm:연기감지센서,sd:충격감지센서, gd:압력농도센서, lr:잠금센서"';

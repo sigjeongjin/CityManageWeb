@@ -77,4 +77,19 @@
 	    <url-pattern>*.app</url-pattern>
 	 </servlet-mapping>
 
+  <!-- API Setting -->	 
+	 <servlet>
+	    <servlet-name>ControllerUsingAJAX</servlet-name>
+	    <servlet-class>mvc.controller.ControllerUsingAJAX</servlet-class>
+	    <init-param>
+	      <param-name>configFile</param-name>
+	      <param-value>/WEB-INF/commandHandlerAJAX.properties</param-value>
+	    </init-param>
+	    <load-on-startup>1</load-on-startup>
+  	</servlet>
+  
+	 <servlet-mapping>
+	    <servlet-name>ControllerUsingAJAX</servlet-name>
+	    <url-pattern>*.ajax</url-pattern>
+	 </servlet-mapping>
 </web-app>

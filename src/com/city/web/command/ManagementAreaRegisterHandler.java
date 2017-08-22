@@ -23,18 +23,7 @@ public class ManagementAreaRegisterHandler implements CommandHandler {
 	}
 
 	private String processForm(HttpServletRequest request, HttpServletResponse response) {
-		
-		LocationManagement locationManagement = new LocationManagement();
-
-		locationManagement.setManageId(request.getParameter("manageId"));
-		locationManagement.setLatitude(Double.parseDouble(request.getParameter("latitude")));
-		locationManagement.setLongitude(Double.parseDouble(request.getParameter("longitude")));
-		locationManagement.setSensorTypes(request.getParameter("sensorTypes"));
-		locationManagement.setMemo(request.getParameter("memo"));
-		locationManagement.setCityGeocode(request.getParameter("cityGeocode"));
-		locationManagement.setStateGeocode(request.getParameter("stateGeocode"));
-
-		managementAreaRegisterService.ManagementAreaRegister(locationManagement);
+			
 		return "index.jsp";
 	}
 
@@ -45,8 +34,8 @@ public class ManagementAreaRegisterHandler implements CommandHandler {
 		locationManagement.setManageId(request.getParameter("manageId"));
 		locationManagement.setLatitude(Double.parseDouble(request.getParameter("latitude")));
 		locationManagement.setLongitude(Double.parseDouble(request.getParameter("longitude")));
-		locationManagement.setSensorTypes(request.getParameter("sensorTypes"));
 		locationManagement.setMemo(request.getParameter("memo"));
+		locationManagement.setSensorTypes(request.getParameter("sensorTypes"));
 		locationManagement.setCityGeocode(request.getParameter("cityGeocode"));
 		locationManagement.setStateGeocode(request.getParameter("stateGeocode"));
 

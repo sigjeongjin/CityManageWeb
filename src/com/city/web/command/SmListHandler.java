@@ -6,10 +6,18 @@ import javax.servlet.http.HttpServletResponse;
 public class SmListHandler implements CommandHandler {
 
 	@Override
-	public String process(HttpServletRequest req, HttpServletResponse res)
-	throws Exception {
+	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		String pageNoVal = request.getParameter("pageNo");
+//		int pageNo = 1;
+//		if (pageNoVal != null) {
+//			pageNo = Integer.parseInt(pageNoVal);
+//		}
+//		
+//		MemberListPage memberListPage = memberManageService.getMemberListPage(pageNo);
+//		request.setAttribute("memberListPage", memberListPage);
 		
-		return null;
+
+		return "/view/wmListView.jsp";
 	}
 
 }

@@ -31,24 +31,15 @@ public class memberSearchHandler implements CommandHandler {
 		String memberSelect = trim(request.getParameter("memberSelect"));
 		String memberInput = trim(request.getParameter("memberInput"));
 		
-		if (memberSelect == "allMember") {
-			memberInput = "allMember";
-			System.out.println("미쳤냐고: " + memberSelect);
-		}
-		System.out.println("memberSelect: " + memberSelect);
-		System.out.println("memberInput: " + memberInput);
 		String pageNoVal = request.getParameter("pageNo");
 		int pageNo = 1;
 		if (pageNoVal != null) {
 			pageNo = Integer.parseInt(pageNoVal);
 		}
-		if (memberSelect == "allMember") {
-			MemberListPage memberListPage = memberManageService.getMemberListPage(pageNo);
-			request.setAttribute("memberListPage", memberListPage);		
-		} else {
+
 			MemberListPage memberListPage = memberManageService.getMemberListPage(pageNo, memberSelect, memberInput);
 			request.setAttribute("memberListPage", memberListPage);
-		}
+		
 
 		return "/view/memberListView.jsp";
 	}

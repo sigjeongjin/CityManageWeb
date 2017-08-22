@@ -15,7 +15,7 @@ pageEncoding = "UTF-8"%>
 
 <form action="memberSearch.do" method="post">
 	<select id="memberSelect" name="memberSelect">
-		<option value="allMember">전체</option>
+		<option value="all">전체</option>
 		<option value="member_authorization">구분</option>
 		<option value="member_name">이름</option>
 		<option value="member_id">아이디</option>

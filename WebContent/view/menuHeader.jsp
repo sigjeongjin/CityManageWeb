@@ -16,10 +16,10 @@ pageEncoding = "UTF-8"%>
 <u:isLogin>
 <div class="tab">
 	<a href="memberList.do"><button>회원관리</button></a>
-	<a href="memberList.do"><button>쓰레기통관리</button></a>
-	<a href="memberList.do"><button>수질관리</button></a>
-	<a href="memberList.do"><button>도시가스관리</button></a>
-	<a href="memberList.do"><button>금연구역관리</button></a>
+	<a href="TmList.do"><button>쓰레기통관리</button></a>
+	<a href="wmList.do"><button>수질관리</button></a>
+	<a href="gmList.do"><button>도시가스관리</button></a>
+	<a href="smList.do"><button>금연구역관리</button></a>
 	<a href="memberList.do"><button>Push이력관리</button></a>
 	<a href="changememberInfo.do"><button><i class="material-icons" style="font-size:20px" onclick="openCity(event, 'settings')">settings</i></button></a>
 	
@@ -38,7 +38,6 @@ pageEncoding = "UTF-8"%>
 </u:isLogin>
 
 <u:notLogin>
-<%-- 	<jsp:forward page="/view/loginForm.jsp"> --%>
  	<jsp:include page="/view/loginForm.jsp" flush="true"/>
 </u:notLogin>
 
