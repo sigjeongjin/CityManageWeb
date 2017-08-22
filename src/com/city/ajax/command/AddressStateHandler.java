@@ -1,0 +1,72 @@
+package com.city.ajax.command;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+
+import com.city.model.Address;
+import com.city.web.service.AddressService;
+import com.google.gson.Gson;
+
+
+public class AddressStateHandler implements CommandJsonHandler {
+
+	private AddressService addressService = new AddressService();
+
+	public JSONObject process(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		if (request.getMethod().equalsIgnoreCase("GET")) {
+			return processForm(request, response);
+		} else if (request.getMethod().equalsIgnoreCase("POST")) {
+			return processSubmit(request, response);
+		} else {
+			response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+			return null;
+		}
+	}
+
+	private JSONObject processForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return this.processSubmit(request, response);
+	}
+
+	private JSONObject processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		String cityGeocode = request.getParameter("cityGeocode");
+
+		System.out.println("cityGeocode : " + cityGeocode);
+
+		List<Address> addressStateList = new ArrayList<>();
+		addressStateList = addressService.addressState(cityGeocode);
+		// request.setAttribute("addressStateList", addressStateList);
+
+		JSONArray jr = new JSONArray();
+		for (int i = 0; i < addressStateList.size(); i++) {
+			JSONObject object = new JSONObject();
+
+			object.put("stateGeocode", addressStateList.get(i).getStateGeocode());
+			object.put("stateName", addressStateList.get(i).getStateName());
+			jr.add(object);
+		}
+
+		JSONObject objectState = new JSONObject();
+		objectState.put("state", jr);
+
+		System.out.println("objectState" + objectState);
+		
+//		Gson gson = new Gson();
+//		String test = gson.toJson(addressStateList);
+//		JSONObject jsonObject = (JSONObject) JSONValue.parseWithException(test);
+
+		
+
+		return objectState;
+
+	}
+}

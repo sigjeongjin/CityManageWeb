@@ -32,7 +32,7 @@ public class AddressCityHandler implements CommandHandler{
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		List<Address> addressCityList = new ArrayList<>();
-		addressCityList = addressService.AddressCity();
+		addressCityList = addressService.addressCity();
 		request.setAttribute("addressCityList", addressCityList);
 		return "/view/ManageRegisterForm.jsp";
 

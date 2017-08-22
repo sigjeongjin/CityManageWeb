@@ -15,11 +15,11 @@ public class AddressService {
 
 	private CityDao cityDao = new CityDao();
 
-	public List<Address> AddressCity() {
+	public List<Address> addressCity() {
 
 		try (Connection conn = ConnectionProvider.getConnection()) {
 			List<Address> addressCityList = new ArrayList<>();
-			addressCityList = cityDao.selectByCityGeocodeAndCityName(conn);
+			addressCityList = cityDao.selectByCityCode(conn);
 			if (addressCityList == null) {
 				throw new SQLException();
 			}
@@ -30,10 +30,10 @@ public class AddressService {
 		}
 	}
 
-	public List<Address> AddressState(String cityGeocode) {
+	public List<Address> addressState(String cityGeocode) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
 			List<Address> addressStateList = new ArrayList<>();
-			addressStateList = cityDao.selectByStateGeocodeAndCityName(conn, cityGeocode);
+			addressStateList = cityDao.selectByStateCode(conn, cityGeocode);
 			if (addressStateList == null) {
 				throw new SQLException();
 			}

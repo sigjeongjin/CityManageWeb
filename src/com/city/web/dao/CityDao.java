@@ -13,7 +13,7 @@ import jdbc.JdbcUtil;
 
 public class CityDao {
 
-	public List<Address> selectByCityGeocodeAndCityName(Connection conn) throws SQLException {
+	public List<Address> selectByCityCode(Connection conn) throws SQLException {
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -37,7 +37,8 @@ public class CityDao {
 
 	}
 
-	public List<Address> selectByStateGeocodeAndCityName(Connection conn, String cityGeocode) throws SQLException {
+	public List<Address> selectByStateCode(Connection conn, String cityGeocode) throws SQLException {
+		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
@@ -47,10 +48,11 @@ public class CityDao {
 			rs = pstmt.executeQuery();
 
 			List<Address> addressCityList = new ArrayList<>();
+			
 			while (rs.next()) {
 				Address address = new Address();
-				address.setCityGeocode(rs.getString("state_geocode"));
-				address.setCityName(rs.getString("state_name"));
+				address.setStateGeocode(rs.getString("state_geocode"));
+				address.setStateName(rs.getString("state_name"));
 				addressCityList.add(address);
 			}
 			return addressCityList;

@@ -29,9 +29,7 @@ pageEncoding = "UTF-8"%>
 	    	</select></td>
 	    <td colspan="1">
 	    	<select id="stateGeocode" name="stateGeocode">
-				<c:forEach var="address" items="${addressStateList}">
-				<option value="${address.stateGeocode}">${address.stateName}</option>
-				</c:forEach>
+ 				<option>state</option> 
 	    	</select></td>
 	</tr>	
 	<tr>
@@ -70,14 +68,24 @@ function selectEvent() {
     var query = {cityGeocode:id};         
     $.ajax({
           type : "GET",
+          dataType:'json',
           url : "/managementareaState.ajax",
           data : query,
           error : function(){
              $("#confirmText").html(data);
           },
           success : function(data){
-			options = $('#stateGeocode');
-			options.append($("<option />").val(data.stateGeocode).text(data.stateName));
+			var options = $('#stateGeocode');
+			for (var i = 0; i < data.length; i++) {
+			//options.append($("<option />").val(data.stateGeocode).text(data.stateName));
+			//	options.append($("<option />").val(data.state[i].stateGeocode).text(data.state[i].stateName ));
+				options += "<option value=" + data.state[i].stateGeocode + ">" + data.state[i].stateName + "</option>";
+			}
+			
+		        //options += '<option value="' + state[0].stateGeocode + '">' + data.state[0].stateName + '</option>';
+		      
+//		      $("select#stateGeocode").html(options);
+	//		alert(data.state[0].stateGeocode);
           }
     });
 }

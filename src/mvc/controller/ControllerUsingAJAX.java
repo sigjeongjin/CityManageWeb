@@ -8,14 +8,14 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.city.ajax.command.CommandJsonHandler;
+import org.json.simple.JSONObject;
 
+import com.city.ajax.command.CommandJsonHandler;
 
 
 
@@ -71,14 +71,22 @@ public class ControllerUsingAJAX extends HttpServlet {
 		
 		CommandJsonHandler handler = commandHandlerMap.get(command);
 		
-		//JSONObject result = null;
-		String result = null;
+		JSONObject result = null;
 		try {
 			result = handler.process(request, response);
 		} catch (Exception e) {
 			throw new ServletException(e);
 		}
 		if (result != null) {
+			response.setCharacterEncoding("utf-8");
+        	response.setContentType("text/json");
+            response.setHeader("Cache-control", "no-cache, no-store");
+            response.setHeader("Pragma", "no-cache");
+            response.setHeader("Expires", "-1");
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            response.setHeader("Access-Control-Allow-Methods", "GET,POST");
+            response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+            response.setHeader("Access-Control-Max-Age", "86400");
 			PrintWriter writer = response.getWriter();
 			writer.print(result);
 			writer.flush();
