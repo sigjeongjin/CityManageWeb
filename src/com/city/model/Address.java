@@ -2,17 +2,17 @@ package com.city.model;
 
 public class Address {
 	
-	private String cityGeocode;
+	private String cityCode;
 	private String cityName;
-	private String stateGeocode;
+	private String stateCode;
 	private String stateName;
 
-	public String getCityGeocode() {
-		return cityGeocode;
+	public String getCityCode() {
+		return cityCode;
 	}
 
-	public void setCityGeocode(String cityGeocode) {
-		this.cityGeocode = cityGeocode;
+	public void setCityCode(String cityCode) {
+		this.cityCode = cityCode;
 	}
 
 	public String getCityName() {
@@ -23,12 +23,12 @@ public class Address {
 		this.cityName = cityName;
 	}
 
-	public String getStateGeocode() {
-		return stateGeocode;
+	public String getStateCode() {
+		return stateCode;
 	}
 
-	public void setStateGeocode(String stateGeocode) {
-		this.stateGeocode = stateGeocode;
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
 	}
 
 	public String getStateName() {

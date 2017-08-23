@@ -37,8 +37,8 @@ pageEncoding = "UTF-8"%>
 		<td>${member.memberId}</td>
 		<td>${member.memberEmail}</td>
 		<td>${member.memberPhone}</td>
-		<td>${member.cityGeocode}</td>
-		<td>${member.stateGeocode}</td>
+		<td>${member.citycode}</td>
+		<td>${member.statecode}</td>
 	</tr>
 </c:forEach>
  <c:if test="${memberListPage.hasMembers()}">

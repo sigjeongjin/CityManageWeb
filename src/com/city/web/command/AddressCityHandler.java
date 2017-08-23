@@ -34,7 +34,7 @@ public class AddressCityHandler implements CommandHandler{
 		List<Address> addressCityList = new ArrayList<>();
 		addressCityList = addressService.addressCity();
 		request.setAttribute("addressCityList", addressCityList);
-		return "/view/ManageRegisterForm.jsp";
+		return "/view/manageRegisterForm.jsp";
 
 	}
 }

@@ -21,8 +21,8 @@ pageEncoding = "UTF-8"%>
 		<option value="member_id">아이디</option>
 		<option value="member_email">이메일</option>
 		<option value="member_phone">전화번호</option>
-		<option value="city_geocode">시/도</option>
-		<option value="state_geocode">시/군/구</option>
+		<option value="city_code">시/도</option>
+		<option value="state_code">시/군/구</option>
     </select>
     <input type="text" id="memberInput" placeholder="Search for names.." name="memberInput">  
 <button type = submit value="선택">선택</button>
@@ -53,8 +53,8 @@ pageEncoding = "UTF-8"%>
 		<td>${member.memberId}</td>
 		<td>${member.memberEmail}</td>	
 		<td>${member.memberPhone}</td>
-		<td>${member.cityGeocode}</td>
-		<td>${member.stateGeocode}</td>
+		<td>${member.cityCode}</td>
+		<td>${member.stateCode}</td>
 	</tr>
 </c:forEach>
  <c:if test="${memberListPage.hasMembers()}">

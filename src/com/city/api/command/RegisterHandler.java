@@ -47,8 +47,8 @@ public class RegisterHandler implements CommandJsonHandler {
 		member.setMemberEmail(request.getParameter("memberEmail"));
 		//member.setMemberPhoto(request.getFilesystemName("memberPhoto"));
 		member.setMemberAuthorization(request.getParameter("memberAuthorization"));
-		member.setCityGeocode(request.getParameter("cityGeocode"));
-		member.setStateGeocode(request.getParameter("stateGeocode"));
+		member.setCityCode(request.getParameter("cityCode"));
+		member.setStateCode(request.getParameter("stateCode"));
 
 		// String strId = registerService.register(member);
 

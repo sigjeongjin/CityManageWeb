@@ -142,3 +142,17 @@ CHANGE COLUMN `sensor_id` `manage_id` VARCHAR(15) NOT NULL COMMENT '센서 아�
 ALTER TABLE `citymanage`.`location_management` 
 CHANGE COLUMN `sensor_types` modify VARCHAR(50) NOT NULL 
 COMMENT '센서 타입들, "wl:수위센서, wq:수질센서, g:만적센서, fd:불꽃감지센서, s:악취센서, sm:연기감지센서,sd:충격감지센서, gd:압력농도센서, lr:잠금센서"';
+
+-- 2017.08.23 colum 변경
+ALTER TABLE `citymanage`.`address_city` 
+CHANGE COLUMN `city_geocode` `city_code` VARCHAR(10) NOT NULL COMMENT '시/도 코드' ;
+ALTER TABLE `citymanage`.`address_state` 
+CHANGE COLUMN `state_geocode` `state_code` VARCHAR(10) NOT NULL COMMENT '시/군/구 코드' ;
+ALTER TABLE `citymanage`.`location_management` 
+CHANGE COLUMN `city_geocode` `city_code` VARCHAR(10) NULL DEFAULT NULL COMMENT '시/도 코드' ,
+CHANGE COLUMN `state_geocode` `state_code` VARCHAR(10) NULL DEFAULT NULL COMMENT '시/군/구 코드' ;
+ALTER TABLE `citymanage`.`member` 
+CHANGE COLUMN `city_geocode` `city_code` VARCHAR(10) NOT NULL COMMENT '시/도 코드' ,
+CHANGE COLUMN `state_geocode` `state_code` VARCHAR(10) NOT NULL COMMENT '시/군/구 코드' ;
+ALTER TABLE `citymanage`.`address_state` 
+CHANGE COLUMN `city_geocode` `city_code` VARCHAR(10) NOT NULL COMMENT '시/도 코드' ;

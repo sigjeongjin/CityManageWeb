@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class TmListHandler implements CommandHandler {
-
+	
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
 //		String pageNoVal = request.getParameter("pageNo");
@@ -15,9 +15,10 @@ public class TmListHandler implements CommandHandler {
 //		
 //		MemberListPage memberListPage = memberManageService.getMemberListPage(pageNo);
 //		request.setAttribute("memberListPage", memberListPage);
+		//.getSession().
+		String manageType = "tm";
 		
-
-		return "/view/wmListView.jsp";
+		request.getSession().setAttribute("manageType", manageType);
+		return "/view/tmListView.jsp";
 	}
-
 }

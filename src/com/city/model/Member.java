@@ -11,8 +11,8 @@ public class Member{
 	private String memberPhoto;
 	private String memberAuthorization;
 	private String memberDeleteCode;
-	private String cityGeocode;
-	private String stateGeocode;
+	private String cityCode;
+	private String stateCode;
 	
 	public String getMemberId() {
 		return memberId;
@@ -46,12 +46,12 @@ public class Member{
 		return memberDeleteCode;
 	}
 
-	public String getCityGeocode() {
-		return cityGeocode;
+	public String getCityCode() {
+		return cityCode;
 	}
 
-	public String getStateGeocode() {
-		return stateGeocode;
+	public String getStateCode() {
+		return stateCode;
 	}
 
 	public void setMemberId(String memberId) {
@@ -86,12 +86,12 @@ public class Member{
 		this.memberDeleteCode = memberDeleteCode;
 	}
 
-	public void setCityGeocode(String cityGeocode) {
-		this.cityGeocode = cityGeocode;
+	public void setCityCode(String cityCode) {
+		this.cityCode = cityCode;
 	}
 
-	public void setStateGeocode(String stateGeocode) {
-		this.stateGeocode = stateGeocode;
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
 	}
 
 	public boolean matchPassword(String Pwd) {

@@ -42,7 +42,7 @@ public class MemberDao {
 			String Resultcode = "200";
 			pstmt = conn.prepareStatement(
 					"insert into member " +
-					"(member_id, member_pwd, member_name, member_phone, member_email, member_photo, member_authorization, city_geocode, state_geocode) " +
+					"(member_id, member_pwd, member_name, member_phone, member_email, member_photo, member_authorization, city_code, state_code) " +
 					"values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			pstmt.setString(1, member.getMemberId());
 			pstmt.setString(2, member.getMemberPwd());
@@ -51,8 +51,8 @@ public class MemberDao {
 			pstmt.setString(5, member.getMemberEmail());
 			pstmt.setString(6, member.getMemberPhoto());
 			pstmt.setString(7, member.getMemberAuthorization());
-			pstmt.setString(8, member.getCityGeocode());
-			pstmt.setString(9, member.getStateGeocode());
+			pstmt.setString(8, member.getCityCode());
+			pstmt.setString(9, member.getStateCode());
 			pstmt.executeUpdate();	
 			return Resultcode;
 		} finally {

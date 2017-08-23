@@ -13,7 +13,8 @@ pageEncoding = "UTF-8"%>
 <div class="allContainer">
 <h2>수질관리 리스트</h2>
 <div class="manageContainer">
-<form action="managementareaCity.do" method="post">
+<form action="managementarea.do" method="post">
+<input type="hidden" id="manageType" name="manageType" value='${manageType}'>
 <button type = submit id="wm" name="wm" value="wm">관리지역등록</button>
 </form>
 </div>
@@ -28,8 +29,8 @@ pageEncoding = "UTF-8"%>
 		<option value="member_id">아이디</option>
 		<option value="member_email">이메일</option>
 		<option value="member_phone">전화번호</option>
-		<option value="city_geocode">시/도</option>
-		<option value="state_geocode">시/군/구</option>
+		<option value="city_code">시/도</option>
+		<option value="state_code">시/군/구</option>
     </select>
     <input type="text" id="memberInput" placeholder="Search for names.." name="memberInput">  
 <button type = submit value="선택">선택</button>

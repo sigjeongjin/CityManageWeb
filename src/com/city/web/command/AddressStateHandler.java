@@ -30,12 +30,12 @@ public class AddressStateHandler implements CommandHandler{
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String cityGeocode = request.getParameter("cityGeocode");
+		String cityCode = request.getParameter("cityCode");
 		
-		System.out.println("cityGeocode" + cityGeocode);
+		System.out.println("cityCode" + cityCode);
 		
 		List<Address> addressStateList = new ArrayList<>();
-		addressStateList = addressService.addressState(cityGeocode);
+		addressStateList = addressService.addressState(cityCode);
 		request.setAttribute("addressStateList", addressStateList);
 		return "/view/ManageRegisterForm.jsp";
 

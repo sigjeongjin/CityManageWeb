@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.city.web.service.MemberListPage;
 import com.city.web.service.MemberManageService;
 
-public class memberSearchHandler implements CommandHandler {
+public class MemberSearchHandler implements CommandHandler {
 
 	private MemberManageService memberManageService = new MemberManageService();
 

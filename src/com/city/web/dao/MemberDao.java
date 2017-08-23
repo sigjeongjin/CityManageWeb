@@ -202,8 +202,8 @@ public class MemberDao {
 		member.setMemberPhoto(rs.getString("member_photo"));
 		member.setMemberAuthorization(rs.getString("member_authorization"));
 		member.setMemberDeleteCode(rs.getString("member_delete_code"));
-		member.setCityGeocode(rs.getString("city_geocode"));
-		member.setStateGeocode(rs.getString("state_geocode"));
+		member.setCityCode(rs.getString("city_code"));
+		member.setStateCode(rs.getString("state_code"));
 
 		return member;
 	}

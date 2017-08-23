@@ -30,10 +30,10 @@ public class AddressService {
 		}
 	}
 
-	public List<Address> addressState(String cityGeocode) {
+	public List<Address> addressState(String cityCode) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
 			List<Address> addressStateList = new ArrayList<>();
-			addressStateList = cityDao.selectByStateCode(conn, cityGeocode);
+			addressStateList = cityDao.selectByStateCode(conn, cityCode);
 			if (addressStateList == null) {
 				throw new SQLException();
 			}

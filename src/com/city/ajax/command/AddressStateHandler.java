@@ -41,19 +41,19 @@ public class AddressStateHandler implements CommandJsonHandler {
 
 	private JSONObject processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String cityGeocode = request.getParameter("cityGeocode");
+		String cityCode = request.getParameter("cityCode");
 
-		System.out.println("cityGeocode : " + cityGeocode);
+		System.out.println("cityCode : " + cityCode);
 
 		List<Address> addressStateList = new ArrayList<>();
-		addressStateList = addressService.addressState(cityGeocode);
+		addressStateList = addressService.addressState(cityCode);
 		// request.setAttribute("addressStateList", addressStateList);
 
 		JSONArray jr = new JSONArray();
 		for (int i = 0; i < addressStateList.size(); i++) {
 			JSONObject object = new JSONObject();
 
-			object.put("stateGeocode", addressStateList.get(i).getStateGeocode());
+			object.put("statecode", addressStateList.get(i).getStateCode());
 			object.put("stateName", addressStateList.get(i).getStateName());
 			jr.add(object);
 		}

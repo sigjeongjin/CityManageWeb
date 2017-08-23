@@ -59,12 +59,12 @@ pageEncoding = "UTF-8"%>
 					<td><input type="text" id="sensorId" name="sensorId" maxlength="20" value="${param.sensorId}"></td>
 				</tr>
 				<tr>
-					<td>cityGeocode</td>
-					<td><input type="text" id="cityGeocode" name="cityGeocode" maxlength="20" value="${param.cityGeocode}"></td>
+					<td>cityCode</td>
+					<td><input type="text" id="cityCode" name="cityCode" maxlength="20" value="${param.cityCode}"></td>
 				</tr>
 				<tr>
-					<td>stateGeocode</td>
-					<td><input type="text" id="stateGeocode" name="stateGeocode" maxlength="20" value="${param.stateGeocode}"></td>
+					<td>stateCode</td>
+					<td><input type="text" id="stateCode" name="stateCode" maxlength="20" value="${param.stateCode}"></td>
 				</tr>
 				<tr>
 					<td>latitude</td>

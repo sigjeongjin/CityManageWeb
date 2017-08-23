@@ -1,5 +1,7 @@
 package com.city.web.command;
 
+import java.util.Arrays;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,15 +31,24 @@ public class ManagementAreaRegisterHandler implements CommandHandler {
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) {
 
-		LocationManagement locationManagement = new LocationManagement();
+		String manageType = (String) request.getSession().getAttribute("manageType");
+		
+		System.out.println("manageType : " + manageType);
+		
+		String sensorTypes = Arrays.toString(request.getParameterValues("sensorTypes"));
 
-		locationManagement.setManageId(request.getParameter("manageId"));
+		
+		LocationManagement locationManagement = new LocationManagement();
+		//locationManagement.setManageId(request.getParameter("manageId"));
+		//locationManagement.setManageId("M00004");
 		locationManagement.setLatitude(Double.parseDouble(request.getParameter("latitude")));
 		locationManagement.setLongitude(Double.parseDouble(request.getParameter("longitude")));
+		locationManagement.setManageType(manageType);
+		locationManagement.setSensorTypes(sensorTypes);
 		locationManagement.setMemo(request.getParameter("memo"));
-		locationManagement.setSensorTypes(request.getParameter("sensorTypes"));
-		locationManagement.setCityGeocode(request.getParameter("cityGeocode"));
-		locationManagement.setStateGeocode(request.getParameter("stateGeocode"));
+		locationManagement.setCityCode(request.getParameter("cityCode"));
+		locationManagement.setStateCode(request.getParameter("stateCode"));
+	
 
 		managementAreaRegisterService.ManagementAreaRegister(locationManagement);
 		return "index.jsp";

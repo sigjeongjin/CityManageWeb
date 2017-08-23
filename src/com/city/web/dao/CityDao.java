@@ -25,7 +25,7 @@ public class CityDao {
 			List<Address> addressCityList = new ArrayList<>();
 			while (rs.next()) {
 				Address address = new Address();
-				address.setCityGeocode(rs.getString("city_geocode"));
+				address.setCityCode(rs.getString("city_code"));
 				address.setCityName(rs.getString("city_name"));
 				addressCityList.add(address);
 			}
@@ -37,21 +37,21 @@ public class CityDao {
 
 	}
 
-	public List<Address> selectByStateCode(Connection conn, String cityGeocode) throws SQLException {
+	public List<Address> selectByStateCode(Connection conn, String citycode) throws SQLException {
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
 		try {
-			pstmt = conn.prepareStatement("select * from address_state where city_geocode=?");
-			pstmt.setString(1, cityGeocode);
+			pstmt = conn.prepareStatement("select * from address_state where city_code=?");
+			pstmt.setString(1, citycode);
 			rs = pstmt.executeQuery();
 
 			List<Address> addressCityList = new ArrayList<>();
 			
 			while (rs.next()) {
 				Address address = new Address();
-				address.setStateGeocode(rs.getString("state_geocode"));
+				address.setStateCode(rs.getString("state_code"));
 				address.setStateName(rs.getString("state_name"));
 				addressCityList.add(address);
 			}

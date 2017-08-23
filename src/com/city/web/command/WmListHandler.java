@@ -3,7 +3,6 @@ package com.city.web.command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.city.web.service.MemberListPage;
 
 public class WmListHandler implements CommandHandler {
 	
@@ -17,8 +16,10 @@ public class WmListHandler implements CommandHandler {
 //		
 //		MemberListPage memberListPage = memberManageService.getMemberListPage(pageNo);
 //		request.setAttribute("memberListPage", memberListPage);
+		//.getSession().
+		String manageType = "wm";
 		
-
+		request.getSession().setAttribute("manageType", manageType);
 		return "/view/wmListView.jsp";
 	}
 }

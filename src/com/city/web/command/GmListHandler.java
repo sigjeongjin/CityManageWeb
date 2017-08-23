@@ -3,8 +3,8 @@ package com.city.web.command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class GmListHandler implements CommandHandler {
-
+public class GmListHandler  implements CommandHandler {
+	
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
 //		String pageNoVal = request.getParameter("pageNo");
@@ -15,9 +15,10 @@ public class GmListHandler implements CommandHandler {
 //		
 //		MemberListPage memberListPage = memberManageService.getMemberListPage(pageNo);
 //		request.setAttribute("memberListPage", memberListPage);
+		//.getSession().
+		String manageType = "gm";
 		
-
-		return "/view/wmListView.jsp";
+		request.getSession().setAttribute("manageType", manageType);
+		return "/view/gmListView.jsp";
 	}
-
 }
