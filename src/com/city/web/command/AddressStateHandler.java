@@ -35,7 +35,7 @@ public class AddressStateHandler implements CommandHandler{
 		System.out.println("cityGeocode" + cityGeocode);
 		
 		List<Address> addressStateList = new ArrayList<>();
-		addressStateList = addressService.AddressState(cityGeocode);
+		addressStateList = addressService.addressState(cityGeocode);
 		request.setAttribute("addressStateList", addressStateList);
 		return "/view/ManageRegisterForm.jsp";
 

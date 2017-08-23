@@ -23,13 +23,15 @@ pageEncoding = "UTF-8"%>
 		<td colspan="2"><label><b>지역선택 :</b></label></td>
 		<td colspan="1">
 			<select id="cityGeocode" name="cityGeocode" onchange="javascript:selectEvent(this)">
+				<option>시/도</option>
 				<c:forEach var="address" items="${addressCityList}" varStatus="status">
 				<option value="${address.cityGeocode}">${address.cityName}</option>
 				</c:forEach>
 	    	</select></td>
+	    	
 	    <td colspan="1">
-	    	<select id="stateGeocode" name="stateGeocode">
- 				<option>state</option> 
+	    	 <select id="stateGeocode" name="stateGeocode">
+			 <option>시/군/구</option>
 	    	</select></td>
 	</tr>	
 	<tr>
@@ -68,25 +70,26 @@ function selectEvent() {
     var query = {cityGeocode:id};         
     $.ajax({
           type : "GET",
-          dataType:'json',
+          dataType:"json",
           url : "/managementareaState.ajax",
           data : query,
           error : function(){
              $("#confirmText").html(data);
           },
           success : function(data){
-			var options = $('#stateGeocode');
-			for (var i = 0; i < data.length; i++) {
-			//options.append($("<option />").val(data.stateGeocode).text(data.stateName));
-			//	options.append($("<option />").val(data.state[i].stateGeocode).text(data.state[i].stateName ));
-				options += "<option value=" + data.state[i].stateGeocode + ">" + data.state[i].stateName + "</option>";
-			}
+		  var options = $('#stateGeocode');
+						
+		  options.html("<option>시/군/구</option>");
 			
-		        //options += '<option value="' + state[0].stateGeocode + '">' + data.state[0].stateName + '</option>';
-		      
-//		      $("select#stateGeocode").html(options);
-	//		alert(data.state[0].stateGeocode);
-          }
+		  for (var i = 0; i < data.state.length; i++) {
+				
+				console.log("park");
+				options.append("<option value=" + data.state[i].stateGeocode + ">" 
+						+ data.state[i].stateName +"</option>");
+			}	
+			
+			//alert(data.state[0].stateGeocode);
+         }   
     });
 }
 </script>
