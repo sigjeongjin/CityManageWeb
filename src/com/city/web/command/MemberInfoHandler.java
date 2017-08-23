@@ -3,15 +3,56 @@ package com.city.web.command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class MemberInfoHandler implements CommandHandler{
+import com.city.model.Member;
+import com.city.web.service.MemberManageService;
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+
+public class MemberInfoHandler implements CommandHandler {
+	
+	MemberManageService memberManageService = new MemberManageService();
 
 	@Override
-	public String process(HttpServletRequest req, HttpServletResponse res)
-	throws Exception {
-		
-		return null;
+	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		if (request.getMethod().equalsIgnoreCase("GET")) {
+			return processForm(request, response);
+		} else if (request.getMethod().equalsIgnoreCase("POST")) {
+			return processSubmit(request, response);
+		} else {
+			response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+			return null;
+		}
+	}
+	
+	private String processForm(HttpServletRequest request, HttpServletResponse response) {
+		return "view/member/memberInfo.jsp";
 	}
 
-}
+	private String processSubmit(HttpServletRequest request, HttpServletResponse response)throws Exception {
+		
+		String saveFolder = "/upload";
+		String realFolder = request.getServletContext().getRealPath(saveFolder); // saveFilepath
+		System.out.println("realFolder : " + realFolder);
+		int maxSize = 5 * 1024 * 1024; // 최대 업로될 파일크기 5Mb
+		MultipartRequest multi = new MultipartRequest(request, realFolder, maxSize, "utf-8",
+				new DefaultFileRenamePolicy());
 
+		Member member = new Member();	
+		String memberId = (String) request.getSession().getAttribute("authMemberId");
+		member.setMemberId(memberId);
+		member.setMemberPwd(multi.getParameter("newPwd"));
+		member.setMemberName(multi.getParameter("newName"));
+		member.setMemberPhone(multi.getParameter("newPhone"));
+		member.setMemberEmail(multi.getParameter("newEmail"));
+		member.setMemberPhoto(multi.getFilesystemName("newPhoto"));
+
+		memberManageService.MemberUpdate(member);
+		
+		//request.getSession().setAttribute("authMemberName", multi.getParameter("newName"));
+		request.getSession().setAttribute("authMemberName", member.getMemberName());
+		
+		return "index.jsp";
+		
+	}
+}
 

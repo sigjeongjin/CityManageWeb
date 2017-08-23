@@ -39,16 +39,18 @@ pageEncoding = "UTF-8"%>
 		<th>전화번호</th>
 		<th>시/도</th>
 		<th>시/군/구</th>
+		<th>상세정보</th>
 	</tr>
 	
 <c:if test="${memberListPage.hasNoMembers()}">
 	<tr>
-		<td colspan="8">맴버가 없습니다.</td>
+		<td colspan="9">맴버가 없습니다.</td>
 	</tr>
 </c:if>
 
 <c:forEach var="member" items="${memberListPage.content}" varStatus="status">
 	<tr>
+	
 		<td>${(status.index + 1) + (memberListPage.currentPage -1) * 10}</td>
 		<td>${member.memberAuthorization}</td>
 		<td>${member.memberName}</td>
@@ -57,6 +59,9 @@ pageEncoding = "UTF-8"%>
 		<td>${member.memberPhone}</td>
 		<td>${member.cityCode}</td>
 		<td>${member.stateCode}</td>
+		<td><a href="memberInfo.do?no=${(status.index + 1) + (memberListPage.currentPage -1) * 10}&pageNo=${memberListPage.currentPage}">
+			*변경*
+		</a></td>
 	</tr>
 </c:forEach>
  <c:if test="${memberListPage.hasMembers()}">
