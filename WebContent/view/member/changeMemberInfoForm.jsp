@@ -5,10 +5,10 @@ pageEncoding = "UTF-8"%>
 <head>
 <meta http-equiv = "Content-Type" content = "text/html; charset = UTF-8">
 <title>회원가입</title>
-<link rel="stylesheet" type="text/css" href="../css/textForm.css">
+<link rel="stylesheet" type="text/css" href="../../css/textForm.css">
 </head>
 <body>
-<jsp:include page="menuHeader.jsp" flush="true"/>
+<jsp:include page="../header/menuHeader.jsp" flush="true"/>
 <h2>정보 변경</h2>
 <form action="changememberInfo.do" method="post" enctype="multipart/form-data">
 	<div class="container">

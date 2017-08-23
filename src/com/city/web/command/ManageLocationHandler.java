@@ -19,7 +19,7 @@ public class ManageLocationHandler implements CommandHandler {
 	}
 
 	private String processForm(HttpServletRequest request, HttpServletResponse response) {
-		return "/view/loginForm.jsp";
+		return "/view/memberloginForm.jsp";
 	}
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {

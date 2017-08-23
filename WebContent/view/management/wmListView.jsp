@@ -9,7 +9,7 @@ pageEncoding = "UTF-8"%>
 <link rel="stylesheet" type="text/css" href="../css/tableForm.css">
 </head>
 <body>
-<jsp:include page="menuHeader.jsp" flush="true"/>
+<jsp:include page="../header/menuHeader.jsp" flush="true"/>
 <div class="allContainer">
 <h2>수질관리 리스트</h2>
 <div class="manageContainer">

@@ -10,6 +10,6 @@ pageEncoding = "UTF-8"%>
 <title>IotSystem</title>
 </head>
 <body>
-<jsp:include page="view/menuHeader.jsp" flush="true"/>
+<jsp:include page="view/header/menuHeader.jsp" flush="true"/>
 </body>
 </html>

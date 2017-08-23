@@ -24,7 +24,7 @@ public class MemberSearchHandler implements CommandHandler {
 	}
 
 	private String processForm(HttpServletRequest request, HttpServletResponse response) {
-		return "/view/memberListView.jsp";
+		return "/view/member/memberListView.jsp";
 	}
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -41,7 +41,7 @@ public class MemberSearchHandler implements CommandHandler {
 			request.setAttribute("memberListPage", memberListPage);
 		
 
-		return "/view/memberListView.jsp";
+		return "/view/member/memberListView.jsp";
 	}
 
 	private String trim(String str) {

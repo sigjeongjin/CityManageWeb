@@ -19,6 +19,6 @@ public class TmListHandler implements CommandHandler {
 		String manageType = "tm";
 		
 		request.getSession().setAttribute("manageType", manageType);
-		return "/view/tmListView.jsp";
+		return "/view/management/tmListView.jsp";
 	}
 }

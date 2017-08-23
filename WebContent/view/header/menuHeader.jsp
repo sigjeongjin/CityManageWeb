@@ -7,7 +7,7 @@ pageEncoding = "UTF-8"%>
 <head>
 <meta http-equiv = "Content-Type" content = "text/html; charset = UTF-8">
 <title>IotSystem</title>
-<link rel="stylesheet" type="text/css" href="../css/tabsBody.css">
+<link rel="stylesheet" type="text/css" href="../../css/tabsBody.css">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
@@ -38,7 +38,7 @@ pageEncoding = "UTF-8"%>
 </u:isLogin>
 
 <u:notLogin>
- 	<jsp:include page="/view/loginForm.jsp" flush="true"/>
+ 	<jsp:include page="/view/member/loginForm.jsp" flush="true"/>
 </u:notLogin>
 
 </body>

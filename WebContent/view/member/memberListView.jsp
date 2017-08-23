@@ -9,7 +9,7 @@ pageEncoding = "UTF-8"%>
 <link rel="stylesheet" type="text/css" href="../css/tableForm.css">
 </head>
 <body>
-<jsp:include page="menuHeader.jsp" flush="true"/>
+<jsp:include page="../header/menuHeader.jsp" flush="true"/>
 <h2>회원 리스트</h2>
 <div class="container">
 
@@ -28,7 +28,9 @@ pageEncoding = "UTF-8"%>
 <button type = submit value="선택">선택</button>
 </form> 
 <table>
+
 	<tr>
+
 		<th>번호</th>
 		<th>구분</th>
 		<th>이름</th>

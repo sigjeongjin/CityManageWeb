@@ -20,6 +20,6 @@ public class WmListHandler implements CommandHandler {
 		String manageType = "wm";
 		
 		request.getSession().setAttribute("manageType", manageType);
-		return "/view/wmListView.jsp";
+		return "/view/management/wmListView.jsp";
 	}
 }

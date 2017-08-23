@@ -73,8 +73,23 @@ th, td {
     text-align: left;    
 }
 
+.memberPhoto_preview {
+	padding: 5px;
+	width: 350px;
+	height: 200px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	margin: auto;
+	text-align: center;  
+ 	position: relative;
+
+
+}
+
 .SettringsArticle {
 	text-align: right; 
 	margin: 10px;
 	color: white;
 }
+
+

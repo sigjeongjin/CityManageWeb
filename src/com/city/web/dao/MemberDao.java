@@ -20,7 +20,7 @@ public class MemberDao {
 		try {
 			pstmt = conn.prepareStatement("insert into member "
 					+ "(member_id, member_pwd, member_name, member_phone, member_email, member_photo, member_authorization) "
-					+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+					+ "values (?, ?, ?, ?, ?, ?, ?)");
 			pstmt.setString(1, member.getMemberId());
 			pstmt.setString(2, member.getMemberPwd());
 			pstmt.setString(3, member.getMemberName());
@@ -93,28 +93,6 @@ public class MemberDao {
 			JdbcUtil.close(stmt);
 		}
 	}
-
-//	public int selectCount(Connection conn, String memberSelect, String memberInput) throws SQLException {
-//		Statement stmt = null;
-//		ResultSet rs = null;
-//		try {
-//			stmt = conn.createStatement();
-//
-//			if (memberSelect.equals("all")) {
-//				rs = stmt.executeQuery("select count(*) from member");
-//			} else {
-//				rs = stmt.executeQuery("select count(*) from member where " + memberSelect + "=" + memberInput);
-//				
-//			}
-//			if (rs.next()) {
-//				return rs.getInt(1);
-//			}
-//			return 0;
-//		} finally {
-//			JdbcUtil.close(rs);
-//			JdbcUtil.close(stmt);
-//		}
-//	}
 
 	public int selectCount(Connection conn, String memberSelect, String memberInput) throws SQLException {
 		Statement stmt = null;

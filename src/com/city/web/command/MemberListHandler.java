@@ -23,7 +23,7 @@ public class MemberListHandler implements CommandHandler{
 		request.setAttribute("memberListPage", memberListPage);
 		
 
-		return "/view/memberListView.jsp";
+		return "/view/member/memberListView.jsp";
 	}
 }
 

@@ -24,7 +24,7 @@ public class LoginHandler implements CommandHandler {
 	}
 
 	private String processForm(HttpServletRequest request, HttpServletResponse response) {
-		return "/view/loginForm.jsp";
+		return "/view/member/loginForm.jsp";
 	}
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -39,7 +39,7 @@ public class LoginHandler implements CommandHandler {
 			return "index.jsp";
 		} catch (RuntimeException e) {
 			System.out.println("RuntimeException");
-			return "view/loginForm.jsp";
+			return "view/member/loginForm.jsp";
 		}
 	}
 
