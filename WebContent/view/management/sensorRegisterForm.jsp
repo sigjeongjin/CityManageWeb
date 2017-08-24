@@ -16,7 +16,7 @@ pageEncoding = "UTF-8"%>
 	<div class="container">
 	<table>
 	<tr>
-		<td colspan="2"><label><b>관리ID :</b></label></td>
+		<td colspan="2"><label><b>{param.manageId}</b></label></td>
 		<td colspan="3"><input type="text" placeholder="M00001" id="manageId" name="manageId" value="${param.manageId}" disabled></td>
 	</tr>
 	<tr>

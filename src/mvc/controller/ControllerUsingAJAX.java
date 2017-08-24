@@ -91,7 +91,5 @@ public class ControllerUsingAJAX extends HttpServlet {
 			writer.print(result);
 			writer.flush();
 		}
-
 	}
-
 }

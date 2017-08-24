@@ -93,7 +93,7 @@ tr:nth-child(even) {
     background-color: #00AABD;
 }
 
-tr:hover {
+tr.memberList:hover {
 	background-color:#8EE1DD}
 	
 

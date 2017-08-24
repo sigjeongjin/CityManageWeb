@@ -138,7 +138,8 @@ public class MemberDao {
 		}
 	}
 
-	// /memberSearch.do
+	
+/*	// /memberSearch.do
 	public List<Member> searchMemberList(Connection conn, int startRow, int size, String memberSelect,
 			String memberInput) throws SQLException {
 
@@ -168,8 +169,39 @@ public class MemberDao {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);
 		}
-	}
+	}*/
 
+	// /memberSearch.do
+	public List<Member> searchMemberList(Connection conn, int startRow, int size, String memberSelect,
+			String memberInput) throws SQLException {
+
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			if (memberSelect.equals("all")) {
+				pstmt = conn.prepareStatement("select * from member m join address_city ac on m.city_code = ac.city_code join address_state asa on m.state_code=asa.state_code " + "limit ?, ?");
+				pstmt.setInt(1, startRow);
+				pstmt.setInt(2, size);
+			} else {
+				pstmt = conn.prepareStatement("select * from member where " + memberSelect + "=?" + "limit ?, ?");
+				pstmt.setString(1, memberInput);
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, size);
+			}
+
+			rs = pstmt.executeQuery();
+
+			List<Member> memberList = new ArrayList<>();
+			while (rs.next()) {
+				memberList.add(makeMemberFromResultSet(rs));
+			}
+			return memberList;
+		} finally {
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(rs);
+		}
+	}
 	private Member makeMemberFromResultSet(ResultSet rs) throws SQLException {
 		Member member = new Member();
 		member.setMemberId(rs.getString("member_id"));

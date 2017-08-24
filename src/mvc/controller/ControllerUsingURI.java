@@ -62,12 +62,10 @@ public class ControllerUsingURI extends HttpServlet {
 		System.out.println("request.getContextPath() : "+request.getContextPath());
 	
 		String command = request.getRequestURI();
-		System.out.println("command1 : "+command);
+		System.out.println("command : "+command);
 	
 		if (command.indexOf(request.getContextPath())==0) {
-			command = command.substring(request.getContextPath().length());// /hello.do
-			System.out.println("command2 : "+command);
-			
+			command = command.substring(request.getContextPath().length());// /hello.do		
 		}
 		
 		CommandHandler handler = commandHandlerMap.get(command);

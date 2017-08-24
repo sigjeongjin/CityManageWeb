@@ -15,7 +15,7 @@ pageEncoding = "UTF-8"%>
 	<div class="container">
 	
 	<div class="memberPhoto_preview" id="memberPhoto_preview">
-    <img src="#" width="100%" />
+    <img src="#" width="100%" height="100%"/>
 	</div>
 	
 		<label for="memberPhoto"><b>프로필사진</b></label>

@@ -66,8 +66,7 @@ public class ControllerUsingAPI extends HttpServlet {
 		String command = request.getRequestURI();
 	
 		if (command.indexOf(request.getContextPath())==0) {
-			command = command.substring(request.getContextPath().length());// /hello.do
-			
+			command = command.substring(request.getContextPath().length());// /hello.do		
 		}
 		
 		CommandJsonHandler handler = commandHandlerMap.get(command);

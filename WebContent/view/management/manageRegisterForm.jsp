@@ -62,7 +62,7 @@ pageEncoding = "UTF-8"%>
 </form>
 
 </body>
-<script src="../js/jquery-1.11.0.min.js"></script>
+<script src="../../js/jquery-1.11.0.min.js"></script>
 <script type="text/javascript">
 
 function selectEvent() {

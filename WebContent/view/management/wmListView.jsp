@@ -47,8 +47,7 @@ pageEncoding = "UTF-8"%>
 		<th colspan="2">좌표값</th>
 		<th>비고</th>
 		<th>센서추가</th>
-	</tr>
-	
+	</tr>	
 </table>
 </div>
 

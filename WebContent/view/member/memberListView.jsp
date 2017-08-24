@@ -30,7 +30,6 @@ pageEncoding = "UTF-8"%>
 <table>
 
 	<tr>
-
 		<th>번호</th>
 		<th>구분</th>
 		<th>이름</th>
@@ -39,7 +38,6 @@ pageEncoding = "UTF-8"%>
 		<th>전화번호</th>
 		<th>시/도</th>
 		<th>시/군/구</th>
-		<th>상세정보</th>
 	</tr>
 	
 <c:if test="${memberListPage.hasNoMembers()}">
@@ -49,19 +47,15 @@ pageEncoding = "UTF-8"%>
 </c:if>
 
 <c:forEach var="member" items="${memberListPage.content}" varStatus="status">
-	<tr>
-	
+	<tr id="memberList" class="memberList">
 		<td>${(status.index + 1) + (memberListPage.currentPage -1) * 10}</td>
-		<td>${member.memberAuthorization}</td>
-		<td>${member.memberName}</td>
-		<td>${member.memberId}</td>
-		<td>${member.memberEmail}</td>	
-		<td>${member.memberPhone}</td>
-		<td>${member.cityCode}</td>
-		<td>${member.stateCode}</td>
-		<td><a href="memberInfo.do?no=${(status.index + 1) + (memberListPage.currentPage -1) * 10}&pageNo=${memberListPage.currentPage}">
-			*변경*
-		</a></td>
+		<td id="1">${member.memberAuthorization}</td>
+		<td id="2">${member.memberName}</td>
+		<td id="3">${member.memberId}</td>
+		<td id="4">${member.memberEmail}</td>	
+		<td id="5">${member.memberPhone}</td>
+		<td id="6">${member.cityCode}</td>
+		<td id="7">${member.stateCode}</td>
 	</tr>
 </c:forEach>
  <c:if test="${memberListPage.hasMembers()}">
@@ -83,5 +77,22 @@ pageEncoding = "UTF-8"%>
 </c:if>
 </table>
 </div>
+
+<form id="hiddenForm" action="memberInfo.do" method="post">
+<input type="hidden" id="memberId" name="memberId">
+</form>
+
 </body>
+<script src="../../js/jquery-1.11.0.min.js"></script>
+<script type="text/javascript">
+$(memberList).ready(function(){
+    $("tr.memberList").click(function(){
+
+     	memberId:$(this).find("td").eq(3).html();
+     	$('#memberId').attr('value',$(this).find("td").eq(3).html());
+     	console.log(memberId);
+     	$("#hiddenForm").submit();
+    });
+});
+</script>
 </html>
