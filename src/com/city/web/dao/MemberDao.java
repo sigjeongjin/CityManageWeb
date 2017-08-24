@@ -15,6 +15,7 @@ import jdbc.JdbcUtil;
 
 public class MemberDao {
 
+	/*Register을 위한 정보 입력(회원가입)*/
 	public String insertMember(Connection conn, Member member) throws SQLException {
 		PreparedStatement pstmt = null;
 		try {
@@ -34,6 +35,7 @@ public class MemberDao {
 		}
 	}
 
+	/*login을 위한 ID, PASSWORD matching*/
 	public HashMap<String, String> selectByIdAndPwd(Connection conn, String memberId, String memberPwd)
 			throws SQLException {
 		PreparedStatement pstmt = null;
@@ -60,6 +62,7 @@ public class MemberDao {
 		}
 	}
 
+	/*정보 수정 및 상세정보 클릭 시 member 업데이트*/
 	public String update(Connection conn, Member member) throws SQLException {
 		PreparedStatement pstmt = null;
 		try {
@@ -78,6 +81,7 @@ public class MemberDao {
 
 	}
 
+	/*paging을 위한 member count*/
 	public int selectCount(Connection conn) throws SQLException {
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -94,16 +98,29 @@ public class MemberDao {
 		}
 	}
 
+	/*paging을 위한 member count*/
 	public int selectCount(Connection conn, String memberSelect, String memberInput) throws SQLException {
+		
+		if( memberSelect.equals("city_code")) {
+			memberSelect = "city_name";
+		} else if ( memberSelect.equals("state_code")) {
+			memberSelect = "state_name";
+		}
+			
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
 			stmt = conn.createStatement();
 
 			if (memberSelect.equals("all")) {
-				rs = stmt.executeQuery("select count(*) from member");
+				rs = stmt.executeQuery("select count(*) from member mb "
+						+ "join address_city city on mb.city_code = city.city_code "
+						+ "join address_state state on mb.state_code= state.state_code");
 			} else {
-				rs = stmt.executeQuery("select count(*) from member where " + memberSelect + "=" + "'" + memberInput + "'");
+				rs = stmt.executeQuery("select count(*) from member mb "
+						+ "join address_city city on mb.city_code = city.city_code "
+						+ "join address_state state on mb.state_code= state.state_code "
+						+ "where " + memberSelect + "=" + "'" + memberInput + "'");
 				
 			}
 			if (rs.next()) {
@@ -115,6 +132,7 @@ public class MemberDao {
 			JdbcUtil.close(stmt);
 		}
 	}
+	
 	// /memberList.do
 	public List<Member> selectMemberList(Connection conn, int startRow, int size) throws SQLException {
 
@@ -122,14 +140,16 @@ public class MemberDao {
 		ResultSet rs = null;
 
 		try {
-			pstmt = conn.prepareStatement("select * from member limit ?, ?");
+			pstmt = conn.prepareStatement("select * from member mb "
+					+ "join address_city city on mb.city_code = city.city_code "
+					+ "join address_state state on mb.state_code= state.state_code " + "limit ?, ?");
 			pstmt.setInt(1, startRow);
 			pstmt.setInt(2, size);
 			rs = pstmt.executeQuery();
 
 			List<Member> memberList = new ArrayList<>();
 			while (rs.next()) {
-				memberList.add(makeMemberFromResultSet(rs));
+				memberList.add(joinMemberFromResultSet(rs));
 			}
 			return memberList;
 		} finally {
@@ -137,54 +157,32 @@ public class MemberDao {
 			JdbcUtil.close(rs);
 		}
 	}
-
-	
-/*	// /memberSearch.do
-	public List<Member> searchMemberList(Connection conn, int startRow, int size, String memberSelect,
-			String memberInput) throws SQLException {
-
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		try {
-			if (memberSelect.equals("all")) {
-				pstmt = conn.prepareStatement("select * from member " + "limit ?, ?");
-				pstmt.setInt(1, startRow);
-				pstmt.setInt(2, size);
-			} else {
-				pstmt = conn.prepareStatement("select * from member where " + memberSelect + "=?" + "limit ?, ?");
-				pstmt.setString(1, memberInput);
-				pstmt.setInt(2, startRow);
-				pstmt.setInt(3, size);
-			}
-
-			rs = pstmt.executeQuery();
-
-			List<Member> memberList = new ArrayList<>();
-			while (rs.next()) {
-				memberList.add(makeMemberFromResultSet(rs));
-			}
-			return memberList;
-		} finally {
-			JdbcUtil.close(pstmt);
-			JdbcUtil.close(rs);
-		}
-	}*/
 
 	// /memberSearch.do
 	public List<Member> searchMemberList(Connection conn, int startRow, int size, String memberSelect,
 			String memberInput) throws SQLException {
 
+		if( memberSelect.equals("city_code")) {
+			memberSelect = "city_name";
+		} else if ( memberSelect.equals("state_code")) {
+			memberSelect = "state_name";
+		}
+		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
 		try {
 			if (memberSelect.equals("all")) {
-				pstmt = conn.prepareStatement("select * from member m join address_city ac on m.city_code = ac.city_code join address_state asa on m.state_code=asa.state_code " + "limit ?, ?");
+				pstmt = conn.prepareStatement("select * from member mb "
+						+ "join address_city city on mb.city_code = city.city_code "
+						+ "join address_state state on mb.state_code= state.state_code " + "limit ?, ?");
 				pstmt.setInt(1, startRow);
 				pstmt.setInt(2, size);
 			} else {
-				pstmt = conn.prepareStatement("select * from member where " + memberSelect + "=?" + "limit ?, ?");
+				pstmt = conn.prepareStatement("select * from member mb "
+						+ "join address_city city on mb.city_code = city.city_code "
+						+ "join address_state state on mb.state_code= state.state_code "
+						+ "where " + memberSelect + "=?" + "limit ?, ?");
 				pstmt.setString(1, memberInput);
 				pstmt.setInt(2, startRow);
 				pstmt.setInt(3, size);
@@ -194,7 +192,7 @@ public class MemberDao {
 
 			List<Member> memberList = new ArrayList<>();
 			while (rs.next()) {
-				memberList.add(makeMemberFromResultSet(rs));
+				memberList.add(joinMemberFromResultSet(rs));
 			}
 			return memberList;
 		} finally {
@@ -202,7 +200,9 @@ public class MemberDao {
 			JdbcUtil.close(rs);
 		}
 	}
-	private Member makeMemberFromResultSet(ResultSet rs) throws SQLException {
+	
+	/*member join을 위한 member result*/
+	private Member joinMemberFromResultSet(ResultSet rs) throws SQLException {
 		Member member = new Member();
 		member.setMemberId(rs.getString("member_id"));
 		member.setMemberPwd(rs.getString("member_pwd"));
@@ -212,12 +212,12 @@ public class MemberDao {
 		member.setMemberPhoto(rs.getString("member_photo"));
 		member.setMemberAuthorization(rs.getString("member_authorization"));
 		member.setMemberDeleteCode(rs.getString("member_delete_code"));
-		member.setCityCode(rs.getString("city_code"));
-		member.setStateCode(rs.getString("state_code"));
-
+		member.setCityCode(rs.getString("city_name"));		// code로 name 가져오기
+		member.setStateCode(rs.getString("state_name"));	// code로 name 가져오기
 		return member;
 	}
 
+	/*member 조회 및 업데이트*/
 	public Member selectById(Connection conn, String memberId) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -235,29 +235,19 @@ public class MemberDao {
 			JdbcUtil.close(rs);
 		}
 	}
-
-	public Member selectSearchrList(Connection conn, String memberSelect, String memberInput) throws SQLException {
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			pstmt = conn.prepareStatement("select * from member where " + memberSelect + "=?" + "limit ?, ?");
-			pstmt.setString(1, memberInput);
-			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				Member member = new Member();
-				member.setMemberId(rs.getString("memberSelect"));
-				member.setMemberName(rs.getString("member_name"));
-				member.setMemberPhone(rs.getString("member_phone"));
-				member.setMemberEmail(rs.getString("member_email"));
-				member.setMemberPhoto(rs.getString("member_photo"));
-				member.setMemberAuthorization(rs.getString("member_authorization"));
-				return member;
-			} else {
-				return null;
-			}
-		} finally {
-			JdbcUtil.close(pstmt);
-			JdbcUtil.close(rs);
-		}
+	
+	private Member makeMemberFromResultSet(ResultSet rs) throws SQLException {
+		Member member = new Member();
+		member.setMemberId(rs.getString("member_id"));
+		member.setMemberPwd(rs.getString("member_pwd"));
+		member.setMemberName(rs.getString("member_name"));
+		member.setMemberPhone(rs.getString("member_phone"));
+		member.setMemberEmail(rs.getString("member_email"));
+		member.setMemberPhoto(rs.getString("member_photo"));
+		member.setMemberAuthorization(rs.getString("member_authorization"));
+		member.setMemberDeleteCode(rs.getString("member_delete_code"));
+		member.setCityCode(rs.getString("city_code"));
+		member.setStateCode(rs.getString("state_code"));
+		return member;
 	}
 }

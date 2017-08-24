@@ -67,29 +67,28 @@ public class MemberManageService {
 	public MemberListPage getMemberListPage(int pageNum, String memberSelect, String memberInput) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
 			int total = memberDao.selectCount(conn, memberSelect, memberInput);
-			List<Member> content = memberDao.searchMemberList(conn, (pageNum - 1) * size, size, memberSelect,
-					memberInput);
+			List<Member> content = memberDao.searchMemberList(conn, (pageNum - 1) * size, size, memberSelect, memberInput);
 			return new MemberListPage(total, pageNum, size, content);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public Member search(String memberSelect, String memberInput) {
-		try (Connection conn = ConnectionProvider.getConnection()) {
-
-			Member mS = memberDao.selectSearchrList(conn, memberSelect, memberInput);
-
-			if (mS == null) {
-				System.out.println("memberList null");
-				throw new NullPointerException();
-			}
-			return mS;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
-	}
+//	public Member search(String memberSelect, String memberInput) {
+//		try (Connection conn = ConnectionProvider.getConnection()) {
+//
+//			Member mS = memberDao.searchMemberList(conn, memberSelect, memberInput);
+//
+//			if (mS == null) {
+//				System.out.println("memberList null");
+//				throw new NullPointerException();
+//			}
+//			return mS;
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			throw new RuntimeException(e);
+//		}
+//	}
 
 	public Member memberSelect(String memberId) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
