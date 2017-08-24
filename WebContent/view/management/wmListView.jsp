@@ -22,17 +22,17 @@ pageEncoding = "UTF-8"%>
 <div class="container">
 
 <form action="wmListSearch.do" method="post">
-	<select id="memberSelect" name="memberSelect">
-		<option value="allMember">전체</option>
-		<option value="member_authorization">구분</option>
-		<option value="member_name">이름</option>
-		<option value="member_id">아이디</option>
-		<option value="member_email">이메일</option>
-		<option value="member_phone">전화번호</option>
+	<select id="lcationManagementSelect" name="lcationManagementSelect">
+		<option value="alllcationManagement">전체</option>
+		<option value="lcationManagement_authorization">구분</option>
+		<option value="lcationManagement_name">이름</option>
+		<option value="lcationManagement_id">아이디</option>
+		<option value="lcationManagement_email">이메일</option>
+		<option value="lcationManagement_phone">전화번호</option>
 		<option value="city_code">시/도</option>
 		<option value="state_code">시/군/구</option>
     </select>
-    <input type="text" id="memberInput" placeholder="Search for names.." name="memberInput">  
+    <input type="text" id="lcationManagementInput" placeholder="Search for names.." name="lcationManagementInput">  
 <button type = submit value="선택">선택</button>
 </form>
 
@@ -48,6 +48,44 @@ pageEncoding = "UTF-8"%>
 		<th>비고</th>
 		<th>센서추가</th>
 	</tr>	
+<c:if test="${sensorListPage.hasNoSensors()}">
+	<tr>
+		<td colspan="11">검색 결과가 없습니다.</td>
+	</tr>
+</c:if>
+
+<c:forEach var="lcationManagement" items="${sensorListPage.content}" varStatus="status">
+	<tr id="sensorList" class="sensorList">
+		<td>${(status.index + 1) + (sensorListPage.currentPage -1) * 10}</td>
+		<td id="1">${lcationManagement.manageId}</td>
+		<td id="2">${lcationManagement.cityCode}</td>
+		<td id="3">${lcationManagement.stateCode}</td>
+		<td id="4">등록X</td>
+		<td id="5">등록X</td>	
+		<td id="6">등록X</td>
+		<td id="7">${lcationManagement.latitude}</td>
+		<td id="8">${lcationManagement.longitude}</td>
+		<td id="9">${lcationManagement.memo}</td>
+		<td id="10">센서 추가</td>
+	</tr>
+</c:forEach>
+ <c:if test="${sensorListPage.hasSensors()}">
+	<tr>
+		<td colspan="11">
+			<c:if test="${sensorListPage.startPage > 5}">
+			<a href="wmList.do?pageNo=${sensorListPage.startPage - 5}">[이전]</a>
+			</c:if>
+			<c:forEach var="pNo" 
+					   begin="${sensorListPage.startPage}" 
+					   end="${sensorListPage.endPage}">
+			<a href="wmList.do?pageNo=${pNo}">[${pNo}]</a>
+			</c:forEach>
+			<c:if test="${sensorListPage.endPage < sensorListPage.totalPages}">
+			<a href="wmList.do?pageNo=${sensorListPage.startPage + 5}">[다음]</a>
+			</c:if>
+		</td>
+	</tr>
+</c:if>
 </table>
 </div>
 

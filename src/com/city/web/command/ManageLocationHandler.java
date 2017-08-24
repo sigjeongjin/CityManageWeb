@@ -1,10 +1,16 @@
 package com.city.web.command;
 
+import java.util.Arrays;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.city.model.LocationManagement;
+import com.city.web.service.ManageLocationService;
 
 public class ManageLocationHandler implements CommandHandler {
+
+	private ManageLocationService manageLocationService = new ManageLocationService();
 
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -19,10 +25,32 @@ public class ManageLocationHandler implements CommandHandler {
 	}
 
 	private String processForm(HttpServletRequest request, HttpServletResponse response) {
-		return "/view/memberloginForm.jsp";
+			
+		return "index.jsp";
 	}
 
-	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return "/view/loginForm.jsp";
+	private String processSubmit(HttpServletRequest request, HttpServletResponse response) {
+
+		String manageType = (String) request.getSession().getAttribute("manageType");
+		
+		System.out.println("manageType : " + manageType);
+		
+		String sensorTypes = Arrays.toString(request.getParameterValues("sensorTypes"));
+
+		
+		LocationManagement locationManagement = new LocationManagement();
+		//locationManagement.setManageId(request.getParameter("manageId"));
+		//locationManagement.setManageId("M00004");
+		locationManagement.setLatitude(Double.parseDouble(request.getParameter("latitude")));
+		locationManagement.setLongitude(Double.parseDouble(request.getParameter("longitude")));
+		locationManagement.setManageType(manageType);
+		locationManagement.setSensorTypes(sensorTypes);
+		locationManagement.setMemo(request.getParameter("memo"));
+		locationManagement.setCityCode(request.getParameter("cityCode"));
+		locationManagement.setStateCode(request.getParameter("stateCode"));
+	
+
+		manageLocationService.managementAreaRegister(locationManagement);
+		return "index.jsp";
 	}
 }

@@ -69,7 +69,7 @@ pageEncoding = "UTF-8"%>
 					   end="${memberListPage.endPage}">
 			<a href="memberList.do?pageNo=${pNo}">[${pNo}]</a>
 			</c:forEach>
-			<c:if test="${articlePage.endPage < articlePage.totalPages}">
+			<c:if test="${memberListPage.endPage < memberListPage.totalPages}">
 			<a href="memberList.do?pageNo=${memberListPage.startPage + 5}">[다음]</a>
 			</c:if>
 		</td>

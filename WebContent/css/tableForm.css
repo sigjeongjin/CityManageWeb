@@ -93,8 +93,9 @@ tr:nth-child(even) {
     background-color: #00AABD;
 }
 
-tr.memberList:hover {
-	background-color:#8EE1DD}
+tr.memberList:hover, tr.sensorList:hover{
+	background-color:#8EE1DD
+	}
 	
 
 .SettringsArticle {
@@ -102,4 +103,3 @@ tr.memberList:hover {
 	margin: 10px;
 	color: white;
 }
-

@@ -74,22 +74,6 @@ public class MemberManageService {
 		}
 	}
 
-//	public Member search(String memberSelect, String memberInput) {
-//		try (Connection conn = ConnectionProvider.getConnection()) {
-//
-//			Member mS = memberDao.searchMemberList(conn, memberSelect, memberInput);
-//
-//			if (mS == null) {
-//				System.out.println("memberList null");
-//				throw new NullPointerException();
-//			}
-//			return mS;
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			throw new RuntimeException(e);
-//		}
-//	}
-
 	public Member memberSelect(String memberId) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
 

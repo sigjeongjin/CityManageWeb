@@ -2,18 +2,18 @@ package com.city.web.service;
 
 import java.util.List;
 
-import com.city.model.Member;
+import com.city.model.LocationManagement;
 
-public class MemberListPage {
+public class SensorListPage {
 
 	private int total;
 	private int currentPage;
-	private List<Member> content;
+	private List<LocationManagement> content;
 	private int totalPages;
 	private int startPage;
 	private int endPage;
 
-	public MemberListPage(int total, int currentPage, int size, List<Member> content) {
+	public SensorListPage(int total, int currentPage, int size, List<LocationManagement> content) {
 		this.total = total;
 		this.currentPage = currentPage;
 		this.content = content;
@@ -38,12 +38,12 @@ public class MemberListPage {
 	public int getTotal() {
 		return total;
 	}
-	
-	public boolean hasNoMembers() {
+
+	public boolean hasNoSensors() {
 		return total == 0;
 	}
-
-	public boolean hasMembers() {
+	
+	public boolean hasSensors() {
 		return total > 0;
 	}
 	
@@ -55,7 +55,7 @@ public class MemberListPage {
 		return totalPages;
 	}
 
-	public List<Member> getContent() {
+	public List<LocationManagement> getContent() {
 		return content;
 	}
 

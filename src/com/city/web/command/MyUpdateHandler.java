@@ -8,7 +8,7 @@ import com.city.web.service.MemberManageService;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
-public class MemberUpdateHandler implements CommandHandler {
+public class MyUpdateHandler implements CommandHandler {
 	
 	MemberManageService memberManageService = new MemberManageService();
 
@@ -25,7 +25,7 @@ public class MemberUpdateHandler implements CommandHandler {
 	}
 	
 	private String processForm(HttpServletRequest request, HttpServletResponse response) {
-		return "view/member/memberListView.jsp";
+		return "view/member/memberUpdateForm.jsp";
 	}
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response)throws Exception {
@@ -37,25 +37,21 @@ public class MemberUpdateHandler implements CommandHandler {
 		MultipartRequest multi = new MultipartRequest(request, realFolder, maxSize, "utf-8",
 				new DefaultFileRenamePolicy());
 
-		System.out.println("memberId : " + multi.getParameter("memberId"));
-		System.out.println("memberPwd : " + multi.getParameter("memberPwd"));
-		System.out.println("memberName : " + multi.getParameter("memberName"));
-		System.out.println("memberPhone : " + multi.getParameter("memberPhone"));
-		System.out.println("memberEmail : " + multi.getParameter("memberEmail"));
-		System.out.println("memberPhoto : " + multi.getFilesystemName("memberPhoto"));
-		
-		Member member = new Member();
-		member.setMemberId(multi.getParameter("memberId"));
-		member.setMemberPwd(multi.getParameter("memberPwd"));
-		member.setMemberName(multi.getParameter("memberName"));
-		member.setMemberPhone(multi.getParameter("memberPhone"));
-		member.setMemberEmail(multi.getParameter("memberEmail"));
-		member.setMemberPhoto(multi.getFilesystemName("memberPhoto"));
+		Member member = new Member();	
+		String memberId = (String) request.getSession().getAttribute("authMemberId");
+		member.setMemberId(memberId);
+		member.setMemberPwd(multi.getParameter("newPwd"));
+		member.setMemberName(multi.getParameter("newName"));
+		member.setMemberPhone(multi.getParameter("newPhone"));
+		member.setMemberEmail(multi.getParameter("newEmail"));
+		member.setMemberPhoto(multi.getFilesystemName("newPhoto"));
 
 		memberManageService.MemberUpdate(member);
 		
-		//return "/view/member/memberListView.jsp";
-		return "/memberList.do";
+		//request.getSession().setAttribute("authMemberName", multi.getParameter("newName"));
+		request.getSession().setAttribute("authMemberName", member.getMemberName());
+		
+		return "index.jsp";
 		
 	}
 }

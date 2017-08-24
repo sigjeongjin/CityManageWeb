@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.city.model.LocationManagement;
 
@@ -65,5 +67,107 @@ public class ManagementAreaDao {
 			JdbcUtil.close(rs2);
 		}
 		return manageId2;
+	}
+
+	public int selectCount(Connection conn, String manageType) throws SQLException {
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("select count(*) from location_management where manage_type ="  + "'" + manageType + "'");
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+			return 0;
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(stmt);
+		}
+	}
+
+	public List<LocationManagement> selectSensorList(Connection conn, int startRow, int size, String manageType) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		System.out.println("manageType : " + manageType);
+		try {
+			pstmt = conn.prepareStatement("select * from location_management "
+					+ "where manage_type = ? limit ?, ?");
+			pstmt.setString(1, manageType);		
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, size);
+			rs = pstmt.executeQuery();
+
+			List<LocationManagement> sensorList = new ArrayList<>();
+			while (rs.next()) {
+				sensorList.add(makeSeonsorFromResultSet(rs));
+			}
+			return sensorList;
+		} finally {
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(rs);
+		}
+	}
+	
+
+//	
+//	public int selectCount(Connection conn, String manageType) throws SQLException {
+//		Statement stmt = null;
+//		ResultSet rs = null;
+//		try {
+//			stmt = conn.createStatement();
+//			rs = stmt.executeQuery("select count(*) from location_management");
+//			if (rs.next()) {
+//				return rs.getInt(1);
+//			}
+//			return 0;
+//		} finally {
+//			JdbcUtil.close(rs);
+//			JdbcUtil.close(stmt);
+//		}
+//	}
+//
+//	public List<LocationManagement> selectSensorList(Connection conn, int startRow, int size, String manageType) throws SQLException {
+//		PreparedStatement pstmt = null;
+//		ResultSet rs = null;
+//
+//		System.out.println("manageType : " + manageType);
+//		try {
+//			pstmt = conn.prepareStatement("select * from location_management limit ?, ?");
+//			//pstmt.setString(1, manageType);		
+//			pstmt.setInt(1, startRow);
+//			pstmt.setInt(2, size);
+//			rs = pstmt.executeQuery();
+//
+//			List<LocationManagement> sensorList = new ArrayList<>();
+//			while (rs.next()) {
+//				sensorList.add(makeSeonsorFromResultSet(rs));
+//			}
+//			return sensorList;
+//		} finally {
+//			JdbcUtil.close(pstmt);
+//			JdbcUtil.close(rs);
+//		}
+//	}
+	private LocationManagement makeSeonsorFromResultSet(ResultSet rs) throws SQLException {
+//		System.out.println("manage_id : " + rs.getString("manage_id"));
+//		System.out.println("latitude : " + rs.getString("latitude"));
+//		System.out.println("longitude : " + rs.getString("longitude"));
+//		System.out.println("memo : " + rs.getString("memo"));
+//		System.out.println("city_code : " + rs.getString("city_code"));
+//		System.out.println("state_code : " + rs.getString("state_code"));
+//		System.out.println("sensor_types : " + rs.getString("sensor_types"));
+//		System.out.println("manage_type : " + rs.getString("manage_type"));
+		
+		LocationManagement locationManagement = new LocationManagement();
+		locationManagement.setManageId(rs.getString("manage_id"));
+		locationManagement.setLatitude(rs.getDouble("latitude"));
+		locationManagement.setLongitude(rs.getDouble("longitude"));
+		locationManagement.setMemo(rs.getString("memo"));
+		locationManagement.setCityCode(rs.getString("city_code"));
+		locationManagement.setStateCode(rs.getString("state_code"));
+		locationManagement.setSensorTypes(rs.getString("sensor_types"));
+		locationManagement.setManageType(rs.getString("manage_type"));
+		return locationManagement;
 	}
 }
