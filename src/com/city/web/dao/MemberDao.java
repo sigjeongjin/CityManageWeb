@@ -114,12 +114,12 @@ public class MemberDao {
 
 			if (memberSelect.equals("all")) {
 				rs = stmt.executeQuery("select count(*) from member mb "
-						+ "join address_city city on mb.city_code = city.city_code "
-						+ "join address_state state on mb.state_code= state.state_code");
+						+ "left join address_city city on mb.city_code = city.city_code "
+						+ "left join address_state state on mb.state_code= state.state_code");
 			} else {
 				rs = stmt.executeQuery("select count(*) from member mb "
-						+ "join address_city city on mb.city_code = city.city_code "
-						+ "join address_state state on mb.state_code= state.state_code "
+						+ "left join address_city city on mb.city_code = city.city_code "
+						+ "left join address_state state on mb.state_code= state.state_code "
 						+ "where " + memberSelect + "=" + "'" + memberInput + "'");
 				
 			}
@@ -141,8 +141,8 @@ public class MemberDao {
 
 		try {
 			pstmt = conn.prepareStatement("select * from member mb "
-					+ "join address_city city on mb.city_code = city.city_code "
-					+ "join address_state state on mb.state_code= state.state_code " + "limit ?, ?");
+					+ "left join address_city city on mb.city_code = city.city_code "
+					+ "left join address_state state on mb.state_code= state.state_code " + "limit ?, ?");
 			pstmt.setInt(1, startRow);
 			pstmt.setInt(2, size);
 			rs = pstmt.executeQuery();
@@ -174,14 +174,14 @@ public class MemberDao {
 		try {
 			if (memberSelect.equals("all")) {
 				pstmt = conn.prepareStatement("select * from member mb "
-						+ "join address_city city on mb.city_code = city.city_code "
-						+ "join address_state state on mb.state_code= state.state_code " + "limit ?, ?");
+						+ "left join address_city city on mb.city_code = city.city_code "
+						+ "left join address_state state on mb.state_code= state.state_code " + "limit ?, ?");
 				pstmt.setInt(1, startRow);
 				pstmt.setInt(2, size);
 			} else {
 				pstmt = conn.prepareStatement("select * from member mb "
-						+ "join address_city city on mb.city_code = city.city_code "
-						+ "join address_state state on mb.state_code= state.state_code "
+						+ "left join address_city city on mb.city_code = city.city_code "
+						+ "left join address_state state on mb.state_code= state.state_code "
 						+ "where " + memberSelect + "=?" + "limit ?, ?");
 				pstmt.setString(1, memberInput);
 				pstmt.setInt(2, startRow);

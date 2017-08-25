@@ -4,13 +4,13 @@ import java.util.Date;
 
 public class SensorInfo {
 
-	private String sensorId;
-	private String manageId;
-	private String sensorInfo;
-	private Date installationDatetime;
-	private String sensorType;
-	private String operationStatus;
-	private String sensorNoticeStandard;
+	private String sensorId;				// 센서ID
+	private String manageId;				// 관리ID
+	private String sensorInfo;				// 센서 이상상태
+	private Date installationDatetime;		// 설치 날짜
+	private String sensorType;				// 센서 타입
+	private String operationStatus;			// 센서 동작상태
+	private String sensorNoticeStandard;	// push 알림 기준
 
 	public String getSensorId() {
 		return sensorId;

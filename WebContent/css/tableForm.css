@@ -6,6 +6,7 @@ body {
 }
 
 h2 {
+	
 	margin-top: 30px;
 	color: #444444;
 	text-align: center;
@@ -62,7 +63,7 @@ button:hover, i:hover {
 /* Add a background color and some padding around the form */
 .container {
 	text-align: center;	
-	width: 800px;
+	width: 1000px;
 	margin: 0 auto; 
     padding: 0 auto;
     border-radius: 5px;
@@ -93,7 +94,7 @@ tr:nth-child(even) {
     background-color: #00AABD;
 }
 
-tr.memberList:hover, tr.sensorList:hover{
+tr.memberList:hover, tr.wmSensorList:hover, tr.smSensorList:hover, tr.gmSensorList:hover, tr.tmSensorList:hover{
 	background-color:#8EE1DD
 	}
 	

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.city.model.LocationManagement;
+import com.city.model.Member;
 
 import jdbc.JdbcUtil;
 
@@ -109,46 +110,6 @@ public class ManagementAreaDao {
 		}
 	}
 	
-
-//	
-//	public int selectCount(Connection conn, String manageType) throws SQLException {
-//		Statement stmt = null;
-//		ResultSet rs = null;
-//		try {
-//			stmt = conn.createStatement();
-//			rs = stmt.executeQuery("select count(*) from location_management");
-//			if (rs.next()) {
-//				return rs.getInt(1);
-//			}
-//			return 0;
-//		} finally {
-//			JdbcUtil.close(rs);
-//			JdbcUtil.close(stmt);
-//		}
-//	}
-//
-//	public List<LocationManagement> selectSensorList(Connection conn, int startRow, int size, String manageType) throws SQLException {
-//		PreparedStatement pstmt = null;
-//		ResultSet rs = null;
-//
-//		System.out.println("manageType : " + manageType);
-//		try {
-//			pstmt = conn.prepareStatement("select * from location_management limit ?, ?");
-//			//pstmt.setString(1, manageType);		
-//			pstmt.setInt(1, startRow);
-//			pstmt.setInt(2, size);
-//			rs = pstmt.executeQuery();
-//
-//			List<LocationManagement> sensorList = new ArrayList<>();
-//			while (rs.next()) {
-//				sensorList.add(makeSeonsorFromResultSet(rs));
-//			}
-//			return sensorList;
-//		} finally {
-//			JdbcUtil.close(pstmt);
-//			JdbcUtil.close(rs);
-//		}
-//	}
 	private LocationManagement makeSeonsorFromResultSet(ResultSet rs) throws SQLException {
 //		System.out.println("manage_id : " + rs.getString("manage_id"));
 //		System.out.println("latitude : " + rs.getString("latitude"));
@@ -169,5 +130,23 @@ public class ManagementAreaDao {
 		locationManagement.setSensorTypes(rs.getString("sensor_types"));
 		locationManagement.setManageType(rs.getString("manage_type"));
 		return locationManagement;
+	}
+
+public LocationManagement selectById(Connection conn, String manageId) throws SQLException  {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement("select * from location_management where manage_id=?");
+			pstmt.setString(1, manageId);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return makeSeonsorFromResultSet(rs);
+			} else {
+				return null;
+			}
+		} finally {
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(rs);
+		}
 	}
 }

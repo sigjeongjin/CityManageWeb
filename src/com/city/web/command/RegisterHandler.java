@@ -57,8 +57,6 @@ public class RegisterHandler implements CommandHandler {
 
 		registerService.register(member);
 		
-		
-		System.out.println("왜???");
 		return "index.jsp";
 
 	}

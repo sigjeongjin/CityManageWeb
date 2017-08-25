@@ -1,7 +1,12 @@
 @CHARSET "UTF-8";
 
+.formContainer {
+	position: fixed;
+	min-width: 100%;	
+}
+
 form {
-	width: 800px;
+	width: 1000px;
 	margin: 0 auto; 
     padding: 0 auto;
 }

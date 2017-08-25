@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import com.city.model.LocationManagement;
+import com.city.model.Member;
 import com.city.web.dao.ManagementAreaDao;
 
 import jdbc.JdbcUtil;
@@ -35,5 +36,24 @@ public class ManageLocationService {
 			JdbcUtil.close(conn);
 		}
 		return null;
+	}
+
+	public LocationManagement manageLocationSelect(String manageId) {
+		try (Connection conn = ConnectionProvider.getConnection()) {
+
+			LocationManagement locationManagement = new LocationManagement();
+
+			locationManagement = managementAreaDao.selectById(conn, manageId);
+
+			if (locationManagement == null) {
+				System.out.println("select fail");
+				throw new NullPointerException();
+			}
+
+			return locationManagement;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
 	}
 }

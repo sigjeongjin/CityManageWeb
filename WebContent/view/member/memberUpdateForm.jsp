@@ -10,7 +10,7 @@ pageEncoding = "UTF-8"%>
 <body>
 <jsp:include page="../header/menuHeader.jsp" flush="true"/>
 <h2>정보 변경</h2>
-<form action="changememberInfo.do" method="post" enctype="multipart/form-data">
+<form action="myUpdate.do" method="post" enctype="multipart/form-data">
 	<div class="container">
 		<label><b>아이디</b></label>
 			<input type="text" id="memberId" name="memberId" maxlength="20" value="${authMemberId}"disabled>

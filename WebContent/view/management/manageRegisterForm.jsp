@@ -6,7 +6,7 @@ pageEncoding = "UTF-8"%>
 <head>
 <title>관리지역 등록</title>
 
-<link rel="stylesheet" type="text/css" href="../css/textForm.css">
+<link rel="stylesheet" type="text/css" href="../../css/textForm.css">
 </head>
 <body>
 <jsp:include page="../header/menuHeader.jsp" flush="true"/>
@@ -87,7 +87,6 @@ function selectEvent() {
 				options.append("<option value=" + data.state[i].stateCode + ">" 
 						+ data.state[i].stateName +"</option>");
 			}	
-
          }   
     });
 }

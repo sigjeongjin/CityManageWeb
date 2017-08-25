@@ -24,7 +24,7 @@ public class WmListHandler implements CommandHandler {
 		
 		System.out.println("되녀?");
 		SensorListPage sensorListPage = sensorManageService.getSensorListPage(pageNo, manageType);
-		request.setAttribute("sensorListPage", sensorListPage);	
+		request.setAttribute("wmSensorListPage", sensorListPage);	
 		
 		Gson gson = new Gson();
 		System.out.println(gson.toJson(sensorListPage));

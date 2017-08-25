@@ -53,9 +53,7 @@ public class MemberUpdateHandler implements CommandHandler {
 		member.setMemberPhoto(multi.getFilesystemName("memberPhoto"));
 
 		memberManageService.MemberUpdate(member);
-		
-		//return "/view/member/memberListView.jsp";
-		return "/memberList.do";
-		
+
+		return "/memberList.do";	
 	}
 }

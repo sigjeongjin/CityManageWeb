@@ -49,7 +49,6 @@ public class ManagementAreaRegisterHandler implements CommandHandler {
 		locationManagement.setCityCode(request.getParameter("cityCode"));
 		locationManagement.setStateCode(request.getParameter("stateCode"));
 	
-
 		managementAreaRegisterService.ManagementAreaRegister(locationManagement);
 		return "index.jsp";
 	}

@@ -12,16 +12,16 @@ pageEncoding = "UTF-8"%>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-
+<div class="allContainer">
 <u:isLogin>
 <div class="tab">
 	<a href="memberList.do"><button>회원관리</button></a>
-	<a href="TmList.do"><button>쓰레기통관리</button></a>
+	<a href="tmList.do"><button>쓰레기통관리</button></a>
 	<a href="wmList.do"><button>수질관리</button></a>
 	<a href="gmList.do"><button>도시가스관리</button></a>
 	<a href="smList.do"><button>금연구역관리</button></a>
 	<a href="memberList.do"><button>Push이력관리</button></a>
-	<a href="changememberInfo.do"><button><i class="material-icons" style="font-size:20px" onclick="openCity(event, 'settings')">settings</i></button></a>
+	<a href="myUpdate.do"><button><i class="material-icons" style="font-size:20px" onclick="openCity(event, 'settings')">settings</i></button></a>
 	
 	<div class="SettringsArticle">
 		안녕하세요?<br>
@@ -40,6 +40,6 @@ pageEncoding = "UTF-8"%>
 <u:notLogin>
  	<jsp:include page="/view/member/loginForm.jsp" flush="true"/>
 </u:notLogin>
-
+</div>
 </body>
 </html>

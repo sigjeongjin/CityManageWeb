@@ -8,6 +8,7 @@ pageEncoding = "UTF-8"%>
 <link rel="stylesheet" type="text/css" href="../../css/textForm.css">
 </head>
 <body>
+<div class="formContainer">
 <h2>회원 가입</h2>
 
 <form action="register.do" method="post" enctype="multipart/form-data">
@@ -44,6 +45,7 @@ pageEncoding = "UTF-8"%>
     		</div> 
 	</div>
 </form>
+</div>
 </body>
 
 <script src="../../js/jquery-1.11.0.min.js"></script>

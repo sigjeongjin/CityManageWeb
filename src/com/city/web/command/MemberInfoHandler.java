@@ -34,6 +34,7 @@ public class MemberInfoHandler implements CommandHandler {
 		Member member = memberManageService.memberSelect(memberId);
 		request.getSession().setAttribute("memberInfo", member);
 		
+		
 		return "/view/member/memberInfoForm.jsp";	
 	}
 }

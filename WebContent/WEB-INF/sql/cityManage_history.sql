@@ -156,3 +156,7 @@ CHANGE COLUMN `city_geocode` `city_code` VARCHAR(10) NOT NULL COMMENT '시/도 �
 CHANGE COLUMN `state_geocode` `state_code` VARCHAR(10) NOT NULL COMMENT '시/군/구 코드' ;
 ALTER TABLE `citymanage`.`address_state` 
 CHANGE COLUMN `city_geocode` `city_code` VARCHAR(10) NOT NULL COMMENT '시/도 코드' ;
+
+-- 2017.08.25 colum 추가
+ALTER TABLE `citymanage`.`location_management` 
+ADD COLUMN `operation_status` VARCHAR(1) NULL AFTER `manage_type`;
