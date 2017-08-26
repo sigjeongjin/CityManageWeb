@@ -53,15 +53,13 @@ public class AddressStateHandler implements CommandJsonHandler {
 		for (int i = 0; i < addressStateList.size(); i++) {
 			JSONObject object = new JSONObject();
 
-			object.put("statecode", addressStateList.get(i).getStateCode());
+			object.put("stateCode", addressStateList.get(i).getStateCode());
 			object.put("stateName", addressStateList.get(i).getStateName());
 			jr.add(object);
 		}
 
 		JSONObject objectState = new JSONObject();
 		objectState.put("state", jr);
-
-		System.out.println("objectState" + objectState);
 
 //		Gson gson = new Gson();
 //		String jsonStr = gson.toJson(addressStateList);

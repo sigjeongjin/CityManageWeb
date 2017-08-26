@@ -25,7 +25,7 @@ public class MemberUpdateHandler implements CommandHandler {
 	}
 	
 	private String processForm(HttpServletRequest request, HttpServletResponse response) {
-		return "view/member/memberListView.jsp";
+		return "/wmList.do";
 	}
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response)throws Exception {
@@ -45,7 +45,7 @@ public class MemberUpdateHandler implements CommandHandler {
 		System.out.println("memberPhoto : " + multi.getFilesystemName("memberPhoto"));
 		
 		Member member = new Member();
-		member.setMemberId(multi.getParameter("memberId"));
+		member.setMemberId(request.getParameter("memberId"));
 		member.setMemberPwd(multi.getParameter("memberPwd"));
 		member.setMemberName(multi.getParameter("memberName"));
 		member.setMemberPhone(multi.getParameter("memberPhone"));
@@ -54,6 +54,6 @@ public class MemberUpdateHandler implements CommandHandler {
 
 		memberManageService.MemberUpdate(member);
 
-		return "/memberList.do";	
+		return "/wmList.do";	
 	}
 }

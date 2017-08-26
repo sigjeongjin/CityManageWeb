@@ -56,4 +56,26 @@ public class ManageLocationService {
 			throw new RuntimeException(e);
 		}
 	}
+
+	public String manageIdSet() {
+		try (Connection conn = ConnectionProvider.getConnection()) {
+
+			String manageId = managementAreaDao.searchById(conn);
+
+			if (manageId == null) {
+				System.out.println("not find manageId");
+				throw new NullPointerException();
+			}
+
+			return manageId;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+	}
+
+	public void managementAreaUpdate(LocationManagement locationManagement) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -22,7 +22,6 @@ public class WmListHandler implements CommandHandler {
 			pageNo = Integer.parseInt(pageNoVal);
 		}
 		
-		System.out.println("되녀?");
 		SensorListPage sensorListPage = sensorManageService.getSensorListPage(pageNo, manageType);
 		request.setAttribute("wmSensorListPage", sensorListPage);	
 		

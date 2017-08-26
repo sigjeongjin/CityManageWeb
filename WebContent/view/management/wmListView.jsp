@@ -90,6 +90,8 @@ pageEncoding = "UTF-8"%>
 
 <form id="hiddenForm" action="wmInfo.do" method="post">
 <input type="hidden" id="manageId" name="manageId">
+<input type="hidden" id="cityName" name="cityName">
+<input type="hidden" id="stateName" name="stateName">
 </form>
 
 </body>
@@ -98,9 +100,10 @@ pageEncoding = "UTF-8"%>
 $(wmSensorList).ready(function(){
     $("tr.wmSensorList").click(function(){
 
-    	manageId:$(this).find("td").eq(3).html();
+    	//manageId:$(this).find("td").eq(1).html();
      	$('#manageId').attr('value',$(this).find("td").eq(1).html());
-     	console.log(manageId);
+     	$('#cityName').attr('value',$(this).find("td").eq(2).html());
+     	$('#stateName').attr('value',$(this).find("td").eq(3).html());	
      	$("#hiddenForm").submit();
     });
 });

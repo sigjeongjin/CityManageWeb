@@ -12,12 +12,12 @@ pageEncoding = "UTF-8"%>
 <jsp:include page="../header/menuHeader.jsp" flush="true"/>
 <h2>관리 지역 등록</h2>
 
-	 <form action="managementareaRegister.do" method="post"> 
+	 <form action="manageLocationRegister.do" method="post"> 
 	<div class="container">
 	<table>
 	<tr>
 		<td colspan="2"><label><b>관리ID :</b></label></td>
-		<td colspan="3"><input type="text" placeholder="M00001" id="manageId" name="manageId" value="${param.manageId}" disabled></td>
+		<td colspan="3"><input type="text" id="manageId" name="manageId" value="${manageId}" readonly="readonly"></td>
 	</tr>
 	<tr>
 		<td colspan="2"><label><b>지역선택 :</b></label></td>
@@ -31,7 +31,7 @@ pageEncoding = "UTF-8"%>
 	    	
 	    <td colspan="1">
 	    	 <select id="stateCode" name="stateCode">
-			 <option>시/군/구</option>
+	    	 <option>시/군/구</option>
 	    	</select></td>
 	</tr>	
 	<tr>
@@ -82,13 +82,13 @@ function selectEvent() {
 		  options.html("<option>시/군/구</option>");
 			
 		  for (var i = 0; i < data.state.length; i++) {
-				
-				console.log("park");
+
 				options.append("<option value=" + data.state[i].stateCode + ">" 
 						+ data.state[i].stateName +"</option>");
-			}	
+			}
          }   
     });
 }
 </script>
+
 </html>
