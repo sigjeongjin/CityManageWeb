@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.city.model.LocationManagement;
-import com.city.model.Member;
 import com.city.model.SensorInfo;
 import com.city.web.dao.ManagementDao;
 import com.city.web.dao.SensorDao;
@@ -25,7 +24,6 @@ public class SensorManageService {
 
 	private ManagementDao managementDao = new ManagementDao();
 	private SensorDao sensorDao = new SensorDao();
-	
 	private int size = 10;
 	
 	public SensorListPage getSensorListPage(int pageNum, String manageType) {
@@ -54,11 +52,46 @@ public class SensorManageService {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("ManagementArea register fail");
+			System.out.println("Sensor register fail");
 			JdbcUtil.rollback(conn);
 		} finally {
 			JdbcUtil.close(conn);
 		}
 		return null;
+	}
+	
+	public String sensorIdSet(String manageType) {
+		try (Connection conn = ConnectionProvider.getConnection()) {
+
+			String sensorId = sensorDao.searchById(conn, manageType);
+
+			if (sensorId == null) {
+				System.out.println("not find sensorId");
+				throw new NullPointerException();
+			}
+
+			return sensorId;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+	}
+
+	public SensorInfo sensorTypeSelect(String sensorManageId) {
+		try (Connection conn = ConnectionProvider.getConnection()) {
+
+			SensorInfo sensorInfo = new SensorInfo();
+			sensorInfo = sensorDao.searchByType(conn, sensorManageId);
+
+			if (sensorInfo == null) {
+				System.out.println("not find sensorId");
+				throw new NullPointerException();
+			}
+
+			return sensorInfo;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
 	}
 }

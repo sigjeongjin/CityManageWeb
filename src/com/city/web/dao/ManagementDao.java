@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.city.model.LocationManagement;
-import com.city.model.SensorInfo;
 
 import jdbc.JdbcUtil;
 

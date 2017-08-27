@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.city.model.Address;
 import com.city.web.service.AddressService;
 import com.city.web.service.ManageLocationService;
+import com.city.web.service.SensorManageService;
 
 
 public class ManageLocationHandler implements CommandHandler{
@@ -36,6 +37,7 @@ public class ManageLocationHandler implements CommandHandler{
 		String manageId = manageLocationService.manageIdSet();
 		request.setAttribute("manageId", manageId);
 		
+
 		
 		List<Address> addressCityList = new ArrayList<>();
 		addressCityList = addressService.addressCity();

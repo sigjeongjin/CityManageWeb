@@ -29,22 +29,19 @@ public class SensorRegisterHandler implements CommandHandler {
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) {
 
-		System.out.println("미친친");
-		String wmManageId = request.getParameter("wmManageId");
-		
-		System.out.println("wmManageId : " + request.getParameter("wmManageId"));
+		//String sensorType = (String) request.getSession().getAttribute("manageType");
 	
 		SensorInfo sensorInfo = new SensorInfo();
 		sensorInfo.setManageId(request.getParameter("manageId"));
 		sensorInfo.setSensorId(request.getParameter("sensorId"));
 		sensorInfo.setSensorType(request.getParameter("sensorType"));
-		sensorInfo.setOperationStatus(request.getParameter("operationStatus"));
+		sensorInfo.setOperationStatus("Y");
 		sensorInfo.setSensorNoticeStandard(request.getParameter("sensorNoticeStandard"));
 
-		request.setAttribute("wmManageId", wmManageId);
+		
 		sensorManageService.sensorRegister(sensorInfo);
 		
-		return "/view/management/sensorRegisterForm.jsp";
+		return "/wmList.do";
 	}
 }
 

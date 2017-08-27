@@ -29,6 +29,8 @@ public class WmListHandler implements CommandHandler {
 		//System.out.println(gson.toJson(sensorListPage));
 
 		request.getSession().setAttribute("manageType", manageType);
+
+		
 		return "/view/management/wmListView.jsp";
 	}
 }
