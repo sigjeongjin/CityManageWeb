@@ -4,14 +4,14 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import com.city.model.LocationManagement;
-import com.city.web.dao.ManagementAreaDao;
+import com.city.web.dao.ManagementDao;
 
 import jdbc.JdbcUtil;
 import jdbc.connection.ConnectionProvider;
 
 public class ManagementAreaRegisterService {
 
-	private ManagementAreaDao managementAreaDao = new ManagementAreaDao();
+	private ManagementDao managementDao = new ManagementDao();
 
 	public String ManagementAreaRegister(LocationManagement locationManagement) {
 		Connection conn = null;
@@ -20,7 +20,7 @@ public class ManagementAreaRegisterService {
 		try {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
-			managementAreaStr = managementAreaDao.insertManagementArea(conn, locationManagement);
+			managementAreaStr = managementDao.insertManagement(conn, locationManagement);
 			conn.commit();
 			if (managementAreaStr != null) {
 				return managementAreaStr;
