@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.city.model.LocationManagement;
 import com.city.web.service.ManageLocationService;
 
-public class ManageRegisterSetHandler implements CommandHandler {
+public class ManageRegisterHandler implements CommandHandler {
 
 	private ManageLocationService manageLocationService = new ManageLocationService();
 
@@ -49,7 +49,7 @@ public class ManageRegisterSetHandler implements CommandHandler {
 		locationManagement.setStateCode(request.getParameter("stateCode"));
 	
 
-		manageLocationService.managementAreaRegister(locationManagement);
+		manageLocationService.managementRegister(locationManagement);
 		return "index.jsp";
 	}
 }

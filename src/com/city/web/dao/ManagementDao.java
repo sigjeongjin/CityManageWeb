@@ -9,12 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.city.model.LocationManagement;
+import com.city.model.SensorInfo;
 
 import jdbc.JdbcUtil;
 
-public class ManagementAreaDao {
+public class ManagementDao {
 
-	public String insertManagementArea(Connection conn, LocationManagement locationManagement) throws SQLException {
+	public String insertManagement(Connection conn, LocationManagement locationManagement) throws SQLException {
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement("insert into location_management"
@@ -154,4 +155,24 @@ public class ManagementAreaDao {
 		}
 		return manageId2;
 	}
+
+	public String update(Connection conn, LocationManagement locationManagement) throws SQLException {
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement("update location_management "
+					+ "set latitude = ?, longitude = ?, memo = ?, city_code = ?, state_code = ? , sensor_types = ? where manage_id = ?");
+			pstmt.setDouble(1, locationManagement.getLatitude());
+			pstmt.setDouble(2, locationManagement.getLongitude());
+			pstmt.setString(3, locationManagement.getMemo());
+			pstmt.setString(4, locationManagement.getCityCode());
+			pstmt.setString(5, locationManagement.getStateCode());
+			pstmt.setString(6, locationManagement.getSensorTypes());
+			pstmt.setString(7, locationManagement.getManageId());
+			return Integer.toString(pstmt.executeUpdate());
+		} finally {
+			JdbcUtil.close(pstmt);
+		}
+	}
+// **************************************************
+
 }

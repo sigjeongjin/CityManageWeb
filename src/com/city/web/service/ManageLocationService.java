@@ -5,23 +5,23 @@ import java.sql.SQLException;
 
 import com.city.model.LocationManagement;
 import com.city.model.Member;
-import com.city.web.dao.ManagementAreaDao;
+import com.city.web.dao.ManagementDao;
 
 import jdbc.JdbcUtil;
 import jdbc.connection.ConnectionProvider;
 
 public class ManageLocationService {
 
-	private ManagementAreaDao managementAreaDao = new ManagementAreaDao();
+	private ManagementDao managementDao = new ManagementDao();
 
-	public String managementAreaRegister(LocationManagement locationManagement) {
+	public String managementRegister(LocationManagement locationManagement) {
 		Connection conn = null;
 		String managementAreaStr = null;
 
 		try {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
-			managementAreaStr = managementAreaDao.insertManagementArea(conn, locationManagement);
+			managementAreaStr = managementDao.insertManagement(conn, locationManagement);
 			conn.commit();
 			if (managementAreaStr != null) {
 				return managementAreaStr;
@@ -38,12 +38,12 @@ public class ManageLocationService {
 		return null;
 	}
 
-	public LocationManagement manageLocationSelect(String manageId) {
+	public LocationManagement managementSelect(String manageId) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
 
 			LocationManagement locationManagement = new LocationManagement();
 
-			locationManagement = managementAreaDao.selectById(conn, manageId);
+			locationManagement = managementDao.selectById(conn, manageId);
 
 			if (locationManagement == null) {
 				System.out.println("select fail");
@@ -60,7 +60,7 @@ public class ManageLocationService {
 	public String manageIdSet() {
 		try (Connection conn = ConnectionProvider.getConnection()) {
 
-			String manageId = managementAreaDao.searchById(conn);
+			String manageId = managementDao.searchById(conn);
 
 			if (manageId == null) {
 				System.out.println("not find manageId");
@@ -74,8 +74,29 @@ public class ManageLocationService {
 		}
 	}
 
-	public void managementAreaUpdate(LocationManagement locationManagement) {
-		// TODO Auto-generated method stub
-		
+	public String managementUpdate(LocationManagement locationManagement) {
+		Connection conn = null;
+		String mU = null;
+
+		try {
+			conn = ConnectionProvider.getConnection();
+			conn.setAutoCommit(false);
+
+			String strId = managementDao.update(conn, locationManagement);
+			conn.commit();
+			if (strId != null) {
+				mU = "Y";
+				return mU;
+			} else {
+				mU = "N";
+				throw new SQLException();
+			}
+		} catch (SQLException e) {
+			JdbcUtil.rollback(conn);
+			throw new RuntimeException(e);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+	
 	}
 }

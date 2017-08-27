@@ -56,6 +56,17 @@ pageEncoding = "UTF-8"%>
 <c:forEach var="lcationManagement" items="${wmSensorListPage.content}" varStatus="status">
 	<tr id="wmSensorList" class="wmSensorList">
 		<td>${(status.index + 1) + (wmSensorListPage.currentPage -1) * 10}</td>
+		<td id="tdManageId">${lcationManagement.manageId}</td>
+		<td id="2">${lcationManagement.cityCode}</td>
+		<td id="3">${lcationManagement.stateCode}</td>
+		<td id="4">등록X</td>
+		<td id="5">등록X</td>	
+		<td id="6">등록X</td>
+		<td id="7">${lcationManagement.latitude}</td>
+		<td id="8">${lcationManagement.longitude}</td>
+		<td id="9">${lcationManagement.memo}</td>
+		<td id="10" onclick="event.cancelBubble=true"><p id="sensorRegister">센서 추가</p></td>
+<%-- 		<td>${(status.index + 1) + (wmSensorListPage.currentPage -1) * 10}</td>
 		<td id="1">${lcationManagement.manageId}</td>
 		<td id="2">${lcationManagement.cityCode}</td>
 		<td id="3">${lcationManagement.stateCode}</td>
@@ -65,7 +76,10 @@ pageEncoding = "UTF-8"%>
 		<td id="7">${lcationManagement.latitude}</td>
 		<td id="8">${lcationManagement.longitude}</td>
 		<td id="9">${lcationManagement.memo}</td>
-		<td id="10">센서 추가</td>
+		<td id="sensorRegister">센서 추가</td> --> --%>
+<!--   		<td id="sensorRegister" onclick="event.cancelBubble=true">
+  		<p onclick="myFunction();">add Sensor</p></td> -->
+
 	</tr>
 </c:forEach>
  <c:if test="${wmSensorListPage.hasSensors()}">
@@ -89,14 +103,30 @@ pageEncoding = "UTF-8"%>
 </div>
 
 <form id="hiddenForm" action="wmInfo.do" method="post">
+
 <input type="hidden" id="manageId" name="manageId">
 <input type="hidden" id="cityName" name="cityName">
 <input type="hidden" id="stateName" name="stateName">
 </form>
 
+<form id="hiddenForm2" action="sensorRegister.do" method="post">
+<input type="hidden" id="wmManageId" name="wmManageId">
+</form>
+
 </body>
 <script src="../../js/jquery-1.11.0.min.js"></script>
 <script type="text/javascript">
+/* $(wmSensorList).ready(function(){
+    $("tr.wmSensorList").click(function(){
+
+    	//manageId:$(this).find("td").eq(1).html();
+     	$('#manageId').attr('value',$(this).find("td").eq(1).html());
+     	$('#cityName').attr('value',$(this).find("td").eq(2).html());
+     	$('#stateName').attr('value',$(this).find("td").eq(3).html());	
+     	$('#wmManageId').attr('value',$(this).find("td").eq(1).html());
+     	$("#hiddenForm").submit();
+    });
+}); */
 $(wmSensorList).ready(function(){
     $("tr.wmSensorList").click(function(){
 
@@ -104,7 +134,37 @@ $(wmSensorList).ready(function(){
      	$('#manageId').attr('value',$(this).find("td").eq(1).html());
      	$('#cityName').attr('value',$(this).find("td").eq(2).html());
      	$('#stateName').attr('value',$(this).find("td").eq(3).html());	
+     	$('#wmManageId').attr('value',$(this).find("td").eq(1).html());
      	$("#hiddenForm").submit();
+    });
+});
+$(wmSensorList).ready(function(){
+    $("p").click(function(){
+		var index =  $("p").index(this);
+		//console.log(index)
+		
+		//var tableTr = document.getElementById("wmSensorList");
+		
+		//var fabric_seq = $('wmSensorListr').eq(1).find("td").eq(1).html();
+	
+		//<td id="tdManageId">$!{division.get("tdManageId")}</td>
+		
+		var text = $('#tdManageId').text();
+		
+		 var row_index = $(this).parent().index('#tdManageId');
+		//var id = $(this).closest("tr")find("td").text();
+		//var valval = $(this).closest('tr').find('td:eq(1)').val();
+		console.log(text);
+		console.log(row_index);
+		//var tableTd = document.getElementById("tdManageId");
+		//var tableTa = tableTd.childNodes[0].nodeValue;
+		//var tableTd = document.getElementByTagName("td");
+		//var tableTa = tableTd.childNodes[0].nodeValue;
+		//console.log(tableTd.data());
+		//console.log(tableTd);
+		//console.log(tableTa);
+
+
     });
 });
 </script>

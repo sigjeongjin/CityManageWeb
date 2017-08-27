@@ -45,11 +45,43 @@ pageEncoding = "UTF-8"%>
 		<textarea rows="4" cols="70"id="memo" name="memo"></textarea>
 		</td>
 	</tr>
-	<tr>
-	<td colspan="2"><label><b>센서종류 :</b></label></td> 
-		<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="wq"><label><b>수질센서</b></label></td>
-		<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="wl"><label><b>수위센서</b></label></td>
-	</tr>
+	
+<!-- *****관리 시스템 선택***** -->	
+	<c:if test="${manageType == 'tm'}">
+		<tr>
+			<td colspan="2"><label><b>센서종류 :</b></label></td> 
+			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="g"><label><b>만적센서</b></label></td>
+			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="s"><label><b>악취센서</b></label></td>
+		</tr>
+		<tr>
+			<td colspan="2"></td> 
+			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="fd"><label><b>불꽃감지센서</b></label></td>
+			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="lr"><label><b>잠금</b></label></td>
+		</tr>		
+	</c:if>
+	<c:if test="${manageType == 'wm'}">
+		<tr>
+			<td colspan="2"><label><b>센서종류 :</b></label></td> 
+			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="wq"><label><b>수질센서</b></label></td>
+			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="wl"><label><b>수위센서</b></label></td>
+		</tr>	
+	</c:if>
+	<c:if test="${manageType == 'gm'}">
+		<tr>
+			<td colspan="2"><label><b>센서종류 :</b></label></td> 
+			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="wq"><label><b>충격감지센서</b></label></td>
+			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="wl"><label><b>압력농도센서</b></label></td>
+		</tr>	
+	</c:if>
+	<c:if test="${manageType == 'sm'}">
+		<tr>
+			<td colspan="2"><label><b>센서종류 :</b></label></td> 
+			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="fd"><label><b>불꽃감지센서</b></label></td>
+			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="sm"><label><b>연기감지센서</b></label></td>
+		</tr>	
+	</c:if>
+<!-- ****************************** -->
+
 	<tr>
 		<td colspan="4">	
 		<div class="btncenter">

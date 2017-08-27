@@ -6,8 +6,11 @@ import java.util.List;
 
 import com.city.model.LocationManagement;
 import com.city.model.Member;
-import com.city.web.dao.ManagementAreaDao;
+import com.city.model.SensorInfo;
+import com.city.web.dao.ManagementDao;
+import com.city.web.dao.SensorDao;
 
+import jdbc.JdbcUtil;
 import jdbc.connection.ConnectionProvider;
 
 /*
@@ -20,16 +23,42 @@ import jdbc.connection.ConnectionProvider;
 
 public class SensorManageService {
 
-	private ManagementAreaDao managementAreaDao = new ManagementAreaDao();
+	private ManagementDao managementDao = new ManagementDao();
+	private SensorDao sensorDao = new SensorDao();
+	
 	private int size = 10;
 	
 	public SensorListPage getSensorListPage(int pageNum, String manageType) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
-			int total = managementAreaDao.selectCount(conn, manageType);
-			List<LocationManagement> content = managementAreaDao.selectSensorList(conn, (pageNum - 1) * size, size, manageType);
+			int total = managementDao.selectCount(conn, manageType);
+			List<LocationManagement> content = managementDao.selectSensorList(conn, (pageNum - 1) * size, size, manageType);
 			return new SensorListPage(total, pageNum, size, content);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public String sensorRegister(SensorInfo sensorInfo) {
+		Connection conn = null;
+		String sensorRegister = null;
+
+		try {
+			conn = ConnectionProvider.getConnection(); // transaction
+			conn.setAutoCommit(false);
+			sensorRegister = sensorDao.insertSensor(conn, sensorInfo);
+			conn.commit();
+			if (sensorRegister != null) {
+				return sensorRegister;
+			} else {
+				throw new SQLException();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("ManagementArea register fail");
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+		return null;
 	}
 }

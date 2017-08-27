@@ -78,7 +78,6 @@ public class MemberDao {
 		} finally {
 			JdbcUtil.close(pstmt);
 		}
-
 	}
 
 	/*paging을 위한 member count*/

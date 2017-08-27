@@ -42,7 +42,7 @@ public class WmInfoHandler implements CommandHandler {
 		request.setAttribute("cityName", cityName);
 		request.setAttribute("stateName", stateName);
 
-		LocationManagement locationManagement = manageLocationService.manageLocationSelect(manageId);
+		LocationManagement locationManagement = manageLocationService.managementSelect(manageId);
 		request.getSession().setAttribute("wmManageInfo", locationManagement);
 		
 		String sensorTypes = locationManagement.getSensorTypes();

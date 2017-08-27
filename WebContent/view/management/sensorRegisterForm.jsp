@@ -11,12 +11,12 @@ pageEncoding = "UTF-8"%>
 <body>
 <jsp:include page="../header/menuHeader.jsp" flush="true"/>
 <h2>센서 등록</h2>
-<form action="register.do" method="post">
+<form action="sensorRegister.do" method="post">
 
 	<table>
 	<tr>
 		<td><label><b>관리ID</b></label></td>
-			<td><input type="text" id="manageId" name="manageId" value="${param.manageId}" readonly="readonly"></td>
+			<td><input type="text" id="manageId" name="manageId" value="${wmManageId}" readonly="readonly"></td>
 	</tr>	
 	<tr>
 		<td><label><b>센서ID</b></label></td>

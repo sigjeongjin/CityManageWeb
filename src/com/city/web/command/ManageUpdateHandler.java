@@ -12,9 +12,9 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 public class ManageUpdateHandler implements CommandHandler {
-	
+
 	private ManageLocationService manageLocationService = new ManageLocationService();
-	
+
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		if (request.getMethod().equalsIgnoreCase("GET")) {
@@ -26,30 +26,28 @@ public class ManageUpdateHandler implements CommandHandler {
 			return null;
 		}
 	}
-	
+
 	private String processForm(HttpServletRequest request, HttpServletResponse response) {
 		return "/memberList.do";
 	}
 
-	private String processSubmit(HttpServletRequest request, HttpServletResponse response)throws Exception {
-		String manageType = (String) request.getSession().getAttribute("manageType");
-		
-		System.out.println("manageType : " + manageType);
+	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
 		System.out.println("manageId : " + request.getParameter("manageId"));
-		
+
 		String sensorTypes = Arrays.toString(request.getParameterValues("sensorTypes"));
 		LocationManagement locationManagement = new LocationManagement();
 		locationManagement.setManageId(request.getParameter("manageId"));
 		locationManagement.setLatitude(Double.parseDouble(request.getParameter("latitude")));
 		locationManagement.setLongitude(Double.parseDouble(request.getParameter("longitude")));
-		locationManagement.setManageType(manageType);
+		//locationManagement.setManageType(manageType);
 		locationManagement.setSensorTypes(sensorTypes);
 		locationManagement.setMemo(request.getParameter("memo"));
 		locationManagement.setCityCode(request.getParameter("cityCode"));
 		locationManagement.setStateCode(request.getParameter("stateCode"));
 
-		manageLocationService.managementAreaUpdate(locationManagement);
+		manageLocationService.managementUpdate(locationManagement);
 
-		return "/memberList.do";	
+		return "/memberList.do";
 	}
 }
