@@ -1,40 +1,53 @@
 package com.city.api.service;
 
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.city.api.dao.MemberDao;
 import com.city.api.dao.PushDao;
+import com.city.model.FavoritesInfo;
 import com.city.model.Push;
+import com.city.model.PushInfo;
 
+import jdbc.JdbcUtil;
 import jdbc.connection.ConnectionProvider;
 
-/* PushActionRegisterService 위험 알림 푸쉬 		pars
- * PushRecordListService 푸시 이력 리스트 조화     	prls
- * */
+
+/**
+ * @author park
+ * PushList조회	
+ *
+ */
 
 public class PushService {
-	
+
 	private PushDao pushDao = new PushDao();
-	
-	public String push(Push push) { 
 
-	String re = null;
-	Connection conn = null;
-	
-//	
-//	try { 
-//		
-//		conn = ConnectionProvider.getConnection(); // transaction
-//		conn.setAutoCommit(false);
-//	
-//		String strId = pushDao.selectByIdAndsensorId(conn, memberId, sensorId);
-//		conn.commit();
-//	
-	return null;
-	
+	/**
+	 * @param memberId
+	 * @param manageType
+	 * @return
+	 */
+	public List<PushInfo> getPushHistoryList(String memberId, String manageType) {
+		List<PushInfo> pushInfoList = new ArrayList<PushInfo>();
+		Connection conn = null;
 
+		try {
+			conn = ConnectionProvider.getConnection();
+			conn.setAutoCommit(false);
 
+			pushInfoList = pushDao.selectPushHistoryListByMemberId(conn, memberId,manageType);
+			conn.commit();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("PUSH 이력 조회 실패");
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+		return pushInfoList;
 	}
-	
 }
-	
