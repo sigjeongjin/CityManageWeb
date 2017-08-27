@@ -17,34 +17,40 @@ import com.google.gson.Gson;
 public class FavoritesListHandler implements CommandJsonHandler {
 	private FavoritesService favoritesRegisterService = new FavoritesService();
 
-public String process(HttpServletRequest req, HttpServletResponse res) throws Exception {
-	if (req.getMethod().equalsIgnoreCase("GET")) {
-		return processForm(req, res);
-	} else if (req.getMethod().equalsIgnoreCase("POST")) {
-		return processSubmit(req, res);
-	} else {
-		res.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-		return null;
+	public String process(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		if (req.getMethod().equalsIgnoreCase("GET")) {
+			return processForm(req, res);
+		} else if (req.getMethod().equalsIgnoreCase("POST")) {
+			return processSubmit(req, res);
+		} else {
+			res.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+			return null;
+		}
 	}
-}
 
-private String processForm(HttpServletRequest req, HttpServletResponse res) throws Exception {
-	return this.processSubmit(req, res);
-}
+	private String processForm(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		return this.processSubmit(req, res);
+	}
 
-private String processSubmit(HttpServletRequest req, HttpServletResponse res) throws Exception {
+	/**
+	 * @param memberId
+	 * @param manageType(wm, tm, sm, gm)
+	 * @return
+	 * @throws Exception
+	 */
+	private String processSubmit(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
-	
-	String memberId = req.getParameter("memberId");
-	String manageType = req.getParameter("manageType");
-	List<FavoritesInfo> favoritesInfo = favoritesRegisterService.getFavoritesList(memberId, manageType);	
-	FavoritesInfoJSON favoritesInfoJSON = new FavoritesInfoJSON();
-	favoritesInfoJSON.setResultCode("200");
-	favoritesInfoJSON.setResultMessage("조회되었습니다.");
-	favoritesInfoJSON.setFavoritesInfo(favoritesInfo);
+		String memberId = req.getParameter("memberId");
+		String manageType = req.getParameter("manageType");
+		
+		List<FavoritesInfo> favoritesList = favoritesRegisterService.getFavoritesList(memberId,manageType);
+		FavoritesInfoJSON favoritesInfoJSON = new FavoritesInfoJSON();
+		favoritesInfoJSON.setResultCode("200");
+		favoritesInfoJSON.setResultMessage("조회되었습니다.");
+		favoritesInfoJSON.setFavoritesList(favoritesList);
 
-	Gson gson = new Gson();
-	return gson.toJson(favoritesInfoJSON);
+		Gson gson = new Gson();
+		return gson.toJson(favoritesInfoJSON);
 
-}
+	}
 }

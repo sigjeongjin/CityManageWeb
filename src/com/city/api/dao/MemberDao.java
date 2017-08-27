@@ -88,7 +88,7 @@ public class MemberDao {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				city.add(new City(rs.getString("cityCode"), rs.getString("cityName")));
+				city.add(new City(rs.getString("cityName"), rs.getString("cityCode")));
 
 			}
 
@@ -177,7 +177,6 @@ public class MemberDao {
 		ResultSet rs = null;
 		List<State> state = new ArrayList<State>();
 
-		String Resultcode = "200";
 		try {
 			pstmt = conn.prepareStatement(
 					"select state_code as stateCode, state_name as stateName from address_state where city_code=?");

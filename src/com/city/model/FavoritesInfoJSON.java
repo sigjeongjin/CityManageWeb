@@ -5,16 +5,13 @@ import java.util.List;
 
 public class FavoritesInfoJSON extends Result {
 	
-	private List<FavoritesInfo> favoritesInfo = new ArrayList<FavoritesInfo>();
+	private List<FavoritesInfo> favoritesList = new ArrayList<FavoritesInfo>();
 
-	public List<FavoritesInfo> getFavoritesInfo() {
-		return favoritesInfo;
+	public List<FavoritesInfo> getFavoritesList() {
+		return favoritesList;
 	}
 
-	public void setFavoritesInfo(List<FavoritesInfo> favoritesInfo) {
-		this.favoritesInfo = favoritesInfo;
+	public void setFavoritesList(List<FavoritesInfo> favoritesList) {
+		this.favoritesList = favoritesList;
 	}
-	
-	
-
 }

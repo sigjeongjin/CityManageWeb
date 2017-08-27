@@ -44,23 +44,33 @@ public class FavoriesDao {
 		}
 	}
 	
-	public List<FavoritesInfo> selectFavoritesInfo(Connection conn, String memberId, String manageType) throws SQLException {
+	public List<FavoritesInfo> selectFavoritesInfoByMemberId(Connection conn, String memberId, 
+			String manageType) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		List<FavoritesInfo> favoritesInfo = new ArrayList<FavoritesInfo>();
+		List<FavoritesInfo> favoritesList = new ArrayList<FavoritesInfo>();
 
-		String Resultcode = "200";
 		try {
+			//출력 결과 : manageId, locationName(시티 + 스테이트)
 			pstmt = conn.prepareStatement(
-					"select member_id as sensorId, manage_type as manageType, from favorites_info where member_id=? and manage_type=?");
-			pstmt.setString(1, memberId);
-			pstmt.setString(2, manageType);
+					"SELECT " + 
+					" fi.manage_id manageId, " + 
+					" CONCAT((SELECT city_name cityName FROM address_city WHERE city_code=lm.city_code)" +
+					",' ',(SELECT state_name stateName FROM address_state WHERE state_code=lm.state_code)) locationName" + 
+					" FROM favorites_info fi JOIN location_management lm on fi.manage_id=lm.manage_id " + 
+					" WHERE lm.manage_type=? and fi.bookmark='Y' and fi.member_id=? ");
+		
+			pstmt.setString(1, manageType);
+			pstmt.setString(2, memberId);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				favoritesInfo.add(new FavoritesInfo(rs.getString("memberId"), rs.getString("manageType")));
+				FavoritesInfo favoritesInfo = new FavoritesInfo();
+				favoritesInfo.setManageId(rs.getString("manageId"));
+				favoritesInfo.setLocationName(rs.getString("locationName"));
+				favoritesList.add(favoritesInfo);
 			}
-			return favoritesInfo;
+			return favoritesList;
 
 		} finally {
 			JdbcUtil.close(rs);

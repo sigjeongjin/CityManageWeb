@@ -1,21 +1,19 @@
 package com.city.model;
 
 public class FavoritesInfo {
+	private String manageId;
+	private String locationName;
 	
-	private String memberId;
-	private String memberType;
-	
-	
-	public FavoritesInfo(String memberId, String memberType) {
-		this.memberId = memberId;
-		this.memberType = memberType;
+	public String getManageId() {
+		return manageId;
 	}
-	public String getMemberId() {
-		return memberId;
+	public void setManageId(String manageId) {
+		this.manageId = manageId;
 	}
-	public String getMemberType() {
-		return memberType;
+	public String getLocationName() {
+		return locationName;
 	}
-
-
+	public void setLocationName(String locationName) {
+		this.locationName = locationName;
+	}
 }

@@ -1,6 +1,5 @@
 package com.city.api.service;
 
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,34 +12,30 @@ import com.city.model.State;
 import jdbc.JdbcUtil;
 import jdbc.connection.ConnectionProvider;
 
-
-
 public class FavoritesService {
-	
-	private FavoriesDao favoriesDao = new FavoriesDao(); 
-	
-	
+
+	private FavoriesDao favoriesDao = new FavoriesDao();
 
 	public String favoritesRegister(String memberId, String bookmark, String manageId) {
-		
+
 		int favoritesRegister = 0;
-		String resultCode ="";
+		String resultCode = "";
 		Connection conn = null;
 
 		try {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
-			
-			favoritesRegister = favoriesDao.insertFavories(conn, memberId, bookmark, manageId );
-			
-			if(favoritesRegister == 1) {
+
+			favoritesRegister = favoriesDao.insertFavories(conn, memberId, bookmark, manageId);
+
+			if (favoritesRegister == 1) {
 				resultCode = "Y";
 			} else {
 				throw new SQLException();
-			}		
-						
+			}
+
 			conn.commit();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("등록 실패.");
@@ -48,19 +43,24 @@ public class FavoritesService {
 		} finally {
 			JdbcUtil.close(conn);
 		}
-		return resultCode; 
+		return resultCode;
 	}
-	
-public List<FavoritesInfo> getFavoritesList(String memberId, String manageType) {
-		
-		List<FavoritesInfo> favoritesInfo = new ArrayList<FavoritesInfo>();
+
+	/**
+	 * @param memberId
+	 * @param manageType
+	 * @return
+	 */
+	public List<FavoritesInfo> getFavoritesList(String memberId, String manageType) {
+
+		List<FavoritesInfo> favoritesList = new ArrayList<FavoritesInfo>();
 		Connection conn = null;
 
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 
-			favoritesInfo = favoriesDao.selectFavoritesInfo(conn, memberId, manageType);
+			favoritesList = favoriesDao.selectFavoritesInfoByMemberId(conn, memberId, manageType);
 			conn.commit();
 
 		} catch (SQLException e) {
@@ -70,10 +70,6 @@ public List<FavoritesInfo> getFavoritesList(String memberId, String manageType) 
 		} finally {
 			JdbcUtil.close(conn);
 		}
-		return favoritesInfo;
+		return favoritesList;
 	}
-	
-	
-	
-
 }

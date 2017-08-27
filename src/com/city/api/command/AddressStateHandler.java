@@ -32,7 +32,6 @@ public class AddressStateHandler implements CommandJsonHandler {
 
 	private String processSubmit(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
-		
 		String cityCode = req.getParameter("cityCode");
 		List<State> state = addressCityService.getStateList(cityCode);
 		StateJSON stateJson = new StateJSON();
