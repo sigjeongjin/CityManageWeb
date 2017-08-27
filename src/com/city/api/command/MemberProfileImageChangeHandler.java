@@ -4,11 +4,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.city.api.service.RegisterService;
-import com.city.model.Member;
 import com.city.model.Result;
 import com.google.gson.Gson;
 
-public class PwdChangeHandler implements CommandJsonHandler {
+public class MemberProfileImageChangeHandler implements CommandJsonHandler {
 	
 	private RegisterService registerService = new RegisterService();
 
@@ -24,27 +23,20 @@ public String process(HttpServletRequest req, HttpServletResponse res)
 		return null;
 	}
 }
-private String processForm(HttpServletRequest req, HttpServletResponse res) throws Exception {
+private String processForm(HttpServletRequest req, HttpServletResponse res)
+		throws Exception {
 	return this.processSubmit(req, res);
 }
 
-private String processSubmit(HttpServletRequest req, HttpServletResponse res) throws Exception {
-	Result result = new Result();
-	
-	String memberId = req.getParameter("memberId");
-	String memberPwd = req.getParameter("memberPwd");
-	String memberChangePwd = req.getParameter("memberChangePwd");
+private String processSubmit(HttpServletRequest req, HttpServletResponse res)
+		throws Exception {
 
-	String resultCode = registerService.pwdChange(memberChangePwd, memberId, memberPwd);
-	
-	if(resultCode.equals("Y")){
-		result.setResultCode("200");
-		result.setResultMessage("변경되었습니다.");
-	} else {
-		result.setResultCode("400");
-		result.setResultMessage("변경실패");
-	}
-	
+	String memberId = req.getParameter("memberId");
+	String memberPhoto = req.getParameter("memberPhoto");
+
+	Result result = new Result();
+	result.setResultCode(registerService.memberPhotoChange(memberId, memberPhoto));
+	result.setResultMessage("확인되었습니다.");
 	Gson gson = new Gson();
 	return gson.toJson(result);
 

@@ -3,9 +3,9 @@ package com.city.api.command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.city.api.dao.Result;
 import com.city.api.service.RegisterService;
 import com.city.model.Member;
+import com.city.model.Result;
 import com.google.gson.Gson;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
@@ -45,7 +45,7 @@ public class RegisterHandler implements CommandJsonHandler {
 		member.setMemberName(request.getParameter("memberName"));
 		member.setMemberPhone(request.getParameter("memberPhone"));
 		member.setMemberEmail(request.getParameter("memberEmail"));
-		//member.setMemberPhoto(request.getFilesystemName("memberPhoto"));
+		// member.setMemberPhoto(request.getFilesystemName("memberPhoto"));
 		member.setMemberAuthorization(request.getParameter("memberAuthorization"));
 		member.setCityCode(request.getParameter("cityCode"));
 		member.setStateCode(request.getParameter("stateCode"));
