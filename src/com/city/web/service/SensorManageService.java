@@ -2,6 +2,7 @@ package com.city.web.service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.city.model.LocationManagement;
@@ -26,6 +27,7 @@ public class SensorManageService {
 	private SensorDao sensorDao = new SensorDao();
 	private int size = 10;
 	
+	// manageType: tm, wm, gm, sm
 	public SensorListPage getSensorListPage(int pageNum, String manageType) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
 			int total = managementDao.selectCount(conn, manageType);
@@ -77,14 +79,32 @@ public class SensorManageService {
 		}
 	}
 
-	public SensorInfo sensorTypeSelect(String sensorManageId) {
+	public List<SensorInfo> sensorTypeSelect(String sensorManageId) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
 
-			SensorInfo sensorInfo = new SensorInfo();
+			List<SensorInfo> sensorInfo = new ArrayList<>();
 			sensorInfo = sensorDao.searchByType(conn, sensorManageId);
 
 			if (sensorInfo == null) {
-				System.out.println("not find sensorId");
+				System.out.println("not type");
+				throw new NullPointerException();
+			}
+
+			return sensorInfo;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+	}
+
+	public List<SensorInfo> selectSensor(String manageId) {
+		try (Connection conn = ConnectionProvider.getConnection()) {
+
+			List<SensorInfo> sensorInfo = new ArrayList<>();
+			sensorInfo = sensorDao.selectByManageId(conn, manageId);
+
+			if (sensorInfo == null) {
+				System.out.println("not sensorInfo");
 				throw new NullPointerException();
 			}
 

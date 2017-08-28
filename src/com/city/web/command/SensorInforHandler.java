@@ -1,5 +1,9 @@
 package com.city.web.command;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -7,6 +11,7 @@ import com.city.model.LocationManagement;
 import com.city.model.SensorInfo;
 import com.city.web.service.ManageLocationService;
 import com.city.web.service.SensorManageService;
+
 
 public class SensorInforHandler implements CommandHandler {
 
@@ -33,7 +38,7 @@ public class SensorInforHandler implements CommandHandler {
 
 		String manageType = (String) request.getSession().getAttribute("manageType");
 		// 쓰레기통관리 ListView에서는 manageType: tm
-		// 수질관리 ListView에서는 manageType: wm
+		// 수질관리       ListView에서는 manageType: wm
 		// 도시가스관리 ListView에서는 manageType: gm
 		// 금역구역관리 ListView에서는 manageType: sm
 
@@ -53,10 +58,18 @@ public class SensorInforHandler implements CommandHandler {
 		
 		System.out.println("sensorTypes : " + sensorTypes);
 		request.setAttribute("sensorTypes", sensorTypes);
+			
+		List <SensorInfo> sensorType = new ArrayList<>();
 		
-		//SensorInfo sensorType = sensorManageService.sensorTypeSelect(sensorManageId);
+		sensorType = sensorManageService.sensorTypeSelect(sensorManageId);
 		
-		//System.out.println("sensorType" + sensorType);
+		String sensorTypeTemp = "";
+		for (int i = 0; i < sensorType.size(); i++) {
+			sensorTypeTemp += sensorType.get(i).getSensorType() + ", ";
+		}
+		
+		request.setAttribute("sensorTypeTemp", sensorTypeTemp);
 		return "/view/management/sensorRegisterForm.jsp";
 	}
+
 }

@@ -9,12 +9,15 @@ import javax.servlet.http.HttpServletResponse;
 import com.city.model.Address;
 import com.city.model.LocationManagement;
 import com.city.model.Member;
+import com.city.model.SensorInfo;
 import com.city.web.service.AddressService;
 import com.city.web.service.ManageLocationService;
+import com.city.web.service.SensorManageService;
 
 public class WmInfoHandler implements CommandHandler {
 	
 	private ManageLocationService manageLocationService = new ManageLocationService();
+	private SensorManageService sensorManageService = new SensorManageService();
 	private AddressService addressService = new AddressService();
 	
 	@Override
@@ -39,15 +42,18 @@ public class WmInfoHandler implements CommandHandler {
 		
 		String cityName = request.getParameter("cityName");
 		String stateName = request.getParameter("stateName");
+		
 		request.setAttribute("cityName", cityName);
 		request.setAttribute("stateName", stateName);
 
+		// 상세 정보 들어갈때 해당 manageId에 locationManagementInfo
 		LocationManagement locationManagement = manageLocationService.managementSelect(manageId);
 		request.getSession().setAttribute("wmManageInfo", locationManagement);
 		
-		String sensorTypes = locationManagement.getSensorTypes();
-		
-		System.out.println("sensorTypes : " + sensorTypes);
+		// 상세 정보 들어갈때 해당 manageId에 setting 되어있는 sensorInfo
+		List<SensorInfo> sensorInfo = new ArrayList<>();
+		sensorInfo  = sensorManageService.selectSensor(manageId);
+		request.getSession().setAttribute("sensorInfo", sensorInfo);
 		
 		List<Address> addressCityList = new ArrayList<>();
 		addressCityList = addressService.addressCity();

@@ -12,6 +12,7 @@ pageEncoding = "UTF-8"%>
 <jsp:include page="../header/menuHeader.jsp" flush="true"/>
 	
 	<div class="manageContainer">
+	
 	<!-- click한 관리지역 정보 -->
 	<div class="infoContainer">
 	<table class="beforeTable">
@@ -166,27 +167,28 @@ pageEncoding = "UTF-8"%>
 </form>	
 </div>
 
+		<div class="aa" >
+    	<button type="submit" value="changeBtn" onclick="mySensor()">수정</button>
+    	</div>
+    	<div id="sensorContainer" class="sensorContainer" style="display:none">
+    		<jsp:include page="sensorRegisterForm2.jsp" flush="true"/>
+    	</div>
+    
+
 <input type="hidden" id="arraySensor" name="arraySensor" value="${wmManageInfo.sensorTypes}">
 </body>
 
 <script src="../../js/jquery-1.11.0.min.js"></script>
 
-<script type="text/javascript">
+<script>
 
-var sensorTypes = $('#arraySensor').val();
-console.log(sensorTypes);
-
-if (sensorTypes != null && sensorTypes != "") {
-	var sensor = sensorTypes.substring(1, sensorTypes.length-1);
-	
-	var sensorArray = sensor.split(', ');
-	
-	console.log(sensorArray);
-	
-	for(i=0;i<sensorArray.length;i++){
-		console.log(sensorArray[i]);
-		$("input:checkbox[value=" + sensorArray[i] + "]").attr("checked", true);
-	}
+function mySensor() {
+    var x = document.getElementById('sensorContainer'); 
+    if (x.style.display === 'none') {
+        x.style.display = 'block';
+    } else {
+        x.style.display = 'none';
+    }
 }
 </script>
 
@@ -198,6 +200,22 @@ function myFunction() {
     } else {
         x.style.display = 'none';
     }
+}
+</script>
+<script type="text/javascript">
+
+var sensorTypes = $('#arraySensor').val();
+console.log(sensorTypes);
+
+if (sensorTypes != null && sensorTypes != "") {	
+	var sensorArray = sensorTypes.split(', ');
+	
+	console.log(sensorArray);
+	
+	for(i=0;i<sensorArray.length;i++){
+		console.log(sensorArray[i]);
+		$("input:checkbox[value=" + sensorArray[i] + "]").attr("checked", true);
+	}
 }
 </script>
 

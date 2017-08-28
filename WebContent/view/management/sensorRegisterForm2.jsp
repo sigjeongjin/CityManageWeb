@@ -4,19 +4,18 @@ pageEncoding = "UTF-8"%>
 <html>
 <head>
 <meta http-equiv = "Content-Type" content = "text/html; charset = UTF-8">
-<title>센서 등록</title>
-
 <link rel="stylesheet" type="text/css" href="../../css/textFormSmall.css">
 </head>
 <body>
-<jsp:include page="../header/menuHeader.jsp" flush="true"/>
+
 <h2>센서 등록</h2>
 
+<div>
 <form action="sensorRegister.do" method="post">
 	<table>
 	<tr>
 		<td><label><b>관리ID</b></label></td>
-			<td><input type="text" id="manageId" name="manageId" value="${sensorManageId}"></td>
+			<td><input type="text" id="manageId" name="manageId" value="${wmManageInfo.manageId}"></td>
 	</tr>	
 	<tr>
 		<td><label><b>센서ID</b></label></td>
@@ -38,10 +37,12 @@ pageEncoding = "UTF-8"%>
     			<button type="submit" value="register">등록</button>
 			</div>		
 </form>
+</div>
 
 <input type="hidden" id="arraySensor" name="arraySensor" value="${sensorTypes}">
 <input type="hidden" id="arraySensorThis" name="arraySensorThis" value="${sensorTypeTemp}">
 </body>
+
 
 <script src="../../js/jquery-1.11.0.min.js"></script>
 

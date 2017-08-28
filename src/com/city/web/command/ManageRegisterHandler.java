@@ -36,8 +36,9 @@ public class ManageRegisterHandler implements CommandHandler {
 		System.out.println("manageType : " + manageType);
 		System.out.println("manageId : " + request.getParameter("manageId"));
 		
-		String sensorTypes = Arrays.toString(request.getParameterValues("sensorTypes"));
-	
+		String sensorTypes = Arrays.toString(request.getParameterValues("sensorTypes"));	
+		sensorTypes = sensorTypes.substring(1, sensorTypes.length()-1);
+
 		LocationManagement locationManagement = new LocationManagement();
 		locationManagement.setManageId(request.getParameter("manageId"));
 		locationManagement.setLatitude(Double.parseDouble(request.getParameter("latitude")));

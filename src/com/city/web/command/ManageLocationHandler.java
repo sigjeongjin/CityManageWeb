@@ -37,8 +37,6 @@ public class ManageLocationHandler implements CommandHandler{
 		String manageId = manageLocationService.manageIdSet();
 		request.setAttribute("manageId", manageId);
 		
-
-		
 		List<Address> addressCityList = new ArrayList<>();
 		addressCityList = addressService.addressCity();
 		request.setAttribute("addressCityList", addressCityList);

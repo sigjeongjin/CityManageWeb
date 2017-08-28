@@ -27,8 +27,8 @@ public class ManageUpdateHandler implements CommandHandler {
 		}
 	}
 
-	private String processForm(HttpServletRequest request, HttpServletResponse response) {
-		return "/memberList.do";
+	private String processForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return this.processSubmit(request, response);
 	}
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -36,6 +36,8 @@ public class ManageUpdateHandler implements CommandHandler {
 		System.out.println("manageId : " + request.getParameter("manageId"));
 
 		String sensorTypes = Arrays.toString(request.getParameterValues("sensorTypes"));
+		sensorTypes = sensorTypes.substring(1, sensorTypes.length()-1);
+		
 		LocationManagement locationManagement = new LocationManagement();
 		locationManagement.setManageId(request.getParameter("manageId"));
 		locationManagement.setLatitude(Double.parseDouble(request.getParameter("latitude")));

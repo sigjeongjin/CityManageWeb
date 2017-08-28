@@ -4,9 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
-import com.city.model.LocationManagement;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.city.model.SensorInfo;
 import jdbc.JdbcUtil;
 
@@ -63,20 +64,51 @@ public class SensorDao {
 		return sensorId2;
 	}
 
-	public SensorInfo searchByType(Connection conn, String sensorManageId) throws SQLException {
+	public List<SensorInfo> searchByType(Connection conn, String sensorManageId) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
 			pstmt = conn.prepareStatement("select sensor_type from sensor_info where manage_id =?");
 			pstmt.setString(1, sensorManageId);
 			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				SensorInfo sensorInfo = new SensorInfo();
-				sensorInfo.setSensorType(rs.getString("sensor_type"));
-				return sensorInfo;
-			} else {
-				return null;
+			List<SensorInfo> sensorInfoList = new ArrayList<>();
+			while (rs.next()) {
+
+				sensorInfoList.add(makeSensorTypeFromResultSet(rs));
 			}
+			return sensorInfoList;
+
+		} finally {
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(rs);
+		}
+	}
+
+	private SensorInfo makeSensorTypeFromResultSet(ResultSet rs) throws SQLException {
+		SensorInfo sensorInfo = new SensorInfo();
+		sensorInfo.setManageId(rs.getString("manage_id"));
+		sensorInfo.setSensorId(rs.getString("sensor_id"));
+		sensorInfo.setSensorType(rs.getString("sensor_type"));
+		sensorInfo.setOperationStatus(rs.getString("operation_status"));
+		sensorInfo.setSensorNoticeStandard(rs.getString("sensor_notice_standard"));
+		return sensorInfo;
+	}
+
+	// 해당 manageId sensorInfo 정보를 불러오기 위한 select문
+	public List<SensorInfo> selectByManageId(Connection conn, String manageId) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement("select * from sensor_info where manage_id =?");
+			pstmt.setString(1, manageId);
+			rs = pstmt.executeQuery();
+			List<SensorInfo> sensorInfoList = new ArrayList<>();
+			while (rs.next()) {
+
+				sensorInfoList.add(makeSensorTypeFromResultSet(rs));
+			}
+			return sensorInfoList;
+
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);

@@ -17,7 +17,7 @@ pageEncoding = "UTF-8"%>
 	<table>
 	<tr>
 		<td colspan="2"><label><b>관리ID :</b></label></td>
-		<td colspan="3"><input type="text" id="manageId" name="manageId" value="${wmManageId}" readonly="readonly"></td>
+		<td colspan="3"><input type="text" id="manageId" name="manageId" value="${manageId}" readonly="readonly"></td>
 	</tr>
 	<tr>
 		<td colspan="2"><label><b>지역선택 :</b></label></td>

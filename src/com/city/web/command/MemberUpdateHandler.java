@@ -24,11 +24,11 @@ public class MemberUpdateHandler implements CommandHandler {
 		}
 	}
 	
-	private String processForm(HttpServletRequest request, HttpServletResponse response) {
-		return "/wmList.do";
+	private String processForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return this.processSubmit(request, response);
 	}
 
-	private String processSubmit(HttpServletRequest request, HttpServletResponse response)throws Exception {
+	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		String saveFolder = "/upload";
 		String realFolder = request.getServletContext().getRealPath(saveFolder); // saveFilepath
