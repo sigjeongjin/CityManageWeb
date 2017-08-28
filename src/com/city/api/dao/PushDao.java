@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.city.model.Push;
-import com.city.model.PushInfo;
+import com.city.model.PushResultInfo;
 
 import jdbc.JdbcUtil;
 
@@ -20,13 +20,13 @@ public class PushDao {
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<PushInfo> selectPushHistoryListByMemberId(Connection conn, String memberId, String manageType) 
+	public List<PushResultInfo> selectPushHistoryListByMemberId(Connection conn, String memberId, String manageType) 
 			throws SQLException {
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		List<PushInfo> pushInfoList = new ArrayList<PushInfo>();
+		List<PushResultInfo> pushInfoList = new ArrayList<PushResultInfo>();
 		try {
 			pstmt = conn.prepareStatement("select " + 
 					" phi.manage_id manageId,DATE_FORMAT(phi.push_send_time, '%Y-%m-%d %H:%i:%s') pushSendTime, " +
@@ -42,7 +42,7 @@ public class PushDao {
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				PushInfo pushInfo = new PushInfo();
+				PushResultInfo pushInfo = new PushResultInfo();
 				pushInfo.setManageId(rs.getString("manageId"));
 				pushInfo.setPushSendTime(rs.getString("pushSendTime"));
 				pushInfo.setLocationName(rs.getString("locationName"));

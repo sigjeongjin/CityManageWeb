@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.city.api.service.AddressCityService;
 import com.city.api.service.FavoritesService;
-import com.city.model.FavoritesInfo;
-import com.city.model.FavoritesInfoJSON;
+import com.city.model.FavoritesResultInfo;
+import com.city.model.FavoritesResultListJSON;
 import com.city.model.SensorInfo;
 import com.city.model.State;
 import com.city.model.StateJSON;
@@ -43,8 +43,8 @@ public class FavoritesListHandler implements CommandJsonHandler {
 		String memberId = req.getParameter("memberId");
 		String manageType = req.getParameter("manageType");
 		
-		List<FavoritesInfo> favoritesList = favoritesRegisterService.getFavoritesList(memberId,manageType);
-		FavoritesInfoJSON favoritesInfoJSON = new FavoritesInfoJSON();
+		List<FavoritesResultInfo> favoritesList = favoritesRegisterService.getFavoritesList(memberId,manageType);
+		FavoritesResultListJSON favoritesInfoJSON = new FavoritesResultListJSON();
 		favoritesInfoJSON.setResultCode("200");
 		favoritesInfoJSON.setResultMessage("조회되었습니다.");
 		favoritesInfoJSON.setFavoritesList(favoritesList);

@@ -5,18 +5,16 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.city.api.service.FavoritesService;
-import com.city.api.service.PushService;
-import com.city.model.FavoritesResultInfo;
-import com.city.model.FavoritesResultListJSON;
-import com.city.model.Push;
-import com.city.model.PushResultInfo;
-import com.city.model.PushResultListJSON;
+import com.city.api.service.AddressCityService;
+import com.city.api.service.SensorService;
+import com.city.model.SensorResultInfo;
+import com.city.model.SensorResultListJSON;
+import com.city.model.State;
+import com.city.model.StateJSON;
 import com.google.gson.Gson;
 
-public class PushHistoryListHandler implements CommandJsonHandler {
-
-	private PushService pushService = new PushService();
+public class SensorListHandler implements CommandJsonHandler{
+	private SensorService sensorService = new SensorService();
 
 	public String process(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		if (req.getMethod().equalsIgnoreCase("GET")) {
@@ -33,24 +31,16 @@ public class PushHistoryListHandler implements CommandJsonHandler {
 		return this.processSubmit(req, res);
 	}
 
-	/**
-	 * @param memberId
-	 * @param manageType
-	 * @return
-	 * @throws Exception
-	 */
 	private String processSubmit(HttpServletRequest req, HttpServletResponse res) throws Exception {
+
 		String memberId = req.getParameter("memberId");
 		String manageType = req.getParameter("manageType");
 		
-		List<PushResultInfo> pushInfoList = pushService.getPushHistoryList(memberId,manageType);
-		PushResultListJSON pushListJSON = new PushResultListJSON();
+		List<SensorResultInfo> sensorResultInfoList = sensorService.getSensorList(memberId, manageType);
 		
-		pushListJSON.setResultCode("200");
-		pushListJSON.setResultMessage("조회되었습니다.");
-		pushListJSON.setPushHistoryList(pushInfoList);
-		
+		SensorResultListJSON sensorResultListJSON = new SensorResultListJSON();
+		sensorResultListJSON.setSensorList(sensorResultInfoList);
 		Gson gson = new Gson();
-		return gson.toJson(pushListJSON);
+		return gson.toJson(sensorResultListJSON);
 	}
 }

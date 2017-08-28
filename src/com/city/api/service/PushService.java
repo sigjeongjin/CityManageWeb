@@ -7,9 +7,9 @@ import java.util.List;
 
 import com.city.api.dao.MemberDao;
 import com.city.api.dao.PushDao;
-import com.city.model.FavoritesInfo;
+import com.city.model.FavoritesResultInfo;
 import com.city.model.Push;
-import com.city.model.PushInfo;
+import com.city.model.PushResultInfo;
 
 import jdbc.JdbcUtil;
 import jdbc.connection.ConnectionProvider;
@@ -30,8 +30,8 @@ public class PushService {
 	 * @param manageType
 	 * @return
 	 */
-	public List<PushInfo> getPushHistoryList(String memberId, String manageType) {
-		List<PushInfo> pushInfoList = new ArrayList<PushInfo>();
+	public List<PushResultInfo> getPushHistoryList(String memberId, String manageType) {
+		List<PushResultInfo> pushInfoList = new ArrayList<PushResultInfo>();
 		Connection conn = null;
 
 		try {

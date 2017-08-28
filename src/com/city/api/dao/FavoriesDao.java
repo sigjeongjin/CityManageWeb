@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.city.model.FavoritesInfo;
+import com.city.model.FavoritesResultInfo;
 import com.city.model.State;
 import com.mysql.jdbc.Statement;
 
@@ -44,11 +44,11 @@ public class FavoriesDao {
 		}
 	}
 	
-	public List<FavoritesInfo> selectFavoritesInfoByMemberId(Connection conn, String memberId, 
+	public List<FavoritesResultInfo> selectFavoritesInfoByMemberId(Connection conn, String memberId, 
 			String manageType) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		List<FavoritesInfo> favoritesList = new ArrayList<FavoritesInfo>();
+		List<FavoritesResultInfo> favoritesList = new ArrayList<FavoritesResultInfo>();
 
 		try {
 			//출력 결과 : manageId, locationName(시티 + 스테이트)
@@ -65,7 +65,7 @@ public class FavoriesDao {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				FavoritesInfo favoritesInfo = new FavoritesInfo();
+				FavoritesResultInfo favoritesInfo = new FavoritesResultInfo();
 				favoritesInfo.setManageId(rs.getString("manageId"));
 				favoritesInfo.setLocationName(rs.getString("locationName"));
 				favoritesList.add(favoritesInfo);

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.city.api.dao.FavoriesDao;
-import com.city.model.FavoritesInfo;
+import com.city.model.FavoritesResultInfo;
 import com.city.model.State;
 
 import jdbc.JdbcUtil;
@@ -51,9 +51,9 @@ public class FavoritesService {
 	 * @param manageType
 	 * @return
 	 */
-	public List<FavoritesInfo> getFavoritesList(String memberId, String manageType) {
+	public List<FavoritesResultInfo> getFavoritesList(String memberId, String manageType) {
 
-		List<FavoritesInfo> favoritesList = new ArrayList<FavoritesInfo>();
+		List<FavoritesResultInfo> favoritesList = new ArrayList<FavoritesResultInfo>();
 		Connection conn = null;
 
 		try {
