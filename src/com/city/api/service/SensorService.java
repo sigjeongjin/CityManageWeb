@@ -37,4 +37,25 @@ public class SensorService {
 		}
 		return sensorRsultInfoList; 
 	}
+	
+	public List<SensorResultInfo> getSensorListByState(String memberId, String manageType, String searchText) {
+		List<SensorResultInfo> sensorRsultInfoList = new ArrayList<SensorResultInfo>();
+		Connection conn = null;
+		try {
+			conn = ConnectionProvider.getConnection(); // transaction
+			conn.setAutoCommit(false);
+
+			sensorRsultInfoList = 
+					managementDao.selectSensorListByMemberIdAndManageTypeAndSearchText(conn, memberId, manageType, searchText);
+			conn.commit();
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("센서 검색에 실패했습니다.");
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+		return sensorRsultInfoList; 
+	}
 }

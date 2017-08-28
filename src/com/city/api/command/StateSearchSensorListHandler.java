@@ -10,7 +10,11 @@ import com.city.model.SensorResultInfo;
 import com.city.model.SensorResultListJSON;
 import com.google.gson.Gson;
 
-public class SensorListHandler implements CommandJsonHandler{
+/**
+ * @author com
+ *
+ */
+public class StateSearchSensorListHandler implements CommandJsonHandler{
 	private SensorService sensorService = new SensorService();
 
 	public String process(HttpServletRequest req, HttpServletResponse res) throws Exception {
@@ -28,15 +32,26 @@ public class SensorListHandler implements CommandJsonHandler{
 		return this.processSubmit(req, res);
 	}
 
+	
+	/**
+	 * @param memberId
+	 * @param manageType
+	 * @param searchText
+	 * @return
+	 * @throws Exception
+	 */
 	private String processSubmit(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
 		String memberId = req.getParameter("memberId");
 		String manageType = req.getParameter("manageType");
+		String searchText = req.getParameter("searchText");
 		
-		List<SensorResultInfo> sensorResultInfoList = sensorService.getSensorList(memberId, manageType);
+		List<SensorResultInfo> sensorResultInfoList = sensorService.getSensorListByState(memberId, manageType, searchText);
 		
 		SensorResultListJSON sensorResultListJSON = new SensorResultListJSON();
 		sensorResultListJSON.setSensorList(sensorResultInfoList);
+		sensorResultListJSON.setResultCode("200");
+		sensorResultListJSON.setResultMessage("조회 되었습니다.");
 		Gson gson = new Gson();
 		return gson.toJson(sensorResultListJSON);
 	}
