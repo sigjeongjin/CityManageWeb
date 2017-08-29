@@ -7,6 +7,8 @@ import java.util.List;
 
 import com.city.api.dao.ManagementDao;
 import com.city.model.SensorResultInfo;
+import com.city.model.TmResultInfo;
+import com.city.model.WmResultInfo;
 
 import jdbc.JdbcUtil;
 import jdbc.connection.ConnectionProvider;
@@ -57,5 +59,51 @@ public class SensorService {
 			JdbcUtil.close(conn);
 		}
 		return sensorRsultInfoList; 
+	}
+	
+	public WmResultInfo getWmInfo(String manageId) {
+		
+		WmResultInfo wmResultInfo = new WmResultInfo();
+		
+		Connection conn = null;
+		try {
+			conn = ConnectionProvider.getConnection(); // transaction
+			conn.setAutoCommit(false);
+
+			wmResultInfo = 
+					managementDao.selectWmInfobyManageId(conn, manageId);
+			conn.commit();
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("센서 검색에 실패했습니다.");
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+		return wmResultInfo; 
+	}
+	
+	public TmResultInfo getTmInfo(String manageId) {
+		
+		TmResultInfo tmResultInfo = new TmResultInfo();
+		
+		Connection conn = null;
+		try {
+			conn = ConnectionProvider.getConnection(); // transaction
+			conn.setAutoCommit(false);
+
+			tmResultInfo = 
+					managementDao.selectTmInfobyManageId(conn, manageId);
+			conn.commit();
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("센서 검색에 실패했습니다.");
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+		return tmResultInfo; 
 	}
 }
