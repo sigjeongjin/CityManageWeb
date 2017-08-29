@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-.settings/
-=======
 .classpath
 .project
 .settings/
 build/
->>>>>>> origin/hyunjin/api
+
