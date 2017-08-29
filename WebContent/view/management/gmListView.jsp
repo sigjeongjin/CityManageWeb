@@ -10,12 +10,10 @@ pageEncoding = "UTF-8"%>
 </head>
 <body>
 <jsp:include page="../header/menuHeader.jsp" flush="true"/>
-<div class="allContainer">
-<h2>도시가스관리 리스트</h2>
+<h2>수질관리 리스트</h2>
 <div class="manageContainer">
 <form action="managementarea.do" method="post">
-<input type="hidden" id="m
-anageType" name="manageType" value='${manageType}'>
+<input type="hidden" id="manageType" name="manageType" value='${manageType}'>
 <button type = submit id="gm" name="gm" value="gm">관리지역등록</button>
 </form>
 </div>
@@ -56,7 +54,7 @@ anageType" name="manageType" value='${manageType}'>
 </c:if>
 
 <c:forEach var="lcationManagement" items="${gmSensorListPage.content}" varStatus="status">
-	<tr id="sensorList" class="sensorList">
+	<tr id="gmSensorList" class="gmSensorList">
 		<td>${(status.index + 1) + (gmSensorListPage.currentPage -1) * 10}</td>
 		<td id="1">${lcationManagement.manageId}</td>
 		<td id="2">${lcationManagement.cityCode}</td>
@@ -67,7 +65,7 @@ anageType" name="manageType" value='${manageType}'>
 		<td id="7">${lcationManagement.latitude}</td>
 		<td id="8">${lcationManagement.longitude}</td>
 		<td id="9">${lcationManagement.memo}</td>
-		<td id="10">센서 추가</td>
+		<td id="10" onclick="event.cancelBubble=true"><p id="sensorRegister">센서 추가</p></td>
 	</tr>
 </c:forEach>
  <c:if test="${gmSensorListPage.hasSensors()}">
@@ -90,6 +88,35 @@ anageType" name="manageType" value='${manageType}'>
 </table>
 </div>
 
-</div>
+<form id="hiddenForm" action="gmInfo.do" method="post">
+<input type="hidden" id="manageId" name="manageId">
+<input type="hidden" id="cityName" name="cityName">
+<input type="hidden" id="stateName" name="stateName">
+</form>
+
+<form id="hiddenFormSensor" action="sensorInfo.do" method="post">
+<input type="hidden" id="sensorManageId" name="sensorManageId">
+</form>
+
 </body>
+<script src="../../js/jquery-1.11.0.min.js"></script>
+<script type="text/javascript">
+$(gmSensorList).ready(function(){
+    $("tr.gmSensorList").click(function(){
+     	$('#manageId').attr('value',$(this).find("td").eq(1).html());
+     	$('#cityName').attr('value',$(this).find("td").eq(2).html());
+     	$('#stateName').attr('value',$(this).find("td").eq(3).html());	
+     	$("#hiddenForm").submit();
+    });
+});
+
+$(gmSensorList).ready(function(){
+    $("p").click(function(){
+		var index =  $("p").index(this);
+		var sensorManageId = $("tr.gmSensorList").eq(index).find("td").eq(0).next().html();
+		$('#sensorManageId').attr('value', sensorManageId);
+		$("#hiddenFormSensor").submit();
+    });
+});
+</script>
 </html>

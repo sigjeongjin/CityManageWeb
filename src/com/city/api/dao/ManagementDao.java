@@ -177,10 +177,9 @@ public class ManagementDao {
 			if (rs.next()) {
 				tmResultInfo.setManageId(rs.getString("manageId"));
 				tmResultInfo.setLocationName(rs.getString("locationName"));
-				tmResultInfo.setWaterLevel(rs.getString("waterLevel"));
-				tmResultInfo.setWaterQuality(rs.getString("waterQuality"));
+				//tmResultInfo.setWaterLevel(rs.getString("waterLevel"));
+				//tmResultInfo.setWaterQuality(rs.getString("waterQuality"));
 			}
-
 			return tmResultInfo;
 		} finally {
 			JdbcUtil.close(rs);

@@ -39,8 +39,9 @@ public class ManagementDao {
 		ResultSet rs = null;
 		try {
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery("select count(*) from location_management where manage_type ="  + "'" + manageType + "'");
-			
+			rs = stmt.executeQuery(
+					"select count(*) from location_management where manage_type =" + "'" + manageType + "'");
+
 			if (rs.next()) {
 				return rs.getInt(1);
 			}
@@ -51,7 +52,8 @@ public class ManagementDao {
 		}
 	}
 
-	public List<LocationManagement> selectSensorList(Connection conn, int startRow, int size, String manageType) throws SQLException {
+	public List<LocationManagement> selectSensorList(Connection conn, int startRow, int size, String manageType)
+			throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
@@ -76,8 +78,7 @@ public class ManagementDao {
 			JdbcUtil.close(rs);
 		}
 	}
-	
-	
+
 	private LocationManagement joinSeonsorFromResultSet(ResultSet rs) throws SQLException {
 		LocationManagement locationManagement = new LocationManagement();
 		locationManagement.setManageId(rs.getString("manage_id"));
@@ -90,7 +91,7 @@ public class ManagementDao {
 		locationManagement.setManageType(rs.getString("manage_type"));
 		return locationManagement;
 	}
-	
+
 	private LocationManagement makeSeonsorFromResultSet(ResultSet rs) throws SQLException {
 		LocationManagement locationManagement = new LocationManagement();
 		locationManagement.setManageId(rs.getString("manage_id"));
@@ -104,7 +105,7 @@ public class ManagementDao {
 		return locationManagement;
 	}
 
-	public LocationManagement selectById(Connection conn, String manageId) throws SQLException  {
+	public LocationManagement selectById(Connection conn, String manageId) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
@@ -130,7 +131,7 @@ public class ManagementDao {
 		int number = 0;
 		String manageId1 = null;
 		String manageId2 = null;
-	
+
 		try {
 			pstmt1 = conn.prepareStatement("select max(manage_id) from location_management");
 			rs1 = pstmt1.executeQuery();
@@ -144,7 +145,7 @@ public class ManagementDao {
 			while (rs2.next()) {
 				manageId2 = rs2.getString(1);
 			}
-	
+
 			System.out.println("manageId2 : " + manageId2);
 		} finally {
 			JdbcUtil.close(pstmt1);
@@ -172,6 +173,6 @@ public class ManagementDao {
 			JdbcUtil.close(pstmt);
 		}
 	}
-// **************************************************
+	// **************************************************
 
 }

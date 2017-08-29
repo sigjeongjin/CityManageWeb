@@ -1,13 +1,13 @@
 package com.city.model;
 
 /**
- * @author com 센서아이디,주소,수질,수위,설치날짜
+ * @author com 센서아이디,주소,불꽃,연기,설치날짜
  */
-public class WmResultInfo extends Result {
+public class SmResultInfo extends Result {
 	private String manageId;
 	private String locationName;
-	private String waterQuality;
-	private String waterLevel;
+	private String flameDetection;
+	private String smokeDetection;
 	private String installationDateTime;
 
 	public String getManageId() {
@@ -26,20 +26,20 @@ public class WmResultInfo extends Result {
 		this.locationName = locationName;
 	}
 
-	public String getWaterQuality() {
-		return waterQuality;
+	public String getFlameDetection() {
+		return flameDetection;
 	}
 
-	public void setWaterQuality(String waterQuality) {
-		this.waterQuality = waterQuality;
+	public void setFlameDetection(String flameDetection) {
+		this.flameDetection = flameDetection;
 	}
 
-	public String getWaterLevel() {
-		return waterLevel;
+	public String getSmokeDetection() {
+		return smokeDetection;
 	}
 
-	public void setWaterLevel(String waterLevel) {
-		this.waterLevel = waterLevel;
+	public void setSmokeDetection(String smokeDetection) {
+		this.smokeDetection = smokeDetection;
 	}
 
 	public String getInstallationDateTime() {

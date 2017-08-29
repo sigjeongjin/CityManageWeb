@@ -83,14 +83,10 @@ public class SensorDao {
 			JdbcUtil.close(rs);
 		}
 	}
-
+	
 	private SensorInfo makeSensorTypeFromResultSet(ResultSet rs) throws SQLException {
 		SensorInfo sensorInfo = new SensorInfo();
-		sensorInfo.setManageId(rs.getString("manage_id"));
-		sensorInfo.setSensorId(rs.getString("sensor_id"));
 		sensorInfo.setSensorType(rs.getString("sensor_type"));
-		sensorInfo.setOperationStatus(rs.getString("operation_status"));
-		sensorInfo.setSensorNoticeStandard(rs.getString("sensor_notice_standard"));
 		return sensorInfo;
 	}
 
@@ -105,7 +101,7 @@ public class SensorDao {
 			List<SensorInfo> sensorInfoList = new ArrayList<>();
 			while (rs.next()) {
 
-				sensorInfoList.add(makeSensorTypeFromResultSet(rs));
+				sensorInfoList.add(makeSensorFromResultSet(rs));
 			}
 			return sensorInfoList;
 
@@ -113,5 +109,15 @@ public class SensorDao {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);
 		}
+	}
+	
+	private SensorInfo makeSensorFromResultSet(ResultSet rs) throws SQLException {
+		SensorInfo sensorInfo = new SensorInfo();
+		sensorInfo.setManageId(rs.getString("manage_id"));
+		sensorInfo.setSensorId(rs.getString("sensor_id"));
+		sensorInfo.setSensorType(rs.getString("sensor_type"));
+		sensorInfo.setOperationStatus(rs.getString("operation_status"));
+		sensorInfo.setSensorNoticeStandard(rs.getString("sensor_notice_standard"));
+		return sensorInfo;
 	}
 }

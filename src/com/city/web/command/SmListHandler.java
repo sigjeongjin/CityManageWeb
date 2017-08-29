@@ -13,7 +13,7 @@ public class SmListHandler  implements CommandHandler {
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String manageType = "wm";
+		String manageType = "sm";
 		String pageNoVal = request.getParameter("pageNo");
 		int pageNo = 1;
 		if (pageNoVal != null) {
@@ -25,6 +25,6 @@ public class SmListHandler  implements CommandHandler {
 
 		request.getSession().setAttribute("manageType", manageType);
 
-		return "/view/management/wmListView.jsp";
+		return "/view/management/smListView.jsp";
 	}
 }

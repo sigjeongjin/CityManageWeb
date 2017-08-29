@@ -47,7 +47,7 @@ public class WmInfoHandler implements CommandHandler {
 
 		// 상세 정보 들어갈때 해당 manageId에 locationManagementInfo
 		LocationManagement locationManagement = manageLocationService.managementSelect(manageId);
-		request.getSession().setAttribute("wmManageInfo", locationManagement);
+		request.getSession().setAttribute("manageInfo", locationManagement);
 
 		// 상세 정보 들어갈때 해당 manageId에 setting 되어있는 sensorInfo
 		List<SensorInfo> sensorInfo = new ArrayList<>();

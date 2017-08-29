@@ -10,12 +10,11 @@ pageEncoding = "UTF-8"%>
 </head>
 <body>
 <jsp:include page="../header/menuHeader.jsp" flush="true"/>
-<div class="allContainer">
 <h2>금연구역관리 리스트</h2>
 <div class="manageContainer">
 <form action="managementarea.do" method="post">
 <input type="hidden" id="manageType" name="manageType" value='${manageType}'>
-<button type = submit id="sm" name="sm" value="sm">관리지역등록</button>
+<button type = submit id="wm" name="wm" value="wm">관리지역등록</button>
 </form>
 </div>
 
@@ -66,11 +65,7 @@ pageEncoding = "UTF-8"%>
 		<td id="7">${lcationManagement.latitude}</td>
 		<td id="8">${lcationManagement.longitude}</td>
 		<td id="9">${lcationManagement.memo}</td>
-		<td>
-			<form action="">
-			<button type = submit value="센서추가">센서추가</button>
-			</form>
-		</td>
+		<td id="10" onclick="event.cancelBubble=true"><p id="sensorRegister">센서 추가</p></td>
 	</tr>
 </c:forEach>
  <c:if test="${smSensorListPage.hasSensors()}">
@@ -106,7 +101,7 @@ pageEncoding = "UTF-8"%>
 </body>
 <script src="../../js/jquery-1.11.0.min.js"></script>
 <script type="text/javascript">
-$(wmSensorList).ready(function(){
+$(smSensorList).ready(function(){
     $("tr.smSensorList").click(function(){
      	$('#manageId').attr('value',$(this).find("td").eq(1).html());
      	$('#cityName').attr('value',$(this).find("td").eq(2).html());
@@ -115,7 +110,7 @@ $(wmSensorList).ready(function(){
     });
 });
 
-$(wmSensorList).ready(function(){
+$(smSensorList).ready(function(){
     $("p").click(function(){
 		var index =  $("p").index(this);
 		var sensorManageId = $("tr.smSensorList").eq(index).find("td").eq(0).next().html();

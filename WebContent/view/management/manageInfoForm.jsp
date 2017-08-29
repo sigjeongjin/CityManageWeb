@@ -18,7 +18,7 @@ pageEncoding = "UTF-8"%>
 	<table class="beforeTable">
 	<tr>
 		<td colspan="2"><label><b>관리ID :</b></label></td>
-		<td colspan="3"><input type="text" id="manageId" name="manageId" value="${wmManageInfo.manageId}" disabled></td>
+		<td colspan="3"><input type="text" id="manageId" name="manageId" value="${manageInfo.manageId}" disabled></td>
 	</tr>
 	<tr>
 		<td colspan="2"><label><b>지역선택 :</b></label></td>
@@ -33,8 +33,8 @@ pageEncoding = "UTF-8"%>
 	</tr>	
 	<tr>
 		<td colspan="2"><label><b>좌표값 :</b></label></td>
-		<td colspan="1"><input type="text" id="latitude" name="latitude" value="${wmManageInfo.latitude}" disabled></td>
-		<td colspan="1"><input type="text" id="longitude" name="longitude" value="${wmManageInfo.longitude}" disabled></td>
+		<td colspan="1"><input type="text" id="latitude" name="latitude" value="${manageInfo.latitude}" disabled></td>
+		<td colspan="1"><input type="text" id="longitude" name="longitude" value="${manageInfo.longitude}" disabled></td>
 	</tr>
 	<tr>
 		<td colspan="2"><label><b>비고 :</b></label></td>
