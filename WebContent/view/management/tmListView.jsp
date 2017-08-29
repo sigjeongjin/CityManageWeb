@@ -10,7 +10,6 @@ pageEncoding = "UTF-8"%>
 </head>
 <body>
 <jsp:include page="../header/menuHeader.jsp" flush="true"/>
-<div class="allContainer">
 <h2>쓰레기통관리 리스트</h2>
 <div class="manageContainer">
 <form action="managementarea.do" method="post">
@@ -57,7 +56,7 @@ pageEncoding = "UTF-8"%>
 </c:if>
 
 <c:forEach var="lcationManagement" items="${tmSensorListPage.content}" varStatus="status">
-	<tr id="sensorList" class="sensorList">
+	<tr id="tmSensorList" class="tmSensorList">
 		<td>${(status.index + 1) + (tmSensorListPage.currentPage -1) * 10}</td>
 		<td id="1">${lcationManagement.manageId}</td>
 		<td id="2">${lcationManagement.cityCode}</td>
@@ -70,7 +69,7 @@ pageEncoding = "UTF-8"%>
 		<td id="9">${lcationManagement.latitude}</td>
 		<td id="10">${lcationManagement.longitude}</td>
 		<td id="11">${lcationManagement.memo}</td>
-		<td id="12">센서 추가</td>
+		<td id="10" onclick="event.cancelBubble=true"><p id="sensorRegister">센서 추가</p></td>
 	</tr>
 </c:forEach>
  <c:if test="${tmSensorListPage.hasSensors()}">
@@ -93,6 +92,35 @@ pageEncoding = "UTF-8"%>
 </table>
 </div>
 
-</div>
+<form id="hiddenForm" action="tmInfo.do" method="post">
+<input type="hidden" id="manageId" name="manageId">
+<input type="hidden" id="cityName" name="cityName">
+<input type="hidden" id="stateName" name="stateName">
+</form>
+
+<form id="hiddenFormSensor" action="sensorInfo.do" method="post">
+<input type="hidden" id="sensorManageId" name="sensorManageId">
+</form>
+
 </body>
+<script src="../../js/jquery-1.11.0.min.js"></script>
+<script type="text/javascript">
+$(tmSensorList).ready(function(){
+    $("tr.tmSensorList").click(function(){
+     	$('#manageId').attr('value',$(this).find("td").eq(1).html());
+     	$('#cityName').attr('value',$(this).find("td").eq(2).html());
+     	$('#stateName').attr('value',$(this).find("td").eq(3).html());	
+     	$("#hiddenForm").submit();
+    });
+});
+
+$(tmSensorList).ready(function(){
+    $("p").click(function(){
+		var index =  $("p").index(this);
+		var sensorManageId = $("tr.tmSensorList").eq(index).find("td").eq(0).next().html();
+		$('#sensorManageId').attr('value', sensorManageId);
+		$("#hiddenFormSensor").submit();
+    });
+});
+</script>
 </html>

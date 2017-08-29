@@ -1,5 +1,6 @@
 <%@page language = "java" contentType="text/html; charset = UTF-8"
 pageEncoding = "UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,15 +12,17 @@ pageEncoding = "UTF-8"%>
 <h2>센서 등록</h2>
 
 <div>
+
 <form action="sensorRegister.do" method="post">
+<c:forEach var="sensorInfo" items="${sensorInfoList}" varStatus="status">
 	<table>
 	<tr>
 		<td><label><b>관리ID</b></label></td>
-			<td><input type="text" id="manageId" name="manageId" value="${wmManageInfo.manageId}"></td>
+			<td><input type="text" id="manageId" name="manageId" value="${sensorInfo.manageId}"></td>
 	</tr>	
 	<tr>
 		<td><label><b>센서ID</b></label></td>
-		<td>	<input type="text" id="sensorId" name="sensorId" value="${sensorId}" ></td>
+		<td>	<input type="text" id="sensorId" name="sensorId" value="${sensorInfo.sensorId}" ></td>
 	</tr>	
 	<tr>
  		<td><label><b>센서종류:</b></label></td>
@@ -29,10 +32,11 @@ pageEncoding = "UTF-8"%>
 	</tr>
 	<tr>
 		<td><label><b>PUSH알림 기준값</b></label></td>
-		<td>	<input type="text" id="sensorNoticeStandard" name="sensorNoticeStandard" value="${param.sensorNoticeStandard}" required></td>
+		<td>	<input type="text" id="sensorNoticeStandard" name="sensorNoticeStandard" value="${sensorInfo.sensorNoticeStandard}" required></td>
 	</tr>	
 		
 		</table>
+</c:forEach>
 			<div class="btncenter">
     			<button type="submit" value="register">등록</button>
 			</div>		

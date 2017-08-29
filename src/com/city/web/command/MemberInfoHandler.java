@@ -26,7 +26,7 @@ public class MemberInfoHandler implements CommandHandler {
 		return "/view/member/memberListView.jsp";
 	}
 
-	private String processSubmit(HttpServletRequest request, HttpServletResponse response)throws Exception {
+	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		String memberId = request.getParameter("memberId");
 		System.out.println("memberId" + memberId);

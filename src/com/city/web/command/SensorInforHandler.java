@@ -37,6 +37,8 @@ public class SensorInforHandler implements CommandHandler {
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String manageType = (String) request.getSession().getAttribute("manageType");
+		
+		System.out.println("manageType = a : " + manageType);
 		// 쓰레기통관리 ListView에서는 manageType: tm
 		// 수질관리       ListView에서는 manageType: wm
 		// 도시가스관리 ListView에서는 manageType: gm

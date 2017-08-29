@@ -8,18 +8,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.city.model.Address;
 import com.city.model.LocationManagement;
-import com.city.model.Member;
 import com.city.model.SensorInfo;
 import com.city.web.service.AddressService;
 import com.city.web.service.ManageLocationService;
 import com.city.web.service.SensorManageService;
 
 public class WmInfoHandler implements CommandHandler {
-	
+
 	private ManageLocationService manageLocationService = new ManageLocationService();
 	private SensorManageService sensorManageService = new SensorManageService();
 	private AddressService addressService = new AddressService();
-	
+
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		if (request.getMethod().equalsIgnoreCase("GET")) {
@@ -31,35 +30,34 @@ public class WmInfoHandler implements CommandHandler {
 			return null;
 		}
 	}
-	
-	private String processForm(HttpServletRequest request, HttpServletResponse response) {
-		return "/view/management/manageInfoForm.jsp";
+
+	private String processForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return this.processSubmit(request, response);
 	}
 
-	private String processSubmit(HttpServletRequest request, HttpServletResponse response)throws Exception {
-		
+	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
 		String manageId = request.getParameter("manageId");
-		
+
 		String cityName = request.getParameter("cityName");
 		String stateName = request.getParameter("stateName");
-		
+
 		request.setAttribute("cityName", cityName);
 		request.setAttribute("stateName", stateName);
 
 		// 상세 정보 들어갈때 해당 manageId에 locationManagementInfo
 		LocationManagement locationManagement = manageLocationService.managementSelect(manageId);
 		request.getSession().setAttribute("wmManageInfo", locationManagement);
-		
+
 		// 상세 정보 들어갈때 해당 manageId에 setting 되어있는 sensorInfo
 		List<SensorInfo> sensorInfo = new ArrayList<>();
-		sensorInfo  = sensorManageService.selectSensor(manageId);
-		request.getSession().setAttribute("sensorInfo", sensorInfo);
-		
+		sensorInfo = sensorManageService.selectSensor(manageId);
+		request.getSession().setAttribute("sensorInfoList", sensorInfo);
+
 		List<Address> addressCityList = new ArrayList<>();
 		addressCityList = addressService.addressCity();
 		request.setAttribute("addressCityList", addressCityList);
-		
-		return "/view/management/manageInfoForm.jsp";	
-	}
 
+		return "/view/management/manageInfoForm.jsp";
+	}
 }

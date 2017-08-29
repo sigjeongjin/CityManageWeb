@@ -55,7 +55,7 @@ pageEncoding = "UTF-8"%>
 </c:if>
 
 <c:forEach var="lcationManagement" items="${smSensorListPage.content}" varStatus="status">
-	<tr id="sensorList" class="sensorList">
+	<tr id="smSensorList" class="smSensorList">
 		<td>${(status.index + 1) + (smSensorListPage.currentPage -1) * 10}</td>
 		<td id="1">${lcationManagement.manageId}</td>
 		<td id="2">${lcationManagement.cityCode}</td>
@@ -93,6 +93,35 @@ pageEncoding = "UTF-8"%>
 </table>
 </div>
 
-</div>
+<form id="hiddenForm" action="smInfo.do" method="post">
+<input type="hidden" id="manageId" name="manageId">
+<input type="hidden" id="cityName" name="cityName">
+<input type="hidden" id="stateName" name="stateName">
+</form>
+
+<form id="hiddenFormSensor" action="sensorInfo.do" method="post">
+<input type="hidden" id="sensorManageId" name="sensorManageId">
+</form>
+
 </body>
+<script src="../../js/jquery-1.11.0.min.js"></script>
+<script type="text/javascript">
+$(wmSensorList).ready(function(){
+    $("tr.smSensorList").click(function(){
+     	$('#manageId').attr('value',$(this).find("td").eq(1).html());
+     	$('#cityName').attr('value',$(this).find("td").eq(2).html());
+     	$('#stateName').attr('value',$(this).find("td").eq(3).html());	
+     	$("#hiddenForm").submit();
+    });
+});
+
+$(wmSensorList).ready(function(){
+    $("p").click(function(){
+		var index =  $("p").index(this);
+		var sensorManageId = $("tr.smSensorList").eq(index).find("td").eq(0).next().html();
+		$('#sensorManageId').attr('value', sensorManageId);
+		$("#hiddenFormSensor").submit();
+    });
+});
+</script>
 </html>

@@ -53,7 +53,7 @@ public class RegisterHandler implements CommandHandler {
 		member.setMemberPhone(multi.getParameter("memberPhone"));
 		member.setMemberEmail(multi.getParameter("memberEmail"));
 		member.setMemberPhoto(multi.getFilesystemName("memberPhoto"));
-		member.setMemberAuthorization("ADMIN");
+		member.setMemberAuthorization("admin");
 
 		registerService.register(member);
 		
