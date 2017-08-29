@@ -1,6 +1,6 @@
 package com.city.model;
 
-public class WmManagementInfo extends WmResultInfo {
+public class TmManagementInfo extends TmResultInfo {
 
 	private String coordinate;
 	private String memo;

@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.city.web.service.SensorListPage;
 import com.city.web.service.SensorManageService;
+import com.city.web.service.WmSensorListPage;
 
 public class WmListHandler implements CommandHandler {
 
@@ -20,8 +21,8 @@ public class WmListHandler implements CommandHandler {
 			pageNo = Integer.parseInt(pageNoVal);
 		}
 
-		SensorListPage sensorListPage = sensorManageService.getSensorListPage(pageNo, manageType);
-		request.setAttribute("wmSensorListPage", sensorListPage);
+		WmSensorListPage wmSensorListPage = sensorManageService.getSensorListPage(pageNo, manageType);
+		request.setAttribute("WmListPage", wmSensorListPage);
 
 		request.getSession().setAttribute("manageType", manageType);
 

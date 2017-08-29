@@ -13,7 +13,7 @@ pageEncoding = "UTF-8"%>
 <form action="myUpdate.do" method="post" enctype="multipart/form-data">
 	<div class="container">
 		<label><b>아이디</b></label>
-			<input type="text" id="memberId" name="memberId" maxlength="20" value="${authMemberId}"disabled>
+			<input type="text" id="memberId" name="memberId" maxlength="20" value="${userId}"disabled>
 		
 		<label><b>비밀번호</b></label>
 			<input type="password" id="newPwd" name="newPwd" maxlength="20"value="${param.newPwd}" required>

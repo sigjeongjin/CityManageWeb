@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.city.model.LocationManagement;
 import com.city.model.SensorInfo;
+import com.city.model.WmManagementInfo;
 import com.city.web.dao.ManagementDao;
 import com.city.web.dao.SensorDao;
 
@@ -28,11 +29,11 @@ public class SensorManageService {
 	private int size = 10;
 	
 	// manageType: tm, wm, gm, sm
-	public SensorListPage getSensorListPage(int pageNum, String manageType) {
+	public WmSensorListPage getSensorListPage(int pageNum, String manageType) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
 			int total = managementDao.selectCount(conn, manageType);
-			List<LocationManagement> content = managementDao.selectSensorList(conn, (pageNum - 1) * size, size, manageType);
-			return new SensorListPage(total, pageNum, size, content);
+			List<WmManagementInfo> content = managementDao.wmSensorList(conn, (pageNum - 1) * size, size, manageType);
+			return new WmSensorListPage(total, pageNum, size, content);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}

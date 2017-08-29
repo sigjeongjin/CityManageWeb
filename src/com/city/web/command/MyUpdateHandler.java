@@ -38,7 +38,7 @@ public class MyUpdateHandler implements CommandHandler {
 				new DefaultFileRenamePolicy());
 
 		Member member = new Member();	
-		String memberId = (String) request.getSession().getAttribute("authMemberId");
+		String memberId = (String) request.getSession().getAttribute("userId");
 		member.setMemberId(memberId);
 		member.setMemberPwd(multi.getParameter("newPwd"));
 		member.setMemberName(multi.getParameter("newName"));

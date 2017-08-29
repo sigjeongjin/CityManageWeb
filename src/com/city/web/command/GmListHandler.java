@@ -20,8 +20,8 @@ public class GmListHandler  implements CommandHandler {
 			pageNo = Integer.parseInt(pageNoVal);
 		}
 		
-		SensorListPage sensorListPage = sensorManageService.getSensorListPage(pageNo, manageType);
-		request.setAttribute("gmSensorListPage", sensorListPage);	
+		//SensorListPage sensorListPage = sensorManageService.getSensorListPage(pageNo, manageType);
+		//request.setAttribute("gmSensorListPage", sensorListPage);	
 		
 		request.getSession().setAttribute("manageType", manageType);
 		return "/view/management/gmListView.jsp";

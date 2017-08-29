@@ -39,7 +39,7 @@ pageEncoding = "UTF-8"%>
 	<tr>
 		<th>번호</th>
 		<th>관리ID</th>
-		<th colspan="2">지역</th>
+		<th colspan="2">지역정보</th>
 		<th>수위정보</th>
 		<th>수질정보</th>
 		<th>센서 동작상태</th>
@@ -47,40 +47,38 @@ pageEncoding = "UTF-8"%>
 		<th>비고</th>
 		<th>센서추가</th>
 	</tr>	
-<c:if test="${wmSensorListPage.hasNoSensors()}">
+<c:if test="${WmListPage.hasNoSensors()}">
 	<tr>
 		<td colspan="11">검색 결과가 없습니다.</td>
 	</tr>
 </c:if>
 
-<c:forEach var="lcationManagement" items="${wmSensorListPage.content}" varStatus="status">
+<c:forEach var="wmManagementInfo" items="${WmListPage.content}" varStatus="status">
 	<tr id="wmSensorList" class="wmSensorList">
-		<td>${(status.index + 1) + (wmSensorListPage.currentPage -1) * 10}</td>
-		<td id="tdManageId">${lcationManagement.manageId}</td>
-		<td id="2">${lcationManagement.cityCode}</td>
-		<td id="3">${lcationManagement.stateCode}</td>
-		<td id="4">등록X</td>
-		<td id="5">등록X</td>	
-		<td id="6">등록X</td>
-		<td id="7">${lcationManagement.latitude}</td>
-		<td id="8">${lcationManagement.longitude}</td>
-		<td id="9">${lcationManagement.memo}</td>
-		<td id="10" onclick="event.cancelBubble=true"><p id="sensorRegister">센서 추가</p></td>
+		<td>${(status.index + 1) + (WmListPage.currentPage -1) * 10}</td>
+		<td id="tdManageId">${wmManagementInfo.manageId}</td>
+		<td colspan="2">${wmManagementInfo.locationName}</td>
+		<td>${wmManagementInfo.waterQuality}</td>
+		<td>${wmManagementInfo.waterLevel}</td>
+		<td>${wmManagementInfo.operationStatus}</td>
+		<td colspan="2" >${wmManagementInfo.coordinate}</td>
+		<td>${wmManagementInfo.memo}</td>
+		<td onclick="event.cancelBubble=true"><p id="sensorRegister">센서 추가</p></td>
 	</tr>
 </c:forEach>
- <c:if test="${wmSensorListPage.hasSensors()}">
+ <c:if test="${WmListPage.hasSensors()}">
 	<tr>
 		<td colspan="11">
-			<c:if test="${wmSensorListPage.startPage > 5}">
-			<a href="wmList.do?pageNo=${wmSensorListPage.startPage - 5}">[이전]</a>
+			<c:if test="${WmListPage.startPage > 5}">
+			<a href="wmList.do?pageNo=${WmListPage.startPage - 5}">[이전]</a>
 			</c:if>
 			<c:forEach var="pNo" 
-					   begin="${wmSensorListPage.startPage}" 
-					   end="${wmSensorListPage.endPage}">
+					   begin="${WmListPage.startPage}" 
+					   end="${WmListPage.endPage}">
 			<a href="wmList.do?pageNo=${pNo}">[${pNo}]</a>
 			</c:forEach>
-			<c:if test="${wmSensorListPage.endPage < wmSensorListPage.totalPages}">
-			<a href="wmList.do?pageNo=${wmSensorListPage.startPage + 5}">[다음]</a>
+			<c:if test="${WmListPage.endPage < WmListPage.totalPages}">
+			<a href="wmList.do?pageNo=${WmListPage.startPage + 5}">[다음]</a>
 			</c:if>
 		</td>
 	</tr>

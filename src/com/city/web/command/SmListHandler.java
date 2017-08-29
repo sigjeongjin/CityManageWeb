@@ -20,8 +20,8 @@ public class SmListHandler  implements CommandHandler {
 			pageNo = Integer.parseInt(pageNoVal);
 		}
 
-		SensorListPage sensorListPage = sensorManageService.getSensorListPage(pageNo, manageType);
-		request.setAttribute("smSensorListPage", sensorListPage);
+		//SensorListPage sensorListPage = sensorManageService.getSensorListPage(pageNo, manageType);
+		//request.setAttribute("smSensorListPage", sensorListPage);
 
 		request.getSession().setAttribute("manageType", manageType);
 

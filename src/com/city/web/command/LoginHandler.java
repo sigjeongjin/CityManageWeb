@@ -33,8 +33,8 @@ public class LoginHandler implements CommandHandler {
 		HashMap<String, String> idAndName = new HashMap<String, String>();
 		try {
 			idAndName = loginService.login(memberId, memberPwd);
-			request.getSession().setAttribute("authMemberId", idAndName.get("memberId"));
-			request.getSession().setAttribute("authMemberName", idAndName.get("memberName"));
+			request.getSession().setAttribute("userId", idAndName.get("memberId"));
+			request.getSession().setAttribute("userName", idAndName.get("memberName"));
 			
 			return "index.jsp";
 		} catch (RuntimeException e) {

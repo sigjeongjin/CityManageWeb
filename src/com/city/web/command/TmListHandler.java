@@ -20,8 +20,8 @@ public class TmListHandler implements CommandHandler {
 			pageNo = Integer.parseInt(pageNoVal);
 		}
 
-		SensorListPage sensorListPage = sensorManageService.getSensorListPage(pageNo, manageType);
-		request.setAttribute("tmSensorListPage", sensorListPage);
+		//SensorListPage sensorListPage = sensorManageService.getSensorListPage(pageNo, manageType);
+		//request.setAttribute("tmSensorListPage", sensorListPage);
 
 		request.getSession().setAttribute("manageType", manageType);
 
