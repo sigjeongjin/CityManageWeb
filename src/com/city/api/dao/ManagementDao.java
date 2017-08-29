@@ -155,6 +155,7 @@ public class ManagementDao {
 				wmResultInfo.setLocationName(rs.getString("locationName"));
 				wmResultInfo.setWaterLevel(rs.getString("waterLevel"));
 				wmResultInfo.setWaterQuality(rs.getString("waterQuality"));
+				wmResultInfo.setInstallationDateTime(rs.getString("installationDateTime"));
 			}
 
 			return wmResultInfo;
@@ -238,7 +239,9 @@ public class ManagementDao {
 			if (rs.next()) {
 				gmResultInfo.setManageId(rs.getString("manageId"));
 				gmResultInfo.setLocationName(rs.getString("locationName"));
-				
+				gmResultInfo.setGasDensity(rs.getString("gasDensity"));
+				gmResultInfo.setShockDetection(rs.getString("shockDetection"));
+				gmResultInfo.setInstallationDateTime(rs.getString("installationDateTime"));
 			}
 
 			return gmResultInfo;
@@ -268,7 +271,6 @@ public class ManagementDao {
 							+"(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='sm') smokeDetection, "
 							,"sm"));
 				
-				
 			pstmt.setString(1, manageId);
 			pstmt.setString(2, manageId);
 			pstmt.setString(3, manageId);
@@ -277,7 +279,9 @@ public class ManagementDao {
 			if (rs.next()) {
 				smResultInfo.setManageId(rs.getString("manageId"));
 				smResultInfo.setLocationName(rs.getString("locationName"));
-				
+				smResultInfo.setFlameDetection(rs.getString("flameDetection"));
+				smResultInfo.setSmokeDetection(rs.getString("smokeDetection"));
+				smResultInfo.setInstallationDateTime(rs.getString("installationDatetime"));
 			}
 
 			return smResultInfo;
