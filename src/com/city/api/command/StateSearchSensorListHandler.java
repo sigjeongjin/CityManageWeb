@@ -5,17 +5,17 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.city.api.service.AddressCityService;
-import com.city.api.service.FavoritesService;
-import com.city.model.FavoritesResultInfo;
-import com.city.model.FavoritesResultListJSON;
-import com.city.model.SensorInfo;
-import com.city.model.State;
-import com.city.model.StateJSON;
+import com.city.api.service.SensorService;
+import com.city.model.SensorResultInfo;
+import com.city.model.SensorResultListJSON;
 import com.google.gson.Gson;
 
-public class FavoritesListHandler implements CommandJsonHandler {
-	private FavoritesService favoritesRegisterService = new FavoritesService();
+/**
+ * @author com
+ *
+ */
+public class StateSearchSensorListHandler implements CommandJsonHandler{
+	private SensorService sensorService = new SensorService();
 
 	public String process(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		if (req.getMethod().equalsIgnoreCase("GET")) {
@@ -32,9 +32,11 @@ public class FavoritesListHandler implements CommandJsonHandler {
 		return this.processSubmit(req, res);
 	}
 
+	
 	/**
 	 * @param memberId
-	 * @param manageType(wm, tm, sm, gm)
+	 * @param manageType
+	 * @param searchText
 	 * @return
 	 * @throws Exception
 	 */
@@ -42,15 +44,15 @@ public class FavoritesListHandler implements CommandJsonHandler {
 
 		String memberId = req.getParameter("memberId");
 		String manageType = req.getParameter("manageType");
+		String searchText = req.getParameter("searchText");
 		
-		List<FavoritesResultInfo> favoritesList = favoritesRegisterService.getFavoritesList(memberId,manageType);
-		FavoritesResultListJSON favoritesInfoJSON = new FavoritesResultListJSON();
-		favoritesInfoJSON.setResultCode("200");
-		favoritesInfoJSON.setResultMessage("조회되었습니다.");
-		favoritesInfoJSON.setFavoritesList(favoritesList);
-
+		List<SensorResultInfo> sensorResultInfoList = sensorService.getSensorListByState(memberId, manageType, searchText);
+		
+		SensorResultListJSON sensorResultListJSON = new SensorResultListJSON();
+		sensorResultListJSON.setSensorList(sensorResultInfoList);
+		sensorResultListJSON.setResultCode("200");
+		sensorResultListJSON.setResultMessage("조회 되었습니다.");
 		Gson gson = new Gson();
-		return gson.toJson(favoritesInfoJSON);
-
+		return gson.toJson(sensorResultListJSON);
 	}
 }

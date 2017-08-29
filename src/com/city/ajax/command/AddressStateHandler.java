@@ -10,14 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
-import org.json.simple.parser.JSONParser;
 
 import com.city.model.Address;
 import com.city.web.service.AddressService;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+
 
 
 public class AddressStateHandler implements CommandJsonHandler {

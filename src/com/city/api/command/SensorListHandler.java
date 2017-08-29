@@ -5,17 +5,13 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.city.api.service.AddressCityService;
-import com.city.api.service.FavoritesService;
-import com.city.model.FavoritesResultInfo;
-import com.city.model.FavoritesResultListJSON;
-import com.city.model.SensorInfo;
-import com.city.model.State;
-import com.city.model.StateJSON;
+import com.city.api.service.SensorService;
+import com.city.model.SensorResultInfo;
+import com.city.model.SensorResultListJSON;
 import com.google.gson.Gson;
 
-public class FavoritesListHandler implements CommandJsonHandler {
-	private FavoritesService favoritesRegisterService = new FavoritesService();
+public class SensorListHandler implements CommandJsonHandler{
+	private SensorService sensorService = new SensorService();
 
 	public String process(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		if (req.getMethod().equalsIgnoreCase("GET")) {
@@ -32,25 +28,16 @@ public class FavoritesListHandler implements CommandJsonHandler {
 		return this.processSubmit(req, res);
 	}
 
-	/**
-	 * @param memberId
-	 * @param manageType(wm, tm, sm, gm)
-	 * @return
-	 * @throws Exception
-	 */
 	private String processSubmit(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
 		String memberId = req.getParameter("memberId");
 		String manageType = req.getParameter("manageType");
 		
-		List<FavoritesResultInfo> favoritesList = favoritesRegisterService.getFavoritesList(memberId,manageType);
-		FavoritesResultListJSON favoritesInfoJSON = new FavoritesResultListJSON();
-		favoritesInfoJSON.setResultCode("200");
-		favoritesInfoJSON.setResultMessage("조회되었습니다.");
-		favoritesInfoJSON.setFavoritesList(favoritesList);
-
+		List<SensorResultInfo> sensorResultInfoList = sensorService.getSensorList(memberId, manageType);
+		
+		SensorResultListJSON sensorResultListJSON = new SensorResultListJSON();
+		sensorResultListJSON.setSensorList(sensorResultInfoList);
 		Gson gson = new Gson();
-		return gson.toJson(favoritesInfoJSON);
-
+		return gson.toJson(sensorResultListJSON);
 	}
 }

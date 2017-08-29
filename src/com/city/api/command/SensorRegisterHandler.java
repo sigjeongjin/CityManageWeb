@@ -3,14 +3,13 @@ package com.city.api.command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.city.api.service.RegisterService;
-import com.city.model.Member;
-import com.city.model.MemberAPI;
+import com.city.api.service.SensorRegisterService;
+import com.city.model.Result;
 import com.google.gson.Gson;
 
-public class PwdConfirmHandler implements CommandJsonHandler {
+public class SensorRegisterHandler implements CommandJsonHandler {
 
-	private RegisterService registerService = new RegisterService();
+	private SensorRegisterService sensorRegisterService = new SensorRegisterService();
 
 	@Override
 	public String process(HttpServletRequest req, HttpServletResponse res)
@@ -32,17 +31,24 @@ public class PwdConfirmHandler implements CommandJsonHandler {
 	private String processSubmit(HttpServletRequest req, HttpServletResponse res)
 			throws Exception {
 
-		String memberId = req.getParameter("memberId");
-		String memberPwd = req.getParameter("memberPwd");
+		Result result = new Result();
+		String sensorInfo = req.getParameter("sensorInfo");
+		String sensorType = req.getParameter("sensorType");
+		String sensorId = req.getParameter("sensorId");
 
-		MemberAPI member = registerService.pwdConfirm(memberId, memberPwd);
 		
-		member.setResultCode("200");
-		member.setResultMessage("확인되었습니다.");				
+		String resultCode = sensorRegisterService.sensorRegister(sensorId,sensorInfo);
 				
+		if(resultCode.equals("Y")){
+			result.setResultCode("200");
+			result.setResultMessage("변경되었습니다.");
+		} else {
+			result.setResultCode("400");
+			result.setResultMessage("조회실패");
+		}
 		
 		Gson gson = new Gson();
-		return gson.toJson(member);
+		return gson.toJson(result);
 
 	}
 

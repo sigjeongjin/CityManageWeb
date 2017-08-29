@@ -38,9 +38,7 @@ public class ControllerUsingAPI extends HttpServlet {
 		Iterator keylter = prop.keySet().iterator(); // key로 이루워진 iterator를 반환
 		while (keylter.hasNext()) {
 			String command  = (String) keylter.next(); // key 값을 가져옴
-			
 			System.out.println("command : "+command);
-			
 			String handlerClassName = prop.getProperty(command); // Properties에 key값을 이용해서 value 값을 가져옴
 			System.out.println("handlerClassName : "+handlerClassName);
 			try {
@@ -79,6 +77,15 @@ public class ControllerUsingAPI extends HttpServlet {
 			throw new ServletException(e);
 		}
 		if (result != null) {
+			response.setCharacterEncoding("utf-8");
+        	response.setContentType("text/json");
+            response.setHeader("Cache-control", "no-cache, no-store");
+            response.setHeader("Pragma", "no-cache");
+            response.setHeader("Expires", "-1");
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            response.setHeader("Access-Control-Allow-Methods", "GET,POST");
+            response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+            response.setHeader("Access-Control-Max-Age", "86400");
 			PrintWriter writer = response.getWriter();
 			writer.print(result);
 			writer.flush();
