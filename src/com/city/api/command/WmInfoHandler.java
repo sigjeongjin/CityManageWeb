@@ -29,7 +29,9 @@ public class WmInfoHandler implements CommandJsonHandler {
 
 		String manageId = req.getParameter("manageId");
 		WmResultInfo wmResultInfo = sensorService.getWmInfo(manageId);
-
+		wmResultInfo.setResultCode("200");
+		wmResultInfo.setResultMessage("센서 정보가 조회 되었습니다.");
+		
 		Gson gson = new Gson();
 		return gson.toJson(wmResultInfo);
 	}

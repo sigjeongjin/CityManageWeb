@@ -30,7 +30,9 @@ public class TmInfoHandler implements CommandJsonHandler {
 
 		String manageId = req.getParameter("manageId");
 		TmResultInfo tmResultInfo = sensorService.getTmInfo(manageId);
-
+		tmResultInfo.setResultCode("200");
+		tmResultInfo.setResultMessage("센서 정보가 조회 되었습니다.");
+		
 		Gson gson = new Gson();
 		return gson.toJson(tmResultInfo);
 	}
