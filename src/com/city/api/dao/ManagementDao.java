@@ -8,9 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.city.model.City;
 import com.city.model.GmResultInfo;
-import com.city.model.SensorInfo;
 import com.city.model.SensorResultInfo;
 import com.city.model.SmResultInfo;
 import com.city.model.TmResultInfo;
@@ -73,7 +71,7 @@ public class ManagementDao {
 						+" CONCAT((select city_name cityName from address_city where city_code=lm.city_code)"
 						+ ",' ',(select state_name stateName from address_state where state_code=lm.state_code)) locationName,"
 						+" lm.manage_id manageId "
-						+" from location_management lm join sensor_info si on lm.manage_id = si.manage_id "
+						+" from location_management lm "
 						+" join member m on lm.state_code = m.state_code "
 						+" where lm.manage_type=? and m.member_id=?");
 			pstmt.setString(1, manageType);
@@ -186,7 +184,7 @@ public class ManagementDao {
 				"(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='fd') flameDetection, "
 				+"(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='s') stink, "
 				+"(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='g') generous, "
-				+"(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='lr') lockStatus, "
+				+"(select case sensor_info when 'Y' then '잠김' when 'N' then '열림' end from sensor_info where manage_id=? and sensor_type='lr') lockStatus, "
 				,"tm"));
 			pstmt.setString(1, manageId);
 			pstmt.setString(2, manageId);
@@ -201,7 +199,7 @@ public class ManagementDao {
 				tmResultInfo.setFlameDetection(rs.getString("flameDetection"));
 				tmResultInfo.setStink(rs.getString("stink"));
 				tmResultInfo.setGenerous(rs.getString("generous"));
-				tmResultInfo.setLock(rs.getString("lockStatus"));
+				tmResultInfo.setLockStatus(rs.getString("lockStatus"));
 				tmResultInfo.setInstallationDateTime(rs.getString("installationDateTime"));
 			}
 
