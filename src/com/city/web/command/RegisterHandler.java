@@ -26,7 +26,7 @@ public class RegisterHandler implements CommandHandler {
 
 	private String processForm(HttpServletRequest request, HttpServletResponse response) {
 
-		return "view/member/registerForm.jsp";
+		return "view/registerForm.jsp";
 	}
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -38,14 +38,6 @@ public class RegisterHandler implements CommandHandler {
 		MultipartRequest multi = new MultipartRequest(request, realFolder, maxSize, "utf-8",
 				new DefaultFileRenamePolicy());
 
-		System.out.println("memberId : " + multi.getParameter("memberId"));
-		System.out.println("memberPwd : " + multi.getParameter("memberPwd"));
-		System.out.println("memberName : " + multi.getParameter("memberName"));
-		System.out.println("memberPhone : " + multi.getParameter("memberPhone"));
-		System.out.println("memberEmail : " + multi.getParameter("memberEmail"));
-		System.out.println("memberPhoto : " + multi.getFilesystemName("memberPhoto"));
-		
-		
 		Member member = new Member();
 		member.setMemberId(multi.getParameter("memberId"));
 		member.setMemberPwd(multi.getParameter("memberPwd"));
@@ -53,11 +45,12 @@ public class RegisterHandler implements CommandHandler {
 		member.setMemberPhone(multi.getParameter("memberPhone"));
 		member.setMemberEmail(multi.getParameter("memberEmail"));
 		member.setMemberPhoto(multi.getFilesystemName("memberPhoto"));
-		member.setMemberAuthorization("admin");
+		member.setMemberAuthorization(multi.getParameter("memberAuthorization"));
+		member.setCityCode(multi.getParameter("cityCode"));
+		member.setStateCode(multi.getParameter("stateCode"));
 
 		registerService.register(member);
-		
-		return "index.jsp";
+		return "index.jsp";	
 
 	}
 }

@@ -1,7 +1,7 @@
 package com.city.model;
 
 
-public class Member{
+public class Member extends Result {
 
 	private String memberId;
 	private String memberPwd;
@@ -13,7 +13,18 @@ public class Member{
 	private String memberDeleteCode;
 	private String cityCode;
 	private String stateCode;
+	private String memberChangePwd;
 	
+	
+	
+	public String getMemberChangePwd() {
+		return memberChangePwd;
+	}
+
+	public void setMemberChangePwd(String memberChangePwd) {
+		this.memberChangePwd = memberChangePwd;
+	}
+
 	public String getMemberId() {
 		return memberId;
 	}

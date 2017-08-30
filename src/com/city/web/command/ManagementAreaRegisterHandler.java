@@ -1,16 +1,14 @@
 package com.city.web.command;
 
-import java.util.Arrays;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.city.model.LocationManagement;
-import com.city.web.service.ManageLocationService;
+import com.city.web.service.ManagementAreaRegisterService;
 
-public class ManageRegisterHandler implements CommandHandler {
+public class ManagementAreaRegisterHandler implements CommandHandler {
 
-	private ManageLocationService manageLocationService = new ManageLocationService();
+	private ManagementAreaRegisterService managementAreaRegisterService = new ManagementAreaRegisterService();
 
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -25,32 +23,23 @@ public class ManageRegisterHandler implements CommandHandler {
 	}
 
 	private String processForm(HttpServletRequest request, HttpServletResponse response) {
-			
+		
 		return "index.jsp";
 	}
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) {
 
-		String manageType = (String) request.getSession().getAttribute("manageType");
-		
-		System.out.println("manageType : " + manageType);
-		System.out.println("manageId : " + request.getParameter("manageId"));
-		
-		String sensorTypes = Arrays.toString(request.getParameterValues("sensorTypes"));	
-		sensorTypes = sensorTypes.substring(1, sensorTypes.length()-1);
-
 		LocationManagement locationManagement = new LocationManagement();
+
 		locationManagement.setManageId(request.getParameter("manageId"));
 		locationManagement.setLatitude(Double.parseDouble(request.getParameter("latitude")));
 		locationManagement.setLongitude(Double.parseDouble(request.getParameter("longitude")));
-		locationManagement.setManageType(manageType);
-		locationManagement.setSensorTypes(sensorTypes);
+		locationManagement.setSensorTypes(request.getParameter("sensorTypes"));
 		locationManagement.setMemo(request.getParameter("memo"));
-		locationManagement.setCityCode(request.getParameter("cityCode"));
-		locationManagement.setStateCode(request.getParameter("stateCode"));
-	
+		locationManagement.setCityGeocode(request.getParameter("cityGeocode"));
+		locationManagement.setStateGeocode(request.getParameter("stateGeocode"));
 
-		manageLocationService.managementRegister(locationManagement);
+		managementAreaRegisterService.ManagementAreaRegister(locationManagement);
 		return "index.jsp";
 	}
 }

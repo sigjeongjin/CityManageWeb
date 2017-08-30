@@ -14,4 +14,5 @@ public class StateJSON extends Result {
 	public void setState(List<State> state) {
 		this.state = state;
 	}
+
 }

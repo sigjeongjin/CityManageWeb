@@ -1,3 +1,4 @@
+
 package com.city.model;
 
 import java.util.Date;
@@ -8,11 +9,10 @@ public class LocationManagement {
 	private double latitude;
 	private double longitude;
 	private Date createDatetime;
-	private String memo;
-	private String cityCode;
-	private String stateCode;
 	private String sensorTypes;
-	private String manageType;
+	private String memo;
+	private String cityGeocode;
+	private String stateGeocode;
 
 	public String getManageId() {
 		return manageId;
@@ -46,30 +46,6 @@ public class LocationManagement {
 		this.createDatetime = createDatetime;
 	}
 
-	public String getMemo() {
-		return memo;
-	}
-
-	public void setMemo(String memo) {
-		this.memo = memo;
-	}
-
-	public String getCityCode() {
-		return cityCode;
-	}
-
-	public void setCityCode(String cityCode) {
-		this.cityCode = cityCode;
-	}
-
-	public String getStateCode() {
-		return stateCode;
-	}
-
-	public void setStateCode(String stateCode) {
-		this.stateCode = stateCode;
-	}
-
 	public String getSensorTypes() {
 		return sensorTypes;
 	}
@@ -78,11 +54,27 @@ public class LocationManagement {
 		this.sensorTypes = sensorTypes;
 	}
 
-	public String getManageType() {
-		return manageType;
+	public String getMemo() {
+		return memo;
 	}
 
-	public void setManageType(String manageType) {
-		this.manageType = manageType;
+	public void setMemo(String memo) {
+		this.memo = memo;
+	}
+
+	public String getCityGeocode() {
+		return cityGeocode;
+	}
+
+	public void setCityGeocode(String cityGeocode) {
+		this.cityGeocode = cityGeocode;
+	}
+
+	public String getStateGeocode() {
+		return stateGeocode;
+	}
+
+	public void setStateGeocode(String stateGeocode) {
+		this.stateGeocode = stateGeocode;
 	}
 }

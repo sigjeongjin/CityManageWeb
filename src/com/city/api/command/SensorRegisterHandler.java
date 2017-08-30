@@ -3,8 +3,10 @@ package com.city.api.command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.city.api.dao.ManagementDao;
 import com.city.api.service.SensorRegisterService;
 import com.city.model.Result;
+import com.city.model.SensorInfo;
 import com.google.gson.Gson;
 
 public class SensorRegisterHandler implements CommandJsonHandler {
@@ -30,15 +32,17 @@ public class SensorRegisterHandler implements CommandJsonHandler {
 
 	private String processSubmit(HttpServletRequest req, HttpServletResponse res)
 			throws Exception {
-
+		
 		Result result = new Result();
+
+		String sensorId = req.getParameter("sensorId");
 		String sensorInfo = req.getParameter("sensorInfo");
 		String sensorType = req.getParameter("sensorType");
-		String sensorId = req.getParameter("sensorId");
 
 		
-		String resultCode = sensorRegisterService.sensorRegister(sensorId,sensorInfo);
-				
+		
+		String resultCode = sensorRegisterService.sensorRegister(sensorId, sensorInfo, sensorType);
+		
 		if(resultCode.equals("Y")){
 			result.setResultCode("200");
 			result.setResultMessage("변경되었습니다.");
@@ -46,6 +50,7 @@ public class SensorRegisterHandler implements CommandJsonHandler {
 			result.setResultCode("400");
 			result.setResultMessage("조회실패");
 		}
+
 		
 		Gson gson = new Gson();
 		return gson.toJson(result);

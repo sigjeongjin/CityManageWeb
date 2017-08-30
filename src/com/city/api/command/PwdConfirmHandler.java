@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.city.api.service.RegisterService;
 import com.city.model.Member;
-import com.city.model.MemberAPI;
 import com.google.gson.Gson;
 
 public class PwdConfirmHandler implements CommandJsonHandler {
@@ -35,7 +34,7 @@ public class PwdConfirmHandler implements CommandJsonHandler {
 		String memberId = req.getParameter("memberId");
 		String memberPwd = req.getParameter("memberPwd");
 
-		MemberAPI member = registerService.pwdConfirm(memberId, memberPwd);
+		Member member = registerService.pwdConfirm(memberId, memberPwd);
 		
 		member.setResultCode("200");
 		member.setResultMessage("확인되었습니다.");				

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import com.city.api.dao.ManagementDao;
+import com.city.model.SensorInfo;
 
 import jdbc.JdbcUtil;
 import jdbc.connection.ConnectionProvider;
@@ -15,32 +16,34 @@ public class SensorRegisterService {
 
 	private ManagementDao managementDao = new ManagementDao();
 
-	 
-	public String sensorRegister(String sensorId, String sensorInfo) {
+	public String sensorRegister(String sensorId, String sensorInfo, String sensorType) {
+	
 		int sensorRegister = 0;
-		String resultcode = "";
+		String resultCode ="";
 		Connection conn = null;
 
 		try {
-			conn = ConnectionProvider.getConnection(); // transaction
+			conn = ConnectionProvider.getConnection(); 
 			conn.setAutoCommit(false);
 
-			sensorRegister = managementDao.updateBySensorInfo(conn, sensorInfo, sensorId);
+			sensorRegister = managementDao.sensorRegister(conn, sensorId, sensorInfo, sensorType);
 			conn.commit();
 
+			
 			if(sensorRegister == 1) {
-				resultcode = "Y";
+				resultCode = "Y";
 			} else {
 				throw new SQLException();
-			}	
+			}	conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("등록에 실패했습니다.");
+			System.out.println("정보를 불러오지 못했습니다.");
 			JdbcUtil.rollback(conn);
 		} finally {
 			JdbcUtil.close(conn);
-		}
-			return resultcode; 
+		}	
+			return resultCode; 
+		
 	}
 	public String operationStatus(String sensorId, String operationStatus) {
 		String rs = null;
@@ -50,7 +53,7 @@ public class SensorRegisterService {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
 
-			String strId = managementDao.updateBySensorIdAndOperationStatus(conn, sensorId, operationStatus);
+			String strId = managementDao.insertOperationStatus(conn, sensorId, operationStatus);
 			conn.commit();
 
 			if (strId != null) {

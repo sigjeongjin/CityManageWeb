@@ -17,4 +17,7 @@ public class CityJSON extends Result {
 	public void setCity(List<City> city) {
 		this.city = city;
 	}
+
+	
+
 }

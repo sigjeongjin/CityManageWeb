@@ -1,19 +1,17 @@
 package com.city.model;
 
-public class Favorites {
+public class Favorites extends Result{
 	
-	private String favoriteId;
-	private String sensorId;
-	private String bookmark;
-	private String memberId;
+	public String favoriteId;
+	public String manageId;
+	public String bookmark;
+	public String memberId;
 	
-	public Favorites() {
 
-	}
 	
-	public Favorites(String favoriteId, String sensorId, String bookmark, String memberId) { 
+	public Favorites(String favoriteId, String manageId, String bookmark, String memberId) { 
 		this.favoriteId = favoriteId;
-		this.sensorId = sensorId;
+		this.manageId = manageId;
 		this.bookmark = bookmark;
 		this.memberId = memberId;
 	}
@@ -22,8 +20,8 @@ public class Favorites {
 		return favoriteId;
 	}
 
-	public String getSensorId() {
-		return sensorId;
+	public String getManageId() {
+		return manageId;
 	}
 
 	public String getBookmark() {
@@ -37,8 +35,8 @@ public class Favorites {
 		this.favoriteId = favoriteId;
 	}
 
-	public void setSensorId(String sensorId) {
-		this.sensorId = sensorId;
+	public void setManageId(String manageId) {
+		this.manageId = manageId;
 	}
 
 	public void setBookmark(String bookmark) {

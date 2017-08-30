@@ -10,7 +10,6 @@ import java.util.List;
 
 import com.city.model.City;
 import com.city.model.Member;
-import com.city.model.MemberAPI;
 import com.city.model.State;
 
 import jdbc.JdbcUtil;
@@ -59,10 +58,10 @@ public class MemberDao {
 
 	}
 
-	public MemberAPI selectPwdConfirm(Connection conn, String memberId, String memberPwd) throws SQLException {
+	public Member selectPwdConfirm(Connection conn, String memberId, String memberPwd) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		MemberAPI member = new MemberAPI();
+		Member member = new Member();
 		String Resultcode = "200";
 		try {
 			pstmt = conn.prepareStatement("select count(*) from member where member_id=? and member_pwd=? ");
@@ -88,7 +87,7 @@ public class MemberDao {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				city.add(new City(rs.getString("cityName"), rs.getString("cityCode")));
+				city.add(new City(rs.getString("cityCode"), rs.getString("cityName")));
 
 			}
 
@@ -177,6 +176,7 @@ public class MemberDao {
 		ResultSet rs = null;
 		List<State> state = new ArrayList<State>();
 
+		String Resultcode = "200";
 		try {
 			pstmt = conn.prepareStatement(
 					"select state_code as stateCode, state_name as stateName from address_state where city_code=?");

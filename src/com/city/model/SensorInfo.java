@@ -4,13 +4,27 @@ import java.util.Date;
 
 public class SensorInfo {
 
-	private String sensorId;				// 센서ID
-	private String manageId;				// 관리ID
-	private String sensorInfo;				// 센서 이상상태
-	private Date installationDatetime;		// 설치 날짜
-	private String sensorType;				// 센서 타입
-	private String operationStatus;			// 센서 동작상태
-	private String sensorNoticeStandard;	// push 알림 기준
+	private String sensorId;
+	private String manageId;
+	private String sensorInfo;
+	private Date installationDatetime;
+	private String manageType;
+	private String operationStatus;
+	private String sensorNoticeStandard;
+	private String sensorType;
+	
+	public SensorInfo(String sensorId, String sensorInfo, String manageId, Date installationDatetime
+			, String manageType, String operationStatus, String sensorNoticeStandard, String sensorType) {
+		this.sensorId = sensorId;
+		this.sensorInfo = sensorInfo;	
+		this.manageId = manageId;
+		this.installationDatetime = installationDatetime;
+		this.manageType = manageType;
+		this.operationStatus = operationStatus;
+		this.sensorNoticeStandard = sensorNoticeStandard;
+		this.sensorType = sensorType;
+		
+	}
 
 	public String getSensorId() {
 		return sensorId;
@@ -44,12 +58,12 @@ public class SensorInfo {
 		this.installationDatetime = installationDatetime;
 	}
 
-	public String getSensorType() {
-		return sensorType;
+	public String getManageType() {
+		return manageType;
 	}
 
-	public void setSensorType(String sensorType) {
-		this.sensorType = sensorType;
+	public void setManageType(String manageType) {
+		this.manageType = manageType;
 	}
 
 	public String getOperationStatus() {

@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import com.city.model.Member;
-import com.city.model.MemberAPI;
 import com.city.api.dao.MemberDao;
 
 import jdbc.JdbcUtil;
@@ -56,9 +55,9 @@ public class RegisterService {
 	
 	
 	
-	public MemberAPI pwdConfirm (String memberId, String memberPwd) {
+	public Member pwdConfirm (String memberId, String memberPwd) {
 		Connection conn = null;
-		MemberAPI member = new MemberAPI();
+		Member member = new Member();
 
 		
 		try {
