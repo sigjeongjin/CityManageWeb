@@ -47,40 +47,38 @@ pageEncoding = "UTF-8"%>
 		<th>비고</th>
 		<th>센서추가</th>
 	</tr>	
-<c:if test="${gmSensorListPage.hasNoSensors()}">
+<c:if test="${GmListPage.hasNoSensors()}">
 	<tr>
 		<td colspan="11">검색 결과가 없습니다.</td>
 	</tr>
 </c:if>
 
-<c:forEach var="lcationManagement" items="${gmSensorListPage.content}" varStatus="status">
+<c:forEach var="gmManagementInfo" items="${GmListPage.content}" varStatus="status">
 	<tr id="gmSensorList" class="gmSensorList">
-		<td>${(status.index + 1) + (gmSensorListPage.currentPage -1) * 10}</td>
-		<td id="1">${lcationManagement.manageId}</td>
-		<td id="2">${lcationManagement.cityCode}</td>
-		<td id="3">${lcationManagement.stateCode}</td>
-		<td id="4">등록X</td>
-		<td id="5">등록X</td>	
-		<td id="6">등록X</td>
-		<td id="7">${lcationManagement.latitude}</td>
-		<td id="8">${lcationManagement.longitude}</td>
-		<td id="9">${lcationManagement.memo}</td>
-		<td id="10" onclick="event.cancelBubble=true"><p id="sensorRegister">센서 추가</p></td>
+		<td>${(status.index + 1) + (GmListPage.currentPage -1) * 10}</td>
+		<td id="tdManageId">${gmManagementInfo.manageId}</td>
+		<td colspan="2">${gmManagementInfo.locationName}</td>
+		<td>${gmManagementInfo.gasDensity}</td>
+		<td>${gmManagementInfo.shockDetection}</td>
+		<td>${gmManagementInfo.operationStatus}</td>
+		<td colspan="2" >${gmManagementInfo.coordinate}</td>
+		<td>${gmManagementInfo.memo}</td>
+		<td onclick="event.cancelBubble=true"><p id="sensorRegister">센서 추가</p></td>
 	</tr>
 </c:forEach>
- <c:if test="${gmSensorListPage.hasSensors()}">
+ <c:if test="${GmListPage.hasSensors()}">
 	<tr>
 		<td colspan="11">
-			<c:if test="${gmSensorListPage.startPage > 5}">
-			<a href="gmList.do?pageNo=${gmSensorListPage.startPage - 5}">[이전]</a>
+			<c:if test="${GmListPage.startPage > 5}">
+			<a href="gmList.do?pageNo=${GmListPage.startPage - 5}">[이전]</a>
 			</c:if>
 			<c:forEach var="pNo" 
-					   begin="${gmSensorListPage.startPage}" 
-					   end="${gmSensorListPage.endPage}">
+					   begin="${GmListPage.startPage}" 
+					   end="${GmListPage.endPage}">
 			<a href="gmList.do?pageNo=${pNo}">[${pNo}]</a>
 			</c:forEach>
-			<c:if test="${gmSensorListPage.endPage < gmSensorListPage.totalPages}">
-			<a href="gmList.do?pageNo=${gmSensorListPage.startPage + 5}">[다음]</a>
+			<c:if test="${GmListPage.endPage < GmListPage.totalPages}">
+			<a href="gmList.do?pageNo=${GmListPage.startPage + 5}">[다음]</a>
 			</c:if>
 		</td>
 	</tr>

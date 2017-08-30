@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.city.model.GmManagementInfo;
 import com.city.model.LocationManagement;
 import com.city.model.SensorInfo;
 import com.city.model.SmManagementInfo;
@@ -50,6 +51,16 @@ public class SensorManageService {
 			throw new RuntimeException(e);
 		}
 	}
+	// manageType: gm
+		public GmSensorListPage getGmSensorListPage(int pageNum, String manageType) {
+			try (Connection conn = ConnectionProvider.getConnection()) {
+				int total = managementDao.selectCount(conn, manageType);
+				List<GmManagementInfo> content = managementDao.gmSensorList(conn, (pageNum - 1) * size, size, manageType);
+				return new GmSensorListPage(total, pageNum, size, content);
+			} catch (SQLException e) {
+				throw new RuntimeException(e);
+			}
+		}
 	// manageType: sm
 	public SmSensorListPage getSmSensorListPage(int pageNum, String manageType) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
@@ -138,4 +149,11 @@ public class SensorManageService {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	
+	
+	
 }
+
+
+

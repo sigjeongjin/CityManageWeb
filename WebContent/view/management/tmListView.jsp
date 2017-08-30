@@ -60,10 +60,10 @@ pageEncoding = "UTF-8"%>
 		<td>${(status.index + 1) + (TmListPage.currentPage -1) * 10}</td>
 		<td id="tdManageId">${tmManagementInfo.manageId}</td>
 		<td colspan="2">${tmManagementInfo.locationName}</td>
-		<td>${tmManagementInfo.flameDetection}</td>
-		<td>${tmManagementInfo.stink}</td>
 		<td>${tmManagementInfo.generous}</td>
-		<td>${tmManagementInfo.lock}</td>
+		<td>${tmManagementInfo.stink}</td>
+		<td>${tmManagementInfo.flameDetection}</td>
+		<td>${tmManagementInfo.lockStatus}</td>
 		<td>${tmManagementInfo.operationStatus}</td>
 		<td colspan="2" >${tmManagementInfo.coordinate}</td>
 		<td>${tmManagementInfo.memo}</td>

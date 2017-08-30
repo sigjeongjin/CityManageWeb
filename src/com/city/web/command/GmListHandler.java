@@ -3,7 +3,7 @@ package com.city.web.command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.city.web.service.SensorListPage;
+import com.city.web.service.GmSensorListPage;
 import com.city.web.service.SensorManageService;
 
 public class GmListHandler  implements CommandHandler {
@@ -20,8 +20,8 @@ public class GmListHandler  implements CommandHandler {
 			pageNo = Integer.parseInt(pageNoVal);
 		}
 		
-		//SensorListPage sensorListPage = sensorManageService.getSensorListPage(pageNo, manageType);
-		//request.setAttribute("gmSensorListPage", sensorListPage);	
+		GmSensorListPage gmSensorListPage = sensorManageService.getGmSensorListPage(pageNo, manageType);
+		request.setAttribute("GmListPage", gmSensorListPage);	
 		
 		request.getSession().setAttribute("manageType", manageType);
 		return "/view/management/gmListView.jsp";

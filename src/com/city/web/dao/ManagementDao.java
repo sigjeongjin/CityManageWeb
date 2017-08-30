@@ -149,10 +149,10 @@ public class ManagementDao {
 
 		try {
 			pstmt = conn.prepareStatement("select lm.manage_id manageId, CONCAT((select city_name from address_city where city_code=lm.city_code),' ',(select state_name from address_state where state_code=lm.state_code)) locationName, "
-					+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='fd') flameDetection, "
+					+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='g') generous, "				
 					+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='s') stink, "
-					+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='g') generous, "
-					+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='l') lock, "
+					+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='fd') flameDetection, "
+					+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='l') lockStatus, "
 					+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
 					+ "CONCAT((latitude),', ',(latitude)) coordinate, memo "
 					+ "from location_management lm where lm.manage_type=? and manage_id=lm.manage_id limit ?, ?");
@@ -169,7 +169,7 @@ public class ManagementDao {
 				tmManagementInfo.setFlameDetection(rs.getString("flameDetection"));
 				tmManagementInfo.setStink(rs.getString("stink"));
 				tmManagementInfo.setGenerous(rs.getString("generous"));
-				tmManagementInfo.setLock(rs.getString("lock"));
+				tmManagementInfo.setLockStatus(rs.getString("lockStatus"));
 				tmManagementInfo.setOperationStatus(rs.getString("operationStatus"));
 				tmManagementInfo.setCoordinate(rs.getString("coordinate"));
 				tmManagementInfo.setMemo(rs.getString("memo"));

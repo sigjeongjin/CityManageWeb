@@ -47,40 +47,38 @@ pageEncoding = "UTF-8"%>
 		<th>비고</th>
 		<th>센서추가</th>
 	</tr>	
-<c:if test="${smSensorListPage.hasNoSensors()}">
+<c:if test="${SmListPage.hasNoSensors()}">
 	<tr>
 		<td colspan="11">검색 결과가 없습니다.</td>
 	</tr>
 </c:if>
 
-<c:forEach var="lcationManagement" items="${smSensorListPage.content}" varStatus="status">
+<c:forEach var="smManagementInfo" items="${SmListPage.content}" varStatus="status">
 	<tr id="smSensorList" class="smSensorList">
-		<td>${(status.index + 1) + (smSensorListPage.currentPage -1) * 10}</td>
-		<td id="1">${lcationManagement.manageId}</td>
-		<td id="2">${lcationManagement.cityCode}</td>
-		<td id="3">${lcationManagement.stateCode}</td>
-		<td id="4">등록X</td>
-		<td id="5">등록X</td>	
-		<td id="6">등록X</td>
-		<td id="7">${lcationManagement.latitude}</td>
-		<td id="8">${lcationManagement.longitude}</td>
-		<td id="9">${lcationManagement.memo}</td>
-		<td id="10" onclick="event.cancelBubble=true"><p id="sensorRegister">센서 추가</p></td>
+		<td>${(status.index + 1) + (SmListPage.currentPage -1) * 10}</td>
+		<td id="tdManageId">${smManagementInfo.manageId}</td>
+		<td colspan="2">${smManagementInfo.locationName}</td>
+		<td>${smManagementInfo.flameDetection}</td>
+		<td>${smManagementInfo.smokeDetection}</td>
+		<td>${smManagementInfo.operationStatus}</td>
+		<td colspan="2" >${smManagementInfo.coordinate}</td>
+		<td>${smManagementInfo.memo}</td>
+		<td onclick="event.cancelBubble=true"><p id="sensorRegister">센서 추가</p></td>
 	</tr>
 </c:forEach>
- <c:if test="${smSensorListPage.hasSensors()}">
+ <c:if test="${SmListPage.hasSensors()}">
 	<tr>
 		<td colspan="11">
-			<c:if test="${smSensorListPage.startPage > 5}">
-			<a href="smList.do?pageNo=${smSensorListPage.startPage - 5}">[이전]</a>
+			<c:if test="${SmListPage.startPage > 5}">
+			<a href="smList.do?pageNo=${SmListPage.startPage - 5}">[이전]</a>
 			</c:if>
 			<c:forEach var="pNo" 
-					   begin="${smSensorListPage.startPage}" 
-					   end="${smSensorListPage.endPage}">
+					   begin="${SmListPage.startPage}" 
+					   end="${SmListPage.endPage}">
 			<a href="smList.do?pageNo=${pNo}">[${pNo}]</a>
 			</c:forEach>
-			<c:if test="${smSensorListPage.endPage < smSensorListPage.totalPages}">
-			<a href="smList.do?pageNo=${smSensorListPage.startPage + 5}">[다음]</a>
+			<c:if test="${SmListPage.endPage < SmListPage.totalPages}">
+			<a href="smList.do?pageNo=${SmListPage.startPage + 5}">[다음]</a>
 			</c:if>
 		</td>
 	</tr>
