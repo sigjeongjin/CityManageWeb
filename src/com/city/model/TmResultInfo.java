@@ -9,7 +9,7 @@ public class TmResultInfo extends Result {
 	private String flameDetection;
 	private String stink;
 	private String generous;
-	private String lock;
+	private String lockStatus;
 	private String installationDateTime;
 
 	public String getManageId() {
@@ -52,12 +52,12 @@ public class TmResultInfo extends Result {
 		this.generous = generous;
 	}
 
-	public String getLock() {
-		return lock;
+	public String getLockStatus() {
+		return lockStatus;
 	}
 
-	public void setLock(String lock) {
-		this.lock = lock;
+	public void setLockStatus(String lockStatus) {
+		this.lockStatus = lockStatus;
 	}
 
 	public String getInstallationDateTime() {
