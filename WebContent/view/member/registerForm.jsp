@@ -1,5 +1,6 @@
 <%@page language = "java" contentType="text/html; charset = UTF-8"
 pageEncoding = "UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,10 +40,18 @@ pageEncoding = "UTF-8"%>
 		
 		<label><b>E-mail</b></label>
 			<input type="email" placeholder="E-mail을 입력해주세요." id="memberEmail" name="memberEmail" maxlength="20" value="${param.memberEmail}" required>
-
-			<div class="btncenter">
-    			<button type="submit" value="signup">가입</button>
-    		</div> 
+		<label><b>지역 선택</b></label>
+		
+		<select id="city" name="city">
+		<c:forEach var="cityInfo" items="${city}" varStatus="status">
+			<option value="${cityInfo.cityCode}">${cityInfo.cityName}</option>
+		</c:forEach>
+		
+		
+		</select>
+		<div class="btncenter">
+   			<button type="submit" value="signup">가입</button>
+   		</div> 
 	</div>
 </form>
 </div>
@@ -62,6 +71,8 @@ jQuery('#memberPhoto').on('change', function () {
         //jQuery('#memberPhoto_preview').slideDown();
         //jQuery(this).slideUp();
     }
+    
+    
 });
 
 </script>

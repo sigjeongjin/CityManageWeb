@@ -12,11 +12,12 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.city.model.Address;
+import com.city.model.CityAjaxJSON;
 import com.city.web.service.AddressService;
 
 
 
-public class AddressStateHandler implements CommandJsonHandler {
+public class AddressCityHandler implements CommandJsonHandler {
 
 	private AddressService addressService = new AddressService();
 
@@ -37,27 +38,22 @@ public class AddressStateHandler implements CommandJsonHandler {
 
 	private JSONObject processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String cityCode = request.getParameter("cityCode");
-
-		System.out.println("cityCode : " + cityCode);
-
-		List<Address> addressStateList = new ArrayList<>();
-		addressStateList = addressService.addressState(cityCode);
-		// request.setAttribute("addressStateList", addressStateList);
+		List<CityAjaxJSON> addressCityList = new ArrayList<>();
+		addressCityList = addressService.getCityList();
 
 		JSONArray jr = new JSONArray();
-		for (int i = 0; i < addressStateList.size(); i++) {
+		for (int i = 0; i < addressCityList.size(); i++) {
 			JSONObject object = new JSONObject();
 
-			object.put("stateCode", addressStateList.get(i).getStateCode());
-			object.put("stateName", addressStateList.get(i).getStateName());
+			object.put("stateCode", addressCityList.get(i).getCityCode());
+			object.put("stateName", addressCityList.get(i).getCityName());
 			jr.add(object);
 		}
 
-		JSONObject objectState = new JSONObject();
-		objectState.put("state", jr);
+		JSONObject objectCity = new JSONObject();
+		objectCity.put("cityList", jr);
 
-		return objectState;
+		return objectCity;
 
 	}
 }

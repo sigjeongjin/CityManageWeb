@@ -16,8 +16,9 @@ import jdbc.JdbcUtil;
 public class MemberDao {
 
 	/*Register을 위한 정보 입력(회원가입)*/
-	public String insertMember(Connection conn, Member member) throws SQLException {
+	public int insertMember(Connection conn, Member member) throws SQLException {
 		PreparedStatement pstmt = null;
+		int resultCode=0;
 		try {
 			pstmt = conn.prepareStatement("insert into member "
 					+ "(member_id, member_pwd, member_name, member_phone, member_email, member_photo, member_authorization) "
@@ -29,10 +30,17 @@ public class MemberDao {
 			pstmt.setString(5, member.getMemberEmail());
 			pstmt.setString(6, member.getMemberPhoto());
 			pstmt.setString(7, member.getMemberAuthorization());
-			return Integer.toString(pstmt.executeUpdate());
-		} finally {
+			resultCode = pstmt.executeUpdate();
+			
+			return resultCode;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(e);
+			JdbcUtil.rollback(conn);
+		}finally {
 			JdbcUtil.close(pstmt);
 		}
+		return resultCode;
 	}
 
 	/*login을 위한 ID, PASSWORD matching*/

@@ -1,6 +1,7 @@
 package com.city.web.service;
 
 import com.city.model.Address;
+import com.city.model.CityAjaxJSON;
 import com.city.web.dao.CityDao;
 
 import jdbc.connection.ConnectionProvider;
@@ -43,5 +44,18 @@ public class AddressService {
 			throw new RuntimeException();
 		}
 	}
+	
+	public List<CityAjaxJSON> getCityList() {
+		try (Connection conn = ConnectionProvider.getConnection()) {
+			List<CityAjaxJSON> addressCityList = new ArrayList<>();
+			addressCityList = cityDao.selectCityList(conn);
+			if (addressCityList == null) {
+				throw new SQLException();
+			}
 
+			return addressCityList;
+		} catch (SQLException e) {
+			throw new RuntimeException();
+		}
+	}
 }
