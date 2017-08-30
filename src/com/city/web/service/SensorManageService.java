@@ -7,6 +7,8 @@ import java.util.List;
 
 import com.city.model.LocationManagement;
 import com.city.model.SensorInfo;
+import com.city.model.SmManagementInfo;
+import com.city.model.TmManagementInfo;
 import com.city.model.WmManagementInfo;
 import com.city.web.dao.ManagementDao;
 import com.city.web.dao.SensorDao;
@@ -29,7 +31,17 @@ public class SensorManageService {
 	private int size = 10;
 	
 	// manageType: tm, wm, gm, sm
-	public WmSensorListPage getSensorListPage(int pageNum, String manageType) {
+	public TmSensorListPage getTmSensorListPage(int pageNum, String manageType) {
+		try (Connection conn = ConnectionProvider.getConnection()) {
+			int total = managementDao.selectCount(conn, manageType);
+			List<TmManagementInfo> content = managementDao.tmSensorList(conn, (pageNum - 1) * size, size, manageType);
+			return new TmSensorListPage(total, pageNum, size, content);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	// manageType: wm
+	public WmSensorListPage getWmSensorListPage(int pageNum, String manageType) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
 			int total = managementDao.selectCount(conn, manageType);
 			List<WmManagementInfo> content = managementDao.wmSensorList(conn, (pageNum - 1) * size, size, manageType);
@@ -38,7 +50,18 @@ public class SensorManageService {
 			throw new RuntimeException(e);
 		}
 	}
-
+	// manageType: sm
+	public SmSensorListPage getSmSensorListPage(int pageNum, String manageType) {
+		try (Connection conn = ConnectionProvider.getConnection()) {
+			int total = managementDao.selectCount(conn, manageType);
+			List<SmManagementInfo> content = managementDao.smSensorList(conn, (pageNum - 1) * size, size, manageType);
+			return new SmSensorListPage(total, pageNum, size, content);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	
 	public String sensorRegister(SensorInfo sensorInfo) {
 		Connection conn = null;
 		String sensorRegister = null;

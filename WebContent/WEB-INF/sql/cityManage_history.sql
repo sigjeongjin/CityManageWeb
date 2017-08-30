@@ -160,3 +160,7 @@ CHANGE COLUMN `city_geocode` `city_code` VARCHAR(10) NOT NULL COMMENT '시/도 �
 -- 2017.08.25 colum 추가
 ALTER TABLE `citymanage`.`location_management` 
 ADD COLUMN `operation_status` VARCHAR(1) NULL AFTER `manage_type`;
+
+-- 2017.08.28 colum 추가
+ALTER TABLE `citymanage`.`push_history_info` 
+ADD COLUMN `manage_id` VARCHAR(15) NOT NULL AFTER `push_send_time`;

@@ -8,8 +8,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.city.model.GmManagementInfo;
 import com.city.model.LocationManagement;
 import com.city.model.SensorResultInfo;
+import com.city.model.SmManagementInfo;
 import com.city.model.TmManagementInfo;
 import com.city.model.WmManagementInfo;
 
@@ -55,45 +57,6 @@ public class ManagementDao {
 		}
 	}
 
-	public List<LocationManagement> selectSensorList(Connection conn, int startRow, int size, String manageType)
-			throws SQLException {
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		System.out.println("manageType : " + manageType);
-		try {
-			pstmt = conn.prepareStatement("select * from location_management lm "
-					+ "left join address_city city on lm.city_code = city.city_code "
-					+ "left join address_state state on lm.state_code= state.state_code "
-					+ "where manage_type = ? limit ?, ?");
-			pstmt.setString(1, manageType);
-			pstmt.setInt(2, startRow);
-			pstmt.setInt(3, size);
-			rs = pstmt.executeQuery();
-
-			List<LocationManagement> sensorList = new ArrayList<>();
-			while (rs.next()) {
-				sensorList.add(joinSeonsorFromResultSet(rs));
-			}
-			return sensorList;
-		} finally {
-			JdbcUtil.close(pstmt);
-			JdbcUtil.close(rs);
-		}
-	}
-	
-	private LocationManagement joinSeonsorFromResultSet(ResultSet rs) throws SQLException {
-		LocationManagement locationManagement = new LocationManagement();
-		locationManagement.setManageId(rs.getString("manage_id"));
-		locationManagement.setLatitude(rs.getDouble("latitude"));
-		locationManagement.setLongitude(rs.getDouble("longitude"));
-		locationManagement.setMemo(rs.getString("memo"));
-		locationManagement.setCityCode(rs.getString("city_name"));
-		locationManagement.setStateCode(rs.getString("state_name"));
-		locationManagement.setSensorTypes(rs.getString("sensor_types"));
-		locationManagement.setManageType(rs.getString("manage_type"));
-		return locationManagement;
-	}
 
 	private LocationManagement makeSeonsorFromResultSet(ResultSet rs) throws SQLException {
 		LocationManagement locationManagement = new LocationManagement();
@@ -190,7 +153,7 @@ public class ManagementDao {
 					+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='s') stink, "
 					+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='g') generous, "
 					+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='l') lock, "
-					+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus,"
+					+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
 					+ "CONCAT((latitude),', ',(latitude)) coordinate, memo "
 					+ "from location_management lm where lm.manage_type=? and manage_id=lm.manage_id limit ?, ?");
 			pstmt.setString(1, manageType);
@@ -229,7 +192,7 @@ public class ManagementDao {
 			pstmt = conn.prepareStatement("select lm.manage_id manageId, CONCAT((select city_name from address_city where city_code=lm.city_code),' ',(select state_name from address_state where state_code=lm.state_code)) locationName, "
 					+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='wq') waterQuality, "
 					+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='wl') waterLevel, "
-					+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus,"
+					+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
 					+ "CONCAT((latitude),', ',(latitude)) coordinate, memo "
 					+ "from location_management lm where lm.manage_type=? and manage_id=lm.manage_id limit ?, ?");
 			pstmt.setString(1, manageType);
@@ -256,4 +219,77 @@ public class ManagementDao {
 		}
 	}
 
+	// 도시가스관리 리스트
+	public List<GmManagementInfo> gmSensorList(Connection conn, int startRow, int size, String manageType)
+			throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			pstmt = conn.prepareStatement("select lm.manage_id manageId, CONCAT((select city_name from address_city where city_code=lm.city_code),' ',(select state_name from address_state where state_code=lm.state_code)) locationName, "
+					+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='gd') gasDensity, "
+					+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='sd') shockDetection, "
+					+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
+					+ "CONCAT((latitude),', ',(latitude)) coordinate, memo "
+					+ "from location_management lm where lm.manage_type=? and manage_id=lm.manage_id limit ?, ?");
+			pstmt.setString(1, manageType);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, size);
+			rs = pstmt.executeQuery();
+
+			List<GmManagementInfo> gmManagementInfoList = new ArrayList<>();
+			while (rs.next()) {
+				GmManagementInfo gmManagementInfo = new GmManagementInfo();
+				gmManagementInfo.setManageId(rs.getString("manageId"));
+				gmManagementInfo.setLocationName(rs.getString("locationName"));
+				gmManagementInfo.setGasDensity(rs.getString("gasDensity"));
+				gmManagementInfo.setShockDetection(rs.getString("shockDetection"));
+				gmManagementInfo.setOperationStatus(rs.getString("operationStatus"));
+				gmManagementInfo.setCoordinate(rs.getString("coordinate"));
+				gmManagementInfo.setMemo(rs.getString("memo"));
+				gmManagementInfoList.add(gmManagementInfo);
+			}
+			return gmManagementInfoList;
+		} finally {
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(rs);
+		}
+	}
+	
+	// 금연구역관리 리스트
+	public List<SmManagementInfo> smSensorList(Connection conn, int startRow, int size, String manageType)
+			throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			pstmt = conn.prepareStatement("select lm.manage_id manageId, CONCAT((select city_name from address_city where city_code=lm.city_code),' ',(select state_name from address_state where state_code=lm.state_code)) locationName, "
+					+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='fd') flameDetection, "
+					+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='sd') smokeDetection, "
+					+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
+					+ "CONCAT((latitude),', ',(latitude)) coordinate, memo "
+					+ "from location_management lm where lm.manage_type=? and manage_id=lm.manage_id limit ?, ?");
+			pstmt.setString(1, manageType);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, size);
+			rs = pstmt.executeQuery();
+
+			List<SmManagementInfo> smManagementInfoList = new ArrayList<>();
+			while (rs.next()) {
+				SmManagementInfo smManagementInfo = new SmManagementInfo();
+				smManagementInfo.setManageId(rs.getString("manageId"));
+				smManagementInfo.setLocationName(rs.getString("locationName"));
+				smManagementInfo.setFlameDetection(rs.getString("flameDetection"));
+				smManagementInfo.setSmokeDetection(rs.getString("smokeDetection"));
+				smManagementInfo.setOperationStatus(rs.getString("operationStatus"));
+				smManagementInfo.setCoordinate(rs.getString("coordinate"));
+				smManagementInfo.setMemo(rs.getString("memo"));
+				smManagementInfoList.add(smManagementInfo);
+			}
+			return smManagementInfoList;
+		} finally {
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(rs);
+		}
+	}
 }

@@ -3,8 +3,8 @@ package com.city.web.command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.city.web.service.SensorListPage;
 import com.city.web.service.SensorManageService;
+import com.city.web.service.TmSensorListPage;
 
 public class TmListHandler implements CommandHandler {
 
@@ -20,8 +20,8 @@ public class TmListHandler implements CommandHandler {
 			pageNo = Integer.parseInt(pageNoVal);
 		}
 
-		//SensorListPage sensorListPage = sensorManageService.getSensorListPage(pageNo, manageType);
-		//request.setAttribute("tmSensorListPage", sensorListPage);
+		TmSensorListPage tmSensorListPage = sensorManageService.getTmSensorListPage(pageNo, manageType);
+		request.setAttribute("TmListPage", tmSensorListPage);
 
 		request.getSession().setAttribute("manageType", manageType);
 

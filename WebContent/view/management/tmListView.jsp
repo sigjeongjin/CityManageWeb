@@ -39,7 +39,7 @@ pageEncoding = "UTF-8"%>
 	<tr>
 		<th>번호</th>
 		<th>관리ID</th>
-		<th colspan="2">지역</th>
+		<th colspan="2">지역정보</th>
 		<th>만적정보</th>
 		<th>악취정보</th>
 		<th>불꽃정보</th>
@@ -49,42 +49,40 @@ pageEncoding = "UTF-8"%>
 		<th>비고</th>
 		<th>센서추가</th>
 	</tr>	
-<c:if test="${tmSensorListPage.hasNoSensors()}">
+<c:if test="${TmListPage.hasNoSensors()}">
 	<tr>
 		<td colspan="13">검색 결과가 없습니다.</td>
 	</tr>
 </c:if>
 
-<c:forEach var="lcationManagement" items="${tmSensorListPage.content}" varStatus="status">
+<c:forEach var="tmManagementInfo" items="${TmListPage.content}" varStatus="status">
 	<tr id="tmSensorList" class="tmSensorList">
-		<td>${(status.index + 1) + (tmSensorListPage.currentPage -1) * 10}</td>
-		<td id="1">${lcationManagement.manageId}</td>
-		<td id="2">${lcationManagement.cityCode}</td>
-		<td id="3">${lcationManagement.stateCode}</td>
-		<td id="4">등록X</td>
-		<td id="5">등록X</td>	
-		<td id="6">등록X</td>
-		<td id="7">등록X</td>	
-		<td id="8">등록X</td>
-		<td id="9">${lcationManagement.latitude}</td>
-		<td id="10">${lcationManagement.longitude}</td>
-		<td id="11">${lcationManagement.memo}</td>
-		<td id="10" onclick="event.cancelBubble=true"><p id="sensorRegister">센서 추가</p></td>
+		<td>${(status.index + 1) + (TmListPage.currentPage -1) * 10}</td>
+		<td id="tdManageId">${tmManagementInfo.manageId}</td>
+		<td colspan="2">${tmManagementInfo.locationName}</td>
+		<td>${tmManagementInfo.flameDetection}</td>
+		<td>${tmManagementInfo.stink}</td>
+		<td>${tmManagementInfo.generous}</td>
+		<td>${tmManagementInfo.lock}</td>
+		<td>${tmManagementInfo.operationStatus}</td>
+		<td colspan="2" >${tmManagementInfo.coordinate}</td>
+		<td>${tmManagementInfo.memo}</td>
+		<td onclick="event.cancelBubble=true"><p id="sensorRegister">센서 추가</p></td>
 	</tr>
 </c:forEach>
- <c:if test="${tmSensorListPage.hasSensors()}">
+ <c:if test="${TmListPage.hasSensors()}">
 	<tr>
 		<td colspan="13">
-			<c:if test="${tmSensorListPage.startPage > 5}">
-			<a href="tmList.do?pageNo=${tmSensorListPage.startPage - 5}">[이전]</a>
+			<c:if test="${TmListPage.startPage > 5}">
+			<a href="tmList.do?pageNo=${TmListPage.startPage - 5}">[이전]</a>
 			</c:if>
 			<c:forEach var="pNo" 
-					   begin="${tmSensorListPage.startPage}" 
-					   end="${tmSensorListPage.endPage}">
+					   begin="${TmListPage.startPage}" 
+					   end="${TmListPage.endPage}">
 			<a href="tmList.do?pageNo=${pNo}">[${pNo}]</a>
 			</c:forEach>
-			<c:if test="${tmSensorListPage.endPage < tmSensorListPage.totalPages}">
-			<a href="tmList.do?pageNo=${tmSensorListPage.startPage + 5}">[다음]</a>
+			<c:if test="${TmListPage.endPage < TmListPage.totalPages}">
+			<a href="tmList.do?pageNo=${TmListPage.startPage + 5}">[다음]</a>
 			</c:if>
 		</td>
 	</tr>

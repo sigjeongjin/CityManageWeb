@@ -3,8 +3,9 @@ package com.city.web.command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.city.web.service.SensorListPage;
+
 import com.city.web.service.SensorManageService;
+import com.city.web.service.SmSensorListPage;
 
 public class SmListHandler  implements CommandHandler {
 	
@@ -20,8 +21,8 @@ public class SmListHandler  implements CommandHandler {
 			pageNo = Integer.parseInt(pageNoVal);
 		}
 
-		//SensorListPage sensorListPage = sensorManageService.getSensorListPage(pageNo, manageType);
-		//request.setAttribute("smSensorListPage", sensorListPage);
+		SmSensorListPage smSensorListPage = sensorManageService.getSmSensorListPage(pageNo, manageType);
+		request.setAttribute("SmListPage", smSensorListPage);
 
 		request.getSession().setAttribute("manageType", manageType);
 
