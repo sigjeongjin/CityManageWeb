@@ -31,40 +31,39 @@ public class SensorDao {
 		}
 	}
 
+
+	/** sensorId NUMBER AUTO SELECT문 */
 	public String searchById(Connection conn, String manageType) throws SQLException {
-		ResultSet rs1 = null;
-		ResultSet rs2 = null;
-		PreparedStatement pstmt1 = null;
-		PreparedStatement pstmt2 = null;
-		int number = 0;
-		String sensorId1 = null;
-		String sensorId2 = null;
-
+		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		String manageId = null;
+		
 		try {
-			pstmt1 = conn.prepareStatement("select max(sensor_id) from sensor_info");
-			rs1 = pstmt1.executeQuery();
-			while (rs1.next()) {
-				sensorId1 = rs1.getString(1);
+			if(manageType.equals("tm")) {
+				pstmt = conn.prepareStatement("select CONCAT('T', LPAD((select(select cast((select right((select max(manage_id) from location_management), 14)) as unsigned) as mInt) + 1 mSum), 14, '0')) manageId FROM DUAL");
 			}
-			sensorId1 = sensorId1.replaceAll("[^0-9]", "");
-			number = Integer.parseInt(sensorId1) + 1;
-			pstmt2 = conn.prepareStatement("select CONCAT('W', LPAD(" + number + ",5,'0')) FROM DUAL");
-			rs2 = pstmt2.executeQuery();
-			while (rs2.next()) {
-				sensorId2 = rs2.getString(1);
+			else if(manageType.equals("wm")) {
+				pstmt = conn.prepareStatement("select CONCAT('W', LPAD((select(select cast((select right((select max(manage_id) from location_management), 14)) as unsigned) as mInt) + 1 mSum), 14, '0')) manageId FROM DUAL");
 			}
-
-			System.out.println("sensorId2 : " + sensorId2);
+			else if(manageType.equals("gm")) {
+				pstmt = conn.prepareStatement("select CONCAT('G', LPAD((select(select cast((select right((select max(manage_id) from location_management), 14)) as unsigned) as mInt) + 1 mSum), 14, '0')) manageId FROM DUAL");
+			}
+			else if(manageType.equals("sm")) {
+				pstmt = conn.prepareStatement("select CONCAT('S', LPAD((select(select cast((select right((select max(manage_id) from location_management), 14)) as unsigned) as mInt) + 1 mSum), 14, '0')) manageId FROM DUAL");
+			}
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				manageId = rs.getString(1);
+			}
+			System.out.println("manageId : " + manageId);
 		} finally {
-			JdbcUtil.close(pstmt1);
-			JdbcUtil.close(rs1);
-			JdbcUtil.close(pstmt2);
-			JdbcUtil.close(rs2);
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
 		}
-		return sensorId2;
+		return manageId;
 	}
 
-	public List<SensorInfo> searchByType(Connection conn, String sensorManageId) throws SQLException {
+/*	public List<SensorInfo> searchByType(Connection conn, String sensorManageId) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
@@ -82,7 +81,7 @@ public class SensorDao {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);
 		}
-	}
+	}*/
 	
 	private SensorInfo makeSensorTypeFromResultSet(ResultSet rs) throws SQLException {
 		SensorInfo sensorInfo = new SensorInfo();
@@ -104,6 +103,27 @@ public class SensorDao {
 				sensorInfoList.add(makeSensorFromResultSet(rs));
 			}
 			return sensorInfoList;
+
+		} finally {
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(rs);
+		}
+	}
+	
+	// 해당 manageId sensorInfo 정보를 불러오기 위한 select문
+	public List<String> searchByType(Connection conn, String manageId) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement("select sensor_type from sensor_info where manage_id = ? ");
+			pstmt.setString(1, manageId);
+			rs = pstmt.executeQuery();
+			List<String> sensorTypeList = new ArrayList<>();
+			while (rs.next()) {
+
+				sensorTypeList.add(rs.getString("sensor_type"));
+			}
+			return sensorTypeList;
 
 		} finally {
 			JdbcUtil.close(pstmt);

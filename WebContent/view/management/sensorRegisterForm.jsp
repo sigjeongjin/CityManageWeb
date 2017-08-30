@@ -39,61 +39,90 @@ pageEncoding = "UTF-8"%>
 			</div>		
 </form>
 
-<input type="hidden" id="arraySensor" name="arraySensor" value="${sensorTypes}">
-<input type="hidden" id="arraySensorThis" name="arraySensorThis" value="${sensorTypeTemp}">
+<input type="hidden" id="systemSensor" name="systemSensor" value="${sensorTypes}">
+<input type="hidden" id="systemSensorThis" name="systemSensorThis" value="${sensorTypeList}">
 </body>
 
 <script src="../../js/jquery-1.11.0.min.js"></script>
 
 <script type="text/javascript">
 
-var sensorTypes = $('#arraySensor').val();
-console.log(sensorTypes);
+var managemanageSensorTypes = $('#systemSensor').val();
+console.log(manageSensorTypes);
 
-var array = $('#arraySensorThis').val();
-	array =  array.substring(0, array.length-2);
-var sensorTypeThis = array.split(', ');
-console.log("sensorTypeThis : " + sensorTypeThis);
+var array = $('#systemSensorThis').val();
+console.log(array);
+//array =  array.substring(0, array.length-2);
+var systemSensorThis = array.split(', ');
+console.log("systemSensorThis : " + systemSensorThis);
 
-if (sensorTypes != null && sensorTypes != "") {
+if (manageSensorTypes != null && manageSensorTypes != "") {
 	
-	var sensorArray = sensorTypes.split(', ');
+	var manageSensorTypes = manageSensorTypes.split(', ');
 	
-	console.log(sensorArray);
+	console.log("dgdfg"+manageSensorTypes);
 	
 	var options = $('#sensorType');
 	
 	options.html("<option>센서선택</option>");
 	
-	for(i=0;i<sensorArray.length;i++){
+	for(i=0;i<manageSensorTypes.length;i++){
 		// 쓰레기통 관리
-		if (sensorArray[i]==="g") {
-			options.append("<option value=" + sensorArray[i] + ">" + "만적센서" +"</option>");
+		if (manageSensorTypes[i]==="g") {
+			options.append("<option value=" + manageSensorTypes[i] + ">" + "만적센서" +"</option>");
 		}
-		if (sensorArray[i]==="s") {
-			options.append("<option value=" + sensorArray[i] + ">" + "악취센서" +"</option>");
+		if (manageSensorTypes[i]==="s") {
+			options.append("<option value=" + manageSensorTypes[i] + ">" + "악취센서" +"</option>");
 		}
-		if (sensorArray[i]==="fd") {
-			options.append("<option value=" + sensorArray[i] + ">" + "불꽃감지센서" +"</option>");
+		if (manageSensorTypes[i]==="fd") {
+			options.append("<option value=" + manageSensorTypes[i] + ">" + "불꽃감지센서" +"</option>");
 		}
-		if (sensorArray[i]==="lr") {
-			options.append("<option value=" + sensorArray[i] + ">" + "짐금" +"</option>");
+		if (manageSensorTypes[i]==="l") {
+			options.append("<option value=" + manageSensorTypes[i] + ">" + "짐금" +"</option>");
 		}
 		// 수질 관리
-		if (sensorArray[i]==="wq") {
-			options.append("<option value=" + sensorArray[i] + ">" + "수질센서" +"</option>");
+		if (manageSensorTypes[i]==="wq") {
+			options.append("<option value=" + manageSensorTypes[i] + ">" + "수질센서" +"</option>");
 		}
-		if (sensorArray[i]==="wl") {
-			options.append("<option value=" + sensorArray[i] + ">" + "수위센서" +"</option>");
+		if (manageSensorTypes[i]==="wl") {
+			options.append("<option value=" + manageSensorTypes[i] + ">" + "수위센서" +"</option>");
+		}	
+		// 도시가스 관리
+		if (manageSensorTypes[i]==="sd") {
+			options.append("<option value=" + manageSensorTypes[i] + ">" + "충격감지센서" +"</option>");
+		}
+		if (manageSensorTypes[i]==="gd") {
+			options.append("<option value=" + manageSensorTypes[i] + ">" + "압력농도센서" +"</option>");
+		}
+		// 금연구역 관리
+		if (manageSensorTypes[i]==="fd") {
+			options.append("<option value=" + manageSensorTypes[i] + ">" + "불꽃감지센서" +"</option>");
+		}
+		if (manageSensorTypes[i]==="sm") {
+			options.append("<option value=" + manageSensorTypes[i] + ">" + "연기감지센서" +"</option>");
 		}
 	}
 	
-	for(i=0;i<sensorTypeThis.length;i++){
-		console.log(sensorTypeThis[i]);
-		if (sensorTypeThis[i]==="wq") {
+	for(i=0;i<systemSensorThis.length;i++){
+		console.log(systemSensorThis[i]);
+		
+		if (systemSensorThis[i]==="g") {
+			$("option[value='g']").remove();
+		}
+		if (systemSensorThis[i]==="s") {
+			$("option[value='s']").remove();
+		}
+		if (systemSensorThis[i]==="f") {
+			$("option[value='f']").remove();
+		}
+		if (systemSensorThis[i]==="l") {
+			$("option[value='d']").remove();
+		}
+		
+		if (systemSensorThis[i]==="wq") {
 			$("option[value='wq']").remove();
 		}
-		if (sensorTypeThis[i]==="wl") {
+		if (systemSensorThis[i]==="wl") {
 			$("option[value='wl']").remove();
 		}
 	}

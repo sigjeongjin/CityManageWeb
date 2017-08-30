@@ -4,13 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.city.model.GmManagementInfo;
 import com.city.model.LocationManagement;
-import com.city.model.SensorResultInfo;
+import com.city.model.GmManagementInfo;
 import com.city.model.SmManagementInfo;
 import com.city.model.TmManagementInfo;
 import com.city.model.WmManagementInfo;
@@ -19,6 +17,25 @@ import jdbc.JdbcUtil;
 
 public class ManagementDao {
 
+	/** management count를 위한 SELECT문 */
+	public int selectCount(Connection conn, String manageType) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement("select count(*) from location_management where manage_type = ?");
+			pstmt.setString(1, manageType);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				return rs.getInt(1);
+			}
+		} finally {
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(rs);
+		}
+		return 0;
+	}
+
+	/** management 정보 등록 INSERT문 */
 	public String insertManagement(Connection conn, LocationManagement locationManagement) throws SQLException {
 		PreparedStatement pstmt = null;
 		try {
@@ -38,91 +55,43 @@ public class ManagementDao {
 			JdbcUtil.close(pstmt);
 		}
 	}
-
-	public int selectCount(Connection conn, String manageType) throws SQLException {
-		Statement stmt = null;
-		ResultSet rs = null;
-		try {
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(
-					"select count(*) from location_management where manage_type =" + "'" + manageType + "'");
-
-			if (rs.next()) {
-				return rs.getInt(1);
-			}
-			return 0;
-		} finally {
-			JdbcUtil.close(rs);
-			JdbcUtil.close(stmt);
-		}
-	}
-
-
-	private LocationManagement makeSeonsorFromResultSet(ResultSet rs) throws SQLException {
-		LocationManagement locationManagement = new LocationManagement();
-		locationManagement.setManageId(rs.getString("manage_id"));
-		locationManagement.setLatitude(rs.getDouble("latitude"));
-		locationManagement.setLongitude(rs.getDouble("longitude"));
-		locationManagement.setMemo(rs.getString("memo"));
-		locationManagement.setCityCode(rs.getString("city_code"));
-		locationManagement.setStateCode(rs.getString("state_code"));
-		locationManagement.setSensorTypes(rs.getString("sensor_types"));
-		locationManagement.setManageType(rs.getString("manage_type"));
-		return locationManagement;
-	}
-
-	public LocationManagement selectById(Connection conn, String manageId) throws SQLException {
+	
+	/** LIST INFO manageId로 정보검색 SELECT문 */
+	public LocationManagement selectManagementInfo(Connection conn, String manageId) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			pstmt = conn.prepareStatement("select * from location_management where manage_id=?");
+			pstmt = conn.prepareStatement("select manage_id manageId, "
+					+ "(select city_name from address_city where city_code=lm.city_code) cityName, "
+					+ "(select state_name from address_state where state_code=lm.state_code) stateName, "
+					+ "city_code cityCode, state_code stateCode, "
+					+ "latitude, longitude , memo, sensor_types sensorTypes, manage_type manageType "
+					+ "from location_management lm where lm.manage_id = ?");
 			pstmt.setString(1, manageId);
 			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				return makeSeonsorFromResultSet(rs);
-			} else {
-				return null;
+			while (rs.next()) {
+				LocationManagement manageInfo = new LocationManagement();
+				manageInfo.setManageId(rs.getString("manageId"));
+				manageInfo.setLatitude(rs.getDouble("latitude"));
+				manageInfo.setLongitude(rs.getDouble("longitude"));
+				manageInfo.setMemo(rs.getString("memo"));
+				manageInfo.setCityName(rs.getString("cityName"));
+				manageInfo.setCityCode(rs.getString("cityCode"));
+				manageInfo.setStateName(rs.getString("stateName"));
+				manageInfo.setStateCode(rs.getString("stateCode"));
+				manageInfo.setSensorTypes(rs.getString("sensorTypes"));
+				manageInfo.setManageType(rs.getString("manageType"));
+				return manageInfo;
 			}
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);
 		}
+		return null;
 	}
 
-	public String searchById(Connection conn) throws SQLException {
-		ResultSet rs1 = null;
-		ResultSet rs2 = null;
-		PreparedStatement pstmt1 = null;
-		PreparedStatement pstmt2 = null;
-		int number = 0;
-		String manageId1 = null;
-		String manageId2 = null;
-
-		try {
-			pstmt1 = conn.prepareStatement("select max(manage_id) from location_management");
-			rs1 = pstmt1.executeQuery();
-			while (rs1.next()) {
-				manageId1 = rs1.getString(1);
-			}
-			manageId1 = manageId1.replaceAll("[^0-9]", "");
-			number = Integer.parseInt(manageId1) + 1;
-			pstmt2 = conn.prepareStatement("select CONCAT('M', LPAD(" + number + ",6,'0')) FROM DUAL");
-			rs2 = pstmt2.executeQuery();
-			while (rs2.next()) {
-				manageId2 = rs2.getString(1);
-			}
-
-			System.out.println("manageId2 : " + manageId2);
-		} finally {
-			JdbcUtil.close(pstmt1);
-			JdbcUtil.close(rs1);
-			JdbcUtil.close(pstmt2);
-			JdbcUtil.close(rs2);
-		}
-		return manageId2;
-	}
-
-	public String update(Connection conn, LocationManagement locationManagement) throws SQLException {
+	/** LIST INFO manageId로 정보수정 UPDATE문 */
+	public String updateManagementInfo(Connection conn, LocationManagement locationManagement) throws SQLException {
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement("update location_management "
@@ -139,8 +108,27 @@ public class ManagementDao {
 			JdbcUtil.close(pstmt);
 		}
 	}
-	// **************************************************
 	
+	/** manageId NUMBER AUTO SELECT문 */
+	public String searchById(Connection conn) throws SQLException {
+		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		String manageId = null;
+		try {
+			pstmt = conn.prepareStatement("select CONCAT('M', LPAD((select(select cast((select right((select max(manage_id) from location_management), 14)) as unsigned) as mInt) + 1 mSum), 14, '0')) manageId FROM DUAL");
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				manageId = rs.getString(1);
+			}
+			System.out.println("manageId : " + manageId);
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+		}
+		return manageId;
+	}
+
+	/** LIST SELECT문 */
 	// 쓰레기통관리 리스트
 	public List<TmManagementInfo> tmSensorList(Connection conn, int startRow, int size, String manageType)
 			throws SQLException {
@@ -292,4 +280,6 @@ public class ManagementDao {
 			JdbcUtil.close(rs);
 		}
 	}
+
+
 }

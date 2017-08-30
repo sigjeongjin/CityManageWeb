@@ -114,18 +114,18 @@ public class SensorManageService {
 		}
 	}
 
-	public List<SensorInfo> sensorTypeSelect(String sensorManageId) {
+	public List<String> sensorTypeSelect(String manageId) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
 
-			List<SensorInfo> sensorInfo = new ArrayList<>();
-			sensorInfo = sensorDao.searchByType(conn, sensorManageId);
+			List<String> sensorTypeList = new ArrayList<>();
+			sensorTypeList = sensorDao.searchByType(conn, manageId);
 
-			if (sensorInfo == null) {
+			if (sensorTypeList == null) {
 				System.out.println("not type");
 				throw new NullPointerException();
 			}
 
-			return sensorInfo;
+			return sensorTypeList;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);

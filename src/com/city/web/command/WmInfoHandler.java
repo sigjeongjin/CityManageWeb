@@ -36,19 +36,12 @@ public class WmInfoHandler implements CommandHandler {
 	}
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		String manageId = request.getParameter("manageId");
-
-		String cityName = request.getParameter("cityName");
-		String stateName = request.getParameter("stateName");
-
-		request.setAttribute("cityName", cityName);
-		request.setAttribute("stateName", stateName);
-
+		
 		// 상세 정보 들어갈때 해당 manageId에 locationManagementInfo
-		LocationManagement locationManagement = manageLocationService.managementSelect(manageId);
-		request.getSession().setAttribute("manageInfo", locationManagement);
-
+		String manageId = request.getParameter("manageId");
+		LocationManagement manageInfo = manageLocationService.managementInfo(manageId);
+		request.getSession().setAttribute("manageInfo", manageInfo);
+		
 		// 상세 정보 들어갈때 해당 manageId에 setting 되어있는 sensorInfo
 		List<SensorInfo> sensorInfo = new ArrayList<>();
 		sensorInfo = sensorManageService.selectSensor(manageId);

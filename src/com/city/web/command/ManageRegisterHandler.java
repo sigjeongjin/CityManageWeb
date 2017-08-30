@@ -46,8 +46,8 @@ public class ManageRegisterHandler implements CommandHandler {
 		locationManagement.setManageType(manageType);
 		locationManagement.setSensorTypes(sensorTypes);
 		locationManagement.setMemo(request.getParameter("memo"));
-		locationManagement.setCityCode(request.getParameter("cityCode"));
-		locationManagement.setStateCode(request.getParameter("stateCode"));
+		//locationManagement.setCityCode(request.getParameter("cityCode"));
+		//locationManagement.setStateCode(request.getParameter("stateCode"));
 	
 
 		manageLocationService.managementRegister(locationManagement);

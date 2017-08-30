@@ -10,39 +10,41 @@ pageEncoding = "UTF-8"%>
 </head>
 <body>
 <jsp:include page="../header/menuHeader.jsp" flush="true"/>
-	
-	<div class="manageContainer">
-	
-	<!-- click한 관리지역 정보 -->
-	<div class="infoContainer">
-	<table class="beforeTable">
+
+<div id="modifyContainer">	
+<form action="manageLocationUpdate.do" method="post">
+
+	<table>
 	<tr>
 		<td colspan="2"><label><b>관리ID :</b></label></td>
-		<td colspan="3"><input type="text" id="manageId" name="manageId" value="${manageInfo.manageId}" disabled></td>
+		<td colspan="3"><input type="text" id="manageId" name="manageId" value="${manageInfo.manageId}" disabled="disabled" readonly="readonly"></td>
 	</tr>
 	<tr>
 		<td colspan="2"><label><b>지역선택 :</b></label></td>
 		<td colspan="1">
-			<select>
-				<option selected disabled="disabled">${cityName}</option>
-	    	</select></td>	    	
+			<select id="cityCode" name="cityCode" onchange="javascript:selectEvent(this)">
+				<option value="${manageInfo.cityCode}" selected disabled="disabled" >${manageInfo.cityName} </option>
+				<c:forEach var="address" items="${addressCityList}" varStatus="status">
+				<option value="${address.cityCode}">${address.cityName}</option>
+				</c:forEach>
+	    	</select></td>
+	    	
 	    <td colspan="1">
-	    	 <select>
-				<option selected disabled="disabled">${stateName}</option>
+	    	 <select id="stateCode" name="stateCode">
+			 <option value="${manageInfo.stateCode}" selected disabled="disabled">${manageInfo.stateName}</option>
 	    	</select></td>
 	</tr>	
 	<tr>
 		<td colspan="2"><label><b>좌표값 :</b></label></td>
-		<td colspan="1"><input type="text" id="latitude" name="latitude" value="${manageInfo.latitude}" disabled></td>
-		<td colspan="1"><input type="text" id="longitude" name="longitude" value="${manageInfo.longitude}" disabled></td>
+		<td colspan="1"><input type="text" placeholder="위도" id="latitude" name="latitude" value="${manageInfo.latitude}" required disabled="disabled"></td>
+		<td colspan="1"><input type="text" placeholder="경도" id="longitude" name="longitude" value="${manageInfo.longitude}" required disabled="disabled"></td>
 	</tr>
 	<tr>
 		<td colspan="2"><label><b>비고 :</b></label></td>
 		<td colspan="2">
-		<textarea rows="4" cols="55" id="memo" name="memo" disabled></textarea>
+		<textarea rows="4" cols="55" id="memo" name="memo" disabled="disabled">${manageInfo.memo}</textarea>
 		</td>
 	</tr>
-	<tr>
 <!-- *****관리 시스템 선택***** -->	
 	<c:if test="${manageType == 'tm'}">
 		<tr>
@@ -53,7 +55,7 @@ pageEncoding = "UTF-8"%>
 		<tr>
 			<td colspan="2"></td> 
 			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="fd" disabled="disabled"><label><b>불꽃감지센서</b></label></td>
-			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="lr" disabled="disabled"><label><b>잠금</b></label></td>
+			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="l" disabled="disabled"><label><b>잠금</b></label></td>
 		</tr>		
 	</c:if>
 	<c:if test="${manageType == 'wm'}">
@@ -66,149 +68,81 @@ pageEncoding = "UTF-8"%>
 	<c:if test="${manageType == 'gm'}">
 		<tr>
 			<td colspan="2"><label><b>센서종류 :</b></label></td> 
-			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="wq" disabled="disabled"><label><b>충격감지센서</b></label></td>
-			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="wl" disabled="disabled"><label><b>압력농도센서</b></label></td>
+			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="sd" disabled="disabled"><label><b>충격감지센서</b></label></td>
+			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="gd" disabled="disabled"><label><b>압력농도센서</b></label></td>
 		</tr>	
 	</c:if>
 	<c:if test="${manageType == 'sm'}">
 		<tr>
 			<td colspan="2"><label><b>센서종류 :</b></label></td> 
 			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="fd" disabled="disabled"><label><b>불꽃감지센서</b></label></td>
-			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="sm" disabled="disabled"><label><b>연기감지센서</b></label></td>
+			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="sd" disabled="disabled"><label><b>연기감지센서</b></label></td>
 		</tr>	
 	</c:if>
-<!-- ****************************** -->
-		</table>
-	</div>
-	
-	<div class="show" >
-    	<button type="submit" value="changeBtn" onclick="myFunction()">수정</button>
-    </div>
-    
-	<!-- click한 관리지역 정보 수정 -->
-	<form action="manageLocationUpdate.do" method="post"> 
+</table>
 
-	<div id="modifyContainer" class="modifyContainer" style="display:none">
-	<table>
-	<tr>
-		<td colspan="2"><label><b>관리ID :</b></label></td>
-		<td colspan="3"><input type="text" placeholder="M00001" id="manageId" name="manageId" value="${wmManageInfo.manageId}" readonly="readonly"></td>
-	</tr>
-	<tr>
-		<td colspan="2"><label><b>지역선택 :</b></label></td>
-		<td colspan="1">
-			<select id="cityCode" name="cityCode" onchange="javascript:selectEvent(this)">
-				<option value = "${wmManageInfo.cityCode}" selected>${cityName}</option>
-				<c:forEach var="address" items="${addressCityList}" varStatus="status">
-				<option value="${address.cityCode}">${address.cityName}</option>
-				</c:forEach>
-	    	</select></td>
-	    	
-	    <td colspan="1">
-	    	 <select id="stateCode" name="stateCode">
-			 <option value = "${wmManageInfo.stateCode}" selected>${stateName}</option>
-	    	</select></td>
-	</tr>	
-	<tr>
-		<td colspan="2"><label><b>좌표값 :</b></label></td>
-		<td colspan="1"><input type="text" placeholder="위도" id="latitude" name="latitude" value="${wmManageInfo.latitude}" required></td>
-		<td colspan="1"><input type="text" placeholder="경도" id="longitude" name="longitude" value="${wmManageInfo.longitude}" required></td>
-	</tr>
-	<tr>
-		<td colspan="2"><label><b>비고 :</b></label></td>
-		<td colspan="2">
-		<textarea rows="4" cols="55"id="memo" name="memo"></textarea>
-		</td>
-	</tr>
-<!-- *****관리 시스템 선택***** -->	
-	<c:if test="${manageType == 'tm'}">
-		<tr>
-			<td colspan="2"><label><b>센서종류 :</b></label></td> 
-			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="g"><label><b>만적센서</b></label></td>
-			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="s"><label><b>악취센서</b></label></td>
-		</tr>
-		<tr>
-			<td colspan="2"></td> 
-			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="fd"><label><b>불꽃감지센서</b></label></td>
-			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="lr"><label><b>잠금</b></label></td>
-		</tr>		
-	</c:if>
-	<c:if test="${manageType == 'wm'}">
-		<tr>
-			<td colspan="2"><label><b>센서종류 :</b></label></td> 
-			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="wq"><label><b>수질센서</b></label></td>
-			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="wl"><label><b>수위센서</b></label></td>
-		</tr>	
-	</c:if>
-	<c:if test="${manageType == 'gm'}">
-		<tr>
-			<td colspan="2"><label><b>센서종류 :</b></label></td> 
-			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="wq"><label><b>충격감지센서</b></label></td>
-			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="wl"><label><b>압력농도센서</b></label></td>
-		</tr>	
-	</c:if>
-	<c:if test="${manageType == 'sm'}">
-		<tr>
-			<td colspan="2"><label><b>센서종류 :</b></label></td> 
-			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="fd"><label><b>불꽃감지센서</b></label></td>
-			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="sm"><label><b>연기감지센서</b></label></td>
-		</tr>	
-	</c:if>
-<!-- ****************************** -->
-	<tr>
-		<td colspan="4">	
-		<div class="btncenter">
-    		<button type="submit" value="register">등록</button>
+		<div id="managementToggleUpdate" class="managementToggleUpdate" style="display:block">
+    		<button type="button" value="managementModify" onclick="managementModify()">수정</button>
     	</div>
-    	</td>
-    </tr>
-		</table>
-	</div>	
+    	
+    	<div id="managementToggleModify" class="managementToggleModify" style="display:none">
+    		<button type="submit" value="managementUpdate" onclick="managementUpdate()">변경</button>
+    	</div>
 </form>	
-</div>
-
-		<div class="aa" >
-    	<button type="submit" value="changeBtn" onclick="mySensor()">수정</button>
+    	<div id="managementDelete" class="managementDelete">
+	    	<form action="manageLocationDelete.do" method="post">
+	    		<button type="button" value="managementUpdate">삭제</button>
+	    	</form>
     	</div>
-    	<div id="sensorContainer" class="sensorContainer" style="display:none">
-    		<jsp:include page="sensorRegisterForm2.jsp" flush="true"/>
+    	    	<div id="sensorUpdate" class="sensorUpdate">
+	    	<form action="/manageLocationDelete.do" method="post">
+	    		<button type="button" value="managementUpdate">삭제</button>
+	    	</form>
     	</div>
+</div>	
     
-
-<input type="hidden" id="arraySensor" name="arraySensor" value="${wmManageInfo.sensorTypes}">
+<input type="hidden" id="systemSensor" name="systemSensor" value="${manageInfo.sensorTypes}">
 </body>
 
 <script src="../../js/jquery-1.11.0.min.js"></script>
-
-<script>
-
-function mySensor() {
-    var x = document.getElementById('sensorContainer'); 
-    if (x.style.display === 'none') {
-        x.style.display = 'block';
-    } else {
-        x.style.display = 'none';
-    }
-}
-</script>
-
-<script>
-function myFunction() {
-    var x = document.getElementById('modifyContainer');
-    if (x.style.display === 'none') {
-        x.style.display = 'block';
-    } else {
-        x.style.display = 'none';
-    }
-}
-</script>
 <script type="text/javascript">
 
-var sensorTypes = $('#arraySensor').val();
+function managementModify() {
+	$('#memo').attr("disabled", false); 
+	$('input').attr("disabled", false);
+    var x = document.getElementById('managementToggleUpdate');
+    var y = document.getElementById('managementToggleModify');
+    if (x.style.display === 'none') {
+    	x.style.display = 'block';
+    	y.style.display = 'none';
+    } else {
+        x.style.display = 'none';
+        y.style.display = 'block';
+    }
+} 
+
+function managementUpdate() {
+	var x = document.getElementById('managementToggleModify');
+    var y = document.getElementById('managementToggleUpdate');
+    if (y.style.display === 'none') {
+        y.style.display = 'block';
+        x.style.display = 'none';
+
+    } else {
+        y.style.display = 'none';
+        x.style.display = 'block';
+    }
+}
+
+</script>
+
+<script>
+<script type="text/javascript">
+var selectSensorTypes = $('#systemSensor').val();
 console.log(sensorTypes);
 
-if (sensorTypes != null && sensorTypes != "") {	
-	var sensorArray = sensorTypes.split(', ');
+if (selectSensorTypes != null && selectSensorTypes != "") {	
+	var sensorArray = selectSensorTypes.split(', ');
 	
 	console.log(sensorArray);
 	

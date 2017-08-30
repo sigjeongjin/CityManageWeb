@@ -37,12 +37,12 @@ public class ManageLocationService {
 		return null;
 	}
 
-	public LocationManagement managementSelect(String manageId) {
+	public LocationManagement managementInfo(String manageId) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
 
 			LocationManagement locationManagement = new LocationManagement();
 
-			locationManagement = managementDao.selectById(conn, manageId);
+			locationManagement = managementDao.selectManagementInfo(conn, manageId);
 
 			if (locationManagement == null) {
 				System.out.println("select fail");
@@ -81,7 +81,7 @@ public class ManageLocationService {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 
-			String strId = managementDao.update(conn, locationManagement);
+			String strId = managementDao.updateManagementInfo(conn, locationManagement);
 			conn.commit();
 			if (strId != null) {
 				mU = "Y";

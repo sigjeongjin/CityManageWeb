@@ -2,7 +2,7 @@ package com.city.model;
 
 import java.util.Date;
 
-public class LocationManagement {
+public class LocationManagement extends Address {
 
 	private String manageId;
 	private double latitude;

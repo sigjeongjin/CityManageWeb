@@ -35,42 +35,32 @@ public class SensorInforHandler implements CommandHandler {
 	}
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+	
 		String manageType = (String) request.getSession().getAttribute("manageType");
-		
-		System.out.println("manageType = a : " + manageType);
 		// 쓰레기통관리 ListView에서는 manageType: tm
 		// 수질관리       ListView에서는 manageType: wm
 		// 도시가스관리 ListView에서는 manageType: gm
 		// 금역구역관리 ListView에서는 manageType: sm
-
-		String sensorManageId = request.getParameter("sensorManageId");
-		request.setAttribute("sensorManageId", sensorManageId);
-		// 내가 click한 리스트 목록에 있는 manageId 가져옴
-
-		System.out.println("sensorManageId : " + sensorManageId);
 		
 		String sensorId = sensorManageService.sensorIdSet(manageType);
 		request.setAttribute("sensorId", sensorId);
 		// select문을 통해 다음 센서ID값 가져옴
 		// manageType은 센서ID 조건을 위해 넣어줌
 		
-		LocationManagement locationManagement = manageLocationService.managementSelect(sensorManageId);		
-		String sensorTypes = locationManagement.getSensorTypes();
+		String sensorManageId = request.getParameter("sensorManageId");
+		request.setAttribute("sensorManageId", sensorManageId);
+		// 내가 click한 리스트 목록에 있는 manageId 가져옴
+
+		List<String> sensorTypeList = sensorManageService.sensorTypeSelect(sensorManageId);
+		request.setAttribute("sensorTypeList", sensorTypeList);
+		// 해당 mamberId의 sensorTypes(locationManagement)
 		
-		System.out.println("sensorTypes : " + sensorTypes);
-		request.setAttribute("sensorTypes", sensorTypes);
+		//LocationManagement locationManagement = manageLocationService.managementSelect(sensorManageId);		
+		//String sensorTypes = locationManagement.getSensorTypes();
+		
+		//System.out.println("sensorTypes : " + sensorTypes);
+		//request.setAttribute("sensorTypes", sensorTypes);
 			
-		List <SensorInfo> sensorType = new ArrayList<>();
-		
-		sensorType = sensorManageService.sensorTypeSelect(sensorManageId);
-		
-		String sensorTypeTemp = "";
-		for (int i = 0; i < sensorType.size(); i++) {
-			sensorTypeTemp += sensorType.get(i).getSensorType() + ", ";
-		}
-		
-		request.setAttribute("sensorTypeTemp", sensorTypeTemp);
 		return "/view/management/sensorRegisterForm.jsp";
 	}
 
