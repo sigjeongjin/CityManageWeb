@@ -169,7 +169,7 @@ public class ManagementDao {
 				tmManagementInfo.setFlameDetection(rs.getString("flameDetection"));
 				tmManagementInfo.setStink(rs.getString("stink"));
 				tmManagementInfo.setGenerous(rs.getString("generous"));
-				tmManagementInfo.setLock(rs.getString("lock"));
+				tmManagementInfo.setLockStatus(rs.getString("lock"));
 				tmManagementInfo.setOperationStatus(rs.getString("operationStatus"));
 				tmManagementInfo.setCoordinate(rs.getString("coordinate"));
 				tmManagementInfo.setMemo(rs.getString("memo"));
