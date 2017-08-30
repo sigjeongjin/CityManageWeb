@@ -7,7 +7,7 @@ pageEncoding = "UTF-8"%>
 <head>
 <meta http-equiv = "Content-Type" content = "text/html; charset = UTF-8">
 <link rel="stylesheet" type="text/css" href="../css/tableForm.css">
-<title>IotSystem</title>
+<title>CityManageWeb</title>
 </head>
 <body>
 <jsp:include page="view/header/menuHeader.jsp" flush="true"/>

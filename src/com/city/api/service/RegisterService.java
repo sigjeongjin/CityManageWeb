@@ -56,16 +56,18 @@ public class RegisterService {
 	
 	
 	
-	public MemberAPI pwdConfirm (String memberId, String memberPwd) {
+	public String pwdConfirm (String memberId, String memberPwd) {
+		
+		
+		String resultCode = "";
 		Connection conn = null;
-		MemberAPI member = new MemberAPI();
 
 		
 		try {
 			conn = ConnectionProvider.getConnection(); 
 			conn.setAutoCommit(false);
 
-			member = memberDao.selectPwdConfirm(conn, memberId, memberPwd);
+			resultCode = memberDao.selectPwdConfirm(conn, memberId, memberPwd);
 			conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -74,7 +76,7 @@ public class RegisterService {
 		} finally {
 			JdbcUtil.close(conn);
 		}
-		return member;
+		return resultCode;
 	}
 
 	public String register(Member member) {

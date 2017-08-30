@@ -58,24 +58,57 @@ public class MemberDao {
 		}
 
 	}
-
-	public MemberAPI selectPwdConfirm(Connection conn, String memberId, String memberPwd) throws SQLException {
+	
+	
+	public List<State> selectStateListByCityCode(Connection conn, String cityCode) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		MemberAPI member = new MemberAPI();
-		String Resultcode = "200";
+		List<State> state = new ArrayList<State>();
+
 		try {
-			pstmt = conn.prepareStatement("select count(*) from member where member_id=? and member_pwd=? ");
+			pstmt = conn.prepareStatement(
+					"select state_code as stateCode, state_name as stateName from address_state where city_code=?");
+			pstmt.setString(1, cityCode);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				state.add(new State(rs.getString("stateCode"), rs.getString("stateName")));
+			}
+			return state;
+
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+		}
+	}
+
+
+	public String selectPwdConfirm(Connection conn, String memberId, String memberPwd) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+	
+		
+		String resultcode = "200";
+		try {
+			pstmt = conn.prepareStatement("select count(*) as count from member where member_id=? and member_pwd=?");
 			pstmt.setString(1, memberId);
 			pstmt.setString(2, memberPwd);
 			rs = pstmt.executeQuery();
-
-			return member;
+			if(rs.next()) { 
+				String count = rs.getString("count");
+				if(count.equals("0")) {
+					return "400";
+				} else {
+					return "200";
+				}
+			}
+			
 
 		} finally {
-
+			JdbcUtil.close(rs);
 			JdbcUtil.close(pstmt);
 		}
+		return resultcode;
 	}
 
 	public List<City> selectCityInfo(Connection conn) throws SQLException {
@@ -88,7 +121,7 @@ public class MemberDao {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				city.add(new City(rs.getString("cityName"), rs.getString("cityCode")));
+				city.add(new City(rs.getString("cityCode"), rs.getString("cityName")));
 
 			}
 
@@ -172,26 +205,6 @@ public class MemberDao {
 			JdbcUtil.close(pstmt);
 		}
 	}
-	public List<State> selectStateListByCityCode(Connection conn, String cityCode) throws SQLException {
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		List<State> state = new ArrayList<State>();
 
-		try {
-			pstmt = conn.prepareStatement(
-					"select state_code as stateCode, state_name as stateName from address_state where city_code=?");
-			pstmt.setString(1, cityCode);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				state.add(new State(rs.getString("stateCode"), rs.getString("stateName")));
-			}
-			return state;
-
-		} finally {
-			JdbcUtil.close(rs);
-			JdbcUtil.close(pstmt);
-		}
-	}
 
 }
