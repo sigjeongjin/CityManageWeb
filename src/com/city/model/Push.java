@@ -1,40 +1,39 @@
 package com.city.model;
 
 public class Push {
-	
-	private String pushId;
-	private String sensorId;
+
+	private String manageId;
+	private String locationName;
 	private String pushContents;
 	private String pushSendTime;
-	private String manageId;
-	
-	public Push() { 
-		
-	}
-	
-	public Push(String pushId, String sensorId, String pushContents, String pushSendTime, String manageId) {
+	private String installationDateTime;
+	private String location;
+
+	public Push(String manageId, String locationName, String pushContents, String pushSendTime,
+			String installationDateTime, String location) {
 		super();
-		this.pushId = pushId;
-		this.sensorId = sensorId;
+		this.manageId = manageId;
+		this.locationName = locationName;
 		this.pushContents = pushContents;
 		this.pushSendTime = pushSendTime;
+		this.installationDateTime = installationDateTime;
+		this.location = location;
+	}
+
+	public String getManageId() {
+		return manageId;
+	}
+
+	public void setManageId(String manageId) {
 		this.manageId = manageId;
 	}
 
-	public String getPushId() {
-		return pushId;
+	public String getLocationName() {
+		return locationName;
 	}
 
-	public void setPushId(String pushId) {
-		this.pushId = pushId;
-	}
-
-	public String getSensorId() {
-		return sensorId;
-	}
-
-	public void setSensorId(String sensorId) {
-		this.sensorId = sensorId;
+	public void setLocationName(String locationName) {
+		this.locationName = locationName;
 	}
 
 	public String getPushContents() {
@@ -53,11 +52,20 @@ public class Push {
 		this.pushSendTime = pushSendTime;
 	}
 
-	public String getManageId() {
-		return manageId;
+	public String getLocation() {
+		return location;
 	}
 
-	public void setManageId(String manageId) {
-		this.manageId = manageId;
+	public void setLocation(String location) {
+		this.location = location;
 	}
+
+	public String getInstallationDateTime() {
+		return installationDateTime;
+	}
+
+	public void setInstallationDateTime(String installationDateTime) {
+		this.installationDateTime = installationDateTime;
+	}
+
 }

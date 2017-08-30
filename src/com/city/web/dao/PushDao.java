@@ -48,17 +48,19 @@ public class PushDao {
 		
 		try {
 			pstmt = conn.prepareStatement(
-					"select push_id pushId, sensor_id sensorId, push_contents pushContents,"
-					+ " DATE_FORMAT(push_send_time, '%Y-%m-%d %H:%i:%s') pushSendTime, "
-					+ "manage_id manageId from push_history_info limit ?, ?");
+					"select phi.manage_id manageId, location_name locationName, "
+					+"push_contents pushContents, DATE_FORMAT(push_send_time, '%Y-%m-%d %H:%i:%s') pushSendTime , "
+					+"DATE_FORMAT(lm.create_datetime, '%Y-%m-%d %H:%i:%s') installationDateTime, "
+					+"concat(lm.latitude,' ' ,lm.longitude) location " 
+					+"from push_history_info phi join location_management lm on phi.manage_id = lm.manage_id limit ?, ?");
 			pstmt.setInt(1, startRow);
 			pstmt.setInt(2, size);
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				pushHistoryList.add(new Push(rs.getString("pushId"),
-						rs.getString("sensorId"), rs.getString("pushContents"),
-						rs.getString("pushSendTime"), rs.getString("manageId")));
+				pushHistoryList.add(new Push(rs.getString("manageId"),
+						rs.getString("locationName"), rs.getString("pushContents"),
+						rs.getString("pushSendTime"), rs.getString("installationDateTime"), rs.getString("location")));
 			}
 			return pushHistoryList;
 		} finally {
