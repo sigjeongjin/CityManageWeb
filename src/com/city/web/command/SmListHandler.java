@@ -14,6 +14,9 @@ public class SmListHandler  implements CommandHandler {
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+		String selectBox = (request.getParameter("selectBox"));
+		String searchText = (request.getParameter("searchText"));
+		
 		String manageType = "sm";
 		String pageNoVal = request.getParameter("pageNo");
 		int pageNo = 1;
@@ -21,7 +24,7 @@ public class SmListHandler  implements CommandHandler {
 			pageNo = Integer.parseInt(pageNoVal);
 		}
 
-		SmSensorListPage smSensorListPage = sensorManageService.getSmSensorListPage(pageNo, manageType);
+		SmSensorListPage smSensorListPage = sensorManageService.getSmSensorListPage(pageNo, manageType, selectBox, searchText);
 		request.setAttribute("SmListPage", smSensorListPage);
 
 		request.getSession().setAttribute("manageType", manageType);

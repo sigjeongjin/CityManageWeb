@@ -62,7 +62,7 @@ public class SensorManageService {
 			}
 		}
 	// manageType: sm
-	public SmSensorListPage getSmSensorListPage(int pageNum, String manageType) {
+/*	public SmSensorListPage getSmSensorListPage(int pageNum, String manageType) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
 			int total = managementDao.selectCount(conn, manageType);
 			List<SmManagementInfo> content = managementDao.smSensorList(conn, (pageNum - 1) * size, size, manageType);
@@ -70,7 +70,17 @@ public class SensorManageService {
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
+	}*/
+	public SmSensorListPage getSmSensorListPage(int pageNum, String manageType, String selectBox, String searchText) {
+		try (Connection conn = ConnectionProvider.getConnection()) {
+			int total = managementDao.selectCount(conn, manageType);
+			List<SmManagementInfo> content = managementDao.smSensorList(conn, (pageNum - 1) * size, size, manageType, selectBox, searchText);
+			return new SmSensorListPage(total, pageNum, size, content);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
+	
 	
 	
 	public String sensorRegister(SensorInfo sensorInfo) {
@@ -149,7 +159,7 @@ public class SensorManageService {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	
 	
 	

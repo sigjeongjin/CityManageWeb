@@ -20,18 +20,13 @@ pageEncoding = "UTF-8"%>
 
 <div class="container">
 
-<form action="smListSearch.do" method="post">
-	<select id="lcationManagementSelect" name="lcationManagementSelect">
-		<option value="alllcationManagement">전체</option>
-		<option value="lcationManagement_authorization">구분</option>
-		<option value="lcationManagement_name">이름</option>
-		<option value="lcationManagement_id">아이디</option>
-		<option value="lcationManagement_email">이메일</option>
-		<option value="lcationManagement_phone">전화번호</option>
-		<option value="city_code">시/도</option>
-		<option value="state_code">시/군/구</option>
+<form action="smInfo.do" method="post">
+	<select id="selectBox" name="selectBox">
+		<option value="">전체</option>
+		<option value="manageId">관리ID</option>
+		<option value="locationName">지역정보</option>
     </select>
-    <input type="text" id="lcationManagementInput" placeholder="Search for names.." name="lcationManagementInput">  
+    <input type="text" id="searchText" placeholder="Search for names.." name="searchText">  
 <button type = submit value="선택">선택</button>
 </form>
 

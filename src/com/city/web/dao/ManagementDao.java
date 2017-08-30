@@ -17,6 +17,26 @@ import jdbc.JdbcUtil;
 
 public class ManagementDao {
 
+	public String searchBySensorTypes(Connection conn, String manageId) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sensorTypes = null;
+		try {
+			pstmt = conn.prepareStatement("select sensor_types sensorTypes from location_management where manage_id = ?");
+			pstmt.setString(1, manageId);
+			
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				sensorTypes =  rs.getString("sensorTypes");
+				return sensorTypes;
+			}
+		} finally {
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(rs);
+		}
+		return null;
+	}
+
 	/** management count를 위한 SELECT문 */
 	public int selectCount(Connection conn, String manageType) throws SQLException {
 		PreparedStatement pstmt = null;
@@ -35,6 +55,23 @@ public class ManagementDao {
 		return 0;
 	}
 
+	public int selectCount(Connection conn, String manageType, String selectBox, String searchText) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement("select count(*) from location_management where manage_type = ?");
+			pstmt.setString(1, manageType);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				return rs.getInt(1);
+			}
+		} finally {
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(rs);
+		}
+		return 0;
+	}
+	
 	/** management 정보 등록 INSERT문 */
 	public String insertManagement(Connection conn, LocationManagement locationManagement) throws SQLException {
 		PreparedStatement pstmt = null;
@@ -260,6 +297,45 @@ public class ManagementDao {
 			pstmt.setString(1, manageType);
 			pstmt.setInt(2, startRow);
 			pstmt.setInt(3, size);
+			rs = pstmt.executeQuery();
+
+			List<SmManagementInfo> smManagementInfoList = new ArrayList<>();
+			while (rs.next()) {
+				SmManagementInfo smManagementInfo = new SmManagementInfo();
+				smManagementInfo.setManageId(rs.getString("manageId"));
+				smManagementInfo.setLocationName(rs.getString("locationName"));
+				smManagementInfo.setFlameDetection(rs.getString("flameDetection"));
+				smManagementInfo.setSmokeDetection(rs.getString("smokeDetection"));
+				smManagementInfo.setOperationStatus(rs.getString("operationStatus"));
+				smManagementInfo.setCoordinate(rs.getString("coordinate"));
+				smManagementInfo.setMemo(rs.getString("memo"));
+				smManagementInfoList.add(smManagementInfo);
+			}
+			return smManagementInfoList;
+		} finally {
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(rs);
+		}
+	}
+
+	public List<SmManagementInfo> smSensorList(Connection conn, int startRow, int size, String manageType, String selectBox,
+			String searchText) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			pstmt = conn.prepareStatement("select lm.manage_id manageId, CONCAT((select city_name from address_city where city_code=lm.city_code),' ',(select state_name from address_state where state_code=lm.state_code)) locationName, "
+					+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='fd') flameDetection, "
+					+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='sd') smokeDetection, "
+					+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
+					+ "CONCAT((latitude),', ',(latitude)) coordinate, memo "
+					+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id "
+					+ "and " + selectBox + " like ? limit ?, ?");
+			pstmt.setString(1, manageType);
+			pstmt.setString(2, "%" + searchText + "%");
+			pstmt.setInt(3, startRow);
+			pstmt.setInt(3, size);
+			
 			rs = pstmt.executeQuery();
 
 			List<SmManagementInfo> smManagementInfoList = new ArrayList<>();

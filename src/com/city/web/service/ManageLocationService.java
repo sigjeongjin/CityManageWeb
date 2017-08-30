@@ -98,4 +98,21 @@ public class ManageLocationService {
 		}
 	
 	}
+
+	public String sensorTypesSelect(String manageId) {
+		try (Connection conn = ConnectionProvider.getConnection()) {
+
+			String sensorTypes = managementDao.searchBySensorTypes(conn, manageId);
+
+			if (sensorTypes == null) {
+				System.out.println("not find manageId");
+				throw new NullPointerException();
+			}
+
+			return sensorTypes;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+	}
 }
