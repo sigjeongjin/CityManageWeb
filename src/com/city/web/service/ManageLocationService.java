@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import com.city.model.LocationManagement;
-import com.city.model.Member;
 import com.city.web.dao.ManagementDao;
 
 import jdbc.JdbcUtil;
