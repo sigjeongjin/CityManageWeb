@@ -28,9 +28,9 @@ public class RegisterService {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
 
-			String strId = memberDao.insertMember(conn, member);
+			int resultCode = memberDao.insertMember(conn, member);
 			conn.commit();
-			if (strId != null) {
+			if (resultCode == 1) {
 				rs = "Y";
 				return rs;
 			} else {

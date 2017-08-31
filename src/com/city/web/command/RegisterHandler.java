@@ -1,9 +1,17 @@
 package com.city.web.command;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import com.city.model.CityAjaxJSON;
 import com.city.model.Member;
+import com.city.web.service.AddressService;
 import com.city.web.service.RegisterService;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
@@ -26,6 +34,25 @@ public class RegisterHandler implements CommandHandler {
 
 	private String processForm(HttpServletRequest request, HttpServletResponse response) {
 
+		AddressService addressService = new AddressService();
+		
+		List<CityAjaxJSON> addressCityList = new ArrayList<>();
+		addressCityList = addressService.getCityList();
+//
+//		JSONArray jr = new JSONArray();
+//		for (int i = 0; i < addressCityList.size(); i++) {
+//			JSONObject object = new JSONObject();
+//
+//			object.put("stateCode", addressCityList.get(i).getCityCode());
+//			object.put("stateName", addressCityList.get(i).getCityName());
+//			jr.add(object);
+//		}
+//
+//		JSONObject objectCity = new JSONObject();
+//		objectCity.put("cityList", jr);
+		
+		request.setAttribute("city", addressCityList);
+		
 		return "view/member/registerForm.jsp";
 	}
 

@@ -20,7 +20,7 @@ pageEncoding = "UTF-8"%>
 	<a href="wmList.do"><button>수질관리</button></a>
 	<a href="gmList.do"><button>도시가스관리</button></a>
 	<a href="smList.do"><button>금연구역관리</button></a>
-	<a href="memberList.do"><button>Push이력관리</button></a>
+	<a href="/pushHistoryList.do"><button>Push이력관리</button></a>
 	<a href="myUpdate.do"><button><i class="material-icons" style="font-size:20px" onclick="openCity(event, 'settings')">settings</i></button></a>
 	
 	<div class="SettringsArticle">
