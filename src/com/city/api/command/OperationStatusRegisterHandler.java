@@ -33,11 +33,14 @@ public class OperationStatusRegisterHandler implements CommandJsonHandler {
 
 		String sensorId = req.getParameter("sensorId");
 		String operationStatus = req.getParameter("operationStatus");
-
+		String resultCode = sensorRegisterService.operationStatus(sensorId, operationStatus);
 		Result result = new Result();
-		result.setResultCode(sensorRegisterService.sensorRegister(sensorId,
-				operationStatus));
+		
+		
+		result.setResultCode("200");
 		result.setResultMessage("저장되었습니다.");
+		
+		
 		Gson gson = new Gson();
 		return gson.toJson(result);
 

@@ -31,11 +31,12 @@ private String processForm(HttpServletRequest req, HttpServletResponse res) thro
 private String processSubmit(HttpServletRequest req, HttpServletResponse res) throws Exception {
 	Result result = new Result();
 	
-	String memberId = req.getParameter("memberId");
-	String memberPwd = req.getParameter("memberPwd");
 	String memberChangePwd = req.getParameter("memberChangePwd");
+	String memberId = req.getParameter("memberId");
+//	String memberPwd = req.getParameter("memberPwd");
 
-	String resultCode = registerService.pwdChange(memberChangePwd, memberId, memberPwd);
+
+	String resultCode = registerService.pwdChange(memberChangePwd, memberId);
 	
 	if(resultCode.equals("Y")){
 		result.setResultCode("200");

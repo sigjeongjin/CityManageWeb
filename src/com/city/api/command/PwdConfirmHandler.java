@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.city.api.service.RegisterService;
 import com.city.model.Member;
 import com.city.model.MemberAPI;
+import com.city.model.Result;
 import com.google.gson.Gson;
 
 public class PwdConfirmHandler implements CommandJsonHandler {
@@ -31,18 +32,26 @@ public class PwdConfirmHandler implements CommandJsonHandler {
 
 	private String processSubmit(HttpServletRequest req, HttpServletResponse res)
 			throws Exception {
+		
+		Result result = new Result();
 
 		String memberId = req.getParameter("memberId");
 		String memberPwd = req.getParameter("memberPwd");
 
-		MemberAPI member = registerService.pwdConfirm(memberId, memberPwd);
+		String member = registerService.pwdConfirm(memberId, memberPwd);
 		
-		member.setResultCode("200");
-		member.setResultMessage("확인되었습니다.");				
+		if(member.equals("200")){
+			result.setResultCode("200");
+			result.setResultMessage("확인성공.");
+		} else {
+			result.setResultCode("400");
+			result.setResultMessage("확인실패");
+		}
+		
 				
 		
 		Gson gson = new Gson();
-		return gson.toJson(member);
+		return gson.toJson(result);
 
 	}
 
