@@ -32,8 +32,6 @@ public class AddressStateHandler implements CommandHandler{
 
 		String cityCode = request.getParameter("cityCode");
 		
-		System.out.println("cityCode" + cityCode);
-		
 		List<Address> addressStateList = new ArrayList<>();
 		addressStateList = addressService.addressState(cityCode);
 		request.setAttribute("addressStateList", addressStateList);

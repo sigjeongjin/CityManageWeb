@@ -12,12 +12,15 @@ public class PushHistoryListHandler implements CommandHandler {
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String pageNoVal = request.getParameter("pageNo");
+		String searchText = request.getParameter("searchText");
+		String searchSelect = request.getParameter("searchSelect");
+		
 		int pageNo = 1;
 		if (pageNoVal != null) {
 			pageNo = Integer.parseInt(pageNoVal);
 		}
 		
-		PushHistoryListPage pushHistoryListPage = pushService.getPushHistoryListPage(pageNo);
+		PushHistoryListPage pushHistoryListPage = pushService.getPushHistoryListPage(pageNo,searchText, searchSelect);
 		request.setAttribute("pushHistoryListPage", pushHistoryListPage);
 		
 

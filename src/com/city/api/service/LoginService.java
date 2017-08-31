@@ -25,7 +25,6 @@ public class LoginService {
 			String resultCode = memberDao.selectByIdAndPwd(conn, memberId, memberPwd);	
 			
 			if (resultCode == null) {
-				System.out.println("LoginSFail-1");
 				throw new NullPointerException();
 			}
 			return resultCode;

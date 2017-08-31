@@ -5,6 +5,8 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.city.web.service.LoginService;
 
 public class LoginHandler implements CommandHandler {
@@ -33,12 +35,20 @@ public class LoginHandler implements CommandHandler {
 		HashMap<String, String> idAndName = new HashMap<String, String>();
 		try {
 			idAndName = loginService.login(memberId, memberPwd);
-			request.getSession().setAttribute("userId", idAndName.get("memberId"));
-			request.getSession().setAttribute("userName", idAndName.get("memberName"));
 			
-			return "index.jsp";
+			if(StringUtils.isNotEmpty(idAndName.get("error"))) {
+				request.setAttribute("error", idAndName.get("error"));
+				return "view/member/loginForm.jsp";
+			} else {
+				request.getSession().setAttribute("userId", idAndName.get("memberId"));
+				request.getSession().setAttribute("userName", idAndName.get("memberName"));
+				return "index.jsp";
+			}
+			
+			
 		} catch (RuntimeException e) {
-			System.out.println("RuntimeException");
+			e.printStackTrace();
+			System.out.println(e);
 			return "view/member/loginForm.jsp";
 		}
 	}

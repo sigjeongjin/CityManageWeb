@@ -55,7 +55,6 @@ public class SensorInforHandler implements CommandHandler {
 		// 해당 sensorId의 sensorTypes(sensorInfo)
 
 		String manageSensorTypes = manageLocationService.sensorTypesSelect(sensorManageId);
-		System.out.println("manageSensorTypes : " + manageSensorTypes);
 		request.setAttribute("manageSensorTypes", manageSensorTypes);
 		// 해당 mamberId의 sensorTypes(locationManagement)
 

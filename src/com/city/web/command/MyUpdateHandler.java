@@ -32,7 +32,6 @@ public class MyUpdateHandler implements CommandHandler {
 		
 		String saveFolder = "/upload";
 		String realFolder = request.getServletContext().getRealPath(saveFolder); // saveFilepath
-		System.out.println("realFolder : " + realFolder);
 		int maxSize = 5 * 1024 * 1024; // 최대 업로될 파일크기 5Mb
 		MultipartRequest multi = new MultipartRequest(request, realFolder, maxSize, "utf-8",
 				new DefaultFileRenamePolicy());

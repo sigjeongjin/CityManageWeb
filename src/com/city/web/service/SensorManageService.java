@@ -111,7 +111,7 @@ public class SensorManageService {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("Sensor register fail");
+			System.out.println(e);
 			JdbcUtil.rollback(conn);
 		} finally {
 			JdbcUtil.close(conn);
@@ -125,7 +125,6 @@ public class SensorManageService {
 			String sensorId = sensorDao.searchById(conn, manageType);
 
 			if (sensorId == null) {
-				System.out.println("not find sensorId");
 				throw new NullPointerException();
 			}
 
@@ -143,7 +142,6 @@ public class SensorManageService {
 			sensorTypeList = sensorDao.searchByType(conn, manageId);
 
 			if (sensorTypeList == null) {
-				System.out.println("not type");
 				throw new NullPointerException();
 			}
 
@@ -161,7 +159,6 @@ public class SensorManageService {
 			sensorInfo = sensorDao.selectByManageId(conn, manageId);
 
 			if (sensorInfo == null) {
-				System.out.println("not sensorInfo");
 				throw new NullPointerException();
 			}
 

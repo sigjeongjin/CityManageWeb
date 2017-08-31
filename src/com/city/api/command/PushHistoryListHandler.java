@@ -5,11 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.city.api.service.FavoritesService;
 import com.city.api.service.PushService;
-import com.city.model.FavoritesResultInfo;
-import com.city.model.FavoritesResultListJSON;
-import com.city.model.Push;
 import com.city.model.PushResultInfo;
 import com.city.model.PushResultListJSON;
 import com.google.gson.Gson;

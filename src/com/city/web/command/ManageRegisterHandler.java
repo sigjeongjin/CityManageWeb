@@ -33,9 +33,6 @@ public class ManageRegisterHandler implements CommandHandler {
 
 		String manageType = (String) request.getSession().getAttribute("manageType");
 		
-		System.out.println("manageType : " + manageType);
-		System.out.println("manageId : " + request.getParameter("manageId"));
-		
 		String sensorTypes = Arrays.toString(request.getParameterValues("sensorTypes"));	
 		sensorTypes = sensorTypes.substring(1, sensorTypes.length()-1);
 

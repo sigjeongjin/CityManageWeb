@@ -60,19 +60,10 @@ public class RegisterHandler implements CommandHandler {
 
 		String saveFolder = "/upload";
 		String realFolder = request.getServletContext().getRealPath(saveFolder); // saveFilepath
-		System.out.println("realFolder : " + realFolder);
 		int maxSize = 5 * 1024 * 1024; // 최대 업로될 파일크기 5Mb
 		MultipartRequest multi = new MultipartRequest(request, realFolder, maxSize, "utf-8",
 				new DefaultFileRenamePolicy());
 
-		System.out.println("memberId : " + multi.getParameter("memberId"));
-		System.out.println("memberPwd : " + multi.getParameter("memberPwd"));
-		System.out.println("memberName : " + multi.getParameter("memberName"));
-		System.out.println("memberPhone : " + multi.getParameter("memberPhone"));
-		System.out.println("memberEmail : " + multi.getParameter("memberEmail"));
-		System.out.println("memberPhoto : " + multi.getFilesystemName("memberPhoto"));
-		
-		
 		Member member = new Member();
 		member.setMemberId(multi.getParameter("memberId"));
 		member.setMemberPwd(multi.getParameter("memberPwd"));
@@ -80,6 +71,7 @@ public class RegisterHandler implements CommandHandler {
 		member.setMemberPhone(multi.getParameter("memberPhone"));
 		member.setMemberEmail(multi.getParameter("memberEmail"));
 		member.setMemberPhoto(multi.getFilesystemName("memberPhoto"));
+		member.setCityCode(multi.getParameter("cityCode"));
 		member.setMemberAuthorization("admin");
 
 		registerService.register(member);

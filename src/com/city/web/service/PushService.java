@@ -25,10 +25,10 @@ public class PushService {
 	 * @param pageNum
 	 * @return
 	 */
-	public PushHistoryListPage getPushHistoryListPage(int pageNum) {
+	public PushHistoryListPage getPushHistoryListPage(int pageNum, String searchText, String searchSelect) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
-			int total = pushDao.selectCount(conn);
-			List<Push> content = pushDao.selectPushHistoryList(conn, (pageNum - 1) * size, size);
+			int total = pushDao.selectCount(conn,searchText,searchSelect);
+			List<Push> content = pushDao.selectPushHistoryList(conn, (pageNum - 1) * size, size, searchText, searchSelect);
 			return new PushHistoryListPage(total, pageNum, size, content);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
