@@ -244,6 +244,45 @@ public class ManagementDao {
 		}
 	}
 
+	public List<WmManagementInfo> wmSensorList(Connection conn, int startRow, int size, String manageType, String selectBox,
+			String searchText) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			pstmt = conn.prepareStatement("select lm.manage_id manageId, CONCAT((select city_name from address_city where city_code=lm.city_code),' ',(select state_name from address_state where state_code=lm.state_code)) locationName, "
+					+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='fd') flameDetection, "
+					+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='sd') smokeDetection, "
+					+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
+					+ "CONCAT((latitude),', ',(latitude)) coordinate, memo "
+					+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id "
+					+ "and " + selectBox + " like ? limit ?, ?");
+			pstmt.setString(1, manageType);
+			pstmt.setString(2, "%" + searchText + "%");
+			pstmt.setInt(3, startRow);
+			pstmt.setInt(4, size);
+			
+			rs = pstmt.executeQuery();
+
+			List<WmManagementInfo> wmManagementInfoList = new ArrayList<>();
+			while (rs.next()) {
+				WmManagementInfo wmManagementInfo = new WmManagementInfo();
+				wmManagementInfo.setManageId(rs.getString("manageId"));
+				wmManagementInfo.setLocationName(rs.getString("locationName"));
+				wmManagementInfo.setWaterQuality(rs.getString("waterQuality"));
+				wmManagementInfo.setWaterLevel(rs.getString("waterLevel"));
+				wmManagementInfo.setOperationStatus(rs.getString("operationStatus"));
+				wmManagementInfo.setCoordinate(rs.getString("coordinate"));
+				wmManagementInfo.setMemo(rs.getString("memo"));
+				wmManagementInfoList.add(wmManagementInfo);
+			}
+			return wmManagementInfoList;
+		} finally {
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(rs);
+		}
+	}
+	
 	// 도시가스관리 리스트
 	public List<GmManagementInfo> gmSensorList(Connection conn, int startRow, int size, String manageType)
 			throws SQLException {
