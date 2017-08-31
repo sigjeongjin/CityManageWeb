@@ -36,7 +36,25 @@ public class SessionCheck implements Filter {
         noFilterUrl.add("/login.do");
         noFilterUrl.add("/register.do");
         noFilterUrl.add("/logout.do");
-        
+        noFilterUrl.add("/memberLogin.app");
+		noFilterUrl.add("/sensorInfoRegister.app");
+		noFilterUrl.add("/stateInfo.app");
+		noFilterUrl.add("/cityStateInfoRegister.app");
+		noFilterUrl.add("/operationStatusRegister.app");
+		noFilterUrl.add("/favoritesRegister.app");
+		noFilterUrl.add("/favoritesList.app");
+		noFilterUrl.add("/cityInfo.app");
+		noFilterUrl.add("/memberPwdConfirm.app");
+		noFilterUrl.add("/memberPwdChange.app");
+		noFilterUrl.add("/memberProfileImageChange.app");
+		noFilterUrl.add("/pushHistoryList.app");
+		noFilterUrl.add("/sensorList.app");
+		noFilterUrl.add("/stateSearchSensorList.app");
+		noFilterUrl.add("/wmInfo.app");
+		noFilterUrl.add("/tmInfo.app");
+		noFilterUrl.add("/gmInfo.app");
+		noFilterUrl.add("/smInfo.app");
+		
         resourcePath = new ArrayList<String>();
         resourcePath.add("/css/");
         resourcePath.add("/js/");
