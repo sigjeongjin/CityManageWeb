@@ -40,16 +40,21 @@ public class SensorDao {
 		
 		try {
 			if(manageType.equals("tm")) {
-				pstmt = conn.prepareStatement("select CONCAT('T', LPAD((select(select cast((select right((select max(sensor_id) from sensor_info where sensor_type = 'g'or'fd'or's'or'l'), 14)) as unsigned) as mInt) + 1 mSum), 14, '0')) sesorId FROM DUAL");
+				pstmt = conn.prepareStatement("select CONCAT('T', LPAD((select(select cast((select right((select max(sensor_id) from sensor_info "
+						+ "where sensor_id like 'T%'), 14)) "
+						+ "as unsigned) as mInt) + 1 mSum), 14, '0')) sesorId FROM DUAL");
 			}
 			else if(manageType.equals("wm")) {
-				pstmt = conn.prepareStatement("select CONCAT('W', LPAD((select(select cast((select right((select max(sensor_id) from sensor_info where sensor_type = 'wl'or'wq'), 14)) as unsigned) as mInt) + 1 mSum), 14, '0')) sesorId FROM DUAL");
+				pstmt = conn.prepareStatement("select CONCAT('W', LPAD((select(select cast((select right((select max(sensor_id) from sensor_info "
+						+ "where sensor_id like 'W%'), 14)) as unsigned) as mInt) + 1 mSum), 14, '0')) sesorId FROM DUAL");
 			}
 			else if(manageType.equals("gm")) {
-				pstmt = conn.prepareStatement("select CONCAT('T', LPAD((select(select cast((select right((select max(sensor_id) from sensor_info where sensor_type = 'sd'or'gd'), 14)) as unsigned) as mInt) + 1 mSum), 14, '0')) sesorId FROM DUAL");
+				pstmt = conn.prepareStatement("select CONCAT('T', LPAD((select(select cast((select right((select max(sensor_id) from sensor_info "
+						+ "where sensor_id like 'G%'), 14)) as unsigned) as mInt) + 1 mSum), 14, '0')) sesorId FROM DUAL");
 			}
 			else if(manageType.equals("sm")) {
-				pstmt = conn.prepareStatement("select CONCAT('T', LPAD((select(select cast((select right((select max(sensor_id) from sensor_info where sensor_type = 'sm'or'fd'), 14)) as unsigned) as mInt) + 1 mSum), 14, '0')) sesorId FROM DUAL");
+				pstmt = conn.prepareStatement("select CONCAT('T', LPAD((select(select cast((select right((select max(sensor_id) from sensor_info "
+						+ "where sensor_id like 'S%'), 14)) as unsigned) as mInt) + 1 mSum), 14, '0')) sesorId FROM DUAL");
 			}
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
