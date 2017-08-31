@@ -161,20 +161,18 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		String Resultcode = "200";
+		String resultcode = "400";
 		try {
 			pstmt = conn
-					.prepareStatement("select member_id, member_pwd from member where member_id=? and member_pwd= ?");
+					.prepareStatement("select member_id, member_pwd from member where member_id=? and member_pwd= ? "
+									+ "and member_delete_code='N' and member_authorization='app_user'");
 			pstmt.setString(1, memberId);
 			pstmt.setString(2, memberPwd);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				rs.getString("member_id");
-				rs.getString("member_pwd");
-				return Resultcode;
-			} else {
-				return null;
-			}
+				return "200";
+			} 
+			return resultcode;
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);

@@ -39,7 +39,9 @@ public class LoginHandler implements CommandJsonHandler {
 			result.setResultCode(loginService.login(memberId, memberPwd));
 
 			if (result.getResultCode() == "200") {
-				result.setResultMessage("success");
+				result.setResultMessage("로그인을 환영 합니다.");
+			} else {
+				result.setResultMessage("등록된 회원 정보가 없습니다.");
 			}
 			
 			return gson.toJson(result);
