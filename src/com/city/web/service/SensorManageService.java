@@ -145,7 +145,15 @@ public class SensorManageService {
 			String sensorId = sensorDao.searchById(conn, manageType);
 
 			if (sensorId == null) {
-				throw new NullPointerException();
+				if (manageType.equals("tm")) {
+					sensorId = "T00000000000001";
+				} else if(manageType.equals("wm")) {
+					sensorId = "W00000000000001";
+				} else if(manageType.equals("gm")) {
+					sensorId = "G00000000000001";
+				} else if(manageType.equals("sm")) {
+					sensorId = "S00000000000001";
+				}
 			}
 
 			return sensorId;

@@ -61,7 +61,7 @@ public class ManageLocationService {
 			String manageId = managementDao.searchById(conn);
 
 			if (manageId == null) {
-				throw new NullPointerException();
+				manageId = "M00000000000001";
 			}
 
 			return manageId;
