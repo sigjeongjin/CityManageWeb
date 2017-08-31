@@ -63,6 +63,7 @@ if (manageSensorTypes != null && manageSensorTypes != "") {
 	options.html("<option>센서선택</option>");
 	
 	for(i=0;i<manageSensorTypes.length;i++){
+		console.log("센서 생성 : " + manageSensorTypes[i]);
 		// 쓰레기통 관리
 		if (manageSensorTypes[i]==="g") {
 			options.append("<option value=" + manageSensorTypes[i] + ">" + "만적센서" +"</option>");
@@ -97,7 +98,7 @@ if (manageSensorTypes != null && manageSensorTypes != "") {
 	}
 	
 	for(i=0;i<systemSensorThis.length;i++){
-		console.log(systemSensorThis[i]);
+		console.log("지우기 작동" + systemSensorThis[i]);
 		// 쓰레기통 관리
 		if (systemSensorThis[i]==="g") {
 			$("option[value='g']").remove();
@@ -109,7 +110,7 @@ if (manageSensorTypes != null && manageSensorTypes != "") {
 			$("option[value='fd']").remove();
 		}
 		else if (systemSensorThis[i]==="l") {
-			$("option[value='d']").remove();
+			$("option[value='l']").remove();
 		}
 		// 수질 관리
 		else if (systemSensorThis[i]==="wq") {

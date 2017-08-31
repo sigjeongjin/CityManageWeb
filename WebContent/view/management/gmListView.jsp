@@ -14,7 +14,7 @@ pageEncoding = "UTF-8"%>
 <div class="manageContainer">
 <form action="managementarea.do" method="post">
 <input type="hidden" id="manageType" name="manageType" value='${manageType}'>
-<button type = submit id="gm" name="gm" value="gm">관리지역등록</button>
+<button type="submit" id="gm" name="gm" value="gm">관리지역등록</button>
 </form>
 </div>
 
