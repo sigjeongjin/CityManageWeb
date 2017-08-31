@@ -1,5 +1,11 @@
 @CHARSET "UTF-8";
 
+form {
+	width: 800px;
+	margin: 0 auto; 
+    padding: 0 auto;
+}
+
 body {
 	font-family: Droid Sans Fallback;
 	background-color: #F2F2F2;
@@ -45,12 +51,12 @@ button:hover, i:hover {
 	background-color: #009499;
 }
 
-.btncenter {
+.managementToggleUpdate, .managementToggleModify, .managementDelete {
  	text-align: center;	
 }
 
 table{
-	margin-right: 10px;
+	margin: auto;
 	text-align: left; 
 }
 
@@ -59,36 +65,17 @@ th, td {
     text-align: left;    
 }
 
-	
-.infoContainer {
-    padding: 5px;
-	width: 550px;
-	height: 450px;
-	border-radius: 4px;
- 	position: absolute;
- 	top: 200px;
- 	left: 300px;
-}
-
 .modifyContainer {
+	margin: 0 auto;
 	padding: 5px;
-	width: 550px;
+	width: 50%;
 	height: 450px;
 	border-radius: 4px;
- 	position: absolute;
  	top: 200px;
  	left: 1000px;
+ 	text-align: center;
 }
 
-.show {
-	padding: 5px;
-	width: 550px;
-	height: 450px;
-	border-radius: 4px;
- 	position: absolute;
- 	top: 200px;
- 	left: 650px;
-}
 .manageContainer {
 	text-align: center;
 	margin: 0 auto;

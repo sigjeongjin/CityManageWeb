@@ -10,6 +10,7 @@ pageEncoding = "UTF-8"%>
 </head>
 <body>
 <jsp:include page="../header/menuHeader.jsp" flush="true"/>
+<h2>관리 지역 수정</h2>
 
 <div id="modifyContainer">	
 <form action="manageLocationUpdate.do" method="post">
@@ -94,9 +95,10 @@ pageEncoding = "UTF-8"%>
 	    		<button type="button" value="managementUpdate">삭제</button>
 	    	</form>
     	</div>
-    	    	<div id="sensorUpdate" class="sensorUpdate">
-	    	<form action="/manageLocationDelete.do" method="post">
-	    		<button type="button" value="managementUpdate">삭제</button>
+    	<div id="sensorInfoUpdate" class="sensorInfoUpdate">
+	    	<form action="sensorInfoUpdateInfo.do" method="post">
+	    		<input type="hidden" id="manageId" name="manageId" value="${manageInfo.manageId}">
+	    		<button type="button" value="sensorInfoUpdate">센서정보수정</button>
 	    	</form>
     	</div>
 </div>	
