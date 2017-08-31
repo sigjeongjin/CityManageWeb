@@ -25,6 +25,10 @@ pageEncoding = "UTF-8"%>
 		<option value="all">전체</option>
 		<option value="manageId">관리ID</option>
 		<option value="locationName">지역정보</option>
+		<option value="waterLevel">수위정보</option>
+		<option value="waterQuality">수질정보</option>
+		<option value="operationStatus">센서동작상태</option>
+		<option value="memo">비고</option>
     </select>
     <input type="text" id="searchText" placeholder="Search for names.." name="searchText">  
 <button type = submit value="선택">선택</button>

@@ -52,9 +52,10 @@ public class SensorManageService {
 		}
 	}
 	
+	// manageType: wm 검색
 	public WmSensorListPage getWmSensorListPage(int pageNum, String manageType, String selectBox, String searchText) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
-			int total = managementDao.selectCount(conn, manageType);
+			int total = managementDao.selectCount(conn, manageType, selectBox, searchText);
 			List<WmManagementInfo> content = managementDao.wmSensorList(conn, (pageNum - 1) * size, size, manageType, selectBox, searchText);
 			return new WmSensorListPage(total, pageNum, size, content);
 		} catch (SQLException e) {
