@@ -12,7 +12,7 @@ pageEncoding = "UTF-8"%>
 <jsp:include page="../header/menuHeader.jsp" flush="true"/>
 <h2>관리 지역 등록</h2>
 
-	 <form action="manageLocationRegister.do" method="post"> 
+<form action="manageLocationRegister.do" method="post"> 
 	<div class="container">
 	<table>
 	<tr>
@@ -69,8 +69,8 @@ pageEncoding = "UTF-8"%>
 	<c:if test="${manageType == 'gm'}">
 		<tr>
 			<td colspan="2"><label><b>센서종류 :</b></label></td> 
-			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="wq"><label><b>충격감지센서</b></label></td>
-			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="wl"><label><b>압력농도센서</b></label></td>
+			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="sd"><label><b>충격감지센서</b></label></td>
+			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="gd"><label><b>압력농도센서</b></label></td>
 		</tr>	
 	</c:if>
 	<c:if test="${manageType == 'sm'}">

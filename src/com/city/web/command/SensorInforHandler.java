@@ -1,16 +1,16 @@
 package com.city.web.command;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.city.model.LocationManagement;
-import com.city.model.SensorInfo;
+import org.apache.commons.lang3.StringUtils;
+
 import com.city.web.service.ManageLocationService;
 import com.city.web.service.SensorManageService;
+import com.mysql.fabric.xmlrpc.base.Array;
 
 public class SensorInforHandler implements CommandHandler {
 
@@ -51,7 +51,9 @@ public class SensorInforHandler implements CommandHandler {
 		// 내가 click한 리스트 목록에 있는 manageId 가져옴
 
 		List<String> sensorTypeList = sensorManageService.sensorTypeSelect(sensorManageId);
-		request.setAttribute("sensorTypeList", sensorTypeList);
+		String temp = StringUtils.removeStart(sensorTypeList.toString(), "[");
+		temp = StringUtils.removeEnd(temp, "]");
+		request.setAttribute("sensorTypeList", temp);
 		// 해당 sensorId의 sensorTypes(sensorInfo)
 
 		String manageSensorTypes = manageLocationService.sensorTypesSelect(sensorManageId);
