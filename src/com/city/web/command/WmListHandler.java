@@ -12,7 +12,10 @@ public class WmListHandler implements CommandHandler {
 
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+		
+		String selectBox = (request.getParameter("selectBox"));
+		String searchText = (request.getParameter("searchText"));
+			
 		String manageType = "wm";
 		String pageNoVal = request.getParameter("pageNo");
 		int pageNo = 1;
@@ -20,7 +23,7 @@ public class WmListHandler implements CommandHandler {
 			pageNo = Integer.parseInt(pageNoVal);
 		}
 
-		WmSensorListPage wmSensorListPage = sensorManageService.getWmSensorListPage(pageNo, manageType);
+		WmSensorListPage wmSensorListPage = sensorManageService.getWmSensorListPage(pageNo, manageType,  selectBox, searchText);
 		request.setAttribute("WmListPage", wmSensorListPage);
 
 		request.getSession().setAttribute("manageType", manageType);
