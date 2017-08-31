@@ -17,16 +17,16 @@ import jdbc.JdbcUtil;
 
 public class MemberDao {
 
-	public int updatePwdChange(Connection conn, String memberChangePwd , String memberId, String memberPwd) throws SQLException {
+	public int updatePwdChange(Connection conn, String memberChangePwd , String memberId) throws SQLException {
 		PreparedStatement pstmt = null;
 		int resultcode = 0;
 
 		try {
-			pstmt = conn.prepareStatement("update member set member_pwd=? where member_id=? and member_pwd=? ");
+			pstmt = conn.prepareStatement("update member set member_pwd=? where member_id=? ");
 		
 			pstmt.setString(1, memberChangePwd);
 			pstmt.setString(2, memberId);
-			pstmt.setString(3, memberPwd);
+//			pstmt.setString(3, memberPwd);
 			resultcode = pstmt.executeUpdate();
 			
 			return resultcode;

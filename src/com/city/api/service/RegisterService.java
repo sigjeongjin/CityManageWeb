@@ -25,7 +25,7 @@ public class RegisterService {
 	private MemberDao memberDao = new MemberDao();
 	
 	
-	public String pwdChange (String memberChangePwd, String memberId, String memberPwd) {
+	public String pwdChange (String memberChangePwd, String memberId) {
 		int pwdmember = 0;
 		String resultCode ="";
 		Connection conn = null;
@@ -34,7 +34,7 @@ public class RegisterService {
 		conn = ConnectionProvider.getConnection(); // transaction
 		conn.setAutoCommit(false);
 
-		pwdmember = memberDao.updatePwdChange(conn, memberChangePwd, memberId , memberPwd );
+		pwdmember = memberDao.updatePwdChange(conn, memberChangePwd, memberId);
 		
 		if(pwdmember == 1) {
 			resultCode = "Y";
