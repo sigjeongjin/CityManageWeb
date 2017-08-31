@@ -82,7 +82,6 @@ public class MemberManageService {
 			member = memberDao.selectById(conn, memberId);
 
 			if (member == null) {
-				System.out.println("LoginSFail-1");
 				throw new NullPointerException();
 			}
 

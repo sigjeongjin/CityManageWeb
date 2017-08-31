@@ -33,8 +33,6 @@ public class ManageUpdateHandler implements CommandHandler {
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		System.out.println("manageId : " + request.getParameter("manageId"));
-
 		String sensorTypes = Arrays.toString(request.getParameterValues("sensorTypes"));
 		sensorTypes = sensorTypes.substring(1, sensorTypes.length()-1);
 		

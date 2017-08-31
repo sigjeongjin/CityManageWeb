@@ -55,7 +55,6 @@ public class SensorDao {
 			while (rs.next()) {
 				manageId = rs.getString(1);
 			}
-			System.out.println("manageId : " + manageId);
 		} finally {
 			JdbcUtil.close(rs);
 			JdbcUtil.close(pstmt);

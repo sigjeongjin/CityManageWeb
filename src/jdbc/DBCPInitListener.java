@@ -21,7 +21,6 @@ public class DBCPInitListener implements ServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
-		System.out.println("contextInitialized() 실행");
 		String poolConfig = sce.getServletContext().getInitParameter("poolConfig");
 		Properties prop = new Properties();
 		try {
@@ -34,7 +33,6 @@ public class DBCPInitListener implements ServletContextListener {
 	}
 
 	private void loadJDBCDriver(Properties prop) {
-		System.out.println("loadJDBCDriver() 실행");
 		String driverClass = prop.getProperty("jdbcDriver");
 		try {
 			Class.forName(driverClass);
@@ -45,7 +43,6 @@ public class DBCPInitListener implements ServletContextListener {
 	}
 
 	private void initConnectionPool(Properties prop) {
-		System.out.println("initConnectionPool() 실행");
 		try {
 			String jdbcUrl = prop.getProperty("jdbcUrl");
 			String userName = prop.getProperty("dbUser");
@@ -75,7 +72,6 @@ public class DBCPInitListener implements ServletContextListener {
 			PoolingDriver driver = (PoolingDriver) DriverManager.getDriver("jdbc:apache:commons:dbcp:");
 			String poolName = prop.getProperty("poolName");
 			driver.registerPool(poolName, connectionPool);
-			System.out.println("loadJDBCDriver() 실행 end");
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

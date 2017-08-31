@@ -29,7 +29,7 @@ public class ManageLocationService {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("ManagementArea register fail");
+			System.out.println(e);
 			JdbcUtil.rollback(conn);
 		} finally {
 			JdbcUtil.close(conn);
@@ -45,7 +45,6 @@ public class ManageLocationService {
 			locationManagement = managementDao.selectManagementInfo(conn, manageId);
 
 			if (locationManagement == null) {
-				System.out.println("select fail");
 				throw new NullPointerException();
 			}
 
@@ -62,7 +61,6 @@ public class ManageLocationService {
 			String manageId = managementDao.searchById(conn);
 
 			if (manageId == null) {
-				System.out.println("not find manageId");
 				throw new NullPointerException();
 			}
 
@@ -105,7 +103,6 @@ public class ManageLocationService {
 			String sensorTypes = managementDao.searchBySensorTypes(conn, manageId);
 
 			if (sensorTypes == null) {
-				System.out.println("not find manageId");
 				throw new NullPointerException();
 			}
 

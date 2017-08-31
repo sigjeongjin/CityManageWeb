@@ -25,6 +25,8 @@ public class SessionCheck implements Filter {
 
 	private List<String> noFilterUrl;
 	
+	private List<String> resourcePath;
+	
     /**
      * Default constructor. 
      */
@@ -34,6 +36,10 @@ public class SessionCheck implements Filter {
         noFilterUrl.add("/login.do");
         noFilterUrl.add("/register.do");
         noFilterUrl.add("/logout.do");
+        
+        resourcePath = new ArrayList<String>();
+        resourcePath.add("/css/");
+        resourcePath.add("/js/");
     }
 
 	/**
@@ -57,18 +63,32 @@ public class SessionCheck implements Filter {
 		if(!noFilterUrl.contains(uri)) {
 			
 			System.out.println("필터 작동");
-			HttpSession session = req.getSession();
 			
-			//session userId
-			// session userName
+			boolean isResourcePath = false;
 			
-			String memberId = (String)session.getAttribute("userId");
-			System.out.println(memberId);
-			if(StringUtils.isNullOrEmpty(memberId)) {
-				HttpServletResponse res = (HttpServletResponse) response;
-				res.sendRedirect("/login.do");
-				return;
+			for(String resource : resourcePath) {
+				System.out.println("resource path : " + resource);
+				if(uri.startsWith(resource)) {
+					isResourcePath = true;
+					break;
+				}
 			}
+			
+			if(!isResourcePath) {
+				System.out.println("resource 경로 걸림");
+				HttpSession session = req.getSession();
+				
+				//session userId
+				// session userName
+				
+				String memberId = (String)session.getAttribute("userId");
+				if(StringUtils.isNullOrEmpty(memberId)) {
+					HttpServletResponse res = (HttpServletResponse) response;
+					res.sendRedirect("/login.do");
+					return;
+				}
+			}
+			
 		}
 		chain.doFilter(request, response);
 	}

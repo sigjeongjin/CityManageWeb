@@ -34,7 +34,6 @@ public class RegisterHandler implements CommandJsonHandler {
 
 		String saveFolder = "/upload";
 		String realFolder = request.getServletContext().getRealPath(saveFolder); // saveFilepath
-		System.out.println("realFolder : " + realFolder);
 		int maxSize = 5 * 1024 * 1024; // 최대 업로될 파일크기 5Mb
 		MultipartRequest multi = new MultipartRequest(request, realFolder, maxSize, "utf-8",
 				new DefaultFileRenamePolicy());
@@ -62,7 +61,8 @@ public class RegisterHandler implements CommandJsonHandler {
 			Gson gson = new Gson();
 			return gson.toJson(result);
 		} catch (Exception e) {
-			System.out.println("에러");
+			e.printStackTrace();
+			System.out.println(e);
 		}
 		return null;
 	}

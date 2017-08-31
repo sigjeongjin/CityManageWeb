@@ -13,22 +13,17 @@ pageEncoding = "UTF-8"%>
 <h2>PUSH이력 리스트</h2>
 <div class="container">
 
-<form action="memberSearch.do" method="post">
-	<select id="memberSelect" name="memberSelect">
+<form action="pushHistoryList.do" method="post">
+	<select id="searchSelect" name="searchSelect">
 		<option value="all">전체</option>
-		<option value="member_authorization">구분</option>
-		<option value="member_name">이름</option>
-		<option value="member_id">아이디</option>
-		<option value="member_email">이메일</option>
-		<option value="member_phone">전화번호</option>
-		<option value="city_code">시/도</option>
-		<option value="state_code">시/군/구</option>
+		<option value="manageId">관리ID</option>
+		<option value="locationName">지역</option>
+		<option value="pushContents">PUSH내용</option>
     </select>
-    <input type="text" id="memberInput" placeholder="Search for names.." name="memberInput">  
-<button type = submit value="선택">선택</button>
+    <input type="text" id="searchText" placeholder="Search for names.." name="searchText">  
+<button type="submit" value="선택">선택</button>
 </form> 
 <table>
-
 	<tr>
 		<th>번호</th>
 		<th>관리ID</th>

@@ -44,7 +44,8 @@ public class LoginHandler implements CommandJsonHandler {
 			
 			return gson.toJson(result);
 		} catch (Exception e) {
-			System.out.println("에러");
+			e.printStackTrace();
+			System.out.println(e);
 		}
 		return gson.toJson(result);
 	}

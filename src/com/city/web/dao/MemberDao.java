@@ -21,8 +21,9 @@ public class MemberDao {
 		int resultCode=0;
 		try {
 			pstmt = conn.prepareStatement("insert into member "
-					+ "(member_id, member_pwd, member_name, member_phone, member_email, member_photo, member_authorization) "
-					+ "values (?, ?, ?, ?, ?, ?, ?)");
+					+ "(member_id, member_pwd, member_name, member_phone, member_email,"
+					+ " member_photo, member_authorization, city_code) "
+					+ "values (?, ?, ?, ?, ?, ?, ?, ?)");
 			pstmt.setString(1, member.getMemberId());
 			pstmt.setString(2, member.getMemberPwd());
 			pstmt.setString(3, member.getMemberName());
@@ -30,6 +31,7 @@ public class MemberDao {
 			pstmt.setString(5, member.getMemberEmail());
 			pstmt.setString(6, member.getMemberPhoto());
 			pstmt.setString(7, member.getMemberAuthorization());
+			pstmt.setString(8, member.getCityCode());
 			resultCode = pstmt.executeUpdate();
 			
 			return resultCode;
@@ -59,11 +61,8 @@ public class MemberDao {
 			if (rs.next()) {
 				idAndName.put("memberId", rs.getString("member_id"));
 				idAndName.put("memberName", rs.getString("member_name"));
-				System.out.println("data 있음");
-				return idAndName;
-			} else {
-				return null;
 			}
+			return idAndName;
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);

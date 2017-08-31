@@ -17,7 +17,7 @@ pageEncoding = "UTF-8"%>
 	<div class="container">
 	
 	<div class="memberPhoto_preview" id="memberPhoto_preview">
-    <img src="#" width="100%" height="100%"/>
+    <img src="#" width="100%" height="100%" alt="프로필 이미지 선택"/>
 	</div>
 	
 		<label for="memberPhoto"><b>프로필사진</b></label>
@@ -42,7 +42,7 @@ pageEncoding = "UTF-8"%>
 			<input type="email" placeholder="E-mail을 입력해주세요." id="memberEmail" name="memberEmail" maxlength="20" value="${param.memberEmail}" required>
 		<label><b>지역 선택</b></label>
 		
-		<select id="city" name="city">
+		<select id="city" name="cityCode">
 		<c:forEach var="cityInfo" items="${city}" varStatus="status">
 			<option value="${cityInfo.cityCode}">${cityInfo.cityName}</option>
 		</c:forEach>
