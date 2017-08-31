@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.city.model.Member;
 
 import jdbc.JdbcUtil;
@@ -54,13 +56,16 @@ public class MemberDao {
 		HashMap<String, String> idAndName = new HashMap<String, String>();
 		try {
 			pstmt = conn
-					.prepareStatement("select member_id, member_name from member where member_id=? and member_pwd= ?");
+					.prepareStatement("select member_id, member_name, city_code from member "
+							+ "where member_id=? and member_pwd= ? and member_delete_code='N' "
+							+ " and member_authorization='admin'");
 			pstmt.setString(1, memberId);
 			pstmt.setString(2, memberPwd);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				idAndName.put("memberId", rs.getString("member_id"));
 				idAndName.put("memberName", rs.getString("member_name"));
+				idAndName.put("cityCode", rs.getString("city_code"));
 			}
 			return idAndName;
 		} finally {
@@ -105,93 +110,90 @@ public class MemberDao {
 	}
 
 	/*paging을 위한 member count*/
-	public int selectCount(Connection conn, String memberSelect, String memberInput) throws SQLException {
+	public int selectCount(Connection conn, String memberSelect, String memberInput, String cityCode) throws SQLException {
 		
-		if( memberSelect.equals("city_code")) {
-			memberSelect = "city_name";
-		} else if ( memberSelect.equals("state_code")) {
-			memberSelect = "state_name";
+		if(StringUtils.isNotEmpty(memberSelect)) {
+			if( memberSelect.equals("city_code")) {
+				memberSelect = "city_name";
+			} else if ( memberSelect.equals("state_code")) {
+				memberSelect = "state_name";
+			}
 		}
 			
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			stmt = conn.createStatement();
-
-			if (memberSelect.equals("all")) {
-				rs = stmt.executeQuery("select count(*) from member mb "
+			if(StringUtils.isEmpty(memberSelect)){
+				pstmt = conn.prepareStatement("select count(*) from member mb "
 						+ "left join address_city city on mb.city_code = city.city_code "
-						+ "left join address_state state on mb.state_code= state.state_code");
+						+ "left join address_state state on mb.state_code= state.state_code where mb.city_code=?");
 			} else {
-				rs = stmt.executeQuery("select count(*) from member mb "
-						+ "left join address_city city on mb.city_code = city.city_code "
-						+ "left join address_state state on mb.state_code= state.state_code "
-						+ "where " + memberSelect + "=" + "'" + memberInput + "'");
-				
+				if (memberSelect.equals("all")) {
+					pstmt = conn.prepareStatement("select count(*) from member mb "
+							+ "left join address_city city on mb.city_code = city.city_code "
+							+ "left join address_state state on mb.state_code= state.state_code where mb.city_code=?");
+				} else {
+					pstmt = conn.prepareStatement("select count(*) from member mb "
+							+ "left join address_city city on mb.city_code = city.city_code "
+							+ "left join address_state state on mb.state_code= state.state_code where mb.city_code=?"
+							+ "and " + memberSelect + " like " + "'%" + memberInput + "%'");
+				}
 			}
+			
+			pstmt.setString(1, cityCode);
+			rs = pstmt.executeQuery();
+			
 			if (rs.next()) {
 				return rs.getInt(1);
 			}
 			return 0;
 		} finally {
 			JdbcUtil.close(rs);
-			JdbcUtil.close(stmt);
+			JdbcUtil.close(pstmt);
 		}
 	}
 	
-	// /memberList.do
-	public List<Member> selectMemberList(Connection conn, int startRow, int size) throws SQLException {
-
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		try {
-			pstmt = conn.prepareStatement("select * from member mb "
-					+ "left join address_city city on mb.city_code = city.city_code "
-					+ "left join address_state state on mb.state_code= state.state_code " + "limit ?, ?");
-			pstmt.setInt(1, startRow);
-			pstmt.setInt(2, size);
-			rs = pstmt.executeQuery();
-
-			List<Member> memberList = new ArrayList<>();
-			while (rs.next()) {
-				memberList.add(joinMemberFromResultSet(rs));
-			}
-			return memberList;
-		} finally {
-			JdbcUtil.close(pstmt);
-			JdbcUtil.close(rs);
-		}
-	}
-
 	// /memberSearch.do
 	public List<Member> searchMemberList(Connection conn, int startRow, int size, String memberSelect,
-			String memberInput) throws SQLException {
+			String memberInput, String cityCode) throws SQLException {
 
-		if( memberSelect.equals("city_code")) {
-			memberSelect = "city_name";
-		} else if ( memberSelect.equals("state_code")) {
-			memberSelect = "state_name";
+		if(StringUtils.isNotEmpty(memberSelect)) {
+			if( memberSelect.equals("city_code")) {
+				memberSelect = "city_name";
+			} else if ( memberSelect.equals("state_code")) {
+				memberSelect = "state_name";
+			}
 		}
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
 		try {
-			if (memberSelect.equals("all")) {
+			
+			if(StringUtils.isEmpty(memberSelect)){
 				pstmt = conn.prepareStatement("select * from member mb "
 						+ "left join address_city city on mb.city_code = city.city_code "
-						+ "left join address_state state on mb.state_code= state.state_code " + "limit ?, ?");
-				pstmt.setInt(1, startRow);
-				pstmt.setInt(2, size);
-			} else {
-				pstmt = conn.prepareStatement("select * from member mb "
-						+ "left join address_city city on mb.city_code = city.city_code "
-						+ "left join address_state state on mb.state_code= state.state_code "
-						+ "where " + memberSelect + "=?" + "limit ?, ?");
-				pstmt.setString(1, memberInput);
+						+ "left join address_state state on mb.state_code= state.state_code where mb.city_code=? limit ?, ?");
+				pstmt.setString(1, cityCode);
 				pstmt.setInt(2, startRow);
 				pstmt.setInt(3, size);
+			} else {
+				if (memberSelect.equals("all")) {
+					pstmt = conn.prepareStatement("select * from member mb "
+							+ "left join address_city city on mb.city_code = city.city_code "
+							+ "left join address_state state on mb.state_code= state.state_code where mb.city_code=? limit ?, ?");
+					pstmt.setString(1, cityCode);
+					pstmt.setInt(2, startRow);
+					pstmt.setInt(3, size);
+				} else {
+					pstmt = conn.prepareStatement("select * from member mb "
+							+ "left join address_city city on mb.city_code = city.city_code "
+							+ "left join address_state state on mb.state_code= state.state_code "
+							+ "where " + memberSelect + " like '%" + memberInput + "%' and mb.city_code=?  limit ?, ?");
+					pstmt.setString(1, cityCode);
+					pstmt.setInt(2, startRow);
+					pstmt.setInt(3, size);
+				}
 			}
 
 			rs = pstmt.executeQuery();

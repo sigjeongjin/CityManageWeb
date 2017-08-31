@@ -32,6 +32,7 @@ public class LoginHandler implements CommandHandler {
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String memberId = trim(request.getParameter("memberId"));
 		String memberPwd = trim(request.getParameter("memberPwd"));
+		
 		HashMap<String, String> idAndName = new HashMap<String, String>();
 		try {
 			idAndName = loginService.login(memberId, memberPwd);
@@ -42,6 +43,7 @@ public class LoginHandler implements CommandHandler {
 			} else {
 				request.getSession().setAttribute("userId", idAndName.get("memberId"));
 				request.getSession().setAttribute("userName", idAndName.get("memberName"));
+				request.getSession().setAttribute("cityCode", idAndName.get("cityCode"));
 				return "index.jsp";
 			}
 			

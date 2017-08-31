@@ -52,22 +52,17 @@ public class MemberManageService {
 		}
 	}
 
-	// 전체 페이지
-	public MemberListPage getMemberListPage(int pageNum) {
-		try (Connection conn = ConnectionProvider.getConnection()) {
-			int total = memberDao.selectCount(conn);
-			List<Member> content = memberDao.selectMemberList(conn, (pageNum - 1) * size, size);
-			return new MemberListPage(total, pageNum, size, content);
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
-	}
 
-	// 검색 페이지
-	public MemberListPage getMemberListPage(int pageNum, String memberSelect, String memberInput) {
+	/**
+	 * @param pageNum
+	 * @param memberSelect
+	 * @param memberInput
+	 * @return
+	 */
+	public MemberListPage getMemberListPage(int pageNum, String memberSelect, String memberInput, String cityCode) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
-			int total = memberDao.selectCount(conn, memberSelect, memberInput);
-			List<Member> content = memberDao.searchMemberList(conn, (pageNum - 1) * size, size, memberSelect, memberInput);
+			int total = memberDao.selectCount(conn, memberSelect, memberInput, cityCode);
+			List<Member> content = memberDao.searchMemberList(conn, (pageNum - 1) * size, size, memberSelect, memberInput, cityCode);
 			return new MemberListPage(total, pageNum, size, content);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
