@@ -161,22 +161,26 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		String resultcode = "400";
+		String resultCode = "400";
+		
 		try {
 			pstmt = conn
 					.prepareStatement("select member_id, member_pwd from member where member_id=? and member_pwd= ? "
-									+ "and member_delete_code='N' and member_authorization='app_user'");
+									+ " and member_authorization='app_user'");
 			pstmt.setString(1, memberId);
 			pstmt.setString(2, memberPwd);
 			rs = pstmt.executeQuery();
+			
 			if (rs.next()) {
 				return "200";
 			} 
-			return resultcode;
+		} catch (Exception e) {
+			// TODO: handle exception
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);
 		}
+		return resultCode;
 	}
 
 	public String insertMember(Connection conn, Member member) throws SQLException {
