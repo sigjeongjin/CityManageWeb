@@ -20,7 +20,7 @@ pageEncoding = "UTF-8"%>
 
 <div class="container">
 
-<form action="smListSearch.do" method="post">
+<form action="smList.do" method="post">
 	<select id="selectBox" name="selectBox">
 		<option value="all">전체</option>
 		<option value="manageId">관리ID</option>

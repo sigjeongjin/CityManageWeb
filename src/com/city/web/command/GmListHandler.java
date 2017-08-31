@@ -13,17 +13,21 @@ public class GmListHandler  implements CommandHandler {
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+		String selectBox = (request.getParameter("selectBox"));
+		String searchText = (request.getParameter("searchText"));
+		
 		String manageType = "gm";
 		String pageNoVal = request.getParameter("pageNo");
 		int pageNo = 1;
 		if (pageNoVal != null) {
 			pageNo = Integer.parseInt(pageNoVal);
 		}
-		
-		GmSensorListPage gmSensorListPage = sensorManageService.getGmSensorListPage(pageNo, manageType);
-		request.setAttribute("GmListPage", gmSensorListPage);	
-		
+
+		GmSensorListPage gmSensorListPage = sensorManageService.getGmSensorListPage(pageNo, manageType,  selectBox, searchText);
+		request.setAttribute("GmListPage", gmSensorListPage);
+
 		request.getSession().setAttribute("manageType", manageType);
+
 		return "/view/management/gmListView.jsp";
 	}
 }

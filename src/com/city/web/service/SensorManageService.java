@@ -32,16 +32,6 @@ public class SensorManageService {
 	
 	// manageType: tm, wm, gm, sm
 	// manageType: tm
-	public TmSensorListPage getTmSensorListPage(int pageNum, String manageType) {
-		try (Connection conn = ConnectionProvider.getConnection()) {
-			int total = managementDao.selectCount(conn, manageType);
-			List<TmManagementInfo> content = managementDao.tmSensorList(conn, (pageNum - 1) * size, size, manageType);
-			return new TmSensorListPage(total, pageNum, size, content);
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
-	}
-	// manageType: tm 검색
 	public TmSensorListPage getTmSensorListPage(int pageNum, String manageType, String selectBox, String searchText) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
 			int total = managementDao.selectCount(conn, manageType, selectBox, searchText);
@@ -52,7 +42,7 @@ public class SensorManageService {
 		}
 	}
 
-	// manageType: wm 검색
+	// manageType: wm
 	public WmSensorListPage getWmSensorListPage(int pageNum, String manageType, String selectBox, String searchText) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
 			int total = managementDao.selectCount(conn, manageType, selectBox, searchText);
@@ -62,18 +52,7 @@ public class SensorManageService {
 			throw new RuntimeException(e);
 		}
 	}
-	
 	// manageType: gm
-	public GmSensorListPage getGmSensorListPage(int pageNum, String manageType) {
-		try (Connection conn = ConnectionProvider.getConnection()) {
-			int total = managementDao.selectCount(conn, manageType);
-			List<GmManagementInfo> content = managementDao.gmSensorList(conn, (pageNum - 1) * size, size, manageType);
-			return new GmSensorListPage(total, pageNum, size, content);
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
-	}
-	// manageType: gm 검색
 	public GmSensorListPage getGmSensorListPage(int pageNum, String manageType, String selectBox, String searchText) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
 			int total = managementDao.selectCount(conn, manageType, selectBox, searchText);
@@ -83,18 +62,7 @@ public class SensorManageService {
 			throw new RuntimeException(e);
 		}
 	}
-	
 	// manageType: sm
-	public SmSensorListPage getSmSensorListPage(int pageNum, String manageType) {
-		try (Connection conn = ConnectionProvider.getConnection()) {
-			int total = managementDao.selectCount(conn, manageType);
-			List<SmManagementInfo> content = managementDao.smSensorList(conn, (pageNum - 1) * size, size, manageType);
-			return new SmSensorListPage(total, pageNum, size, content);
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
-	}
-	// manageType: sm 검색
 	public SmSensorListPage getSmSensorListPage(int pageNum, String manageType, String selectBox, String searchText) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
 			int total = managementDao.selectCount(conn, manageType, selectBox, searchText);

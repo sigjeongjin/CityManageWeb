@@ -10,7 +10,7 @@ pageEncoding = "UTF-8"%>
 </head>
 <body>
 <jsp:include page="../header/menuHeader.jsp" flush="true"/>
-<h2>수질관리 리스트</h2>
+<h2>도시가스관리 리스트</h2>
 <div class="manageContainer">
 <form action="managementarea.do" method="post">
 <input type="hidden" id="manageType" name="manageType" value='${manageType}'>
@@ -20,7 +20,7 @@ pageEncoding = "UTF-8"%>
 
 <div class="container">
 
-<form action="gmListSearch.do" method="post">
+<form action="gmList.do" method="post">
 	<select id="selectBox" name="selectBox">
 		<option value="all">전체</option>
 		<option value="manageId">관리ID</option>
