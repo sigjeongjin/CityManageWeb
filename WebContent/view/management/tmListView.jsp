@@ -20,18 +20,19 @@ pageEncoding = "UTF-8"%>
 
 <div class="container">
 
-<form action="tmListSearch.do" method="post">
-	<select id="lcationManagementSelect" name="lcationManagementSelect">
-		<option value="alllcationManagement">전체</option>
-		<option value="lcationManagement_authorization">구분</option>
-		<option value="lcationManagement_name">이름</option>
-		<option value="lcationManagement_id">아이디</option>
-		<option value="lcationManagement_email">이메일</option>
-		<option value="lcationManagement_phone">전화번호</option>
-		<option value="city_code">시/도</option>
-		<option value="state_code">시/군/구</option>
+<form action="wmListSearch.do" method="post">
+	<select id="selectBox" name="selectBox">
+		<option value="all">전체</option>
+		<option value="manageId">관리ID</option>
+		<option value="locationName">지역정보</option>
+		<option value="generous">만적정보</option>
+		<option value="stink">악취정보</option>
+		<option value="flameDetection">불꽃정보</option>
+		<option value="lockStatus">잠김정보</option>
+		<option value="operationStatus">센서동작상태</option>
+		<option value="memo">비고</option>
     </select>
-    <input type="text" id="lcationManagementInput" placeholder="Search for names.." name="lcationManagementInput">  
+    <input type="text" id="searchText" placeholder="Search for names.." name="searchText">  
 <button type = submit value="선택">선택</button>
 </form>
 
@@ -106,12 +107,12 @@ pageEncoding = "UTF-8"%>
 $(tmSensorList).ready(function(){
     $("tr.tmSensorList").click(function(){
      	$('#manageId').attr('value',$(this).find("td").eq(1).html());
-     	$('#cityName').attr('value',$(this).find("td").eq(2).html());
-     	$('#stateName').attr('value',$(this).find("td").eq(3).html());	
      	$("#hiddenForm").submit();
     });
 });
+</script>
 
+<script type="text/javascript">
 $(tmSensorList).ready(function(){
     $("p").click(function(){
 		var index =  $("p").index(this);

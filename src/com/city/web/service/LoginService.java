@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-import com.city.model.Member;
 import com.city.web.dao.MemberDao;
 
 import jdbc.connection.ConnectionProvider;

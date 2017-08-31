@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.city.model.GmManagementInfo;
-import com.city.model.LocationManagement;
 import com.city.model.SensorInfo;
 import com.city.model.SmManagementInfo;
 import com.city.model.TmManagementInfo;
@@ -32,6 +31,7 @@ public class SensorManageService {
 	private int size = 10;
 	
 	// manageType: tm, wm, gm, sm
+	// manageType: tm
 	public TmSensorListPage getTmSensorListPage(int pageNum, String manageType) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
 			int total = managementDao.selectCount(conn, manageType);
@@ -41,6 +41,17 @@ public class SensorManageService {
 			throw new RuntimeException(e);
 		}
 	}
+	// manageType: tm 검색
+	public TmSensorListPage getTmSensorListPage(int pageNum, String manageType, String selectBox, String searchText) {
+		try (Connection conn = ConnectionProvider.getConnection()) {
+			int total = managementDao.selectCount(conn, manageType, selectBox, searchText);
+			List<TmManagementInfo> content = managementDao.tmSensorList(conn, (pageNum - 1) * size, size, manageType, selectBox, searchText);
+			return new TmSensorListPage(total, pageNum, size, content);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	// manageType: wm
 	public WmSensorListPage getWmSensorListPage(int pageNum, String manageType) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
@@ -50,8 +61,7 @@ public class SensorManageService {
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
-	}
-	
+	}	
 	// manageType: wm 검색
 	public WmSensorListPage getWmSensorListPage(int pageNum, String manageType, String selectBox, String searchText) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
@@ -64,15 +74,26 @@ public class SensorManageService {
 	}
 	
 	// manageType: gm
-		public GmSensorListPage getGmSensorListPage(int pageNum, String manageType) {
-			try (Connection conn = ConnectionProvider.getConnection()) {
-				int total = managementDao.selectCount(conn, manageType);
-				List<GmManagementInfo> content = managementDao.gmSensorList(conn, (pageNum - 1) * size, size, manageType);
-				return new GmSensorListPage(total, pageNum, size, content);
-			} catch (SQLException e) {
-				throw new RuntimeException(e);
-			}
+	public GmSensorListPage getGmSensorListPage(int pageNum, String manageType) {
+		try (Connection conn = ConnectionProvider.getConnection()) {
+			int total = managementDao.selectCount(conn, manageType);
+			List<GmManagementInfo> content = managementDao.gmSensorList(conn, (pageNum - 1) * size, size, manageType);
+			return new GmSensorListPage(total, pageNum, size, content);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
 		}
+	}
+	// manageType: gm 검색
+	public GmSensorListPage getGmSensorListPage(int pageNum, String manageType, String selectBox, String searchText) {
+		try (Connection conn = ConnectionProvider.getConnection()) {
+			int total = managementDao.selectCount(conn, manageType, selectBox, searchText);
+			List<GmManagementInfo> content = managementDao.gmSensorList(conn, (pageNum - 1) * size, size, manageType, selectBox, searchText);
+			return new GmSensorListPage(total, pageNum, size, content);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
 	// manageType: sm
 	public SmSensorListPage getSmSensorListPage(int pageNum, String manageType) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
@@ -83,19 +104,17 @@ public class SensorManageService {
 			throw new RuntimeException(e);
 		}
 	}
-	
+	// manageType: sm 검색
 	public SmSensorListPage getSmSensorListPage(int pageNum, String manageType, String selectBox, String searchText) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
-			int total = managementDao.selectCount(conn, manageType);
+			int total = managementDao.selectCount(conn, manageType, selectBox, searchText);
 			List<SmManagementInfo> content = managementDao.smSensorList(conn, (pageNum - 1) * size, size, manageType, selectBox, searchText);
 			return new SmSensorListPage(total, pageNum, size, content);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
-	
-	
-	
+		
 	public String sensorRegister(SensorInfo sensorInfo) {
 		Connection conn = null;
 		String sensorRegister = null;
@@ -172,10 +191,6 @@ public class SensorManageService {
 			throw new RuntimeException(e);
 		}
 	}
-
-	
-	
-	
 }
 
 
