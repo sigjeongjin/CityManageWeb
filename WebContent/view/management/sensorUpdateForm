@@ -1,17 +1,16 @@
 <%@page language = "java" contentType="text/html; charset = UTF-8"
 pageEncoding = "UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv = "Content-Type" content = "text/html; charset = UTF-8">
+<title>센서 등록</title>
+
 <link rel="stylesheet" type="text/css" href="../../css/textFormSmall.css">
 </head>
 <body>
-
+<jsp:include page="../header/menuHeader.jsp" flush="true"/>
 <h2>센서 등록</h2>
-
-<div>
 
 <form action="sensorRegister.do" method="post">
 <c:forEach var="sensorInfo" items="${sensorInfoList}" varStatus="status">

@@ -25,7 +25,7 @@ pageEncoding = "UTF-8"%>
 	
 	<div class="SettringsArticle">
 		안녕하세요?<br>
- 		${authMemberName}님
+ 		${userName}님
 	</div>
 </div>
 	<div class="logoutArticle">
