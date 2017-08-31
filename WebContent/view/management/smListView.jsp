@@ -98,16 +98,12 @@ pageEncoding = "UTF-8"%>
 </body>
 <script src="../../js/jquery-1.11.0.min.js"></script>
 <script type="text/javascript">
-$(smSensorList).ready(function(){
+$(document).ready(function(){
     $("tr.smSensorList").click(function(){
      	$('#manageId').attr('value',$(this).find("td").eq(1).html());
      	$("#hiddenForm").submit();
     });
-});
-</script>
-
-<script type="text/javascript">
-$(smSensorList).ready(function(){
+    
     $("p").click(function(){
 		var index =  $("p").index(this);
 		var sensorManageId = $("tr.smSensorList").eq(index).find("td").eq(0).next().html();
@@ -116,4 +112,5 @@ $(smSensorList).ready(function(){
     });
 });
 </script>
+
 </html>
