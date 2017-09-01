@@ -90,7 +90,7 @@ pageEncoding = "UTF-8"%>
     		<button type="submit" value="managementUpdate" onclick="managementUpdate()">변경</button>
     	</div>
 </form>	
-    	<div id="managementDelete" class="managementDelete">
+<%--     	<div id="managementDelete" class="managementDelete">
 	    	<form action="manageLocationDelete.do" method="post">
 	    		<button type="button" value="managementUpdate">삭제</button>
 	    	</form>
@@ -100,7 +100,7 @@ pageEncoding = "UTF-8"%>
 	    		<input type="hidden" id="manageId" name="manageId" value="${manageInfo.manageId}">
 	    		<button type="button" value="sensorInfoUpdate">센서정보수정</button>
 	    	</form>
-    	</div>
+    	</div> --%>
 </div>	
     
 <input type="hidden" id="systemSensor" name="systemSensor" value="${manageInfo.sensorTypes}">
