@@ -36,6 +36,7 @@ public class SessionCheck implements Filter {
         noFilterUrl.add("/login.do");
         noFilterUrl.add("/register.do");
         noFilterUrl.add("/logout.do");
+        noFilterUrl.add("/allList.do");
         noFilterUrl.add("/memberLogin.app");
 		noFilterUrl.add("/sensorInfoRegister.app");
 		noFilterUrl.add("/stateInfo.app");
@@ -55,9 +56,11 @@ public class SessionCheck implements Filter {
 		noFilterUrl.add("/gmInfo.app");
 		noFilterUrl.add("/smInfo.app");
 		
+		
         resourcePath = new ArrayList<String>();
         resourcePath.add("/css/");
         resourcePath.add("/js/");
+        
     }
 
 	/**
@@ -102,7 +105,7 @@ public class SessionCheck implements Filter {
 				String memberId = (String)session.getAttribute("userId");
 				if(StringUtils.isNullOrEmpty(memberId)) {
 					HttpServletResponse res = (HttpServletResponse) response;
-					res.sendRedirect("/login.do");
+					res.sendRedirect("view/member/loginForm.jsp");
 					return;
 				}
 			}
