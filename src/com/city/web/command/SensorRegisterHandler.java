@@ -41,7 +41,7 @@ public class SensorRegisterHandler implements CommandHandler {
 		
 		sensorManageService.sensorRegister(sensorInfo);
 		
-		return "/wmList.do";
+		return "/allList.do";
 	}
 }
 
