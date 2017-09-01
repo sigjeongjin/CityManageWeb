@@ -2,8 +2,13 @@ package com.city.web.service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.city.model.LocationManagement;
+import com.city.model.Member;
+import com.city.model.SensorRegister;
+import com.city.model.TmManagementInfo;
 import com.city.web.dao.ManagementDao;
 
 import jdbc.JdbcUtil;
@@ -107,6 +112,19 @@ public class ManageLocationService {
 			}
 
 			return sensorTypes;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+	}
+
+	public List<SensorRegister> RegisterList(String manageType) {
+		List<SensorRegister> tmRegisterList = new ArrayList<>();
+		try (Connection conn = ConnectionProvider.getConnection()) {
+			
+			tmRegisterList = managementDao.selectTmRegisterList(conn, manageType);
+			
+			return tmRegisterList;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);

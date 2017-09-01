@@ -57,7 +57,7 @@ public class MemberDao {
 		try {
 			pstmt = conn
 					.prepareStatement("select member_id, member_name, city_code from member "
-							+ "where member_id=? and member_pwd= ? and member_delete_code='N' "
+							+ "where member_id=? and member_pwd= ?"
 							+ " and member_authorization='admin'");
 			pstmt.setString(1, memberId);
 			pstmt.setString(2, memberPwd);
@@ -219,7 +219,6 @@ public class MemberDao {
 		member.setMemberEmail(rs.getString("member_email"));
 		member.setMemberPhoto(rs.getString("member_photo"));
 		member.setMemberAuthorization(rs.getString("member_authorization"));
-		member.setMemberDeleteCode(rs.getString("member_delete_code"));
 		member.setCityCode(rs.getString("city_name"));		// code로 name 가져오기
 		member.setStateCode(rs.getString("state_name"));	// code로 name 가져오기
 		return member;
@@ -253,9 +252,27 @@ public class MemberDao {
 		member.setMemberEmail(rs.getString("member_email"));
 		member.setMemberPhoto(rs.getString("member_photo"));
 		member.setMemberAuthorization(rs.getString("member_authorization"));
-		member.setMemberDeleteCode(rs.getString("member_delete_code"));
 		member.setCityCode(rs.getString("city_code"));
 		member.setStateCode(rs.getString("state_code"));
 		return member;
+	}
+
+	public List<Member> selecMemberNameList(Connection conn) throws SQLException{
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+				pstmt = conn.prepareStatement("select member_name memberName from member limit 0 ,3");
+				rs = pstmt.executeQuery();
+				List<Member> memberNameList = new ArrayList<>();
+			while (rs.next()) {
+				Member member = new Member();
+				member.setMemberName(rs.getString("memberName"));
+				memberNameList.add(member);
+			}
+			return memberNameList;
+		} finally {
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(rs);
+		}
 	}
 }

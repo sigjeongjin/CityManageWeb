@@ -86,4 +86,19 @@ public class MemberManageService {
 			throw new RuntimeException(e);
 		}
 	}
+
+
+	public List<Member> memberNameList() {
+		
+		List<Member> memberName = new ArrayList<>();
+		try (Connection conn = ConnectionProvider.getConnection()) {
+			
+			memberName = memberDao.selecMemberNameList(conn);
+			
+			return memberName;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+	}
 }

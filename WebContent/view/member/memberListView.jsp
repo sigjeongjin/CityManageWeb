@@ -78,6 +78,9 @@ pageEncoding = "UTF-8"%>
 </table>
 </div>
 
+<form id="hiddenFormr" action="memberUpdate.do" method="post">
+<input type="hidden" id="memberId" name="memberId">
+</form>
 
 </body>
 <script src="../../js/jquery-1.11.0.min.js"></script>
@@ -87,7 +90,6 @@ $(document).ready(function(){
 
      	memberId:$(this).find("td").eq(3).html();
      	$('#memberId').attr('value',$(this).find("td").eq(3).html());
-     	console.log(memberId);
      	$("#hiddenForm").submit();
     });
 });

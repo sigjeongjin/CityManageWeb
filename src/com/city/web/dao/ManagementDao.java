@@ -10,6 +10,8 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.city.model.LocationManagement;
+import com.city.model.Member;
+import com.city.model.SensorRegister;
 import com.city.model.GmManagementInfo;
 import com.city.model.SmManagementInfo;
 import com.city.model.TmManagementInfo;
@@ -468,5 +470,27 @@ public class ManagementDao {
 					+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='sd') smokeDetection, ";
 		}
 		return query;
+	}
+
+	public List<SensorRegister> selectTmRegisterList(Connection conn, String manageType) throws SQLException{
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+				pstmt = conn.prepareStatement("select CONCAT((select city_name from address_city where city_code=lm.city_code),' ',(select state_name from address_state where state_code=lm.state_code)) locationName, "
+						+ "si.sensor_id sensorId from location_management lm  right join sensor_info si on si.manage_id=lm.manage_id where manage_type = ? limit 0,3;");
+				pstmt.setString(1, manageType);
+				rs = pstmt.executeQuery();
+				List<SensorRegister> RegisterList = new ArrayList<>();
+			while (rs.next()) {
+				SensorRegister manageList = new SensorRegister();
+				manageList.setLocationName(rs.getString("locationName"));
+				manageList.setSensorId(rs.getString("sensorId"));
+				RegisterList.add(manageList);
+			}
+			return RegisterList;
+		} finally {
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(rs);
+		}
 	}
 }

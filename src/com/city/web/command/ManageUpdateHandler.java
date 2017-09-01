@@ -48,6 +48,6 @@ public class ManageUpdateHandler implements CommandHandler {
 
 		manageLocationService.managementUpdate(locationManagement);
 
-		return "/wmInfo.do";
+		return "/allList.do";
 	}
 }

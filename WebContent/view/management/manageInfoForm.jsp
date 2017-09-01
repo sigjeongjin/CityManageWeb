@@ -6,7 +6,7 @@ pageEncoding = "UTF-8"%>
 <head>
 <title>관리코드 상세 정보</title>
 
-<link rel="stylesheet" type="text/css" href="../../css/ChangeTextForm.css">
+<link rel="stylesheet" type="text/css" href="../../css/changeInfoForm.css">
 </head>
 <body>
 <jsp:include page="../header/menuHeader.jsp" flush="true"/>

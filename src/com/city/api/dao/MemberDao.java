@@ -165,7 +165,7 @@ public class MemberDao {
 		try {
 			pstmt = conn
 					.prepareStatement("select member_id, member_pwd from member where member_id=? and member_pwd= ? "
-									+ "and member_delete_code='N' and member_authorization='app_user'");
+									+ "and member_authorization='app_user'");
 			pstmt.setString(1, memberId);
 			pstmt.setString(2, memberPwd);
 			rs = pstmt.executeQuery();
