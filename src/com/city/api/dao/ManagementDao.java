@@ -184,7 +184,7 @@ public class ManagementDao {
 				"(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='fd') flameDetection, "
 				+"(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='s') stink, "
 				+"(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='g') generous, "
-				+"(select case sensor_info when 'Y' then '잠김' when 'N' then '열림' end from sensor_info where manage_id=? and sensor_type='lr') lockStatus, "
+				+"(select case sensor_info when 'Y' then '잠김' when 'N' then '열림' end from sensor_info where manage_id=? and sensor_type='l') lockStatus, "
 				,"tm"));
 			pstmt.setString(1, manageId);
 			pstmt.setString(2, manageId);
