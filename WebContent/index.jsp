@@ -7,62 +7,40 @@ pageEncoding = "UTF-8"%>
 <head>
 <meta http-equiv = "Content-Type" content = "text/html; charset = UTF-8">
 <title>CityManageWeb</title>
-<link rel="stylesheet" type="text/css" href="../css/mainDash.css">
+<link rel="stylesheet" type="text/css" href="../css/tabsBody.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<jsp:include page="view/header/menuHeader.jsp" flush="true"/>
-<div class="noticeContainer">
-	<div class="registerMember">
-		<fieldset>
-			<legend>회원정보 리스트</legend>
-					<c:forEach var="memberNameList" items="${memberNameList}" varStatus="status">
-							<p>${memberNameList.memberName}님이 가입하였습니다.</p>
-					</c:forEach>
-		</fieldset>
-	</div>
-	<div class="registerTm">
-		<fieldset>
-			<legend>쓰레기통관리 리스트</legend>
-				<c:forEach var="tmRegisterList" items="${tmRegisterList}" varStatus="status">
-							<p>${tmRegisterList.locationName} 지역에 센서${tmRegisterList.sensorId} 추가</p>
-				</c:forEach>
-		</fieldset>
-	</div>
-</div>
+<u:isLogin>
+	<div class="header">
+		<a href="/memberList.do"><button>회원관리</button></a>
+		<a href="/tmList.do"><button>쓰레기통관리</button></a>
+		<a href="/wmList.do"><button>수질관리</button></a>
+		<a href="/gmList.do"><button>도시가스관리</button></a>
+		<a href="/smList.do"><button>금연구역관리</button></a>
+		<a href="/pushHistoryList.do"><button>Push이력관리</button></a>
 
-<div class="noticeContainer">
-	<div class="registerWm">
-		<fieldset>
-			<legend>수질관리 리스트</legend>
-				<c:forEach var="wmRegisterList" items="${wmRegisterList}" varStatus="status">
-							<p>${wmRegisterList.locationName} 지역에 센서${wmRegisterList.sensorId} 추가</p>
-				</c:forEach>
-		</fieldset>
+		<div class="loginContainer">
+			안녕하세요?<br>
+	 		${userName}님
+		</div>
 	</div>
-	<div class="registerGm">
-		<fieldset>
-			<legend>도시가스관리 리스트</legend>
-				<c:forEach var="gmRegisterList" items="${gmRegisterList}" varStatus="status">
-							<p>${gmRegisterList.locationName} 지역에 센서${gmRegisterList.sensorId} 추가</p>
-				</c:forEach>
-		</fieldset>
-	</div>
-</div>
+	
+		<div class="logouContainer">
+			<a href = "logout.do">☆로그아웃</a>
+		</div>
+		
+		<div class="main">
+			<jsp:include page="${cont}"/>
+		</div>
+	
+</u:isLogin>
 
-<div class="noticeContainer">
-	<div class="registerSm">
-		<fieldset>
-			<legend>금연구연관리 리스트</legend>
-				<c:forEach var="smRegisterList" items="${smRegisterList}" varStatus="status">
-							<p>${smRegisterList.locationName} 지역에 센서${smRegisterList.sensorId} 추가</p>
-				</c:forEach>
-		</fieldset>
-	</div>
-	<div class="registerPush">
-		<fieldset>
-			<legend>push이력 리스트</legend>
-		</fieldset>
-	</div>
-</div>
+<u:notLogin>
+ 	<jsp:include page="/view/member/loginForm.jsp" flush="true"/>
+</u:notLogin>
+
+
+
 </body>
 </html>

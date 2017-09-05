@@ -44,7 +44,7 @@ public class LoginHandler implements CommandHandler {
 				request.getSession().setAttribute("userId", idAndName.get("memberId"));
 				request.getSession().setAttribute("userName", idAndName.get("memberName"));
 				request.getSession().setAttribute("cityCode", idAndName.get("cityCode"));
-				return "/allList.do";
+				return "index.jsp";
 			}
 			
 			

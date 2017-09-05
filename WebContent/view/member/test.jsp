@@ -8,7 +8,6 @@ pageEncoding = "UTF-8"%>
 <link rel="stylesheet" type="text/css" href="../../css/textForm.css">
 </head>
 <body>
-<jsp:include page="../header/menuHeader.jsp" flush="true"/>
 <h2>정보 변경</h2>
 <form action="changememberInfo.do" method="post" enctype="multipart/form-data">
 	<div class="container">

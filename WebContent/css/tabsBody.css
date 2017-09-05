@@ -1,12 +1,12 @@
 @CHARSET "UTF-8";
 
-body {
+form {
 	font-family: Droid Sans Fallback;
 	background-color: #F2F2F2;
 }
 
 /* Style the tab */
-div.tab {
+div.header {
     overflow: hidden;
     height: 60px;
     background-color: #00AABD;
@@ -14,8 +14,7 @@ div.tab {
     box-shadow:0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
-/* Style the buttons inside the tab */
-div.tab button {
+div.header button {
     background-color: #00AABD;
     float: left;
     border: none;
@@ -33,13 +32,12 @@ div.tab button {
     margin-left: 3px;
 }
 
-/* Change background color of buttons on hover */
-div.tab button:hover {
+
+div.header button:hover {
     background-color: #009499;
 }
 
-/* Create an active/current tablink class */
-div.tab button.active {
+div.header button.active {
     background-color: #00AAB0;
 }
 
@@ -52,16 +50,16 @@ div.tab button.active {
     border-top: none;
 }
 
-.logoutArticle {
+.loginContainer {
+	text-align: right; 
+	margin: 10px;
+	color: white;
+}
+
+.logouContainer {
 	font-family: Droid Sans Fallback;
 	margin-top: 10px;
 	text-align: right;
 	margin-right: 20px;
 	font-size: 13px;
-}
-
-.SettringsArticle {
-	text-align: right; 
-	margin: 10px;
-	color: white;
 }
