@@ -6,29 +6,30 @@ pageEncoding = "UTF-8"%>
 <head>
 <meta http-equiv = "Content-Type" content = "text/html; charset = UTF-8">
 <title>로그인</title>
-<link rel="stylesheet" type="text/css" href="../../css/loginForm.css">
+<link rel="stylesheet" type="text/css" href="../../css/login.css">
 </head>
-
+<div class="loginFromContainer">
 <form action="login.do" method="post">
-<h1>IoT System</h1>
-<h2>종합 도시관리 시스템</h2>
+<P class="mainText"><b>IoT System</b></P>
+<P class="subText"><b>종합 도시관리 시스템</b></P>
 <fieldset>
 	<div class="loginContainer">
-    	<label><b>아이디</b></label>
+    	<label class="loginLable"><b>아이디</b></label>
     	<input type="text" placeholder="아이디를 입력해주세요." name="memberId" maxlength="20" value="${param.memberId}" required>
     
-    	<label><b>비밀번호</b></label>
+    	<label class="loginLable"><b>비밀번호</b></label>
     	<input type="password" placeholder="비밀번호  입력해주세요." name="memberPwd" maxlength="20" required>
 	    	
 	    <div class="btncenter">
-	    	<button type="submit" value="signin">로그인</button>
+	    	<button class="loginBtn" type="submit" value="loginBtn">로그인</button>
 	    </div> 
-	    <div class="registerArticle">
+	    <div class="registerContainer">
 			<a href = "register.do">★회원가입</a>
 		</div>
 	</div>
 </fieldset>
 </form>
+</div>
 <input type="hidden" value="${error}" id="error"/>
 </body>
 <script src="../../js/jquery-1.11.0.min.js"></script>
@@ -40,7 +41,7 @@ $(document).ready(function(){
 	if(err > 0){
 		alert($("#error").val());	
 	}
-		
+	
 });
 </script>
 </html>

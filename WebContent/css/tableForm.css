@@ -1,23 +1,5 @@
 @CHARSET "UTF-8";
 
-body {
-	font-family: Droid Sans Fallback;
-	background-color: #F2F2F2;
-}
-
-h2 {
-	
-	margin-top: 30px;
-	color: #444444;
-	text-align: center;
-}
-
-label {
-	margin-top: 10px;
-	color : #444444;
-	margin-right: 10px;
-}
-
 div.allContainer {
 	width: 100%;
 }
@@ -97,10 +79,3 @@ tr:nth-child(even) {
 tr.memberList:hover, tr.wmSensorList:hover, tr.smSensorList:hover, tr.gmSensorList:hover, tr.tmSensorList:hover{
 	background-color:#8EE1DD
 	}
-	
-
-.SettringsArticle {
-	text-align: right; 
-	margin: 10px;
-	color: white;
-}

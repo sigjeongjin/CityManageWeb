@@ -9,7 +9,6 @@ pageEncoding = "UTF-8"%>
 <link rel="stylesheet" type="text/css" href="../../css/tableForm.css">
 </head>
 <body>
-<jsp:include page="../header/menuHeader.jsp" flush="true"/>
 <h2>쓰레기통관리 리스트</h2>
 <div class="manageContainer">
 <form action="managementarea.do" method="post">

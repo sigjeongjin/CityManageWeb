@@ -9,7 +9,6 @@ pageEncoding = "UTF-8"%>
 <link rel="stylesheet" type="text/css" href="../../css/textFormSmall.css">
 </head>
 <body>
-<jsp:include page="../header/menuHeader.jsp" flush="true"/>
 <h2>센서 등록</h2>
 
 <form action="sensorRegister.do" method="post">

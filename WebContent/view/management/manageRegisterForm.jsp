@@ -9,7 +9,6 @@ pageEncoding = "UTF-8"%>
 <link rel="stylesheet" type="text/css" href="../../css/textForm.css">
 </head>
 <body>
-<jsp:include page="../header/menuHeader.jsp" flush="true"/>
 <h2>관리 지역 등록</h2>
 
 <form action="manageLocationRegister.do" method="post"> 

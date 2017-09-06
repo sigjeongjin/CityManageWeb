@@ -1,0 +1,51 @@
+@CHARSET "UTF-8";
+
+html {
+	font-family: Droid Sans Fallback;
+	background-color: #F2F2F2;
+}
+
+p.mainText {
+	margin-top: 80px;
+	color: #1C9FE1;
+	font-size: 100px;
+	text-align: center;
+}
+
+p.subText {
+	margin-top: -100px;
+	color: #9B9EA0;
+	font-size: 40px;
+	text-align: center;
+}
+
+.loginFromContainer {
+	min-width: 700px;
+}
+
+.loginContainer {
+    padding: 15px;
+    
+}
+
+.registerContainer {
+	margin-top: 15px;
+ 	font-size: 13px;
+ 	text-align: center;	
+}
+
+fieldset {
+	width: 350px;
+ 	border: 3px solid #1C9FE1; 
+    border-radius: 15px;
+    margin: 0 auto;
+}
+
+button.loginBtn{
+    background-color: #00AABD;
+    width: 100px;
+}
+
+button.loginBtn:hover {
+	background-color: #009499;
+}

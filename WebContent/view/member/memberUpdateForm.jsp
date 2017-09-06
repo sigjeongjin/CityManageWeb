@@ -33,9 +33,9 @@ pageEncoding = "UTF-8"%>
 		<label><b>사진</b></label>
 			<input type="file" id="mMemberPhone" name="memberPhoto" value="${param.newPhoto}" required>
 		
-			<div class="btncenter">
+		<div class="btncenter">
     			<button type="submit" value="signup">정보변경</button>
-    		</div> 
+    	</div> 
 	</div>
 </form>
 </html>

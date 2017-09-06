@@ -1,11 +1,10 @@
 @CHARSET "UTF-8";
 
-form {
+html {
 	font-family: Droid Sans Fallback;
 	background-color: #F2F2F2;
 }
 
-/* Style the tab */
 div.header {
     overflow: hidden;
     height: 60px;
@@ -23,7 +22,8 @@ div.header button {
     padding: 14px 16px;
     transition: 0.3s;
     height: 50px;
-    width: 135px;
+    width: 10%;
+    min-width: 135px;
     border-radius: 4px;
     color: white;
     font-size: 15px;
@@ -31,7 +31,6 @@ div.header button {
     margin-right: 3px;
     margin-left: 3px;
 }
-
 
 div.header button:hover {
     background-color: #009499;
@@ -41,23 +40,13 @@ div.header button.active {
     background-color: #00AAB0;
 }
 
-/* Style the tab content */
-.tabcontent {
-	background-color: #F2F2F2;
-    display: none;
-    padding: 6px 12px;
-    border: 1px solid #ccc;
-    border-top: none;
-}
-
-.loginContainer {
+.welecomContainer {
 	text-align: right; 
 	margin: 10px;
 	color: white;
 }
 
-.logouContainer {
-	font-family: Droid Sans Fallback;
+.logoutContainer {
 	margin-top: 10px;
 	text-align: right;
 	margin-right: 20px;

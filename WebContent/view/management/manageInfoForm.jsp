@@ -9,7 +9,6 @@ pageEncoding = "UTF-8"%>
 <link rel="stylesheet" type="text/css" href="../../css/changeInfoForm.css">
 </head>
 <body>
-<jsp:include page="../header/menuHeader.jsp" flush="true"/>
 <h2>관리 지역 수정</h2>
 
 <div id="modifyContainer">	

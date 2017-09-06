@@ -7,12 +7,13 @@ pageEncoding = "UTF-8"%>
 <head>
 <meta http-equiv = "Content-Type" content = "text/html; charset = UTF-8">
 <title>CityManageWeb</title>
-<link rel="stylesheet" type="text/css" href="../css/tabsBody.css">
+<link rel="stylesheet" type="text/css" href="../../css/mainPage.css">
+<link rel="stylesheet" type="text/css" href="../../css/common.css">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <u:isLogin>
-	<div class="header">	
+	<div class="header">
 		<a href="/memberList.do"><button>회원관리</button></a>
 		<a href="/tmList.do"><button>쓰레기통관리</button></a>
 		<a href="/wmList.do"><button>수질관리</button></a>
@@ -20,13 +21,13 @@ pageEncoding = "UTF-8"%>
 		<a href="/smList.do"><button>금연구역관리</button></a>
 		<a href="/pushHistoryList.do"><button>Push이력관리</button></a>
 		
-		<div class="loginContainer">
+		<div class="welecomContainer">
 			안녕하세요?<br>
 	 		${userName}님
 		</div>
 	</div>
 	
-	<div class="logouContainer">
+	<div class="logoutContainer">
 		<a href = "logout.do">☆로그아웃</a>
 	</div>
 		
@@ -40,7 +41,6 @@ pageEncoding = "UTF-8"%>
 		<jsp:include page="${cont}"/>
 	</div>
 </u:notLogin>
-
 
 </body>
 </html>
