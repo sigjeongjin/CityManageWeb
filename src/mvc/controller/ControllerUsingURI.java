@@ -69,7 +69,7 @@ public class ControllerUsingURI extends HttpServlet {
 			throw new ServletException(e);
 		}
 			request.setAttribute("cont",view);
-			RequestDispatcher dispatcher =request.getRequestDispatcher("/index.jsp");
-			dispatcher.forward(request, response);	
-	}
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/view/common/mainPage.jsp");
+			dispatcher.forward(request, response);
+		}
 }

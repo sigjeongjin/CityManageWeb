@@ -9,7 +9,6 @@ pageEncoding = "UTF-8"%>
 <link rel="stylesheet" type="text/css" href="../../css/tableForm.css">
 </head>
 <body>
-/>
 <h2>PUSH이력 리스트</h2>
 <div class="container">
 
