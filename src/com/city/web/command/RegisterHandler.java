@@ -1,5 +1,6 @@
 package com.city.web.command;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,30 +54,35 @@ public class RegisterHandler implements CommandHandler {
 		
 		request.setAttribute("city", addressCityList);
 		
-		return "view/member/registerForm.jsp";
+		return "/view/member/registerForm.jsp";
 	}
 
-	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	private String processSubmit(HttpServletRequest request, HttpServletResponse response) {
 
 		String saveFolder = "/upload";
 		String realFolder = request.getServletContext().getRealPath(saveFolder); // saveFilepath
 		int maxSize = 5 * 1024 * 1024; // 최대 업로될 파일크기 5Mb
-		MultipartRequest multi = new MultipartRequest(request, realFolder, maxSize, "utf-8",
-				new DefaultFileRenamePolicy());
-
+		MultipartRequest multi;
 		Member member = new Member();
-		member.setMemberId(multi.getParameter("memberId"));
-		member.setMemberPwd(multi.getParameter("memberPwd"));
-		member.setMemberName(multi.getParameter("memberName"));
-		member.setMemberPhone(multi.getParameter("memberPhone"));
-		member.setMemberEmail(multi.getParameter("memberEmail"));
-		member.setMemberPhoto(multi.getFilesystemName("memberPhoto"));
-		member.setCityCode(multi.getParameter("cityCode"));
-		member.setMemberAuthorization("admin");
-
-		registerService.register(member);
+		try {
+			multi = new MultipartRequest(request, realFolder, maxSize, "utf-8",
+					new DefaultFileRenamePolicy());
+			
+			member.setMemberId(multi.getParameter("memberId"));
+			member.setMemberPwd(multi.getParameter("memberPwd"));
+			member.setMemberName(multi.getParameter("memberName"));
+			member.setMemberPhone(multi.getParameter("memberPhone"));
+			member.setMemberEmail(multi.getParameter("memberEmail"));
+			member.setMemberPhoto(multi.getFilesystemName("memberPhoto"));
+			member.setCityCode(multi.getParameter("cityCode"));
+			member.setMemberAuthorization("admin");
+			
+			registerService.register(member);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
-		return "index.jsp";
-
+		return "/index.jsp";
 	}
 }

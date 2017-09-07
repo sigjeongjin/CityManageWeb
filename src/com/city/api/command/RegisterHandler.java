@@ -1,5 +1,7 @@
 package com.city.api.command;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -35,21 +37,25 @@ public class RegisterHandler implements CommandJsonHandler {
 		String saveFolder = "/upload";
 		String realFolder = request.getServletContext().getRealPath(saveFolder); // saveFilepath
 		int maxSize = 5 * 1024 * 1024; // 최대 업로될 파일크기 5Mb
-		MultipartRequest multi = new MultipartRequest(request, realFolder, maxSize, "utf-8",
-				new DefaultFileRenamePolicy());
-
+		MultipartRequest multi;
 		Member member = new Member();
-		member.setMemberId(request.getParameter("memberId"));
-		member.setMemberPwd(request.getParameter("memberPwd"));
-		member.setMemberName(request.getParameter("memberName"));
-		member.setMemberPhone(request.getParameter("memberPhone"));
-		member.setMemberEmail(request.getParameter("memberEmail"));
-		// member.setMemberPhoto(request.getFilesystemName("memberPhoto"));
-		member.setMemberAuthorization(request.getParameter("memberAuthorization"));
-		member.setCityCode(request.getParameter("cityCode"));
-		member.setStateCode(request.getParameter("stateCode"));
-
-		// String strId = registerService.register(member);
+		try {
+			multi = new MultipartRequest(request, realFolder, maxSize, "utf-8",
+					new DefaultFileRenamePolicy());
+			
+			member.setMemberId(multi.getParameter("memberId"));
+			member.setMemberPwd(multi.getParameter("memberPwd"));
+			member.setMemberName(multi.getParameter("memberName"));
+			member.setMemberPhone(multi.getParameter("memberPhone"));
+			member.setMemberEmail(multi.getParameter("memberEmail"));
+			member.setMemberPhoto(multi.getFilesystemName("memberPhoto"));
+			member.setMemberAuthorization("app_user");
+			
+			registerService.register(member);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		try {
 			Result result = new Result();
