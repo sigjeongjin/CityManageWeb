@@ -38,6 +38,7 @@ public class RegisterService {
 				throw new SQLException();
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
 			JdbcUtil.rollback(conn);
 		} finally {
 			JdbcUtil.close(conn);

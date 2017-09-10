@@ -33,42 +33,36 @@ public class RegisterHandler implements CommandJsonHandler {
 	}
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+		MultipartRequest multi;
+		
 		String saveFolder = "/upload";
 		String realFolder = request.getServletContext().getRealPath(saveFolder); // saveFilepath
 		int maxSize = 5 * 1024 * 1024; // 최대 업로될 파일크기 5Mb
-		MultipartRequest multi;
+		
 		Member member = new Member();
 		try {
 			multi = new MultipartRequest(request, realFolder, maxSize, "utf-8",
 					new DefaultFileRenamePolicy());
-			
 			member.setMemberId(multi.getParameter("memberId"));
 			member.setMemberPwd(multi.getParameter("memberPwd"));
 			member.setMemberName(multi.getParameter("memberName"));
 			member.setMemberPhone(multi.getParameter("memberPhone"));
 			member.setMemberEmail(multi.getParameter("memberEmail"));
-			member.setMemberPhoto(multi.getFilesystemName("memberPhoto"));
+			member.setMemberPhoto(multi.getParameter("memberPhoto"));
+			//member.setMemberPhoto(multi.getFilesystemName("memberPhoto"));
 			member.setMemberAuthorization("app_user");
 			
-			registerService.register(member);
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		try {
 			Result result = new Result();
 			result.setResultCode(registerService.register(member));
-
+			
 			if (result.getResultCode() == "200") {
 				result.setResultMessage("success");
 			}
 			Gson gson = new Gson();
 			return gson.toJson(result);
-		} catch (Exception e) {
+			
+		} catch (IOException e) {
 			e.printStackTrace();
-			System.out.println(e);
 		}
 		return null;
 	}

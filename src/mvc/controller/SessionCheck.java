@@ -37,6 +37,7 @@ public class SessionCheck implements Filter {
         noFilterUrl.add("/register.do");
         noFilterUrl.add("/logout.do");
         noFilterUrl.add("/memberLogin.app");
+        noFilterUrl.add("/memberRegister.app");
 		noFilterUrl.add("/sensorInfoRegister.app");
 		noFilterUrl.add("/stateInfo.app");
 		noFilterUrl.add("/cityStateInfoRegister.app");

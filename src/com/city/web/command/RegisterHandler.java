@@ -59,10 +59,11 @@ public class RegisterHandler implements CommandHandler {
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) {
 
+		MultipartRequest multi;
 		String saveFolder = "/upload";
 		String realFolder = request.getServletContext().getRealPath(saveFolder); // saveFilepath
 		int maxSize = 5 * 1024 * 1024; // 최대 업로될 파일크기 5Mb
-		MultipartRequest multi;
+		
 		Member member = new Member();
 		try {
 			multi = new MultipartRequest(request, realFolder, maxSize, "utf-8",

@@ -186,8 +186,8 @@ public class MemberDao {
 		try {
 
 			pstmt = conn.prepareStatement("insert into member "
-					+ "(member_id, member_pwd, member_name, member_phone, member_email, member_photo, member_authorization, city_code, state_code) "
-					+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+					+ "(member_id, member_pwd, member_name, member_phone, member_email, member_photo, member_authorization) "
+					+ "values (?, ?, ?, ?, ?, ?, ?)");
 			pstmt.setString(1, member.getMemberId());
 			pstmt.setString(2, member.getMemberPwd());
 			pstmt.setString(3, member.getMemberName());
@@ -195,8 +195,6 @@ public class MemberDao {
 			pstmt.setString(5, member.getMemberEmail());
 			pstmt.setString(6, member.getMemberPhoto());
 			pstmt.setString(7, member.getMemberAuthorization());
-			pstmt.setString(8, member.getCityCode());
-			pstmt.setString(9, member.getStateCode());
 			pstmt.executeUpdate();
 			return Resultcode;
 		} finally {
