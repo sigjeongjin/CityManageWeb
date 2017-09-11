@@ -23,8 +23,8 @@ public class MemberDao {
 		int resultCode=0;
 		try {
 			pstmt = conn.prepareStatement("insert into member "
-					+ "(member_id, member_pwd, member_name, member_phone, member_email,"
-					+ " member_photo, member_authorization, city_code) "
+					+ "(member_id, member_pwd, member_name, member_phone, member_email, "
+					+ "member_photo, member_authorization, city_code) "
 					+ "values (?, ?, ?, ?, ?, ?, ?, ?)");
 			pstmt.setString(1, member.getMemberId());
 			pstmt.setString(2, member.getMemberPwd());
@@ -39,7 +39,6 @@ public class MemberDao {
 			return resultCode;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println(e);
 			JdbcUtil.rollback(conn);
 		}finally {
 			JdbcUtil.close(pstmt);

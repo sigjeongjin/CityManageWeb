@@ -164,3 +164,12 @@ ADD COLUMN `operation_status` VARCHAR(1) NULL AFTER `manage_type`;
 -- 2017.08.28 colum 추가
 ALTER TABLE `citymanage`.`push_history_info` 
 ADD COLUMN `manage_id` VARCHAR(15) NOT NULL AFTER `push_send_time`;
+
+-- 2017.09.11 colum 변경
+ALTER TABLE `citymanage`.`member` 
+CHANGE COLUMN `city_code` `city_code` VARCHAR(10) NULL DEFAULT NULL COMMENT '시/도 코드' ;
+
+-- 2017.09.11 colum 추가
+ALTER TABLE `citymanage`.`member` 
+ADD COLUMN `member_delete_code` VARCHAR(1) NOT NULL DEFAULT 'N' AFTER `state_code`;
+

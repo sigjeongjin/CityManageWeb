@@ -1,45 +1,107 @@
-
 package com.city.api.service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
 import com.city.model.Member;
-import com.city.model.MemberAPI;
 import com.city.api.dao.MemberDao;
 
 import jdbc.JdbcUtil;
 import jdbc.connection.ConnectionProvider;
 
 /* 
- * RegisterService 회원가입				  rs
- * PwdConfirmService 비밀번호 확인			  pcs
- * PwdChangService 비밀번호 변경			  pcs
- * ProfileImageChangeService 프로필 사진 변경   pics
+ *  memberLogin	      로그인 			mL
+ *  memberIdCheck  아이디 조회			mIC
+ *  memberRegister 회원가입 			mR
+ * 	memberInfo 멤버 상세 정보 조회 		mI
+ * 	memberList 멤버 리스트  			mL
+ *  memberUpdate 멤버 정보 업데이트		mU
+ *  memberDelete 멤버 정보 삭제			mD
+ *  memberSearch 멤버 정보 검색			mS
+ */
 
- * */
-
-public class RegisterService {
+public class MemberManageService {
 
 	private MemberDao memberDao = new MemberDao();
 
-	public String register(Member member) {
+	// memberLogin 로그인 mL
+	public String login(String memberId, String memberPwd) {
 
 		Connection conn = null;
-		String rs = null;
+		String mL = "";
+
+		try {
+			conn = ConnectionProvider.getConnection();
+			conn.setAutoCommit(false);
+
+			String resultCode = memberDao.selectByIdAndPwd(conn, memberId, memberPwd);
+			conn.commit();
+
+			if (resultCode == "200") {
+				mL = "Y";
+				return mL;
+			} else {
+				mL = "N";
+				return mL;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+		return null;
+	}
+
+	// memberLogin 아이디 조회 mIC
+	public String memberIdCheck(String memberId) {
+
+		Connection conn = null;
+		String mIC = "";
+
+		try {
+			conn = ConnectionProvider.getConnection();
+			conn.setAutoCommit(false);
+
+			String resultCode = memberDao.selectById(conn, memberId);
+			conn.commit();
+
+			if (resultCode == "200") {
+				mIC = "Y";
+				return mIC;
+			} else {
+				mIC = "N";
+				throw new SQLException();
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+		return null;
+	}
+
+	// RegisterRegister 회원가입 mR
+	public String memberRegister(Member member) {
+
+		Connection conn = null;
+		String mR = "";
 
 		try {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
 
-			String strId = memberDao.insertMember(conn, member);
+			int resultCode = memberDao.insertMember(conn, member);
 			conn.commit();
 
-			if (strId != null) {
-				rs = "200";
-				return rs;
+			if (resultCode == 1) {
+				mR = "Y";
+				return mR;
 			} else {
-				rs = "400";
+				mR = "N";
 				throw new SQLException();
 			}
 		} catch (SQLException e) {
@@ -128,4 +190,5 @@ public class RegisterService {
 		}
 		return null;
 	}
+
 }

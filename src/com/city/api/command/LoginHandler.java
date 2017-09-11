@@ -3,13 +3,13 @@ package com.city.api.command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.city.api.service.LoginService;
+import com.city.api.service.MemberManageService;
 import com.city.model.Result;
 import com.google.gson.Gson;
 
 public class LoginHandler implements CommandJsonHandler {
 
-	private LoginService loginService = new LoginService();
+	private MemberManageService memberManageService = new MemberManageService();
 
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -28,31 +28,27 @@ public class LoginHandler implements CommandJsonHandler {
 	}
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) {
-		String memberId = trim(request.getParameter("memberId"));
-		String memberPwd = trim(request.getParameter("memberPwd"));
+		
+		String memberId = request.getParameter("memberId");
+		String memberPwd = request.getParameter("memberPwd");
 
 		Gson gson = new Gson();
 		Result result = new Result();
-		
-		try {
-			
-			result.setResultCode(loginService.login(memberId, memberPwd));
 
-			if (result.getResultCode() == "200") {
+		try {
+
+			String mL = memberManageService.login(memberId, memberPwd);
+			if (mL == "Y") {
+				result.setResultCode("200");
 				result.setResultMessage("로그인을 환영 합니다.");
-			} else {
-				result.setResultMessage("등록된 회원 정보가 없습니다.");
+			} else if (mL == "N"){
+				result.setResultCode("204");
+				result.setResultMessage("아이디 또는 비밀번호를 다시 확인하세요.");
 			}
-			
 			return gson.toJson(result);
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println(e);
 		}
 		return gson.toJson(result);
-	}
-
-	private String trim(String str) {
-		return str == null ? null : str.trim();
 	}
 }

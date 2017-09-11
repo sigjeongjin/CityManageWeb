@@ -3,14 +3,13 @@ package com.city.api.command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.city.api.service.RegisterService;
-import com.city.model.Member;
+import com.city.api.service.MemberManageService;
 import com.city.model.Result;
 import com.google.gson.Gson;
 
 public class PwdChangeHandler implements CommandJsonHandler {
 	
-	private RegisterService registerService = new RegisterService();
+	private MemberManageService registerService = new MemberManageService();
 
 @Override
 public String process(HttpServletRequest req, HttpServletResponse res)

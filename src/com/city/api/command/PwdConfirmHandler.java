@@ -3,19 +3,16 @@ package com.city.api.command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.city.api.service.RegisterService;
-import com.city.model.Member;
-import com.city.model.MemberAPI;
+import com.city.api.service.MemberManageService;
 import com.city.model.Result;
 import com.google.gson.Gson;
 
 public class PwdConfirmHandler implements CommandJsonHandler {
 
-	private RegisterService registerService = new RegisterService();
+	private MemberManageService registerService = new MemberManageService();
 
 	@Override
-	public String process(HttpServletRequest req, HttpServletResponse res)
-			throws Exception {
+	public String process(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		if (req.getMethod().equalsIgnoreCase("GET")) {
 			return processForm(req, res);
 		} else if (req.getMethod().equalsIgnoreCase("POST")) {
@@ -25,34 +22,29 @@ public class PwdConfirmHandler implements CommandJsonHandler {
 			return null;
 		}
 	}
-	private String processForm(HttpServletRequest req, HttpServletResponse res)
-			throws Exception {
+
+	private String processForm(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		return this.processSubmit(req, res);
 	}
 
-	private String processSubmit(HttpServletRequest req, HttpServletResponse res)
-			throws Exception {
-		
+	private String processSubmit(HttpServletRequest req, HttpServletResponse res) throws Exception {
+
 		Result result = new Result();
 
 		String memberId = req.getParameter("memberId");
 		String memberPwd = req.getParameter("memberPwd");
 
 		String member = registerService.pwdConfirm(memberId, memberPwd);
-		
-		if(member.equals("200")){
+
+		if (member.equals("200")) {
 			result.setResultCode("200");
 			result.setResultMessage("확인성공.");
 		} else {
 			result.setResultCode("400");
 			result.setResultMessage("확인실패");
 		}
-		
-				
-		
+
 		Gson gson = new Gson();
 		return gson.toJson(result);
-
 	}
-
 }

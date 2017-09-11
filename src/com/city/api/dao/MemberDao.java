@@ -10,13 +10,97 @@ import java.util.List;
 
 import com.city.model.City;
 import com.city.model.Member;
-import com.city.model.MemberAPI;
 import com.city.model.State;
 
 import jdbc.JdbcUtil;
 
 public class MemberDao {
 
+	// 로그인
+	public String selectByIdAndPwd(Connection conn, String memberId, String memberPwd) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String resultCode = null;
+		
+		try {
+			pstmt = conn
+					.prepareStatement("select member_id, member_pwd from member "
+							+ "where member_id=? and member_pwd=? "
+							+ "and member_authorization='app_user'"
+							+ "and member_delete_code='N'");
+			pstmt.setString(1, memberId);
+			pstmt.setString(2, memberPwd);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				resultCode = "200";		
+			} 		
+				return resultCode;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		}finally {
+			JdbcUtil.close(pstmt);
+		}
+		return resultCode;
+	}
+	
+	// 아이디 조회
+	public String selectById(Connection conn, String memberId) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String resultCode = null;
+		
+		try {
+			pstmt = conn.prepareStatement(
+					"select member_id memberId from member where member_id=?");
+			pstmt.setString(1, memberId);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Member member = new Member();
+				member.setMemberId(rs.getString("memberId"));
+				resultCode = "200";
+			}
+			return resultCode;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		}finally {
+			JdbcUtil.close(pstmt);
+		}
+		return resultCode;
+	}
+	
+	// 회원가입
+	public int insertMember(Connection conn, Member member) throws SQLException {
+		PreparedStatement pstmt = null;
+		int resultCode = 0;
+		
+		try {
+
+			pstmt = conn.prepareStatement("insert into member "
+					+ "(member_id, member_pwd, member_name, member_phone, member_email, "
+					+ "member_photo, member_authorization) "
+					+ "values (?, ?, ?, ?, ?, ?, ?)");
+			pstmt.setString(1, member.getMemberId());
+			pstmt.setString(2, member.getMemberPwd());
+			pstmt.setString(3, member.getMemberName());
+			pstmt.setString(4, member.getMemberPhone());
+			pstmt.setString(5, member.getMemberEmail());
+			pstmt.setString(6, member.getMemberPhoto());
+			pstmt.setString(7, member.getMemberAuthorization());
+			resultCode = pstmt.executeUpdate();
+			
+			return resultCode;
+			} catch (SQLException e) {
+				e.printStackTrace();
+				JdbcUtil.rollback(conn);
+			}finally {
+				JdbcUtil.close(pstmt);
+			}
+			return resultCode;
+		}
+	
+	
 	public int updatePwdChange(Connection conn, String memberChangePwd , String memberId) throws SQLException {
 		PreparedStatement pstmt = null;
 		int resultcode = 0;
@@ -115,7 +199,7 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<City> city = new ArrayList<City>();
-		String Resultcode = "200";
+
 		try {
 			pstmt = conn.prepareStatement("select city_code as cityCode,city_name as cityName from address_city");
 			rs = pstmt.executeQuery();
@@ -140,7 +224,6 @@ public class MemberDao {
 		Statement stmt = null;
 		ResultSet rs = null;
 
-		String Resultcode = "200";
 
 		try {
 			pstmt = conn.prepareStatement(
@@ -157,50 +240,11 @@ public class MemberDao {
 		}
 	}
 
-	public String selectByIdAndPwd(Connection conn, String memberId, String memberPwd) throws SQLException {
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 
-		String resultcode = "400";
-		try {
-			pstmt = conn
-					.prepareStatement("select member_id, member_pwd from member where member_id=? and member_pwd= ? "
-									+ "and member_authorization='app_user'");
-			pstmt.setString(1, memberId);
-			pstmt.setString(2, memberPwd);
-			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				return "200";
-			} 
-			return resultcode;
-		} finally {
-			JdbcUtil.close(pstmt);
-			JdbcUtil.close(rs);
-		}
-	}
 
-	public String insertMember(Connection conn, Member member) throws SQLException {
-		PreparedStatement pstmt = null;
-		String Resultcode = "200";
 
-		try {
 
-			pstmt = conn.prepareStatement("insert into member "
-					+ "(member_id, member_pwd, member_name, member_phone, member_email, member_photo, member_authorization) "
-					+ "values (?, ?, ?, ?, ?, ?, ?)");
-			pstmt.setString(1, member.getMemberId());
-			pstmt.setString(2, member.getMemberPwd());
-			pstmt.setString(3, member.getMemberName());
-			pstmt.setString(4, member.getMemberPhone());
-			pstmt.setString(5, member.getMemberEmail());
-			pstmt.setString(6, member.getMemberPhoto());
-			pstmt.setString(7, member.getMemberAuthorization());
-			pstmt.executeUpdate();
-			return Resultcode;
-		} finally {
-			JdbcUtil.close(pstmt);
-		}
-	}
+
 
 
 }

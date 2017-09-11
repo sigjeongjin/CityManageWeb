@@ -10,10 +10,14 @@ import jdbc.JdbcUtil;
 import jdbc.connection.ConnectionProvider;
 
 /* 
- * RegisterService 회원가입
+ *  memberRegister 회원가입 			mR
+ * 	memberInfo 멤버 상세 정보 조회 		mI
+ * 	memberList 멤버 리스트  			mL
+ *  memberUpdate 멤버 정보 업데이트		mU
+ *  memberDelete 멤버 정보 삭제			mD
+ *  memberSearch 멤버 정보 검색			mS
  * 
- * 
- * */
+ */
 
 public class RegisterService {
 
