@@ -12,7 +12,7 @@ import com.google.gson.Gson;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
-public class RegisterHandler implements CommandJsonHandler {
+public class MemberRegisterHandler implements CommandJsonHandler {
 
 	private MemberManageService memberManageService = new MemberManageService();
 
@@ -32,7 +32,7 @@ public class RegisterHandler implements CommandJsonHandler {
 		return this.processSubmit(request, response);
 	}
 
-	private String processSubmit(HttpServletRequest request, HttpServletResponse response) {
+	private String processSubmit(HttpServletRequest request, HttpServletResponse response) {		
 		
 		MultipartRequest multi;
 		String saveFolder = "/upload";
@@ -53,8 +53,7 @@ public class RegisterHandler implements CommandJsonHandler {
 			member.setMemberEmail(multi.getParameter("memberEmail"));
 			member.setMemberPhoto(multi.getParameter("memberPhoto"));
 			member.setMemberAuthorization("app_user");
-					
-			
+								
 			String mR = memberManageService.memberRegister(member);
 			if (mR == "Y") {
 				result.setResultCode("200");

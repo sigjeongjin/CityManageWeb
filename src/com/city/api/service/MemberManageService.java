@@ -10,14 +10,15 @@ import jdbc.JdbcUtil;
 import jdbc.connection.ConnectionProvider;
 
 /* 
- *  memberLogin	      로그인 			mL
- *  memberIdCheck  아이디 조회			mIC
- *  memberRegister 회원가입 			mR
- * 	memberInfo 멤버 상세 정보 조회 		mI
- * 	memberList 멤버 리스트  			mL
- *  memberUpdate 멤버 정보 업데이트		mU
- *  memberDelete 멤버 정보 삭제			mD
- *  memberSearch 멤버 정보 검색			mS
+ *  memberLogin	       	로그인 			mL
+ *  memberIdCheck  		아이디 조회			mIC
+ *  memberRegister 		회원가입 			mR
+ *  memberPwdConfirm	맴버 비밀번호 확인 	mPC
+ * 	memberPwdChange		맴버 비밀번호 변경 	mPC
+ * 	memberPhotoChange	맴버 사진 변경 		mPC
+
+ *  memberDelete 		맴버 정보 삭제		mD
+ *  memberSearch 		맴버 정보 검색		mS
  */
 
 public class MemberManageService {
@@ -25,7 +26,7 @@ public class MemberManageService {
 	private MemberDao memberDao = new MemberDao();
 
 	// memberLogin 로그인 mL
-	public String login(String memberId, String memberPwd) {
+	public String memberLogin(String memberId, String memberPwd) {
 
 		Connection conn = null;
 		String mL = "";
@@ -91,7 +92,7 @@ public class MemberManageService {
 		String mR = "";
 
 		try {
-			conn = ConnectionProvider.getConnection(); // transaction
+			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 
 			int resultCode = memberDao.insertMember(conn, member);
@@ -112,78 +113,29 @@ public class MemberManageService {
 		}
 		return null;
 	}
+	
+	// memberPwdConfirm	맴버 비밀번호 확인 mPC
+	public String memberPwdConfirm(String memberId, String memberPwd) {
 
-	public String pwdChange(String memberChangePwd, String memberId) {
-		int pwdmember = 0;
-		String resultCode = "";
 		Connection conn = null;
-
-		try {
-			conn = ConnectionProvider.getConnection(); // transaction
-			conn.setAutoCommit(false);
-
-			pwdmember = memberDao.updatePwdChange(conn, memberChangePwd, memberId);
-
-			if (pwdmember == 1) {
-				resultCode = "Y";
-			} else {
-				throw new SQLException();
-			}
-
-			conn.commit();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("변경실패");
-			JdbcUtil.rollback(conn);
-		} finally {
-			JdbcUtil.close(conn);
-		}
-		return resultCode;
-	}
-
-	public String pwdConfirm(String memberId, String memberPwd) {
-
-		String resultCode = "";
-		Connection conn = null;
+		String mPC = "";
 
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 
-			resultCode = memberDao.selectPwdConfirm(conn, memberId, memberPwd);
-			conn.commit();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("다른 비밀번호 입니다.");
-			JdbcUtil.rollback(conn);
-		} finally {
-			JdbcUtil.close(conn);
-		}
-		return resultCode;
-	}
-
-	public String memberPhotoChange(String memberId, String memberPhoto) {
-
-		String rs = null;
-		Connection conn = null;
-
-		try {
-			conn = ConnectionProvider.getConnection();
-			conn.setAutoCommit(false);
-
-			String strId = memberDao.updateBymemberIdAndmemberPhoto(conn, memberId, memberPhoto);
+			String resultCode = memberDao.selectPwdConfirm(conn, memberId, memberPwd);
 			conn.commit();
 
-			if (strId != null) {
-				rs = "200";
-				return rs;
+			if (resultCode == "200") {
+				mPC = "Y";
+				return mPC;
 			} else {
-				rs = "400";
-				throw new SQLException();
+				mPC = "N";
+				return mPC;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("변경 실패");
 			JdbcUtil.rollback(conn);
 		} finally {
 			JdbcUtil.close(conn);
@@ -191,4 +143,61 @@ public class MemberManageService {
 		return null;
 	}
 
+	// memberPwdChange 맴버 비밀번호 변경 	mPC
+	public String memberPwdChange(String memberId, String memberNewPwd) {
+		
+		Connection conn = null;
+		String mPC = "";
+		
+		try {
+			conn = ConnectionProvider.getConnection();
+			conn.setAutoCommit(false);
+
+			int resultCode = memberDao.updatePwdChange(conn, memberId, memberNewPwd);
+			conn.commit();
+
+			if (resultCode == 1) {
+				mPC = "Y";
+				return mPC;
+			} else {
+				mPC = "N";
+				throw new SQLException();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+			return null;
+	}
+	
+	// memberPhotoChange 맴버 사진 변경 mPC
+	public String memberPhotoChange(String memberId, String memberPhoto) {
+
+		Connection conn = null;
+		String mPC = "";
+		
+		try {
+			conn = ConnectionProvider.getConnection();
+			conn.setAutoCommit(false);
+
+			int resultCode = memberDao.memberPhotoChange(conn, memberId, memberPhoto);
+			conn.commit();
+
+			if (resultCode == 1) {
+				mPC = "Y";
+				return mPC;
+			} else {
+				mPC = "N";
+				throw new SQLException();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+			return null;
+	}
 }

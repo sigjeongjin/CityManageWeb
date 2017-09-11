@@ -32,9 +32,9 @@ public class MemberDao {
 			pstmt.setString(2, memberPwd);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				resultCode = "200";		
-			} 		
+				resultCode = "200";
 				return resultCode;
+			} 					
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);
@@ -59,8 +59,8 @@ public class MemberDao {
 				Member member = new Member();
 				member.setMemberId(rs.getString("memberId"));
 				resultCode = "200";
-			}
-			return resultCode;
+				return resultCode;
+			}		
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);
@@ -76,7 +76,6 @@ public class MemberDao {
 		int resultCode = 0;
 		
 		try {
-
 			pstmt = conn.prepareStatement("insert into member "
 					+ "(member_id, member_pwd, member_name, member_phone, member_email, "
 					+ "member_photo, member_authorization) "
@@ -91,41 +90,94 @@ public class MemberDao {
 			resultCode = pstmt.executeUpdate();
 			
 			return resultCode;
-			} catch (SQLException e) {
-				e.printStackTrace();
-				JdbcUtil.rollback(conn);
-			}finally {
-				JdbcUtil.close(pstmt);
-			}
-			return resultCode;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		}finally {
+			JdbcUtil.close(pstmt);
 		}
-	
-	
-	public int updatePwdChange(Connection conn, String memberChangePwd , String memberId) throws SQLException {
+		return resultCode;
+	}
+
+	// 맴버 비밀번호 확인
+	public String selectPwdConfirm(Connection conn, String memberId, String memberPwd) throws SQLException {
 		PreparedStatement pstmt = null;
-		int resultcode = 0;
+		ResultSet rs = null;
+		String resultCode = null;
+		
+		try {
+			pstmt = conn.prepareStatement("select count(*) as count from member where member_id=? and member_pwd=?");
+			pstmt.setString(1, memberId);
+			pstmt.setString(2, memberPwd);
+			rs = pstmt.executeQuery();
+			if(rs.next()) { 
+				String count = rs.getString("count");
+				if(count.equals("1")) {
+					resultCode = "200";
+					return resultCode;
+				} else {
+					return resultCode;
+				}
+			}		
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		}finally {
+			JdbcUtil.close(pstmt);
+		}
+		return resultCode;
+	}
+			
+	// 맴버 비밀번호 변경
+	public int updatePwdChange(Connection conn, String memberId , String memberNewPwd) throws SQLException {
+		PreparedStatement pstmt = null;
+		int resultCode = 0;
 
 		try {
 			pstmt = conn.prepareStatement("update member set member_pwd=? where member_id=? ");
-		
-			pstmt.setString(1, memberChangePwd);
+			
+			pstmt.setString(1, memberNewPwd);
 			pstmt.setString(2, memberId);
-//			pstmt.setString(3, memberPwd);
-			resultcode = pstmt.executeUpdate();
-			
-			return resultcode;
 
-		} finally {
+			resultCode = pstmt.executeUpdate();
 			
+			return resultCode;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		}finally {
 			JdbcUtil.close(pstmt);
 		}
+		return resultCode;
+	}
+	
+	// 맴버 사진 변경
+	public int memberPhotoChange(Connection conn, String memberId, String memberPhoto) {
+		PreparedStatement pstmt = null;
+		int resultCode = 0;
+
+		try {
+			pstmt = conn.prepareStatement("update member set member_Photo=? where member_id=? ");
+			
+			pstmt.setString(1, memberPhoto);
+			pstmt.setString(2, memberId);
+
+			resultCode = pstmt.executeUpdate();
+			
+			return resultCode;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		}finally {
+			JdbcUtil.close(pstmt);
+		}
+		return resultCode;
 	}
 
 	public int updateCityStateInfoRegiste(Connection conn, String cityCode, String stateCode, String memberId, String memberPwd) throws SQLException {
 		PreparedStatement pstmt = null;
 		int resultcode = 0;
 	
-
 		try {
 			pstmt = conn.prepareStatement("update member set city_code=?, state_code=? where member_id=? and member_pwd=?");
 			pstmt.setString(1, cityCode);
@@ -135,14 +187,10 @@ public class MemberDao {
 			resultcode = pstmt.executeUpdate();
 
 			return resultcode;
-
 		} finally {
-
 			JdbcUtil.close(pstmt);
 		}
-
 	}
-	
 	
 	public List<State> selectStateListByCityCode(Connection conn, String cityCode) throws SQLException {
 		PreparedStatement pstmt = null;
@@ -167,33 +215,7 @@ public class MemberDao {
 	}
 
 
-	public String selectPwdConfirm(Connection conn, String memberId, String memberPwd) throws SQLException {
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-	
-		
-		String resultcode = "200";
-		try {
-			pstmt = conn.prepareStatement("select count(*) as count from member where member_id=? and member_pwd=?");
-			pstmt.setString(1, memberId);
-			pstmt.setString(2, memberPwd);
-			rs = pstmt.executeQuery();
-			if(rs.next()) { 
-				String count = rs.getString("count");
-				if(count.equals("0")) {
-					return "400";
-				} else {
-					return "200";
-				}
-			}
-			
 
-		} finally {
-			JdbcUtil.close(rs);
-			JdbcUtil.close(pstmt);
-		}
-		return resultcode;
-	}
 
 	public List<City> selectCityInfo(Connection conn) throws SQLException {
 		PreparedStatement pstmt = null;
@@ -224,7 +246,6 @@ public class MemberDao {
 		Statement stmt = null;
 		ResultSet rs = null;
 
-
 		try {
 			pstmt = conn.prepareStatement(
 					"update citymanage.member set member_Photo=? where member_id=? and member_Photo=? ");
@@ -239,12 +260,6 @@ public class MemberDao {
 			JdbcUtil.close(pstmt);
 		}
 	}
-
-
-
-
-
-
 
 
 }
