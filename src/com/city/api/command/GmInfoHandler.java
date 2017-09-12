@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.city.api.service.SensorService;
 import com.city.model.GmResultInfo;
-import com.city.model.TmResultInfo;
 import com.google.gson.Gson;
 
 public class GmInfoHandler implements CommandJsonHandler {

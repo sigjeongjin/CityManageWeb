@@ -5,13 +5,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.city.api.service.AddressCityService;
 import com.city.api.service.FavoritesService;
 import com.city.model.FavoritesResultInfo;
 import com.city.model.FavoritesResultListJSON;
-import com.city.model.SensorInfo;
-import com.city.model.State;
-import com.city.model.StateJSON;
+
 import com.google.gson.Gson;
 
 public class FavoritesListHandler implements CommandJsonHandler {

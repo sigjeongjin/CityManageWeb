@@ -11,14 +11,11 @@ import jdbc.connection.ConnectionProvider;
 
 /* 
  *  memberLogin	       	로그인 			mL
- *  memberIdCheck  		아이디 조회			mIC
+ *  memberIdCheck  		아이디 조회		mIC
  *  memberRegister 		회원가입 			mR
  *  memberPwdConfirm	맴버 비밀번호 확인 	mPC
  * 	memberPwdChange		맴버 비밀번호 변경 	mPC
  * 	memberPhotoChange	맴버 사진 변경 		mPC
-
- *  memberDelete 		맴버 정보 삭제		mD
- *  memberSearch 		맴버 정보 검색		mS
  */
 
 public class MemberManageService {
@@ -143,7 +140,7 @@ public class MemberManageService {
 		return null;
 	}
 
-	// memberPwdChange 맴버 비밀번호 변경 	mPC
+	// memberPwdChange 맴버 비밀번호 변경 mPC
 	public String memberPwdChange(String memberId, String memberNewPwd) {
 		
 		Connection conn = null;

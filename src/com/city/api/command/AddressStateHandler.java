@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.city.api.service.AddressCityService;
-import com.city.model.Result;
 import com.city.model.State;
 import com.city.model.StateJSON;
 import com.google.gson.Gson;

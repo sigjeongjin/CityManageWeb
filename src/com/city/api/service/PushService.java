@@ -5,10 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.city.api.dao.MemberDao;
 import com.city.api.dao.PushDao;
-import com.city.model.FavoritesResultInfo;
-import com.city.model.Push;
 import com.city.model.PushResultInfo;
 
 import jdbc.JdbcUtil;

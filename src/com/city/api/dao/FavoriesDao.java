@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.city.model.FavoritesResultInfo;
-import com.city.model.State;
-import com.mysql.jdbc.Statement;
 
 import jdbc.JdbcUtil;
 

@@ -7,9 +7,6 @@ import java.util.List;
 
 import com.city.api.dao.MemberDao;
 import com.city.model.City;
-import com.city.model.CityJSON;
-import com.city.model.CityStateInfoRegister;
-import com.city.model.Member;
 import com.city.model.State;
 
 import jdbc.JdbcUtil;

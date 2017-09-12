@@ -7,10 +7,14 @@ import java.util.List;
 
 import com.city.api.dao.FavoriesDao;
 import com.city.model.FavoritesResultInfo;
-import com.city.model.State;
 
 import jdbc.JdbcUtil;
 import jdbc.connection.ConnectionProvider;
+
+/* 
+ * FavoritesListService 즐겨찾기 리스트 조회 			fls
+ * FavoritesRegisterService 즐겨찾기 등록			frs
+ */
 
 public class FavoritesService {
 

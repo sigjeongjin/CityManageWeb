@@ -45,7 +45,7 @@ public class ManagementDao {
 		Statement stmt = null;
 		ResultSet rs = null;
 		
-		String Resultcode = "200";
+		//String Resultcode = "200";
 		try {
 			
 			pstmt = conn.prepareStatement("update sensor_info set sensor_info=? where operation_status=?");

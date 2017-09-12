@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.city.model.Push;
 import com.city.model.PushResultInfo;
 
 import jdbc.JdbcUtil;

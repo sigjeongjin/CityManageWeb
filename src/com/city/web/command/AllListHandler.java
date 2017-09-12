@@ -1,24 +1,19 @@
 package com.city.web.command;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.city.model.Member;
 import com.city.model.SensorRegister;
-import com.city.model.TmManagementInfo;
-import com.city.web.service.LoginService;
+
 import com.city.web.service.ManageLocationService;
 import com.city.web.service.MemberManageService;
 
 public class AllListHandler implements CommandHandler {
 
-	private LoginService loginService = new LoginService();
 	private MemberManageService memberManageService = new MemberManageService();
 	private ManageLocationService manageLocationService = new ManageLocationService();
 

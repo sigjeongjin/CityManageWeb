@@ -50,7 +50,10 @@ public class MemberProfileImageChangeHandler implements CommandJsonHandler {
 			
 		if (mPC == "Y") {
 			result.setResultCode("200");
-			result.setResultMessage("확인되었습니다.");
+			result.setResultMessage("변경성공");
+		} else {
+			result.setResultCode("400");
+			result.setResultMessage("변경실패");
 		}
 		return gson.toJson(result);
 		

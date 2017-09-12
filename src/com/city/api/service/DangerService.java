@@ -1,13 +1,6 @@
 package com.city.api.service;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
-import com.city.api.dao.ManagementDao;
 import com.city.model.SensorInfo;
-
-import jdbc.JdbcUtil;
-import jdbc.connection.ConnectionProvider;
 
 /* 
  * FlameDetectionRegisterService 불꽃 상태 등록	    fdrs
@@ -17,19 +10,17 @@ import jdbc.connection.ConnectionProvider;
  * WaterLevelRegisterService 수위 상태 등록 			wlrs
  * WaterQualityRegisterService 수질 상태 등록  		wqrs
  * GasDensityRegisterService 압력농도 상태 등록 		gdrs
- * ShockDetectionNoticeService 충격 감지 상태 등록		shdns
- * SmokeDetectionNoticeService 연기 감지 상태 등록 		smdns
+ * ShockDetectionNoticeService 충격 감지 상태 등록	shdns
+ * SmokeDetectionNoticeService 연기 감지 상태 등록 	smdns
  * OperationStatusRegisterService 동작등록api		osrs
  * DangerRegisterService 위험 알림 등록				drs
  * */
 
 
 
-
-
 public class DangerService {
 	
-	private ManagementDao managementDao = new ManagementDao();   
+	//private ManagementDao managementDao = new ManagementDao();   
 	
 	public SensorInfo sensorInfo(String SensorInfo) { 
 		return null;
