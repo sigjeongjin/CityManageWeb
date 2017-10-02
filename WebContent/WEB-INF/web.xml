@@ -20,9 +20,9 @@
     	<param-name>poolConfig</param-name>
     	<param-value>
   			jdbcDriver=com.mysql.jdbc.Driver
-			jdbcUrl=jdbc:mysql://192.168.0.155:3306/citymanage?characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull
+			<!--jdbcUrl=jdbc:mysql://192.168.0.155:3306/citymanage?characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull-->
 			<!--jdbcUrl=jdbc:mysql://125.128.8.113:3306/citymanage?characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull-->
-			<!--jdbcUrl=jdbc:mysql://localhost:3306/citymanage?characterEncoding=utf8-->
+			jdbcUrl=jdbc:mysql://localhost:3306/citymanage?characterEncoding=utf8
   			dbUser=citymanage
 			dbPass=sjj
 			validationQuery=select 1
@@ -49,8 +49,8 @@
  	
   <!-- URI Setting -->
   	<servlet>
-	    <servlet-name>ControllerUsingURI</servlet-name>
-	    <servlet-class>mvc.controller.ControllerUsingURI</servlet-class>
+	    <servlet-name>ControllerUsingURIView</servlet-name>
+	    <servlet-class>mvc.controller.ControllerUsingURIView</servlet-class>
 	    <init-param>
 	      <param-name>configFile</param-name>
 	      <param-value>/WEB-INF/commandHandlerURI.properties</param-value>
@@ -59,7 +59,7 @@
   	</servlet>
   
 	 <servlet-mapping>
-	    <servlet-name>ControllerUsingURI</servlet-name>
+	    <servlet-name>ControllerUsingURIView</servlet-name>
 	    <url-pattern>*.do</url-pattern>
 	 </servlet-mapping>
 	 

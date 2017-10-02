@@ -6,5 +6,3 @@ import javax.servlet.http.HttpServletResponse;
 public interface CommandJsonHandler {
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }
-
-

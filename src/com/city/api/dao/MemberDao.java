@@ -174,6 +174,7 @@ public class MemberDao {
 		return resultCode;
 	}
 
+	
 	public int updateCityStateInfoRegiste(Connection conn, String cityCode, String stateCode, String memberId, String memberPwd) throws SQLException {
 		PreparedStatement pstmt = null;
 		int resultcode = 0;
@@ -214,9 +215,6 @@ public class MemberDao {
 		}
 	}
 
-
-
-
 	public List<City> selectCityInfo(Connection conn) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -238,8 +236,6 @@ public class MemberDao {
 		}
 	}
 
-	
-
 	public String updateBymemberIdAndmemberPhoto(Connection conn, String memberId, String memberPhoto)
 			throws SQLException {
 		PreparedStatement pstmt = null;
@@ -260,6 +256,4 @@ public class MemberDao {
 			JdbcUtil.close(pstmt);
 		}
 	}
-
-
 }
