@@ -33,7 +33,6 @@ public class MemberManageService {
 			conn.setAutoCommit(false);
 
 			String resultCode = memberDao.selectByIdAndPwd(conn, memberId, memberPwd);
-			conn.commit();
 
 			if (resultCode == "200") {
 				mL = "Y";

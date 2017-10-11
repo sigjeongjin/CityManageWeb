@@ -27,8 +27,8 @@ public class TmInfoHandler implements CommandJsonHandler {
 	}
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 		String manageId = request.getParameter("manageId");
+		
 		TmResultInfo tmResultInfo = sensorService.getTmInfo(manageId);
 		tmResultInfo.setResultCode("200");
 		tmResultInfo.setResultMessage("센서 정보가 조회 되었습니다.");

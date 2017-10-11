@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.city.api.dao.FavoriesDao;
+import com.city.model.Favorites;
 import com.city.model.FavoritesResultInfo;
 
 import jdbc.JdbcUtil;
@@ -75,5 +76,33 @@ public class FavoritesService {
 			JdbcUtil.close(conn);
 		}
 		return favoritesList;
+	}
+	
+	
+	/**
+	 * @param memberId
+	 * @param manageId
+	 * @return
+	 */
+	public Favorites getFavoritesWhether(String memberId, String manageId) {
+
+		Favorites favorites = new Favorites();
+		Connection conn = null;
+
+		try {
+			conn = ConnectionProvider.getConnection();
+			conn.setAutoCommit(false);
+
+			favorites = favoriesDao.selectFavoritesByMemberIdAndManageId(conn, memberId, manageId);
+			conn.commit();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("지역을 불러오지 못했습니다.");
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+		return favorites;
 	}
 }
