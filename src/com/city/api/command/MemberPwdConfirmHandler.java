@@ -23,18 +23,18 @@ public class MemberPwdConfirmHandler implements CommandJsonHandler {
 		}
 	}
 
-	private String processForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	private String processForm(HttpServletRequest request, HttpServletResponse response) {
 		return this.processSubmit(request, response);
 	}
 
-	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		Gson gson = new Gson();
-		Result result = new Result();
+	private String processSubmit(HttpServletRequest request, HttpServletResponse response) {
 
 		String memberId = request.getParameter("memberId");
 		String memberPwd = request.getParameter("memberPwd");
 		
+		Gson gson = new Gson();
+		Result result = new Result();
+
 		String mPC = memberManageService.memberPwdConfirm(memberId, memberPwd);
 
 		if (mPC == "Y") {

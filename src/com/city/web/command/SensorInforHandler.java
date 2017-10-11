@@ -1,5 +1,6 @@
 package com.city.web.command;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.city.web.service.ManageLocationService;
 import com.city.web.service.SensorManageService;
+import com.mysql.fabric.xmlrpc.base.Array;
 
 public class SensorInforHandler implements CommandHandler {
 

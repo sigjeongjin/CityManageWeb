@@ -87,11 +87,11 @@ public class SensorDao {
 		}
 	}*/
 	
-/*	private SensorInfo makeSensorTypeFromResultSet(ResultSet rs) throws SQLException {
+	private SensorInfo makeSensorTypeFromResultSet(ResultSet rs) throws SQLException {
 		SensorInfo sensorInfo = new SensorInfo();
 		sensorInfo.setSensorType(rs.getString("sensor_type"));
 		return sensorInfo;
-	}*/
+	}
 
 	// 해당 manageId sensorInfo 정보를 불러오기 위한 select문
 	public List<SensorInfo> selectByManageId(Connection conn, String manageId) throws SQLException {

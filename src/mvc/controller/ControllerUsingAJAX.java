@@ -18,6 +18,8 @@ import org.json.simple.JSONObject;
 import com.city.ajax.command.CommandJsonHandler;
 
 
+
+
 public class ControllerUsingAJAX extends HttpServlet {
 	
 	private Map<String, CommandJsonHandler> commandHandlerMap = new HashMap<>();

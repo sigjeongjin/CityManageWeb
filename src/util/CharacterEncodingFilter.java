@@ -12,7 +12,7 @@ import javax.servlet.ServletResponse;
 public class CharacterEncodingFilter implements Filter {
 
 	private String encoding;
-
+	
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
@@ -31,4 +31,5 @@ public class CharacterEncodingFilter implements Filter {
 	@Override
 	public void destroy() {
 	}
+
 }

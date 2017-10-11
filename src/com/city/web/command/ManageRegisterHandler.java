@@ -26,7 +26,7 @@ public class ManageRegisterHandler implements CommandHandler {
 
 	private String processForm(HttpServletRequest request, HttpServletResponse response) {
 			
-		return "/index.jsp";
+		return "index.jsp";
 	}
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) {
@@ -46,6 +46,7 @@ public class ManageRegisterHandler implements CommandHandler {
 		locationManagement.setCityCode(request.getParameter("cityCode"));
 		locationManagement.setStateCode(request.getParameter("stateCode"));
 	
+
 		manageLocationService.managementRegister(locationManagement);
 		return "/allList.do";
 	}

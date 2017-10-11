@@ -30,7 +30,6 @@ public class AddressCityInfoHandler implements CommandJsonHandler {
 
 	private String processSubmit(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
-		Gson gson = new Gson();
 		Result result = new Result();
 		
 		String cityCode = req.getParameter("cityCode");
@@ -52,7 +51,7 @@ public class AddressCityInfoHandler implements CommandJsonHandler {
 
 	
 	
-		
+		Gson gson = new Gson();
 		return gson.toJson(result);
 
 	}

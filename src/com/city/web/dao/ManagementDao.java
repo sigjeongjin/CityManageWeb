@@ -10,6 +10,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.city.model.LocationManagement;
+import com.city.model.Member;
 import com.city.model.SensorRegister;
 import com.city.model.GmManagementInfo;
 import com.city.model.SmManagementInfo;

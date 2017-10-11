@@ -18,7 +18,7 @@ import com.city.web.command.CommandHandler;
 
 
 
-public class ControllerUsingURITest extends HttpServlet {
+public class ControllerUsingURI extends HttpServlet {
 	
 	private Map<String, CommandHandler> commandHandlerMap = new HashMap<>();
 	
@@ -56,25 +56,20 @@ public class ControllerUsingURITest extends HttpServlet {
 	
 	private void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String command = request.getRequestURI();
-	
-		if (command.indexOf(request.getContextPath())==0) {
-			command = command.substring(request.getContextPath().length());// /hello.do		
-		}
+		String view = null;
+		CommandHandler handler = null;
 		
-		CommandHandler handler = commandHandlerMap.get(command);
-		if (handler == null) {
-			handler = new NullHandler();
-		}
-		String viewPage = null;
 		try {
-			viewPage = handler.process(request, response);
+			if (command.indexOf(request.getContextPath())==0) {
+				command = command.substring(request.getContextPath().length());
+				handler = (CommandHandler) commandHandlerMap.get(command); 
+		        view = handler.process(request, response);
+			}
 		} catch (Exception e) {
 			throw new ServletException(e);
 		}
-		if (viewPage != null) {
-			RequestDispatcher dispatcher =request.getRequestDispatcher(viewPage);
+			request.setAttribute("cont",view);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/view/common/mainPage.jsp");
 			dispatcher.forward(request, response);
 		}
-	}
-
 }
