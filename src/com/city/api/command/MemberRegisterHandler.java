@@ -28,19 +28,19 @@ public class MemberRegisterHandler implements CommandJsonHandler {
 		}
 	}
 
-	private String processForm(HttpServletRequest request, HttpServletResponse response) {
+	private String processForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		return this.processSubmit(request, response);
 	}
 
-	private String processSubmit(HttpServletRequest request, HttpServletResponse response) {		
+	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {		
+	
+		Gson gson = new Gson();
+		Result result = new Result();
 		
 		MultipartRequest multi;
 		String saveFolder = "/upload";
 		String realFolder = request.getServletContext().getRealPath(saveFolder); // saveFilepath
 		int maxSize = 5 * 1024 * 1024; // 최대 업로될 파일크기 5Mb
-		
-		Gson gson = new Gson();
-		Result result = new Result();
 		
 		Member member = new Member();
 		try {

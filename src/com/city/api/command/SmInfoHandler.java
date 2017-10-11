@@ -10,24 +10,24 @@ import com.google.gson.Gson;
 public class SmInfoHandler implements CommandJsonHandler {
 	private SensorService sensorService = new SensorService();
 
-	public String process(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		if (req.getMethod().equalsIgnoreCase("GET")) {
-			return processForm(req, res);
-		} else if (req.getMethod().equalsIgnoreCase("POST")) {
-			return processSubmit(req, res);
+	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		if (request.getMethod().equalsIgnoreCase("GET")) {
+			return processForm(request, response);
+		} else if (request.getMethod().equalsIgnoreCase("POST")) {
+			return processSubmit(request, response);
 		} else {
-			res.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+			response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
 			return null;
 		}
 	}
 
-	private String processForm(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		return this.processSubmit(req, res);
+	private String processForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return this.processSubmit(request, response);
 	}
 
-	private String processSubmit(HttpServletRequest req, HttpServletResponse res) throws Exception {
+	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String manageId = req.getParameter("manageId");
+		String manageId = request.getParameter("manageId");
 		SmResultInfo smResultInfo = sensorService.getSmInfo(manageId);
 		smResultInfo.setResultCode("200");
 		smResultInfo.setResultMessage("센서 정보가 조회 되었습니다.");

@@ -25,8 +25,8 @@ public class LoginHandler implements CommandHandler {
 		}
 	}
 
-	private String processForm(HttpServletRequest request, HttpServletResponse response) {
-		return "/view/member/loginForm.jsp";
+	private String processForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return this.processSubmit(request, response);
 	}
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -39,21 +39,19 @@ public class LoginHandler implements CommandHandler {
 			
 			if(StringUtils.isNotEmpty(idAndName.get("error"))) {
 				request.setAttribute("error", idAndName.get("error"));
-				return "view/member/loginForm.jsp";
+				return "/view/member/loginForm.jsp";
 			} else {
 				request.getSession().setAttribute("userId", idAndName.get("memberId"));
 				request.getSession().setAttribute("userName", idAndName.get("memberName"));
 				request.getSession().setAttribute("cityCode", idAndName.get("cityCode"));
-				
-				
+						
 				return "/view/member/memberListView.jsp";
-			}
-			
+			}		
 			
 		} catch (RuntimeException e) {
 			e.printStackTrace();
 			System.out.println(e);
-			return "view/member/loginForm.jsp";
+			return "/view/member/loginForm.jsp";
 		}
 	}
 

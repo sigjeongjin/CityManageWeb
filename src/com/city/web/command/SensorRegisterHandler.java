@@ -22,15 +22,15 @@ public class SensorRegisterHandler implements CommandHandler {
 		}
 	}
 
-	private String processForm(HttpServletRequest request, HttpServletResponse response) {
-			
+	private String processForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		return this.processSubmit(request, response);
 	}
 
-	private String processSubmit(HttpServletRequest request, HttpServletResponse response) {
+	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		//String sensorType = (String) request.getSession().getAttribute("manageType");
-	
+		// String sensorType = (String)
+		// request.getSession().getAttribute("manageType");
+
 		SensorInfo sensorInfo = new SensorInfo();
 		sensorInfo.setManageId(request.getParameter("manageId"));
 		sensorInfo.setSensorId(request.getParameter("sensorId"));
@@ -38,10 +38,9 @@ public class SensorRegisterHandler implements CommandHandler {
 		sensorInfo.setOperationStatus("Y");
 		sensorInfo.setSensorNoticeStandard(request.getParameter("sensorNoticeStandard"));
 
-		
 		sensorManageService.sensorRegister(sensorInfo);
-		
-		return "/allList.do";
+
+		return "/tmList.do";
+		//return "/view/management/tmListView.jsp";
 	}
 }
-

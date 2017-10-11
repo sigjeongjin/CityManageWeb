@@ -55,7 +55,7 @@ pageEncoding = "UTF-8"%>
 		<tr>
 			<td colspan="2"></td> 
 			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="fd"><label><b>불꽃감지센서</b></label></td>
-			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="lr"><label><b>잠금</b></label></td>
+			<td colspan="1"><input type="checkbox" id="sensorTypes" name="sensorTypes" value="l"><label><b>잠금</b></label></td>
 		</tr>		
 	</c:if>
 	<c:if test="${manageType == 'wm'}">

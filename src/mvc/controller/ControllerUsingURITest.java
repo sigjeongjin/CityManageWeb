@@ -15,9 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.city.web.command.CommandHandler;
 
-
-
-
 public class ControllerUsingURITest extends HttpServlet {
 	
 	private Map<String, CommandHandler> commandHandlerMap = new HashMap<>();
@@ -58,7 +55,7 @@ public class ControllerUsingURITest extends HttpServlet {
 		String command = request.getRequestURI();
 	
 		if (command.indexOf(request.getContextPath())==0) {
-			command = command.substring(request.getContextPath().length());// /hello.do		
+			command = command.substring(request.getContextPath().length()); // /login.do		
 		}
 		
 		CommandHandler handler = commandHandlerMap.get(command);
@@ -76,5 +73,4 @@ public class ControllerUsingURITest extends HttpServlet {
 			dispatcher.forward(request, response);
 		}
 	}
-
 }
