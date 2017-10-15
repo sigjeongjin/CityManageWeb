@@ -50,9 +50,6 @@ public class AddressCityInfoHandler implements CommandJsonHandler {
 			result.setResultMessage("조회실패");
 		}
 
-	
-	
-		
 		return gson.toJson(result);
 
 	}

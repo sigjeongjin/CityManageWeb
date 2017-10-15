@@ -34,15 +34,16 @@ CREATE TABLE `location_management` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `member` (
-  `member_id` 			 varchar(20)  NOT NULL 	   COMMENT '회원 아이디',
-  `member_pwd` 			 varchar(20)  NOT NULL 	   COMMENT '회원 비밀번호',
-  `member_name` 		 varchar(10)  NOT NULL 	   COMMENT '회원 이름',
-  `member_phone` 		 varchar(15)  NOT NULL 	   COMMENT '회원 휴대폰',
-  `member_email` 		 varchar(30)  DEFAULT NULL COMMENT '회원 E-mail',
-  `member_photo` 		 varchar(300) DEFAULT NULL COMMENT '회원 아이디',
-  `member_authorization` varchar(15)  NOT NULL 	   COMMENT '회원 권한 구분',
-  `city_code` 			 varchar(10)  DEFAULT NULL COMMENT '시/도 코드',
-  `state_code` 			 varchar(10)  DEFAULT NULL COMMENT '시/군/구 코드',
+  `member_id` 			 varchar(20)  NOT NULL 	   			COMMENT '회원 아이디',
+  `member_pwd` 			 varchar(20)  NOT NULL 	   			COMMENT '회원 비밀번호',
+  `member_name` 		 varchar(10)  NOT NULL 	   			COMMENT '회원 이름',
+  `member_phone` 		 varchar(15)  NOT NULL 	   			COMMENT '회원 휴대폰',
+  `member_email` 		 varchar(30)  DEFAULT NULL			COMMENT '회원 E-mail',
+  `member_photo` 		 varchar(300) DEFAULT NULL 			COMMENT '회원 아이디',
+  `member_authorization` varchar(15)  NOT NULL 	   			COMMENT '회원 권한 구분',
+  `member_delete_code` 	 varchar(1)   NOT NULL DEFAULT 'N'  COMMENT '회원 삭제 코드',
+  `city_code` 			 varchar(10)  DEFAULT NULL 			COMMENT '시/도 코드',
+  `state_code` 			 varchar(10)  DEFAULT NULL 			COMMENT '시/군/구 코드',
   PRIMARY KEY (`member_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
