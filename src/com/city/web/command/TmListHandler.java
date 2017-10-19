@@ -16,7 +16,7 @@ public class TmListHandler implements CommandHandler {
 		String selectBox = (request.getParameter("selectBox"));
 		String searchText = (request.getParameter("searchText"));
 		
-		String manageType = "tm";
+		String manageType = TM;
 		String pageNoVal = request.getParameter("pageNo");
 		int pageNo = 1;
 		if (pageNoVal != null) {

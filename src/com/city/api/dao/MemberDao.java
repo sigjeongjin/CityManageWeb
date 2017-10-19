@@ -30,6 +30,7 @@ public class MemberDao {
 							+ "and member_delete_code='N'");
 			pstmt.setString(1, memberId);
 			pstmt.setString(2, memberPwd);
+			
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				resultCode = "200";

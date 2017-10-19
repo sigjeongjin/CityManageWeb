@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.city.model.SensorInfo;
 import com.city.web.service.SensorManageService;
+import com.city.web.service.TmSensorListPage;
 
 public class SensorRegisterHandler implements CommandHandler {
 
@@ -40,7 +41,12 @@ public class SensorRegisterHandler implements CommandHandler {
 
 		sensorManageService.sensorRegister(sensorInfo);
 
-		return "/tmList.do";
-		//return "/view/management/tmListView.jsp";
+		//리스트 화면으로 돌아갈때 데이터를 들고 가기 위해 리스트 조회 하는 서비스 실행
+		//기본값으로 셋팅
+		TmSensorListPage tmSensorListPage = sensorManageService.getTmSensorListPage(1, TM,  "all", "");
+		request.setAttribute("TmListPage", tmSensorListPage);
+		request.getSession().setAttribute("manageType", TM);
+		
+		return "/view/management/tmListView.jsp";
 	}
 }

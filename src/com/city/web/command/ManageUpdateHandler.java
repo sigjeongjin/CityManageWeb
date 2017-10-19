@@ -6,10 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.city.model.LocationManagement;
-import com.city.model.Member;
 import com.city.web.service.ManageLocationService;
-import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 public class ManageUpdateHandler implements CommandHandler {
 

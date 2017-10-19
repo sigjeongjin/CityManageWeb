@@ -5,9 +5,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.city.api.service.PushService;
 import com.city.model.Result;
+import com.city.web.command.CommandHandler;
 import com.google.gson.Gson;
 
-public class PushTokenRegisterHandler {
+public class PushTokenRegisterHandler implements CommandJsonHandler{
 
 	private PushService pushService = new PushService();
 
