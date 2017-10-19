@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.city.api.service.PushService;
-import com.city.model.PushResultListJSON;
+import com.city.model.Result;
 import com.google.gson.Gson;
 
 public class PushTokenRegisterHandler {
@@ -27,27 +27,26 @@ public class PushTokenRegisterHandler {
 	}
 
 	/**
-	 * @param memberId
 	 * @param pushToken
 	 * @return
 	 * @throws Exception
 	 */
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String memberId = request.getParameter("memberId");
+		
+		Gson gson = new Gson();
+		Result result = new Result();
+		
+		
 		String pushToken = request.getParameter("pushToken");
 		
-		System.out.println("memberId : " + memberId);
 		System.out.println("pushToken : " + pushToken);
 
-		//List<PushResultInfo> pushInfoList = pushService.getPushHistoryList(memberId, manageType);
-		PushResultListJSON pushListJSON = new PushResultListJSON();
+		
+		String pushRegister = pushService.pushTokenRegister(pushToken);
+	
 
-		//pushListJSON.setResultCode("200");
-		//pushListJSON.setResultMessage("조회되었습니다.");
-		//pushListJSON.setPushHistoryList(pushInfoList);
 
-		Gson gson = new Gson();
-		return gson.toJson(pushListJSON);
+		return gson.toJson("");
 	}
 
 }

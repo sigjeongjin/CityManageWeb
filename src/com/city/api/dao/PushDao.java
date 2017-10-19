@@ -53,4 +53,27 @@ public class PushDao {
 			JdbcUtil.close(rs);
 		}
 	}
+
+	public int insertPushToken(Connection conn, String pushToken) {
+		PreparedStatement pstmt = null;
+		int resultCode = 0;
+		
+		try {
+			pstmt = conn.prepareStatement("insert into push_info "
+					+ "(push_token, member_id, member_phone) "
+					+ "values (?, ?, ?)");
+			pstmt.setString(1, pushToken);
+			pstmt.setString(2, "");
+			pstmt.setString(3, "");
+			resultCode = pstmt.executeUpdate();
+			
+			return resultCode;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		}finally {
+			JdbcUtil.close(pstmt);
+		}
+		return resultCode;
+	}
 }

@@ -47,4 +47,31 @@ public class PushService {
 		}
 		return pushInfoList;
 	}
+
+	public String pushTokenRegister(String pushToken) {
+		Connection conn = null;
+		String pr = "";
+
+		try {
+			conn = ConnectionProvider.getConnection();
+			conn.setAutoCommit(false);
+
+			int resultCode = pushDao.insertPushToken(conn, pushToken);
+
+			if (resultCode == 1) {
+				pr = "Y";
+				return pr;
+			} else {
+				pr = "N";
+				return pr;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+		return null;
+	}
 }

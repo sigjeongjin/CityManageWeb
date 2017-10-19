@@ -9,6 +9,10 @@ public class Push {
 	private String installationDateTime;
 	private String location;
 
+	private String memberId;
+	private String memberPhone;
+	private String pushToken;
+
 	public Push(String manageId, String locationName, String pushContents, String pushSendTime,
 			String installationDateTime, String location) {
 		super();
@@ -52,14 +56,6 @@ public class Push {
 		this.pushSendTime = pushSendTime;
 	}
 
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
 	public String getInstallationDateTime() {
 		return installationDateTime;
 	}
@@ -68,4 +64,35 @@ public class Push {
 		this.installationDateTime = installationDateTime;
 	}
 
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public String getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
+	}
+
+	public String getMemberPhone() {
+		return memberPhone;
+	}
+
+	public void setMemberPhone(String memberPhone) {
+		this.memberPhone = memberPhone;
+	}
+
+	public String getPushToken() {
+		return pushToken;
+	}
+
+	public void setPushToken(String pushToken) {
+		this.pushToken = pushToken;
+	}
 }
