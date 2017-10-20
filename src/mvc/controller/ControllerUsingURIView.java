@@ -80,7 +80,12 @@ public class ControllerUsingURIView extends HttpServlet {
 			throw new ServletException(e);
 		}
 		request.setAttribute("cont", view);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/view/common/mainPage.jsp");
-		dispatcher.forward(request, response);
+		
+		if(view.contains(".do")) {
+			response.sendRedirect(view);
+		} else {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/view/common/mainPage.jsp");
+			dispatcher.forward(request, response);
+		}
 	}
 }

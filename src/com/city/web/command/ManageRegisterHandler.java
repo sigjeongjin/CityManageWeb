@@ -7,10 +7,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.city.model.LocationManagement;
 import com.city.web.service.ManageLocationService;
+import com.city.web.service.SensorManageService;
+import com.city.web.service.TmSensorListPage;
 
 public class ManageRegisterHandler implements CommandHandler {
 
 	private ManageLocationService manageLocationService = new ManageLocationService();
+	private SensorManageService sensorManageService = new SensorManageService();
 
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -46,7 +49,12 @@ public class ManageRegisterHandler implements CommandHandler {
 		locationManagement.setCityCode(request.getParameter("cityCode"));
 		locationManagement.setStateCode(request.getParameter("stateCode"));
 	
+		TmSensorListPage tmSensorListPage = sensorManageService.getTmSensorListPage(1, TM,  "all", "");
+		request.setAttribute("TmListPage", tmSensorListPage);
+		
+		request.getSession().setAttribute("manageType", TM);
+		
 		manageLocationService.managementRegister(locationManagement);
-		return "/allList.do";
+		return "/tmList.do";
 	}
 }

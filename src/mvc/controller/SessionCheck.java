@@ -60,6 +60,7 @@ public class SessionCheck implements Filter {
         resourcePath = new ArrayList<String>();
         resourcePath.add("/css/");
         resourcePath.add("/js/");
+        resourcePath.add("/view/");
         
     }
 
