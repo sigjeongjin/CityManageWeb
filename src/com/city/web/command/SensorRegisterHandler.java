@@ -47,6 +47,6 @@ public class SensorRegisterHandler implements CommandHandler {
 		request.setAttribute("TmListPage", tmSensorListPage);
 		request.getSession().setAttribute("manageType", TM);
 		
-		return "/view/management/tmListView.jsp";
+		return "/tmList.do";
 	}
 }

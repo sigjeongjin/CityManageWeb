@@ -33,6 +33,9 @@ public class SensorListHandler implements CommandJsonHandler{
 		String memberId = req.getParameter("memberId");
 		String manageType = req.getParameter("manageType");
 		
+		System.out.println("member id : " + memberId);
+		System.out.println("manage type : " + manageType);
+		
 		List<SensorResultInfo> sensorResultInfoList = sensorService.getSensorList(memberId, manageType);
 		
 		SensorResultListJSON sensorResultListJSON = new SensorResultListJSON();
