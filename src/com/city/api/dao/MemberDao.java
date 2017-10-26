@@ -257,4 +257,34 @@ public class MemberDao {
 			JdbcUtil.close(pstmt);
 		}
 	}
+
+	// memberPhone 조회
+	public String selectPhone(Connection conn, String memberId) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String resultCode = null;
+		
+		try {
+			pstmt = conn.prepareStatement("select member_phone from member where member_id=?");
+			pstmt.setString(1, memberId);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) { 
+				String memberPhone = rs.getString("memberPhone");
+				if(memberPhone != null) {
+					resultCode = "200";
+					return memberPhone;
+				} else {
+					resultCode = "400";
+					return memberPhone;
+				}
+			}		
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		}finally {
+			JdbcUtil.close(pstmt);
+		}
+		return resultCode;
+	}
 }

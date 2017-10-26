@@ -196,4 +196,31 @@ public class MemberManageService {
 		}
 			return null;
 	}
+
+	public String memberPhoneSelect(String memberId) {
+		Connection conn = null;
+		String mP = "";
+
+		try {
+			conn = ConnectionProvider.getConnection();
+			conn.setAutoCommit(false);
+
+			String memberPhone = memberDao.selectPhone(conn, memberId);
+			System.out.println("memberPhone : " + memberPhone);
+			conn.commit();
+
+			if (memberPhone != null) {
+				return memberPhone;
+			} else {
+				mP = "N";
+				return mP;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+		return null;
+	}
 }

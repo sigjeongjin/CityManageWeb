@@ -173,3 +173,9 @@ CHANGE COLUMN `city_code` `city_code` VARCHAR(10) NULL DEFAULT NULL COMMENT '시
 ALTER TABLE `citymanage`.`member` 
 ADD COLUMN `member_delete_code` VARCHAR(1) NOT NULL DEFAULT 'N' AFTER `state_code`;
 
+-- 2017.10.26 primary key 변경
+ALTER TABLE `citymanage`.`push_info` 
+DROP PRIMARY KEY,
+ADD PRIMARY KEY (`member_id`);
+
+

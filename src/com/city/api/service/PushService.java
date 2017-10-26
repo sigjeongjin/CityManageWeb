@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.city.api.dao.PushDao;
+import com.city.model.Push;
 import com.city.model.PushResultInfo;
 
 import jdbc.JdbcUtil;
@@ -48,7 +49,11 @@ public class PushService {
 		return pushInfoList;
 	}
 
-	public String pushTokenRegister(String pushToken) {
+	/**
+	 * @param Push
+	 * @return
+	 */
+	public String pushTokenRegister(Push push) {
 		Connection conn = null;
 		String pr = "";
 
@@ -56,8 +61,10 @@ public class PushService {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 
-			int resultCode = pushDao.insertPushToken(conn, pushToken);
-
+			int resultCode = pushDao.insertPushToken(conn, push);
+			
+			conn.commit();
+			
 			if (resultCode == 1) {
 				pr = "Y";
 				return pr;
@@ -65,7 +72,7 @@ public class PushService {
 				pr = "N";
 				return pr;
 			}
-
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);

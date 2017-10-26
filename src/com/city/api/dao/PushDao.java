@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.city.model.Push;
 import com.city.model.PushResultInfo;
 
 import jdbc.JdbcUtil;
@@ -54,7 +55,13 @@ public class PushDao {
 		}
 	}
 
-	public int insertPushToken(Connection conn, String pushToken) {
+	/**
+	 * @param conn
+	 * @param Push
+	 * @return
+	 * @throws SQLException
+	 */
+	public int insertPushToken(Connection conn, Push push) {
 		PreparedStatement pstmt = null;
 		int resultCode = 0;
 		
@@ -62,9 +69,9 @@ public class PushDao {
 			pstmt = conn.prepareStatement("insert into push_info "
 					+ "(push_token, member_id, member_phone) "
 					+ "values (?, ?, ?)");
-			pstmt.setString(1, pushToken);
-			pstmt.setString(2, "");
-			pstmt.setString(3, "");
+			pstmt.setString(1, push.getPushToken());
+			pstmt.setString(2, push.getMemberId());
+			pstmt.setString(3, push.getMemberPhone());
 			resultCode = pstmt.executeUpdate();
 			
 			return resultCode;

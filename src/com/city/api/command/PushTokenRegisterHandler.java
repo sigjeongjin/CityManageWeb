@@ -3,14 +3,17 @@ package com.city.api.command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.city.api.service.MemberManageService;
 import com.city.api.service.PushService;
+import com.city.model.Member;
+import com.city.model.Push;
 import com.city.model.Result;
-import com.city.web.command.CommandHandler;
 import com.google.gson.Gson;
 
 public class PushTokenRegisterHandler implements CommandJsonHandler{
 
 	private PushService pushService = new PushService();
+	private MemberManageService memberManageService = new MemberManageService();
 
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		if (request.getMethod().equalsIgnoreCase("GET")) {
@@ -29,6 +32,7 @@ public class PushTokenRegisterHandler implements CommandJsonHandler{
 
 	/**
 	 * @param pushToken
+	 * @param memberId
 	 * @return
 	 * @throws Exception
 	 */
@@ -39,15 +43,30 @@ public class PushTokenRegisterHandler implements CommandJsonHandler{
 		
 		
 		String pushToken = request.getParameter("pushToken");
+		String memberId = request.getParameter("memberId");
 		
 		System.out.println("pushToken : " + pushToken);
-
+		System.out.println("memberId : " + memberId);
 		
-		String pushRegister = pushService.pushTokenRegister(pushToken);
+		Push push = new Push();
+		push.setPushToken(request.getParameter("pushToken"));
+		push.setMemberId(request.getParameter("memberId"));
+		
+		String memberPhone = memberManageService.memberPhoneSelect(memberId);
+		push.setMemberPhone(memberPhone);
 	
-
-
-		return gson.toJson("");
+		System.out.println("pushToken : " + pushToken);
+		System.out.println("memberId : " + memberId);
+		
+		String pushRegister = pushService.pushTokenRegister(push);
+		if (pushRegister == "Y") {
+			result.setResultCode("200");
+			result.setResultMessage("push Register success");
+		} else {
+			result.setResultCode("400");
+			result.setResultMessage("push Register fail");
+		}
+	
+		return gson.toJson(result);
 	}
-
 }

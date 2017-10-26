@@ -49,6 +49,7 @@ public class SessionCheck implements Filter {
 		noFilterUrl.add("/memberPwdChange.app");
 		noFilterUrl.add("/memberProfileImageChange.app");
 		noFilterUrl.add("/pushHistoryList.app");
+		noFilterUrl.add("/pushTokenRegister.app");
 		noFilterUrl.add("/sensorList.app");
 		noFilterUrl.add("/stateSearchSensorList.app");
 		noFilterUrl.add("/wmInfo.app");

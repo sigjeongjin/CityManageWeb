@@ -12,6 +12,10 @@ public class Push {
 	private String memberId;
 	private String memberPhone;
 	private String pushToken;
+	
+	public Push() {
+		
+	}
 
 	public Push(String manageId, String locationName, String pushContents, String pushSendTime,
 			String installationDateTime, String location) {
