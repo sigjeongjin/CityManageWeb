@@ -51,6 +51,7 @@ public class SessionCheck implements Filter {
 		noFilterUrl.add("/pushHistoryList.app");
 		noFilterUrl.add("/sensorList.app");
 		noFilterUrl.add("/stateSearchSensorList.app");
+		noFilterUrl.add("/favoritesWhether.app");
 		noFilterUrl.add("/wmInfo.app");
 		noFilterUrl.add("/tmInfo.app");
 		noFilterUrl.add("/gmInfo.app");
@@ -80,16 +81,11 @@ public class SessionCheck implements Filter {
 		
 		String uri = req.getRequestURI();
 		
-		System.out.println("Test 종료까지 URI 계속 찍음 : " + uri);
-		
 		if(!noFilterUrl.contains(uri)) {
-			
-			System.out.println("필터 작동");
 			
 			boolean isResourcePath = false;
 			
 			for(String resource : resourcePath) {
-				System.out.println("resource path : " + resource);
 				if(uri.startsWith(resource)) {
 					isResourcePath = true;
 					break;
@@ -97,7 +93,6 @@ public class SessionCheck implements Filter {
 			}
 			
 			if(!isResourcePath) {
-				System.out.println("resource 경로 걸림");
 				HttpSession session = req.getSession();
 				
 				//session userId
@@ -106,7 +101,7 @@ public class SessionCheck implements Filter {
 				String memberId = (String)session.getAttribute("userId");
 				if(StringUtils.isNullOrEmpty(memberId)) {
 					HttpServletResponse res = (HttpServletResponse) response;
-					res.sendRedirect("view/member/loginForm.jsp");
+					res.sendRedirect("/login.do");
 					return;
 				}
 			}

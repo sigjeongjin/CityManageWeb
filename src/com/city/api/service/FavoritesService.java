@@ -21,7 +21,7 @@ public class FavoritesService {
 
 	private FavoriesDao favoriesDao = new FavoriesDao();
 
-	public String favoritesRegister(String memberId, String bookmark, String manageId) {
+	public String favoritesRegister(String memberId, String manageId) {
 
 		int favoritesRegister = 0;
 		String resultCode = "";
@@ -31,19 +31,48 @@ public class FavoritesService {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
 
-			favoritesRegister = favoriesDao.insertFavories(conn, memberId, bookmark, manageId);
+			favoritesRegister = favoriesDao.insertFavories(conn, memberId, manageId);
 
 			if (favoritesRegister == 1) {
 				resultCode = "Y";
 			} else {
+				resultCode = "N";
 				throw new SQLException();
 			}
-
 			conn.commit();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("등록 실패.");
+			System.out.println("즐겨찾기 등록 실패.");
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+		return resultCode;
+	}
+	
+	public String favoritesRelease(String memberId, String bookmark, String manageId) {
+
+		int favoritesRegister = 0;
+		String resultCode = "";
+		Connection conn = null;
+
+		try {
+			conn = ConnectionProvider.getConnection(); // transaction
+			conn.setAutoCommit(false);
+
+			favoritesRegister = favoriesDao.updateFavories(conn, memberId, manageId);
+
+			if (favoritesRegister == 1) {
+				resultCode = "Y";
+			} else {
+				resultCode = "N";
+				throw new SQLException();
+			}
+			conn.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("즐겨찾기 해제 실패.");
 			JdbcUtil.rollback(conn);
 		} finally {
 			JdbcUtil.close(conn);
@@ -84,25 +113,24 @@ public class FavoritesService {
 	 * @param manageId
 	 * @return
 	 */
-	public Favorites getFavoritesWhether(String memberId, String manageId) {
+	public String getFavoritesWhether(String memberId, String manageId) {
 
-		Favorites favorites = new Favorites();
+		String result = "";
 		Connection conn = null;
 
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 
-			favorites = favoriesDao.selectFavoritesByMemberIdAndManageId(conn, memberId, manageId);
-			conn.commit();
+			result = favoriesDao.selectFavoritesWhetherByMemberIdAndManageId(conn, memberId, manageId);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("지역을 불러오지 못했습니다.");
+			System.out.println("즐겨찾기 여부를 조회 하지 못했습니다.");
 			JdbcUtil.rollback(conn);
 		} finally {
 			JdbcUtil.close(conn);
 		}
-		return favorites;
+		return result;
 	}
 }

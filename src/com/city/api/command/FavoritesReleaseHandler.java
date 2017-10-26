@@ -1,18 +1,16 @@
 package com.city.api.command;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.city.api.service.FavoritesService;
-import com.city.model.Favorites;
-import com.city.model.FavoritesResultListJSON;
+import com.city.model.Result;
 import com.google.gson.Gson;
 
-public class FavoritesWhetherHandler implements CommandJsonHandler {
+public class FavoritesReleaseHandler implements CommandJsonHandler {
 	private FavoritesService favoritesRegisterService = new FavoritesService();
 
+	@Override
 	public String process(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		if (req.getMethod().equalsIgnoreCase("GET")) {
 			return processForm(req, res);
@@ -28,22 +26,26 @@ public class FavoritesWhetherHandler implements CommandJsonHandler {
 		return this.processSubmit(req, res);
 	}
 
-	/**
-	 * @param memberId
-	 * @param manageType(wm, tm, sm, gm)
-	 * @return
-	 * @throws Exception
-	 */
 	private String processSubmit(HttpServletRequest req, HttpServletResponse res) throws Exception {
+
+		Result result = new Result();
 
 		String memberId = req.getParameter("memberId");
 		String manageId = req.getParameter("manageId");
-		
-		Favorites favorites= favoritesRegisterService.getFavoritesWhether(memberId,manageId);
-		
-		
+
+		String resultCode = favoritesRegisterService.favoritesRegister(memberId, manageId);
+
+		if (resultCode.equals("Y")) {
+			result.setResultCode("200");
+			result.setResultMessage("즐겨찾기 해제 되었습니다.");
+		} else {
+			result.setResultCode("400");
+			result.setResultMessage("즐겨찾기 해제에 실패 하였습니다.");
+		}
+
 		Gson gson = new Gson();
-		return gson.toJson(favorites);
+		return gson.toJson(result);
 
 	}
+
 }

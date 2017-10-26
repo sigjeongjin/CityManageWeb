@@ -4,8 +4,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.city.model.SensorInfo;
+import com.city.web.service.GmSensorListPage;
 import com.city.web.service.SensorManageService;
+import com.city.web.service.SmSensorListPage;
 import com.city.web.service.TmSensorListPage;
+import com.city.web.service.WmSensorListPage;
 
 public class SensorRegisterHandler implements CommandHandler {
 
@@ -29,8 +32,7 @@ public class SensorRegisterHandler implements CommandHandler {
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		// String sensorType = (String)
-		// request.getSession().getAttribute("manageType");
+		String manageType = request.getSession().getAttribute("manageType").toString();
 
 		SensorInfo sensorInfo = new SensorInfo();
 		sensorInfo.setManageId(request.getParameter("manageId"));
@@ -41,12 +43,21 @@ public class SensorRegisterHandler implements CommandHandler {
 
 		sensorManageService.sensorRegister(sensorInfo);
 
-		//리스트 화면으로 돌아갈때 데이터를 들고 가기 위해 리스트 조회 하는 서비스 실행
-		//기본값으로 셋팅
-		TmSensorListPage tmSensorListPage = sensorManageService.getTmSensorListPage(1, TM,  "all", "");
-		request.setAttribute("TmListPage", tmSensorListPage);
-		request.getSession().setAttribute("manageType", TM);
+		if(manageType.equals(TM)) {
+			TmSensorListPage tmSensorListPage = sensorManageService.getTmSensorListPage(1, manageType,  "all", "");
+			request.setAttribute("TmListPage", tmSensorListPage);
+		} else if(manageType.equals(WM)) {
+			WmSensorListPage wmSensorListPage = sensorManageService.getWmSensorListPage(1, manageType, "all", "");
+			request.setAttribute("WmListPage", wmSensorListPage);
+		} else if(manageType.equals(GM)) {
+			GmSensorListPage gmSensorListPage = sensorManageService.getGmSensorListPage(1, manageType, "all", "");
+			request.setAttribute("GmListPage", gmSensorListPage);
+		} else if(manageType.equals(SM)) {
+			SmSensorListPage smSensorListPage = sensorManageService.getSmSensorListPage(1, manageType, "all", "");
+			request.setAttribute("SmListPage", smSensorListPage);
+		}
 		
-		return "/tmList.do";
+		request.getSession().setAttribute("manageType", manageType);
+		return "/" + manageType + "List.do";
 	}
 }

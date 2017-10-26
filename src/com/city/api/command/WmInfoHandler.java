@@ -28,7 +28,9 @@ public class WmInfoHandler implements CommandJsonHandler {
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String manageId = request.getParameter("manageId");
-		WmResultInfo wmResultInfo = sensorService.getWmInfo(manageId);
+		String memberId = request.getParameter("memberId");
+		
+		WmResultInfo wmResultInfo = sensorService.getWmInfo(manageId, memberId);
 		wmResultInfo.setResultCode("200");
 		wmResultInfo.setResultMessage("센서 정보가 조회 되었습니다.");
 

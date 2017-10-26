@@ -63,7 +63,7 @@ public class SensorService {
 		return sensorRsultInfoList;
 	}
 
-	public WmResultInfo getWmInfo(String manageId) {
+	public WmResultInfo getWmInfo(String manageId, String memberId) {
 
 		WmResultInfo wmResultInfo = new WmResultInfo();
 
@@ -72,7 +72,7 @@ public class SensorService {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
 
-			wmResultInfo = managementDao.selectWmInfobyManageId(conn, manageId);
+			wmResultInfo = managementDao.selectWmInfobyManageId(conn, manageId, memberId);
 			conn.commit();
 
 		} catch (SQLException e) {
@@ -85,7 +85,7 @@ public class SensorService {
 		return wmResultInfo;
 	}
 
-	public TmResultInfo getTmInfo(String manageId) {
+	public TmResultInfo getTmInfo(String manageId, String memberId) {
 
 		TmResultInfo tmResultInfo = new TmResultInfo();
 
@@ -94,7 +94,7 @@ public class SensorService {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
 
-			tmResultInfo = managementDao.selectTmInfobyManageId(conn, manageId);
+			tmResultInfo = managementDao.selectTmInfobyManageId(conn, manageId, memberId);
 			conn.commit();
 
 		} catch (SQLException e) {

@@ -1,7 +1,9 @@
-package com.city.api.command;
+package util;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.city.api.command.CommandJsonHandler;
 
 public class NullHandler implements CommandJsonHandler {
 

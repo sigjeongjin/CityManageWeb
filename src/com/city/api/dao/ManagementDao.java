@@ -134,7 +134,7 @@ public class ManagementDao {
 		installationDateTime;  
 	 */
 	public WmResultInfo selectWmInfobyManageId(Connection conn, 
-			String manageId)throws SQLException {
+			String manageId, String memberId)throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		WmResultInfo wmResultInfo = new WmResultInfo();
@@ -175,7 +175,7 @@ public class ManagementDao {
 		String installation;
 	 */
 	public TmResultInfo selectTmInfobyManageId(Connection conn, 
-			String manageId)throws SQLException {
+			String manageId, String memberId)throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		TmResultInfo tmResultInfo = new TmResultInfo();
@@ -191,6 +191,8 @@ public class ManagementDao {
 			pstmt.setString(3, manageId);
 			pstmt.setString(4, manageId);
 			pstmt.setString(5, manageId);
+			pstmt.setString(6, memberId);
+			pstmt.setString(7, manageId);
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
@@ -295,7 +297,8 @@ public class ManagementDao {
 		sb.append("lm.manage_id manageId, ");
 		sb.append("CONCAT((select city_name from address_city where city_code=lm.city_code),' ',(select state_name from address_state where state_code=lm.state_code)) locationName, ");
 		sb.append(query);
-		sb.append("DATE_FORMAT(lm.create_datetime, '%Y-%m-%d %H:%i:%s') installationDatetime ");
+		sb.append("DATE_FORMAT(lm.create_datetime, '%Y-%m-%d %H:%i:%s') installationDatetime, ");
+		sb.append("(select case count(*) when 1 then 'Y' when 0 then 'N' end from favorites_info where manage_id=? and member_id=?) favoritesWhether ");
 		sb.append("from location_management lm where manage_id=?  and lm.manage_type='");
 		sb.append(manageType+ "'");
 		return sb.toString();

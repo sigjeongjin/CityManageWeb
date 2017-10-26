@@ -6,9 +6,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.city.model.LocationManagement;
+import com.city.web.service.GmSensorListPage;
 import com.city.web.service.ManageLocationService;
 import com.city.web.service.SensorManageService;
+import com.city.web.service.SmSensorListPage;
 import com.city.web.service.TmSensorListPage;
+import com.city.web.service.WmSensorListPage;
 
 public class ManageRegisterHandler implements CommandHandler {
 
@@ -48,13 +51,25 @@ public class ManageRegisterHandler implements CommandHandler {
 		locationManagement.setMemo(request.getParameter("memo"));
 		locationManagement.setCityCode(request.getParameter("cityCode"));
 		locationManagement.setStateCode(request.getParameter("stateCode"));
-	
-		TmSensorListPage tmSensorListPage = sensorManageService.getTmSensorListPage(1, TM,  "all", "");
-		request.setAttribute("TmListPage", tmSensorListPage);
 		
-		request.getSession().setAttribute("manageType", TM);
-		
+		//관리지역의 센서 정보를 저장 한다.
 		manageLocationService.managementRegister(locationManagement);
-		return "/tmList.do";
+	
+		if(manageType.equals(TM)) {
+			TmSensorListPage tmSensorListPage = sensorManageService.getTmSensorListPage(1, manageType,  "all", "");
+			request.setAttribute("TmListPage", tmSensorListPage);
+		} else if(manageType.equals(WM)) {
+			WmSensorListPage wmSensorListPage = sensorManageService.getWmSensorListPage(1, manageType, "all", "");
+			request.setAttribute("WmListPage", wmSensorListPage);
+		} else if(manageType.equals(GM)) {
+			GmSensorListPage gmSensorListPage = sensorManageService.getGmSensorListPage(1, manageType, "all", "");
+			request.setAttribute("GmListPage", gmSensorListPage);
+		} else if(manageType.equals(SM)) {
+			SmSensorListPage smSensorListPage = sensorManageService.getSmSensorListPage(1, manageType, "all", "");
+			request.setAttribute("SmListPage", smSensorListPage);
+		}
+		
+		request.getSession().setAttribute("manageType", manageType);
+		return "/" + manageType + "List.do";
 	}
 }

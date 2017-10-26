@@ -11,6 +11,15 @@ public class TmResultInfo extends Result {
 	private String generous;
 	private String lockStatus;
 	private String installationDateTime;
+	private String favoritesWhether;
+	
+	public String getFavoritesWhether() {
+		return favoritesWhether;
+	}
+
+	public void setFavoritesWhether(String favoritesWhether) {
+		this.favoritesWhether = favoritesWhether;
+	}
 
 	public String getManageId() {
 		return manageId;

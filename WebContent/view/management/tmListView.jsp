@@ -32,7 +32,7 @@ pageEncoding = "UTF-8"%>
 		<option value="memo">비고</option>
     </select>
     <input type="text" id="searchText" placeholder="Search for names.." name="searchText">  
-<button type = submit value="선택">선택</button>
+<button type = submit value="조회">조회</button>
 </form>
 
 <table>

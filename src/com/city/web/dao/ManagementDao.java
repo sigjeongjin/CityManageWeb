@@ -147,7 +147,7 @@ public class ManagementDao {
 						+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='l') lockStatus, "
 						+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
 						+ "CONCAT((latitude),', ',(longitude)) coordinate, memo "
-						+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id limit ?, ?");
+						+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id  order by lm.create_datetime desc limit ?, ?");
 				pstmt.setString(1, manageType);
 				pstmt.setInt(2, startRow);
 				pstmt.setInt(3, size);
@@ -160,7 +160,7 @@ public class ManagementDao {
 							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='l') lockStatus, "
 							+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
 							+ "CONCAT((latitude),', ',(longitude)) coordinate, memo "
-							+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id limit ?, ?");
+							+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id order by lm.create_datetime desc limit ?, ?");
 					pstmt.setString(1, manageType);
 					pstmt.setInt(2, startRow);
 					pstmt.setInt(3, size);
@@ -171,9 +171,9 @@ public class ManagementDao {
 							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='fd') flameDetection, "
 							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='l') lockStatus, "
 							+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
-							+ "CONCAT((latitude),', ',(longitude)) coordinate, memo "
+							+ "CONCAT((latitude),', ',(longitude)) coordinate, memo, create_datetime "
 							+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id)tbl_tm "
-							+ "where tbl_tm." + selectBox + " like ? limit ?, ?");
+							+ "where tbl_tm." + selectBox + " like ? order by tbl_tm.create_datetime desc limit ?, ?");
 					pstmt.setString(1, manageType);
 					pstmt.setString(2, "%" + searchText + "%");
 					pstmt.setInt(3, startRow);
@@ -217,7 +217,7 @@ public class ManagementDao {
 						+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='wl') waterLevel, "
 						+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
 						+ "CONCAT((latitude),', ',(longitude)) coordinate, memo "
-						+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id limit ?, ?");
+						+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id order by lm.create_datetime desc limit ?, ?");
 				pstmt.setString(1, manageType);
 				pstmt.setInt(2, startRow);
 				pstmt.setInt(3, size);
@@ -228,7 +228,7 @@ public class ManagementDao {
 							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='wl') waterLevel, "
 							+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
 							+ "CONCAT((latitude),', ',(longitude)) coordinate, memo "
-							+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id limit ?, ?");
+							+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id order by lm.create_datetime desc limit ?, ?");
 					pstmt.setString(1, manageType);
 					pstmt.setInt(2, startRow);
 					pstmt.setInt(3, size);
@@ -238,9 +238,9 @@ public class ManagementDao {
 							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='wq') waterQuality, "
 							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='wl') waterLevel, "
 							+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
-							+ "CONCAT((latitude),', ',(latitude)) coordinate, memo "
+							+ "CONCAT((latitude),', ',(latitude)) coordinate, memo, create_time "
 							+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id)tbl_wm "
-							+ "where tbl_wm." + selectBox + " like ? limit ?, ?");
+							+ "where tbl_wm." + selectBox + " like ? order by tbl_wm.create_datetime desc limit ?, ?");
 					pstmt.setString(1, manageType);
 					pstmt.setString(2, "%" + searchText + "%");
 					pstmt.setInt(3, startRow);
@@ -281,7 +281,7 @@ public class ManagementDao {
 						+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='sd') shockDetection, "
 						+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
 						+ "CONCAT((latitude),', ',(longitude)) coordinate, memo "
-						+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id limit ?, ?");
+						+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id order by lm.create_datetime desc limit ?, ?");
 				pstmt.setString(1, manageType);
 				pstmt.setInt(2, startRow);
 				pstmt.setInt(3, size);
@@ -292,7 +292,7 @@ public class ManagementDao {
 							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='sd') shockDetection, "
 							+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
 							+ "CONCAT((latitude),', ',(longitude)) coordinate, memo "
-							+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id limit ?, ?");
+							+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id order by lm.create_datetime desc limit ?, ?");
 					pstmt.setString(1, manageType);
 					pstmt.setInt(2, startRow);
 					pstmt.setInt(3, size);
@@ -302,9 +302,9 @@ public class ManagementDao {
 							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='gd') gasDensity, "
 							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='sd') shockDetection, "
 							+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
-							+ "CONCAT((latitude),', ',(latitude)) coordinate, memo "
+							+ "CONCAT((latitude),', ',(latitude)) coordinate, memo, create_time "
 							+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id)tbl_gm "
-							+ "where tbl_gm." + selectBox + " like ? limit ?, ?");
+							+ "where tbl_gm." + selectBox + " like ? order by tbl_gm.create_datetime desc limit ?, ?");
 					pstmt.setString(1, manageType);
 					pstmt.setString(2, "%" + searchText + "%");
 					pstmt.setInt(3, startRow);
@@ -346,7 +346,7 @@ public class ManagementDao {
 						+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='sd') smokeDetection, "
 						+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
 						+ "CONCAT((latitude),', ',(longitude)) coordinate, memo "
-						+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id  limit ?, ?");
+						+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id order by lm.create_datetime desc limit ?, ?");
 				pstmt.setString(1, manageType);
 				pstmt.setInt(2, startRow);
 				pstmt.setInt(3, size);
@@ -357,7 +357,7 @@ public class ManagementDao {
 							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='sd') smokeDetection, "
 							+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
 							+ "CONCAT((latitude),', ',(longitude)) coordinate, memo "
-							+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id  limit ?, ?");
+							+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id order by lm.create_datetime desc limit ?, ?");
 					pstmt.setString(1, manageType);
 					pstmt.setInt(2, startRow);
 					pstmt.setInt(3, size);
@@ -369,7 +369,7 @@ public class ManagementDao {
 							+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
 							+ "CONCAT((latitude),', ',(longitude)) coordinate, memo "
 							+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id)tbl_sm "
-							+ "where tbl_sm." + selectBox + " like ? limit ?, ?");
+							+ "where tbl_sm." + selectBox + " like ? order by tbl_sm.create_datetime desc limit ?, ?");
 					pstmt.setString(1, manageType);
 					pstmt.setString(2, "%" + searchText + "%");
 					pstmt.setInt(3, startRow);

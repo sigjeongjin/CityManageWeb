@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.city.api.service.FavoritesService;
 import com.city.model.FavoritesResultInfo;
 import com.city.model.FavoritesResultListJSON;
-
 import com.google.gson.Gson;
 
 public class FavoritesListHandler implements CommandJsonHandler {

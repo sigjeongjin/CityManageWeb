@@ -45,91 +45,89 @@ pageEncoding = "UTF-8"%>
 <script src="../../js/jquery-1.11.0.min.js"></script>
 
 <script type="text/javascript">
-
-
-var array = $('#systemSensorThis').val();
-var systemSensorThis = array.split(', ');
-console.log("systemSensorThis : " + systemSensorThis);
-
-var manageSensorTypes = $('#systemSensor').val();
-console.log(manageSensorTypes);
-
-if (manageSensorTypes != null && manageSensorTypes != "") {
+	var array = $('#systemSensorThis').val();
+	var systemSensorThis = array.split(', ');
+	console.log("systemSensorThis : " + systemSensorThis);
 	
-	var manageSensorTypes = manageSensorTypes.split(', ');
-	var options = $('#sensorType');
+	var manageSensorTypes = $('#systemSensor').val();
+		console.log(manageSensorTypes);
 	
-	options.html("<option>센서선택</option>");
-	
-	for(i=0;i<manageSensorTypes.length;i++){
-		console.log("센서 생성 : " + manageSensorTypes[i]);
-		// 쓰레기통 관리
-		if (manageSensorTypes[i]==="g") {
-			options.append("<option value=" + manageSensorTypes[i] + ">" + "만적센서" +"</option>");
+	if (manageSensorTypes != null && manageSensorTypes != "") {
+		
+		var manageSensorTypes = manageSensorTypes.split(', ');
+		var options = $('#sensorType');
+		
+		options.html("<option>센서선택</option>");
+		
+		for(i=0;i<manageSensorTypes.length;i++){
+			console.log("센서 생성 : " + manageSensorTypes[i]);
+			// 쓰레기통 관리
+			if (manageSensorTypes[i]==="g") {
+				options.append("<option value=" + manageSensorTypes[i] + ">" + "만적센서" +"</option>");
+			}
+			else if (manageSensorTypes[i]==="s") {
+				options.append("<option value=" + manageSensorTypes[i] + ">" + "악취센서" +"</option>");
+			}
+			else if (manageSensorTypes[i]==="fd") {
+				options.append("<option value=" + manageSensorTypes[i] + ">" + "불꽃감지센서" +"</option>");
+			}
+			else if (manageSensorTypes[i]==="l") {
+				options.append("<option value=" + manageSensorTypes[i] + ">" + "짐금" +"</option>");
+			}
+			// 수질 관리
+			else if (manageSensorTypes[i]==="wq") {
+				options.append("<option value=" + manageSensorTypes[i] + ">" + "수질센서" +"</option>");
+			}
+			else if (manageSensorTypes[i]==="wl") {
+				options.append("<option value=" + manageSensorTypes[i] + ">" + "수위센서" +"</option>");
+			}	
+			// 도시가스 관리
+			else if (manageSensorTypes[i]==="sd") {
+				options.append("<option value=" + manageSensorTypes[i] + ">" + "충격감지센서" +"</option>");
+			}
+			else if (manageSensorTypes[i]==="gd") {
+				options.append("<option value=" + manageSensorTypes[i] + ">" + "압력농도센서" +"</option>");
+			}
+			// 금연구역 관리
+			else if (manageSensorTypes[i]==="sm") {
+				options.append("<option value=" + manageSensorTypes[i] + ">" + "연기감지센서" +"</option>");
+			}
 		}
-		else if (manageSensorTypes[i]==="s") {
-			options.append("<option value=" + manageSensorTypes[i] + ">" + "악취센서" +"</option>");
-		}
-		else if (manageSensorTypes[i]==="fd") {
-			options.append("<option value=" + manageSensorTypes[i] + ">" + "불꽃감지센서" +"</option>");
-		}
-		else if (manageSensorTypes[i]==="l") {
-			options.append("<option value=" + manageSensorTypes[i] + ">" + "짐금" +"</option>");
-		}
-		// 수질 관리
-		else if (manageSensorTypes[i]==="wq") {
-			options.append("<option value=" + manageSensorTypes[i] + ">" + "수질센서" +"</option>");
-		}
-		else if (manageSensorTypes[i]==="wl") {
-			options.append("<option value=" + manageSensorTypes[i] + ">" + "수위센서" +"</option>");
-		}	
-		// 도시가스 관리
-		else if (manageSensorTypes[i]==="sd") {
-			options.append("<option value=" + manageSensorTypes[i] + ">" + "충격감지센서" +"</option>");
-		}
-		else if (manageSensorTypes[i]==="gd") {
-			options.append("<option value=" + manageSensorTypes[i] + ">" + "압력농도센서" +"</option>");
-		}
-		// 금연구역 관리
-		else if (manageSensorTypes[i]==="sm") {
-			options.append("<option value=" + manageSensorTypes[i] + ">" + "연기감지센서" +"</option>");
+		
+		for(i=0;i<systemSensorThis.length;i++){
+			console.log("지우기 작동" + systemSensorThis[i]);
+			// 쓰레기통 관리
+			if (systemSensorThis[i]==="g") {
+				$("option[value='g']").remove();
+			}
+			else if (systemSensorThis[i]==="s") {
+				$("option[value='s']").remove();
+			}
+			else if (systemSensorThis[i]==="fd") {
+				$("option[value='fd']").remove();
+			}
+			else if (systemSensorThis[i]==="l") {
+				$("option[value='l']").remove();
+			}
+			// 수질 관리
+			else if (systemSensorThis[i]==="wq") {
+				$("option[value='wq']").remove();
+			}
+			else if (systemSensorThis[i]==="wl") {
+				$("option[value='wl']").remove();
+			}
+			// 도시가스 관리
+			else if (systemSensorThis[i]==="sd") {
+				$("option[value='sd']").remove();
+			}
+			else if (systemSensorThis[i]==="gd") {
+				$("option[value='gd']").remove();
+			}
+			// 금연구역 관리
+			else if (systemSensorThis[i]==="sm") {
+				$("option[value='sm']").remove();
+			}
 		}
 	}
-	
-	for(i=0;i<systemSensorThis.length;i++){
-		console.log("지우기 작동" + systemSensorThis[i]);
-		// 쓰레기통 관리
-		if (systemSensorThis[i]==="g") {
-			$("option[value='g']").remove();
-		}
-		else if (systemSensorThis[i]==="s") {
-			$("option[value='s']").remove();
-		}
-		else if (systemSensorThis[i]==="fd") {
-			$("option[value='fd']").remove();
-		}
-		else if (systemSensorThis[i]==="l") {
-			$("option[value='l']").remove();
-		}
-		// 수질 관리
-		else if (systemSensorThis[i]==="wq") {
-			$("option[value='wq']").remove();
-		}
-		else if (systemSensorThis[i]==="wl") {
-			$("option[value='wl']").remove();
-		}
-		// 도시가스 관리
-		else if (systemSensorThis[i]==="sd") {
-			$("option[value='sd']").remove();
-		}
-		else if (systemSensorThis[i]==="gd") {
-			$("option[value='gd']").remove();
-		}
-		// 금연구역 관리
-		else if (systemSensorThis[i]==="sm") {
-			$("option[value='sm']").remove();
-		}
-	}
-}
 </script>
 </html>

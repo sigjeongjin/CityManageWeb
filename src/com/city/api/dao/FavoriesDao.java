@@ -14,8 +14,7 @@ import jdbc.JdbcUtil;
 
 public class FavoriesDao {
 
-	public int insertFavories(Connection conn, String memberId ,String bookmark, String manageId)
-
+	public int insertFavories(Connection conn, String memberId , String manageId)
 			throws SQLException {
 
 		PreparedStatement pstmt = null;
@@ -24,16 +23,34 @@ public class FavoriesDao {
 		try {
 			pstmt = conn.prepareStatement("insert into favorites_info" +
 											"(member_id, bookmark, manage_id)" + 
-											"values (?, ?, ?)");
+											"values (?, 'Y', ?)");
 			pstmt.setString(1, memberId);
-			pstmt.setString(2, bookmark);
-			pstmt.setString(3, manageId);
+			pstmt.setString(2, manageId);
 			
 			resultcode = pstmt.executeUpdate();
 
 			return resultcode;
 		} finally {
-		
+			JdbcUtil.close(pstmt);
+		}
+	}
+	
+	public int updateFavories(Connection conn, String memberId , String manageId)
+			throws SQLException {
+
+		PreparedStatement pstmt = null;
+		int resultcode = 0;
+
+		try {
+			pstmt = conn.prepareStatement("delete from favorites_info " +
+											" where member_id=? and manage_id=? ");
+			pstmt.setString(1, memberId);
+			pstmt.setString(2, manageId);
+			
+			resultcode = pstmt.executeUpdate();
+
+			return resultcode;
+		} finally {
 			JdbcUtil.close(pstmt);
 		}
 	}
@@ -107,5 +124,35 @@ public class FavoriesDao {
 			JdbcUtil.close(pstmt);
 		}
 	}
+	
+	
+	public String selectFavoritesWhetherByMemberIdAndManageId(Connection conn, String memberId , String manageId)
+			throws SQLException {
 
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String result = "";
+
+		try {
+			//출력 결과 : manageId, locationName(시티 + 스테이트)
+			pstmt = conn.prepareStatement(
+					"SELECT " 
+					+ " count(*) count "
+					+ " FROM favorites_info " 
+					+ " WHERE member_id=? and manage_id=?");
+		
+			pstmt.setString(1, memberId);
+			pstmt.setString(2, manageId);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				result = rs.getString("count");
+			}
+			return result;
+
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+		}
+	}
 }
