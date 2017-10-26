@@ -22,7 +22,7 @@ import jdbc.connection.ConnectionProvider;
 public class PushService {
 
 	private PushDao pushDao = new PushDao();
-
+	
 	/**
 	 * @param memberId
 	 * @param manageType

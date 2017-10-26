@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.city.api.service.MemberManageService;
 import com.city.api.service.PushService;
-import com.city.model.Member;
 import com.city.model.Push;
 import com.city.model.Result;
 import com.google.gson.Gson;
@@ -41,22 +40,19 @@ public class PushTokenRegisterHandler implements CommandJsonHandler{
 		Gson gson = new Gson();
 		Result result = new Result();
 		
-		
+		// Android에서 pushToken, memberId 가져옴
 		String pushToken = request.getParameter("pushToken");
 		String memberId = request.getParameter("memberId");
-		
-		System.out.println("pushToken : " + pushToken);
-		System.out.println("memberId : " + memberId);
+		String memberPhone = memberManageService.memberPhoneSelect(memberId); //memberId로 조회하여 memberPhone가져옴
 		
 		Push push = new Push();
 		push.setPushToken(request.getParameter("pushToken"));
 		push.setMemberId(request.getParameter("memberId"));
-		
-		String memberPhone = memberManageService.memberPhoneSelect(memberId);
 		push.setMemberPhone(memberPhone);
 	
-		System.out.println("pushToken : " + pushToken);
-		System.out.println("memberId : " + memberId);
+		//System.out.println("pushToken : " + pushToken);
+		//System.out.println("memberId : " + memberId);
+		//System.out.println("memberPhone : " + memberPhone);
 		
 		String pushRegister = pushService.pushTokenRegister(push);
 		if (pushRegister == "Y") {

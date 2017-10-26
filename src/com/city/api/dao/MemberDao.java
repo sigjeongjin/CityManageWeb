@@ -270,13 +270,13 @@ public class MemberDao {
 			
 			rs = pstmt.executeQuery();
 			if(rs.next()) { 
-				String memberPhone = rs.getString("memberPhone");
+				String memberPhone = rs.getString("member_phone");
 				if(memberPhone != null) {
 					resultCode = "200";
 					return memberPhone;
 				} else {
 					resultCode = "400";
-					return memberPhone;
+					return resultCode;
 				}
 			}		
 		} catch (SQLException e) {
