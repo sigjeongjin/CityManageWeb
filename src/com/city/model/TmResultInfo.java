@@ -1,5 +1,7 @@
 package com.city.model;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * @author com 센서아이디,주소,불꽃,악취,쓰레기량,잠금,설치날짜
  */
@@ -11,14 +13,20 @@ public class TmResultInfo extends Result {
 	private String generous;
 	private String lockStatus;
 	private String installationDateTime;
-	private String favoritesWhether;
+	private String bookmark;
 	
-	public String getFavoritesWhether() {
-		return favoritesWhether;
+	public String getBookmark() {
+		return bookmark;
 	}
 
-	public void setFavoritesWhether(String favoritesWhether) {
-		this.favoritesWhether = favoritesWhether;
+	public void setBookmark(String bookmark) {
+		
+		if(StringUtils.isNotEmpty(bookmark)){
+			this.bookmark = bookmark;
+		} else {
+			this.bookmark = "N";
+		}
+		
 	}
 
 	public String getManageId() {

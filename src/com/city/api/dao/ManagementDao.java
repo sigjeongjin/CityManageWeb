@@ -203,6 +203,7 @@ public class ManagementDao {
 				tmResultInfo.setGenerous(rs.getString("generous"));
 				tmResultInfo.setLockStatus(rs.getString("lockStatus"));
 				tmResultInfo.setInstallationDateTime(rs.getString("installationDateTime"));
+				tmResultInfo.setBookmark(rs.getString("bookmark"));
 			}
 			return tmResultInfo;
 		} finally {
@@ -298,7 +299,7 @@ public class ManagementDao {
 		sb.append("CONCAT((select city_name from address_city where city_code=lm.city_code),' ',(select state_name from address_state where state_code=lm.state_code)) locationName, ");
 		sb.append(query);
 		sb.append("DATE_FORMAT(lm.create_datetime, '%Y-%m-%d %H:%i:%s') installationDatetime, ");
-		sb.append("(select case count(*) when 1 then 'Y' when 0 then 'N' end from favorites_info where manage_id=? and member_id=?) favoritesWhether ");
+		sb.append("(select case count(*) when 1 then 'Y' when 0 then 'N' end from favorites_info where manage_id=? and member_id=?) bookmark ");
 		sb.append("from location_management lm where manage_id=?  and lm.manage_type='");
 		sb.append(manageType+ "'");
 		return sb.toString();

@@ -47,7 +47,4 @@ public class Favorites {
 	public void setMemberId(String memberId) { 
 		this.memberId = memberId;
 	}
-	
-	
-
 }

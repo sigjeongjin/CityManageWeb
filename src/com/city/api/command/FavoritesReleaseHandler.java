@@ -8,7 +8,7 @@ import com.city.model.Result;
 import com.google.gson.Gson;
 
 public class FavoritesReleaseHandler implements CommandJsonHandler {
-	private FavoritesService favoritesRegisterService = new FavoritesService();
+	private FavoritesService favoritesService = new FavoritesService();
 
 	@Override
 	public String process(HttpServletRequest req, HttpServletResponse res) throws Exception {
@@ -33,7 +33,7 @@ public class FavoritesReleaseHandler implements CommandJsonHandler {
 		String memberId = req.getParameter("memberId");
 		String manageId = req.getParameter("manageId");
 
-		String resultCode = favoritesRegisterService.favoritesRegister(memberId, manageId);
+		String resultCode = favoritesService.setFavoritesRelease(memberId, manageId);
 
 		if (resultCode.equals("Y")) {
 			result.setResultCode("200");

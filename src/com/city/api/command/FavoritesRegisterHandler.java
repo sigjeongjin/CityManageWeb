@@ -33,7 +33,7 @@ public class FavoritesRegisterHandler implements CommandJsonHandler {
 		String memberId = req.getParameter("memberId");
 		String manageId = req.getParameter("manageId");
 
-		String resultCode = favoritesRegisterService.favoritesRegister(memberId, manageId);
+		String resultCode = favoritesRegisterService.setFavoritesRegister(memberId, manageId);
 
 		if (resultCode.equals("Y")) {
 			result.setResultCode("200");

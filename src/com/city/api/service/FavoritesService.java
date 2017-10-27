@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.city.api.dao.FavoriesDao;
-import com.city.model.Favorites;
 import com.city.model.FavoritesResultInfo;
 
 import jdbc.JdbcUtil;
@@ -21,7 +20,7 @@ public class FavoritesService {
 
 	private FavoriesDao favoriesDao = new FavoriesDao();
 
-	public String favoritesRegister(String memberId, String manageId) {
+	public String setFavoritesRegister(String memberId, String manageId) {
 
 		int favoritesRegister = 0;
 		String resultCode = "";
@@ -51,7 +50,7 @@ public class FavoritesService {
 		return resultCode;
 	}
 	
-	public String favoritesRelease(String memberId, String bookmark, String manageId) {
+	public String setFavoritesRelease(String memberId, String manageId) {
 
 		int favoritesRegister = 0;
 		String resultCode = "";

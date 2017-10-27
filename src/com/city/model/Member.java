@@ -9,11 +9,20 @@ public class Member{
 	private String memberPhone;	
 	private String memberEmail;
 	private String memberPhoto;
+	private String memberPhotoOriginal; //서버에 올라간 사진 실제 경로
 	private String memberAuthorization;
 	private String memberDeleteCode;
 	private String cityCode;
 	private String stateCode;
 	
+	public String getMemberPhotoOriginal() {
+		return memberPhotoOriginal;
+	}
+
+	public void setMemberPhotoOriginal(String memberPhotoOriginal) {
+		this.memberPhotoOriginal = memberPhotoOriginal;
+	}
+
 	public String getMemberId() {
 		return memberId;
 	}

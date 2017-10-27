@@ -14,8 +14,7 @@ import jdbc.JdbcUtil;
 
 public class FavoriesDao {
 
-	public int insertFavories(Connection conn, String memberId , String manageId)
-			throws SQLException {
+	public int insertFavories(Connection conn, String memberId , String manageId) throws SQLException {
 
 		PreparedStatement pstmt = null;
 		int resultcode = 0;
@@ -78,7 +77,7 @@ public class FavoriesDao {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				favorites.setMemberId(rs.getString("member_id"));
+				favorites.setMemberId(rs.getString("member_id").toString());
 				favorites.setManageId(rs.getString("manage_id"));
 				favorites.setFavoritesId(rs.getString("favoritesId"));
 				favorites.setBookmark(rs.getString("bookmark"));

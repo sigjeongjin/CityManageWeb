@@ -79,8 +79,8 @@ public class MemberDao {
 		try {
 			pstmt = conn.prepareStatement("insert into member "
 					+ "(member_id, member_pwd, member_name, member_phone, member_email, "
-					+ "member_photo, member_authorization) "
-					+ "values (?, ?, ?, ?, ?, ?, ?)");
+					+ "member_photo, member_authorization, member_photo_original) "
+					+ "values (?, ?, ?, ?, ?, ?, ?, ?)");
 			pstmt.setString(1, member.getMemberId());
 			pstmt.setString(2, member.getMemberPwd());
 			pstmt.setString(3, member.getMemberName());
@@ -88,9 +88,9 @@ public class MemberDao {
 			pstmt.setString(5, member.getMemberEmail());
 			pstmt.setString(6, member.getMemberPhoto());
 			pstmt.setString(7, member.getMemberAuthorization());
+			pstmt.setString(8, member.getMemberPhotoOriginal());
 			resultCode = pstmt.executeUpdate();
 			
-			return resultCode;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);

@@ -43,6 +43,7 @@ public class SessionCheck implements Filter {
 		noFilterUrl.add("/cityStateInfoRegister.app");
 		noFilterUrl.add("/operationStatusRegister.app");
 		noFilterUrl.add("/favoritesRegister.app");
+		noFilterUrl.add("/favoritesRelease.app");
 		noFilterUrl.add("/favoritesList.app");
 		noFilterUrl.add("/cityInfo.app");
 		noFilterUrl.add("/memberPwdConfirm.app");
@@ -62,6 +63,7 @@ public class SessionCheck implements Filter {
         resourcePath.add("/css/");
         resourcePath.add("/js/");
         resourcePath.add("/view/");
+        resourcePath.add("/upload/");
         
     }
 
@@ -80,6 +82,8 @@ public class SessionCheck implements Filter {
 		HttpServletRequest req = (HttpServletRequest) request;
 		
 		String uri = req.getRequestURI();
+		
+		System.out.println("필터에 들어온 URL 확인 : " + uri);
 		
 		if(!noFilterUrl.contains(uri)) {
 			

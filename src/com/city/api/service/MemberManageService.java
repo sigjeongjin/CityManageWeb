@@ -92,22 +92,21 @@ public class MemberManageService {
 			conn.setAutoCommit(false);
 
 			int resultCode = memberDao.insertMember(conn, member);
-			conn.commit();
-
+			
 			if (resultCode == 1) {
 				mR = "Y";
-				return mR;
 			} else {
 				mR = "N";
 				throw new SQLException();
 			}
+			conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);
 		} finally {
 			JdbcUtil.close(conn);
 		}
-		return null;
+		return mR;
 	}
 	
 	// memberPwdConfirm	맴버 비밀번호 확인 mPC
