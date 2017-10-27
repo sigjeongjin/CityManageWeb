@@ -9,7 +9,7 @@ import com.city.model.Push;
 import com.city.model.Result;
 import com.google.gson.Gson;
 
-public class PushTokenRegisterHandler implements CommandJsonHandler{
+public class PushTokenUpdateHandle implements CommandJsonHandler{
 
 	private PushService pushService = new PushService();
 	private MemberManageService memberManageService = new MemberManageService();
@@ -49,13 +49,13 @@ public class PushTokenRegisterHandler implements CommandJsonHandler{
 		push.setMemberId(request.getParameter("memberId"));
 		push.setMemberPhone(memberPhone);
 		
-		String pushRegister = pushService.pushTokenRegister(push);
+		String pushRegister = pushService.pushTokenUpdate(push);
 		if (pushRegister == "Y") {
 			result.setResultCode("200");
-			result.setResultMessage("push Register success");
+			result.setResultMessage("push update success");
 		} else {
 			result.setResultCode("400");
-			result.setResultMessage("push Register fail");
+			result.setResultMessage("push update fail");
 		}
 		return gson.toJson(result);
 	}

@@ -72,9 +72,31 @@ public class PushDao {
 			pstmt.setString(1, push.getPushToken());
 			pstmt.setString(2, push.getMemberId());
 			pstmt.setString(3, push.getMemberPhone());
+			
 			resultCode = pstmt.executeUpdate();
 			
-			return resultCode;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		}finally {
+			JdbcUtil.close(pstmt);
+		}
+		return resultCode;
+	}
+
+	public int updatePushToken(Connection conn, Push push) {
+		PreparedStatement pstmt = null;
+		int resultCode = 0;
+		
+		try {
+			pstmt = conn.prepareStatement("update push_info "
+					+ "set push_token=?, member_phone=? where member_id=?");
+			pstmt.setString(1, push.getPushToken());
+			pstmt.setString(2, push.getMemberPhone());
+			pstmt.setString(3, push.getMemberId());
+			
+			resultCode = pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);

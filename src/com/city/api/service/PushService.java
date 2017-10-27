@@ -53,24 +53,23 @@ public class PushService {
 	 * @param Push
 	 * @return
 	 */
-	public String pushTokenRegister(Push push) {
+	public String pushTokenRegister(Push push) throws SQLException{
 		Connection conn = null;
+		int resultCode = 0;
 		String pr = "";
 
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 
-			int resultCode = pushDao.insertPushToken(conn, push);
+			resultCode = pushDao.insertPushToken(conn, push);
 			
 			conn.commit();
 			
 			if (resultCode == 1) {
 				pr = "Y";
-				return pr;
 			} else {
-				pr = "N";
-				return pr;
+				throw new SQLException();
 			}
 			
 		} catch (SQLException e) {
@@ -79,6 +78,37 @@ public class PushService {
 		} finally {
 			JdbcUtil.close(conn);
 		}
-		return null;
+		return pr;
+	}
+
+	/**
+	 * @param Push
+	 * @return
+	 */
+	public String pushTokenUpdate(Push push) {
+		Connection conn = null;
+		String pu = "";
+
+		try {
+			conn = ConnectionProvider.getConnection();
+			conn.setAutoCommit(false);
+
+			int resultCode = pushDao.updatePushToken(conn, push);
+			
+			conn.commit();
+			
+			if (resultCode == 1) {
+				pu = "Y";
+			} else {
+				throw new SQLException();
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+		return pu;
 	}
 }
