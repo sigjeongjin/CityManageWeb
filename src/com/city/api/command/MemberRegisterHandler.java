@@ -2,6 +2,7 @@ package com.city.api.command;
 
 import java.io.IOException;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -39,42 +40,37 @@ public class MemberRegisterHandler implements CommandJsonHandler {
 		
 		MultipartRequest multi;
 		String saveFolder = "/upload";
-//		String realFolder = request.getServletContext().getRealPath(saveFolder); // saveFilepath
-		String realFolder = request.getServletPath();
-		String realFolder1 = request.getServletContext().getContextPath();
-		String realFolder2 = request.getServletContext().getRealPath("");
+		String realFolder = "/home/pi/apache-tomcat-8.5.20/webapps";
+		String dbSaveFolder = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+		
+		int maxSize = 5 * 1024 * 1024; // 최대 업로될 파일크기 5Mb
 		
 		System.out.println("realFolder : " + realFolder);
-		System.out.println("realFolder : " + realFolder1);
-		System.out.println("realFolder : " + realFolder2);
+		System.out.println("dbSaveFolder : " + dbSaveFolder);
 		
-		
+		Member member = new Member();
+		try {
+			multi = new MultipartRequest(request, realFolder + saveFolder, maxSize, "utf-8",
+					new DefaultFileRenamePolicy());
+			member.setMemberId(multi.getParameter("memberId"));
+			member.setMemberPwd(multi.getParameter("memberPwd"));
+			member.setMemberName(multi.getParameter("memberName"));
+			member.setMemberPhone(multi.getParameter("memberPhone"));
+			member.setMemberEmail(multi.getParameter("memberEmail"));
+			member.setMemberPhoto(multi.getParameter("memberPhoto"));
+			member.setMemberAuthorization("app_user");
+			member.setMemberPhotoOriginal(dbSaveFolder + "\\" + saveFolder + "\\" + multi.getParameter("memberPhoto"));
+								
+			String mR = memberManageService.memberRegister(member);
+			if (mR == "Y") {
+				result.setResultCode("200");
+				result.setResultMessage("회원가입을 환영합니다.");
+			}
+			return gson.toJson(result);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return null;
-//		int maxSize = 5 * 1024 * 1024; // 최대 업로될 파일크기 5Mb
-//		
-//		Member member = new Member();
-//		try {
-//			multi = new MultipartRequest(request, realFolder, maxSize, "utf-8",
-//					new DefaultFileRenamePolicy());
-//			member.setMemberId(multi.getParameter("memberId"));
-//			member.setMemberPwd(multi.getParameter("memberPwd"));
-//			member.setMemberName(multi.getParameter("memberName"));
-//			member.setMemberPhone(multi.getParameter("memberPhone"));
-//			member.setMemberEmail(multi.getParameter("memberEmail"));
-//			member.setMemberPhoto(multi.getParameter("memberPhoto"));
-//			member.setMemberAuthorization("app_user");
-//			member.setMemberPhotoOriginal(realFolder + "\\" + multi.getParameter("memberPhoto"));
-//								
-//			String mR = memberManageService.memberRegister(member);
-//			if (mR == "Y") {
-//				result.setResultCode("200");
-//				result.setResultMessage("회원가입을 환영합니다.");
-//			}
-//			return gson.toJson(result);
-//			
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		return null;
 	}
 }

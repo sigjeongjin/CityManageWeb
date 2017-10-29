@@ -24,7 +24,7 @@ public class MemberDao {
 		
 		try {
 			pstmt = conn
-					.prepareStatement("select member_id, member_pwd from member "
+					.prepareStatement("select member_id, member_pwd, member_photo_original from member "
 							+ "where member_id=? and member_pwd=? "
 							+ "and member_authorization='app_user'"
 							+ "and member_delete_code='N'");
