@@ -51,6 +51,7 @@ public class SessionCheck implements Filter {
 		noFilterUrl.add("/pushHistoryList.app");
 		noFilterUrl.add("/pushTokenRegister.app");
 		noFilterUrl.add("/pushTokenUpdate.app");
+		noFilterUrl.add("/pushSendMessage.app");
 		noFilterUrl.add("/sensorList.app");
 		noFilterUrl.add("/stateSearchSensorList.app");
 		noFilterUrl.add("/wmInfo.app");
@@ -102,7 +103,7 @@ public class SessionCheck implements Filter {
 				System.out.println("resource 경로 걸림");
 				HttpSession session = req.getSession();
 				
-				//session userId
+				// session userId
 				// session userName
 				
 				String memberId = (String)session.getAttribute("userId");

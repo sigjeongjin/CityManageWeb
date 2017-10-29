@@ -49,7 +49,5 @@ public class SensorRegisterHandler implements CommandJsonHandler {
 		
 		Gson gson = new Gson();
 		return gson.toJson(result);
-
 	}
-
 }

@@ -1,19 +1,18 @@
 package com.city.api.command;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.city.api.service.MemberManageService;
 import com.city.api.service.PushService;
-import com.city.model.PushInfo;
 import com.city.model.Result;
 import com.google.gson.Gson;
 
-public class PushTokenRegisterHandler implements CommandJsonHandler{
+public class PushSendMessageHandle implements CommandJsonHandler{
 
 	private PushService pushService = new PushService();
-	private MemberManageService memberManageService = new MemberManageService();
-
+	
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		if (request.getMethod().equalsIgnoreCase("GET")) {
 			return processForm(request, response);
@@ -30,8 +29,8 @@ public class PushTokenRegisterHandler implements CommandJsonHandler{
 	}
 
 	/**
-	 * @param pushToken
-	 * @param memberId
+	 * @param main
+	 * @param message
 	 * @return
 	 * @throws Exception
 	 */
@@ -40,24 +39,25 @@ public class PushTokenRegisterHandler implements CommandJsonHandler{
 		Gson gson = new Gson();
 		Result result = new Result();
 		
-		// Android에서 pushToken, memberId 가져옴
-		String memberId = request.getParameter("memberId");
-		//memberId로 조회하여 memberPhone가져옴
-		String memberPhone = memberManageService.memberPhoneSelect(memberId); 
+		/* Topic으로 sensorId:sensorValue
+		/* title, contents는  Test*/
 		
-		PushInfo pushInfo = new PushInfo();
-		pushInfo.setPushToken(request.getParameter("pushToken"));
-		pushInfo.setMemberId(request.getParameter("memberId"));
-		pushInfo.setMemberPhone(memberPhone);
+		String title = request.getParameter("title");
+		String contents = request.getParameter("contents");
+		System.out.println("main : " + title);
+		System.out.println("content : " + contents);
 		
-		String pushRegister = pushService.pushTokenRegister(pushInfo);
-		if (pushRegister == "Y") {
+		ArrayList<String> tokenList = pushService.sendTokenList();
+		pushService.sendPush(tokenList, title, contents);
+		
+		if(tokenList != null) {
 			result.setResultCode("200");
-			result.setResultMessage("push Register success");
+			result.setResultMessage("Push Success");
 		} else {
 			result.setResultCode("400");
-			result.setResultMessage("push Register fail");
+			result.setResultMessage("Push Fail");
 		}
+	
 		return gson.toJson(result);
 	}
 }
