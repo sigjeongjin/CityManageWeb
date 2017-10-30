@@ -1,5 +1,18 @@
-.classpath
-.project
-.settings/
-.build/
-
+# Directories #
+/build/
+/bin/
+target/
+.idea
+classes/
+META-INF/
+  
+# OS Files #
+.DS_Store
+  
+*.class
+  
+# Package Files #
+*.jar
+*.war
+*.ear
+*.db
