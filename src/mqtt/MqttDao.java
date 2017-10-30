@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 import jdbc.JdbcUtil;
 
-public class MqttDao {
+public class MqttDao  {
 	
 	public int updateMqttStateInfoRegiste(Connection conn, String sensorInfo, String oneTopic) throws SQLException { 
 		// updateMqttStateInfoRegiste메소드의 입력값으로 conn,sensorInfo, oneTopic를 입력값으로 줌

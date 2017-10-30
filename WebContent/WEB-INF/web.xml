@@ -14,6 +14,10 @@
 	<listener>
     	<listener-class>jdbc.DBCPInitListener</listener-class>
 	</listener>
+	
+	<listener>
+    	<listener-class>mqtt.MqttMain</listener-class> 
+	</listener>
   
   	<!-- DATABASE value Setting -->
 	<context-param>
