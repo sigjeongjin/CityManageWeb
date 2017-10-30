@@ -147,6 +147,7 @@ public class SensorService {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 			sensorNoticeStandard = managementDao.selectByNoticeStandard(conn, sensorId);	
+			System.out.println("sensorNoticeStandard2 : " + sensorNoticeStandard);
 			conn.commit();		
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -158,9 +159,9 @@ public class SensorService {
 	}
 
 	/* 센서 이상 상태 변경 */
-	public int changeSensorStatus(String sensorId) {
+	public String changeSensorStatus(String sensorId) {
 		Connection conn = null;
-		 int sensorStatus = 0;
+		 String sensorStatus = null;
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);

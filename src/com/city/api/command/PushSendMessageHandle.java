@@ -53,44 +53,39 @@ public class PushSendMessageHandle implements CommandJsonHandler{
 		int sensorValueInt = Integer.parseInt(sensorValue);
 		int sensorNoticeStandardInt = Integer.parseInt(sensorNoticeStandard);
 		
-		/* 4. 값을 비교하여 sensor */
 		if(sensorValueInt > sensorNoticeStandardInt) {
 		
-			int sensorStatus = sensorService.changeSensorStatus(sensorId);
+			/* 5. 값을 비교하여 조건에 맞으면 sensorStatus N -> Y */
+			String sensorStatus = sensorService.changeSensorStatus(sensorId);
 			System.out.println("sensorI-In : " + sensorId);
 			System.out.println("sensorStatus-In : " + sensorStatus);
 			
-				if(sensorStatus==1) {
+				/* 6. PUSH 전송하기*/
+				if(sensorStatus=="Y") {
 					
+					System.out.println("sensorStatus change Success");
+					String title = "센서 이상";		// 센서에 종류에 따라 작성
+					String contents = "이상 하다고";	// 상태 내용에 따라 작성
+					System.out.println("title : " + title);
+					System.out.println("contenst : " + contents);
+					
+					ArrayList<String> tokenList = pushService.sendTokenList();
+					pushService.sendPush(tokenList, title, contents);
+					
+					if(tokenList != null) {
+						result.setResultCode("200");
+						result.setResultMessage("Push Success");
+					} else {
+						result.setResultCode("400");
+						result.setResultMessage("Push Fail");
+					}			
 				} else {
-					result.setResultCode("400");
-					result.setResultMessage("sensorStatus Fail");
+					System.out.println("sensorStatus change Fail");
 				}
-			
+				
 		} else {
 			return null;
 		}
-		
-		
-		
-//		/* title, contents는  Test 수질, 쓰레기통, 도시가스, 금연구역에 따라 달라짐 */
-//		
-//		String title = request.getParameter("title");
-//		String contents = request.getParameter("contents");
-//		System.out.println("title : " + title);
-//		System.out.println("contenst : " + contents);
-//		
-//		ArrayList<String> tokenList = pushService.sendTokenList();
-//		pushService.sendPush(tokenList, title, contents);
-//		
-//		if(tokenList != null) {
-//			result.setResultCode("200");
-//			result.setResultMessage("Push Success");
-//		} else {
-//			result.setResultCode("400");
-//			result.setResultMessage("Push Fail");
-//		}
-	
 		return gson.toJson(result);
 	}
 }

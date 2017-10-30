@@ -330,13 +330,17 @@ public class ManagementDao {
 		return sensorNoticeStandard;
 	}
 
-	public int updateBySensorStatus(Connection conn, String sensorId) {
+	public String updateBySensorStatus(Connection conn, String sensorId) {
 		PreparedStatement pstmt = null;
-		int sensorStaus = 0;
+		int resultCode = 0;
+		String sensorStaus = null;
 		try {
 			pstmt = conn.prepareStatement("update sensor_info set sensor_status ='Y' where sensor_id=?");
 			pstmt.setString(1, sensorId);
-			sensorStaus = pstmt.executeUpdate();
+			resultCode = pstmt.executeUpdate();
+			if (resultCode == 1) {
+				sensorStaus = "Y";
+			}
 		} catch (SQLException e) {
 			JdbcUtil.rollback(conn);
 			e.printStackTrace();
