@@ -33,7 +33,6 @@ public class SensorRegisterHandler implements CommandJsonHandler {
 
 		Result result = new Result();
 		String sensorInfo = req.getParameter("sensorInfo");
-		String sensorType = req.getParameter("sensorType");
 		String sensorId = req.getParameter("sensorId");
 
 		String resultCode = sensorRegisterService.sensorRegister(sensorId,sensorInfo);

@@ -34,7 +34,7 @@ public class OperationStatusRegisterHandler implements CommandJsonHandler {
 		String resultCode = sensorRegisterService.operationStatus(sensorId, operationStatus);
 		Result result = new Result();
 
-		result.setResultCode("200");
+		result.setResultCode(resultCode);
 		result.setResultMessage("저장되었습니다.");
 
 		Gson gson = new Gson();

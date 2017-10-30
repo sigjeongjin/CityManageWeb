@@ -31,6 +31,7 @@ public class AddressCityHandler implements CommandJsonHandler {
 		return this.processSubmit(request, response);
 	}
 
+	@SuppressWarnings("unchecked")
 	private JSONObject processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		List<CityAjaxJSON> addressCityList = new ArrayList<>();
