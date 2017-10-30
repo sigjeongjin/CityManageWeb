@@ -141,10 +141,10 @@ public class ManagementDao {
 		try {
 			if (StringUtils.isEmpty(selectBox)) {
 				pstmt = conn.prepareStatement("select lm.manage_id manageId, CONCAT((select city_name from address_city where city_code=lm.city_code),' ',(select state_name from address_state where state_code=lm.state_code)) locationName, "
-						+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='g') generous, "				
-						+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='s') stink, "
-						+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='fd') flameDetection, "
-						+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='l') lockStatus, "
+						+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='g') generous, "				
+						+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='s') stink, "
+						+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='fd') flameDetection, "
+						+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='l') lockStatus, "
 						+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
 						+ "CONCAT((latitude),', ',(longitude)) coordinate, memo "
 						+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id  order by lm.create_datetime desc limit ?, ?");
@@ -154,10 +154,10 @@ public class ManagementDao {
 			} else {		
 				if (selectBox.equals("all")) {
 					pstmt = conn.prepareStatement("select lm.manage_id manageId, CONCAT((select city_name from address_city where city_code=lm.city_code),' ',(select state_name from address_state where state_code=lm.state_code)) locationName, "
-							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='g') generous, "				
-							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='s') stink, "
-							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='fd') flameDetection, "
-							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='l') lockStatus, "
+							+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='g') generous, "				
+							+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='s') stink, "
+							+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='fd') flameDetection, "
+							+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='l') lockStatus, "
 							+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
 							+ "CONCAT((latitude),', ',(longitude)) coordinate, memo "
 							+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id order by lm.create_datetime desc limit ?, ?");
@@ -166,10 +166,10 @@ public class ManagementDao {
 					pstmt.setInt(3, size);
 				} else {
 					pstmt = conn.prepareStatement("select * from (select lm.manage_id manageId, CONCAT((select city_name from address_city where city_code=lm.city_code),' ',(select state_name from address_state where state_code=lm.state_code)) locationName, "
-							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='g') generous, "				
-							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='s') stink, "
-							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='fd') flameDetection, "
-							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='l') lockStatus, "
+							+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='g') generous, "				
+							+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='s') stink, "
+							+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='fd') flameDetection, "
+							+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='l') lockStatus, "
 							+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
 							+ "CONCAT((latitude),', ',(longitude)) coordinate, memo, create_datetime "
 							+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id)tbl_tm "
@@ -213,8 +213,8 @@ public class ManagementDao {
 		try {
 			if (StringUtils.isEmpty(selectBox)) {
 				pstmt = conn.prepareStatement("select lm.manage_id manageId, CONCAT((select city_name from address_city where city_code=lm.city_code),' ',(select state_name from address_state where state_code=lm.state_code)) locationName, "
-						+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='wq') waterQuality, "
-						+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='wl') waterLevel, "
+						+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='wq') waterQuality, "
+						+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='wl') waterLevel, "
 						+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
 						+ "CONCAT((latitude),', ',(longitude)) coordinate, memo "
 						+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id order by lm.create_datetime desc limit ?, ?");
@@ -224,8 +224,8 @@ public class ManagementDao {
 			} else {
 				if (selectBox.equals("all")) {
 					pstmt = conn.prepareStatement("select lm.manage_id manageId, CONCAT((select city_name from address_city where city_code=lm.city_code),' ',(select state_name from address_state where state_code=lm.state_code)) locationName, "
-							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='wq') waterQuality, "
-							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='wl') waterLevel, "
+							+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='wq') waterQuality, "
+							+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='wl') waterLevel, "
 							+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
 							+ "CONCAT((latitude),', ',(longitude)) coordinate, memo "
 							+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id order by lm.create_datetime desc limit ?, ?");
@@ -235,8 +235,8 @@ public class ManagementDao {
 				}
 				else {
 					pstmt = conn.prepareStatement("select * from (select lm.manage_id manageId, CONCAT((select city_name from address_city where city_code=lm.city_code),' ',(select state_name from address_state where state_code=lm.state_code)) locationName, "
-							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='wq') waterQuality, "
-							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='wl') waterLevel, "
+							+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='wq') waterQuality, "
+							+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='wl') waterLevel, "
 							+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
 							+ "CONCAT((latitude),', ',(latitude)) coordinate, memo, create_time "
 							+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id)tbl_wm "
@@ -277,8 +277,8 @@ public class ManagementDao {
 		try {
 			if (StringUtils.isEmpty(selectBox)) {
 				pstmt = conn.prepareStatement("select lm.manage_id manageId, CONCAT((select city_name from address_city where city_code=lm.city_code),' ',(select state_name from address_state where state_code=lm.state_code)) locationName, "
-						+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='gd') gasDensity, "
-						+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='sd') shockDetection, "
+						+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='gd') gasDensity, "
+						+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='sd') shockDetection, "
 						+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
 						+ "CONCAT((latitude),', ',(longitude)) coordinate, memo "
 						+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id order by lm.create_datetime desc limit ?, ?");
@@ -288,8 +288,8 @@ public class ManagementDao {
 			} else {
 				if (selectBox.equals("all")) {
 					pstmt = conn.prepareStatement("select lm.manage_id manageId, CONCAT((select city_name from address_city where city_code=lm.city_code),' ',(select state_name from address_state where state_code=lm.state_code)) locationName, "
-							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='gd') gasDensity, "
-							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='sd') shockDetection, "
+							+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='gd') gasDensity, "
+							+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='sd') shockDetection, "
 							+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
 							+ "CONCAT((latitude),', ',(longitude)) coordinate, memo "
 							+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id order by lm.create_datetime desc limit ?, ?");
@@ -299,8 +299,8 @@ public class ManagementDao {
 				}
 				else {
 					pstmt = conn.prepareStatement("select * from (select lm.manage_id manageId, CONCAT((select city_name from address_city where city_code=lm.city_code),' ',(select state_name from address_state where state_code=lm.state_code)) locationName, "
-							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='gd') gasDensity, "
-							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='sd') shockDetection, "
+							+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='gd') gasDensity, "
+							+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='sd') shockDetection, "
 							+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
 							+ "CONCAT((latitude),', ',(latitude)) coordinate, memo, create_time "
 							+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id)tbl_gm "
@@ -342,8 +342,8 @@ public class ManagementDao {
 		try {
 			if (StringUtils.isEmpty(selectBox)) {
 				pstmt = conn.prepareStatement("select lm.manage_id manageId, CONCAT((select city_name from address_city where city_code=lm.city_code),' ',(select state_name from address_state where state_code=lm.state_code)) locationName, "
-						+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='fd') flameDetection, "
-						+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='sd') smokeDetection, "
+						+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='fd') flameDetection, "
+						+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='sd') smokeDetection, "
 						+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
 						+ "CONCAT((latitude),', ',(longitude)) coordinate, memo "
 						+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id order by lm.create_datetime desc limit ?, ?");
@@ -353,8 +353,8 @@ public class ManagementDao {
 			} else {
 				if (selectBox.equals("all")) {
 					pstmt = conn.prepareStatement("select lm.manage_id manageId, CONCAT((select city_name from address_city where city_code=lm.city_code),' ',(select state_name from address_state where state_code=lm.state_code)) locationName, "
-							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='fd') flameDetection, "
-							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='sd') smokeDetection, "
+							+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='fd') flameDetection, "
+							+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='sd') smokeDetection, "
 							+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
 							+ "CONCAT((latitude),', ',(longitude)) coordinate, memo "
 							+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id order by lm.create_datetime desc limit ?, ?");
@@ -364,8 +364,8 @@ public class ManagementDao {
 				}
 				else {
 					pstmt = conn.prepareStatement("select * from (select lm.manage_id manageId, CONCAT((select city_name from address_city where city_code=lm.city_code),' ',(select state_name from address_state where state_code=lm.state_code)) locationName, "
-							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='fd') flameDetection, "
-							+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='sd') smokeDetection, "
+							+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='fd') flameDetection, "
+							+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='sd') smokeDetection, "
 							+ "case lm.operation_status when 'Y' then '동작' when 'N' then '동작안함' end operationStatus, "
 							+ "CONCAT((latitude),', ',(longitude)) coordinate, memo "
 							+ "from location_management lm where lm.manage_type= ? and manage_id=lm.manage_id)tbl_sm "
@@ -453,20 +453,20 @@ public class ManagementDao {
 	public String selectCountQuery(String manageType) {
 		String query = "";
 		if (manageType.equals("tm")) {
-			query = "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='g') generous, "				
-					+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='s') stink, "
-					+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='fd') flameDetection, "
-					+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='l') lockStatus, ";
+			query = "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='g') generous, "				
+					+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='s') stink, "
+					+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='fd') flameDetection, "
+					+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='l') lockStatus, ";
 		} else if (manageType.equals("wm")){
-			query =	"(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='wq') waterQuality, "
-					+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='wl') waterLevel, ";
+			query =	"(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='wq') waterQuality, "
+					+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='wl') waterLevel, ";
 		} else if (manageType.equals("gm")){
-			query = "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='gd') gasDensity, "
-					+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='sd') shockDetection, ";
+			query = "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='gd') gasDensity, "
+					+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='sd') shockDetection, ";
 			
 		} else if (manageType.equals("sm")){
-			query = "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='fd') flameDetection, "
-					+ "(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='sd') smokeDetection, ";
+			query = "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='fd') flameDetection, "
+					+ "(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=lm.manage_id and sensor_type='sd') smokeDetection, ";
 		}
 		return query;
 	}

@@ -178,4 +178,8 @@ ALTER TABLE `citymanage`.`push_info`
 DROP PRIMARY KEY,
 ADD PRIMARY KEY (`member_id`);
 
+-- 2017.10.30 colum 변경
+ALTER TABLE `citymanage`.`sensor_info` 
+CHANGE COLUMN `sensor_info` `sensor_status` VARCHAR(1) NOT NULL DEFAULT 'N' COMMENT 'Y:이상 상태 , N :정상 상태' ;
+
 

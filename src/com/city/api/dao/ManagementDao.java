@@ -25,7 +25,7 @@ public class ManagementDao {
 		
 		try {
 		
-			pstmt = conn.prepareStatement("update sensor_info set sensor_info=? where sensor_id=?");
+			pstmt = conn.prepareStatement("update sensor_info set sensor_status=? where sensor_id=?");
 			pstmt.setString(1, senssorInfo);
 			pstmt.setString(2, sensorId);
 
@@ -48,7 +48,7 @@ public class ManagementDao {
 		//String Resultcode = "200";
 		try {
 			
-			pstmt = conn.prepareStatement("update sensor_info set sensor_info=? where operation_status=?");
+			pstmt = conn.prepareStatement("update sensor_info set sensor_status=? where operation_status=?");
 			pstmt.setString(1, sensorId);
 			pstmt.setString(2, operationStatus);
 
@@ -140,8 +140,8 @@ public class ManagementDao {
 		WmResultInfo wmResultInfo = new WmResultInfo();
 		try {
 			pstmt = conn.prepareStatement(this.commonQuery(
-				"(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='wq') waterQuality, "
-				+"(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='wl') waterLevel, "
+				"(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='wq') waterQuality, "
+				+"(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='wl') waterLevel, "
 				,"wm"));
 			pstmt.setString(1, manageId);
 			pstmt.setString(2, manageId);
@@ -181,10 +181,10 @@ public class ManagementDao {
 		TmResultInfo tmResultInfo = new TmResultInfo();
 		try {
 			pstmt = conn.prepareStatement(this.commonQuery(
-				"(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='fd') flameDetection, "
-				+"(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='s') stink, "
-				+"(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='g') generous, "
-				+"(select case sensor_info when 'Y' then '잠김' when 'N' then '열림' end from sensor_info where manage_id=? and sensor_type='l') lockStatus, "
+				"(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='fd') flameDetection, "
+				+"(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='s') stink, "
+				+"(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='g') generous, "
+				+"(select case sensor_status when 'Y' then '잠김' when 'N' then '열림' end from sensor_info where manage_id=? and sensor_type='l') lockStatus, "
 				,"tm"));
 			pstmt.setString(1, manageId);
 			pstmt.setString(2, manageId);
@@ -228,8 +228,8 @@ public class ManagementDao {
 		GmResultInfo gmResultInfo = new GmResultInfo();
 		try {
 			pstmt = conn.prepareStatement(this.commonQuery(
-				"(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='gd') gasDensity, "
-				+"(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='sd') shockDetection, "
+				"(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='gd') gasDensity, "
+				+"(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='sd') shockDetection, "
 				,"gm"));
 			pstmt.setString(1, manageId);
 			pstmt.setString(2, manageId);
@@ -267,8 +267,8 @@ public class ManagementDao {
 		SmResultInfo smResultInfo = new SmResultInfo();
 		try {
 			pstmt = conn.prepareStatement(this.commonQuery(
-					"(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='fd') flameDetection, "
-							+"(select case sensor_info when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='sm') smokeDetection, "
+							"(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='fd') flameDetection, "
+							+"(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='sm') smokeDetection, "
 							,"sm"));
 				
 			pstmt.setString(1, manageId);

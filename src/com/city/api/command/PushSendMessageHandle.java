@@ -39,13 +39,18 @@ public class PushSendMessageHandle implements CommandJsonHandler{
 		Gson gson = new Gson();
 		Result result = new Result();
 		
-		/* Topic으로 sensorId:sensorValue
-		/* title, contents는  Test*/
+		/* Topic으로 sensorId:sensorValue */
+		String sensorId = request.getParameter("sensorId");
+		String sensorValue  = request.getParameter("sensorValue");
+		/* Topic으로 sensorId:sensorValue */
+		
+		
+		/* title, contents는  Test 수질, 쓰레기통, 도시가스, 금연구역에 따라 달라짐 */
 		
 		String title = request.getParameter("title");
 		String contents = request.getParameter("contents");
-		System.out.println("main : " + title);
-		System.out.println("content : " + contents);
+		System.out.println("title : " + title);
+		System.out.println("contenst : " + contents);
 		
 		ArrayList<String> tokenList = pushService.sendTokenList();
 		pushService.sendPush(tokenList, title, contents);
