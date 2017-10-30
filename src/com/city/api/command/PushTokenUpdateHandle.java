@@ -9,7 +9,7 @@ import com.city.model.PushInfo;
 import com.city.model.Result;
 import com.google.gson.Gson;
 
-public class PushTokenRegisterHandler implements CommandJsonHandler{
+public class PushTokenUpdateHandle implements CommandJsonHandler{
 
 	private PushService pushService = new PushService();
 	private MemberManageService memberManageService = new MemberManageService();
@@ -43,20 +43,20 @@ public class PushTokenRegisterHandler implements CommandJsonHandler{
 		// Android에서 pushToken, memberId 가져옴
 		String memberId = request.getParameter("memberId");
 		//memberId로 조회하여 memberPhone가져옴
-		String memberPhone = memberManageService.memberPhoneSelect(memberId); 
+		String memberPhone = memberManageService.memberPhoneSelect(memberId);
 		
 		PushInfo pushInfo = new PushInfo();
 		pushInfo.setPushToken(request.getParameter("pushToken"));
 		pushInfo.setMemberId(request.getParameter("memberId"));
 		pushInfo.setMemberPhone(memberPhone);
 		
-		String pushRegister = pushService.pushTokenRegister(pushInfo);
+		String pushRegister = pushService.pushTokenUpdate(pushInfo);
 		if (pushRegister == "Y") {
 			result.setResultCode("200");
-			result.setResultMessage("push Register success");
+			result.setResultMessage("push update success");
 		} else {
 			result.setResultCode("400");
-			result.setResultMessage("push Register fail");
+			result.setResultMessage("push update fail");
 		}
 		return gson.toJson(result);
 	}

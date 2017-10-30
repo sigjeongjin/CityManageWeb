@@ -10,12 +10,13 @@ import jdbc.JdbcUtil;
 import jdbc.connection.ConnectionProvider;
 
 /* 
- *  memberLogin	       	로그인 			mL
- *  memberIdCheck  		아이디 조회		mIC
- *  memberRegister 		회원가입 			mR
- *  memberPwdConfirm	맴버 비밀번호 확인 	mPC
- * 	memberPwdChange		맴버 비밀번호 변경 	mPC
- * 	memberPhotoChange	맴버 사진 변경 		mPC
+ *  memberLogin	       	로그인 				mL
+ *  memberIdCheck  		아이디 조회			mIC
+ *  memberRegister 		회원가입 				mR
+ *  memberPwdConfirm	맴버 비밀번호 확인 		mPC
+ * 	memberPwdChange		맴버 비밀번호 변경 		mPC
+ * 	memberPhotoChange	맴버 사진 변경 			mPC
+ * 	memberPhone			맴버 휴대폰 번호 가져오기 	mPC
  */
 
 public class MemberManageService {
@@ -194,5 +195,31 @@ public class MemberManageService {
 			JdbcUtil.close(conn);
 		}
 			return null;
+	}
+
+	public String memberPhoneSelect(String memberId) {
+		Connection conn = null;
+		String mP = "";
+
+		try {
+			conn = ConnectionProvider.getConnection();
+			conn.setAutoCommit(false);
+
+			String memberPhone = memberDao.selectPhone(conn, memberId);
+			conn.commit();
+
+			if (memberPhone != null) {
+				return memberPhone;
+			} else {
+				mP = "N";
+				return mP;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+		return null;
 	}
 }

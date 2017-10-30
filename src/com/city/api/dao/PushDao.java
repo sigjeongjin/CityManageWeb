@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.city.model.PushInfo;
 import com.city.model.PushResultInfo;
 
 import jdbc.JdbcUtil;
@@ -54,7 +55,14 @@ public class PushDao {
 		}
 	}
 
-	public int insertPushToken(Connection conn, String pushToken) {
+	/**
+	 * @param conn
+	 * @param PushInfo
+	 * @return
+	 * @throws SQLException
+	 */
+	/* 토큰이 새로 생성될 때 토큰을 업데이트 */
+	public int insertPushToken(Connection conn, PushInfo pushInfo) {
 		PreparedStatement pstmt = null;
 		int resultCode = 0;
 		
@@ -62,12 +70,12 @@ public class PushDao {
 			pstmt = conn.prepareStatement("insert into push_info "
 					+ "(push_token, member_id, member_phone) "
 					+ "values (?, ?, ?)");
-			pstmt.setString(1, pushToken);
-			pstmt.setString(2, "");
-			pstmt.setString(3, "");
+			pstmt.setString(1, pushInfo.getPushToken());
+			pstmt.setString(2, pushInfo.getMemberId());
+			pstmt.setString(3, pushInfo.getMemberPhone());
+			
 			resultCode = pstmt.executeUpdate();
 			
-			return resultCode;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);
@@ -75,5 +83,63 @@ public class PushDao {
 			JdbcUtil.close(pstmt);
 		}
 		return resultCode;
+	}
+
+	/**
+	 * @param conn
+	 * @param PushInfo
+	 * @return
+	 * @throws SQLException
+	 */
+	/* 토큰이 새로 생성될 때 토큰을 업데이트 */
+	public int updatePushToken(Connection conn, PushInfo pushInfo) {
+		PreparedStatement pstmt = null;
+		int resultCode = 0;
+		
+		try {
+			pstmt = conn.prepareStatement("update push_info "
+					+ "set push_token=?, member_phone=? where member_id=?");
+			pstmt.setString(1, pushInfo.getPushToken());
+			pstmt.setString(2, pushInfo.getMemberPhone());
+			pstmt.setString(3, pushInfo.getMemberId());
+			
+			resultCode = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		}finally {
+			JdbcUtil.close(pstmt);
+		}
+		return resultCode;
+	}
+
+	/* 조건에 따른 토큰 리스트 생성 */
+	/* 조건 */
+	public ArrayList<String> selectPushList(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		ArrayList<String> pushList = new ArrayList<>();
+		
+		try {
+			pstmt = conn.prepareStatement("select push_token from push_info");
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				pushList.add(rs.getString(1));
+			}
+			
+			return pushList;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+		}
+			return pushList;
 	}
 }

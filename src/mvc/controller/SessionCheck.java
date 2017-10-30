@@ -50,6 +50,9 @@ public class SessionCheck implements Filter {
 		noFilterUrl.add("/memberPwdChange.app");
 		noFilterUrl.add("/memberProfileImageChange.app");
 		noFilterUrl.add("/pushHistoryList.app");
+		noFilterUrl.add("/pushTokenRegister.app");
+		noFilterUrl.add("/pushTokenUpdate.app");
+		noFilterUrl.add("/pushSendMessage.app");
 		noFilterUrl.add("/sensorList.app");
 		noFilterUrl.add("/stateSearchSensorList.app");
 		noFilterUrl.add("/favoritesWhether.app");
@@ -99,7 +102,7 @@ public class SessionCheck implements Filter {
 			if(!isResourcePath) {
 				HttpSession session = req.getSession();
 				
-				//session userId
+				// session userId
 				// session userName
 				
 				String memberId = (String)session.getAttribute("userId");
