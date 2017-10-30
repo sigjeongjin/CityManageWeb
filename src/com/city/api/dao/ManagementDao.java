@@ -304,4 +304,29 @@ public class ManagementDao {
 		sb.append(manageType+ "'");
 		return sb.toString();
 	}
+
+	// 센서아이디로 센서 알림 기준값 가져오기
+	public String selectByNoticeStandard(Connection conn, String sensorId) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sensorNoticeStandard = null;
+		
+		try {
+			
+			pstmt = conn.prepareStatement("select sensor_notice_standard from sensor_info where sensor_id=?");
+			pstmt.setString(1, sensorId);
+			rs = pstmt.executeQuery();
+		
+			while(rs.next()) {
+				sensorNoticeStandard = rs.getString("sensor_notice_standard");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(rs);	
+			JdbcUtil.close(pstmt);		
+		}
+		return sensorNoticeStandard;
+	}
 }

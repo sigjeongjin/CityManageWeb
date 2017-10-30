@@ -61,7 +61,7 @@ public class PushDao {
 	 * @return
 	 * @throws SQLException
 	 */
-	/* 토큰이 새로 생성될 때 토큰을 업데이트 */
+	/* 로그인 시 pushToken 저장 */
 	public int insertPushToken(Connection conn, PushInfo pushInfo) {
 		PreparedStatement pstmt = null;
 		int resultCode = 0;

@@ -150,4 +150,23 @@ public class SensorService {
 		}
 		return smResultInfo;
 	}
+
+	public String readNoticeStandard(String sensorId) {
+		Connection conn = null;
+		String sensorNoticeStandard = null;
+		try {
+			conn = ConnectionProvider.getConnection();
+			conn.setAutoCommit(false);
+			
+			sensorNoticeStandard = managementDao.selectByNoticeStandard(conn, sensorId);	
+			conn.commit();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+		return sensorNoticeStandard;
+	}
 }

@@ -6,12 +6,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.city.api.service.PushService;
+import com.city.api.service.SensorService;
 import com.city.model.Result;
 import com.google.gson.Gson;
 
 public class PushSendMessageHandle implements CommandJsonHandler{
 
 	private PushService pushService = new PushService();
+	private SensorService sensorService = new SensorService();
 	
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		if (request.getMethod().equalsIgnoreCase("GET")) {
@@ -29,8 +31,8 @@ public class PushSendMessageHandle implements CommandJsonHandler{
 	}
 
 	/**
-	 * @param main
-	 * @param message
+	 * @param title
+	 * @param contents
 	 * @return
 	 * @throws Exception
 	 */
@@ -39,29 +41,33 @@ public class PushSendMessageHandle implements CommandJsonHandler{
 		Gson gson = new Gson();
 		Result result = new Result();
 		
-		/* Topic으로 sensorId:sensorValue */
+		/* 1. Topic으로 sensorId:sensorValue */
 		String sensorId = request.getParameter("sensorId");
 		String sensorValue  = request.getParameter("sensorValue");
-		/* Topic으로 sensorId:sensorValue */
+		/* 2. select문으로 sensorId를 통해 해당 sensorNoticeStandard 값 가져오기 */
+		String sensorNoticeStandard = sensorService.readNoticeStandard(sensorId);
+		System.out.println("sensorNoticeStandard : " + sensorNoticeStandard);
+		/*Topic으로 sensorId:sensorValue */
 		
 		
-		/* title, contents는  Test 수질, 쓰레기통, 도시가스, 금연구역에 따라 달라짐 */
 		
-		String title = request.getParameter("title");
-		String contents = request.getParameter("contents");
-		System.out.println("title : " + title);
-		System.out.println("contenst : " + contents);
-		
-		ArrayList<String> tokenList = pushService.sendTokenList();
-		pushService.sendPush(tokenList, title, contents);
-		
-		if(tokenList != null) {
-			result.setResultCode("200");
-			result.setResultMessage("Push Success");
-		} else {
-			result.setResultCode("400");
-			result.setResultMessage("Push Fail");
-		}
+//		/* title, contents는  Test 수질, 쓰레기통, 도시가스, 금연구역에 따라 달라짐 */
+//		
+//		String title = request.getParameter("title");
+//		String contents = request.getParameter("contents");
+//		System.out.println("title : " + title);
+//		System.out.println("contenst : " + contents);
+//		
+//		ArrayList<String> tokenList = pushService.sendTokenList();
+//		pushService.sendPush(tokenList, title, contents);
+//		
+//		if(tokenList != null) {
+//			result.setResultCode("200");
+//			result.setResultMessage("Push Success");
+//		} else {
+//			result.setResultCode("400");
+//			result.setResultMessage("Push Fail");
+//		}
 	
 		return gson.toJson(result);
 	}
