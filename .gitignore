@@ -6,6 +6,7 @@ target/
 classes/
 META-INF/
 .settings/
+build/classes/
   
 # OS Files #
 .DS_Store
