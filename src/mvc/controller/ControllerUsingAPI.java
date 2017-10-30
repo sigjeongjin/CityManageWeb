@@ -18,6 +18,11 @@ import com.city.api.command.CommandJsonHandler;
 
 public class ControllerUsingAPI extends HttpServlet {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private Map<String, CommandJsonHandler> commandHandlerMap = new HashMap<>();
 	
 	public void init() throws ServletException {
@@ -29,6 +34,7 @@ public class ControllerUsingAPI extends HttpServlet {
 		} catch (IOException e) {
 			throw new ServletException(e);
 		}
+		
 		Iterator keylter = prop.keySet().iterator(); // key로 이루워진 iterator를 반환
 		while (keylter.hasNext()) {
 			String command  = (String) keylter.next(); // key 값을 가져옴
