@@ -15,6 +15,7 @@
     	<listener-class>jdbc.DBCPInitListener</listener-class>
 	</listener>
 	
+	<!-- MQTT Client Setting -->
 	<listener>
     	<listener-class>mqtt.MqttMain</listener-class> 
 	</listener>
