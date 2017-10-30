@@ -72,7 +72,7 @@ pageEncoding = "UTF-8"%>
 				options.append("<option value=" + manageSensorTypes[i] + ">" + "불꽃감지센서" +"</option>");
 			}
 			else if (manageSensorTypes[i]==="l") {
-				options.append("<option value=" + manageSensorTypes[i] + ">" + "짐금" +"</option>");
+				options.append("<option value=" + manageSensorTypes[i] + ">" + "잠금" +"</option>");
 			}
 			// 수질 관리
 			else if (manageSensorTypes[i]==="wq") {
