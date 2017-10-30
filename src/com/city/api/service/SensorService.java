@@ -28,10 +28,8 @@ public class SensorService {
 		try {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
-
 			sensorRsultInfoList = managementDao.selectSensorListByMemberIdAndManageType(conn, memberId, manageType);
 			conn.commit();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("등록에 실패했습니다.");
@@ -48,11 +46,9 @@ public class SensorService {
 		try {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
-
 			sensorRsultInfoList = managementDao.selectSensorListByMemberIdAndManageTypeAndSearchText(conn, memberId,
 					manageType, searchText);
 			conn.commit();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("센서 검색에 실패했습니다.");
@@ -71,10 +67,8 @@ public class SensorService {
 		try {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
-
 			wmResultInfo = managementDao.selectWmInfobyManageId(conn, manageId, memberId);
 			conn.commit();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("센서 검색에 실패했습니다.");
@@ -93,10 +87,8 @@ public class SensorService {
 		try {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
-
 			tmResultInfo = managementDao.selectTmInfobyManageId(conn, manageId, memberId);
 			conn.commit();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("센서 검색에 실패했습니다.");
@@ -115,10 +107,8 @@ public class SensorService {
 		try {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
-
 			gmResultInfo = managementDao.selectGmInfobyManageId(conn, manageId);
 			conn.commit();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("센서 검색에 실패했습니다.");
@@ -137,10 +127,8 @@ public class SensorService {
 		try {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
-
 			smResultInfo = managementDao.selectSmInfobyManageId(conn, manageId);
 			conn.commit();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("센서 검색에 실패했습니다.");
@@ -151,16 +139,15 @@ public class SensorService {
 		return smResultInfo;
 	}
 
+	/* 센서 알림 값 가져오기*/
 	public String readNoticeStandard(String sensorId) {
 		Connection conn = null;
 		String sensorNoticeStandard = null;
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
-			
 			sensorNoticeStandard = managementDao.selectByNoticeStandard(conn, sensorId);	
-			conn.commit();
-			
+			conn.commit();		
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);
@@ -168,5 +155,23 @@ public class SensorService {
 			JdbcUtil.close(conn);
 		}
 		return sensorNoticeStandard;
+	}
+
+	/* 센서 이상 상태 변경 */
+	public int changeSensorStatus(String sensorId) {
+		Connection conn = null;
+		 int sensorStatus = 0;
+		try {
+			conn = ConnectionProvider.getConnection();
+			conn.setAutoCommit(false);
+			sensorStatus = managementDao.updateBySensorStatus(conn, sensorId);	
+			conn.commit();				
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+		return sensorStatus;
 	}
 }

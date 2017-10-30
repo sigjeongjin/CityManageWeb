@@ -329,4 +329,20 @@ public class ManagementDao {
 		}
 		return sensorNoticeStandard;
 	}
+
+	public int updateBySensorStatus(Connection conn, String sensorId) {
+		PreparedStatement pstmt = null;
+		int sensorStaus = 0;
+		try {
+			pstmt = conn.prepareStatement("update sensor_info set sensor_status ='Y' where sensor_id=?");
+			pstmt.setString(1, sensorId);
+			sensorStaus = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			JdbcUtil.rollback(conn);
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(pstmt);
+		}
+		return sensorStaus;
+	}
 }

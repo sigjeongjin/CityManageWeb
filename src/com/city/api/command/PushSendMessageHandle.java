@@ -44,10 +44,32 @@ public class PushSendMessageHandle implements CommandJsonHandler{
 		/* 1. Topic으로 sensorId:sensorValue */
 		String sensorId = request.getParameter("sensorId");
 		String sensorValue  = request.getParameter("sensorValue");
+		
 		/* 2. select문으로 sensorId를 통해 해당 sensorNoticeStandard 값 가져오기 */
 		String sensorNoticeStandard = sensorService.readNoticeStandard(sensorId);
 		System.out.println("sensorNoticeStandard : " + sensorNoticeStandard);
-		/*Topic으로 sensorId:sensorValue */
+		
+		/* 3. sensorNoticeStandard와  sensorValue 비교 (String to Integer) */
+		int sensorValueInt = Integer.parseInt(sensorValue);
+		int sensorNoticeStandardInt = Integer.parseInt(sensorNoticeStandard);
+		
+		/* 4. 값을 비교하여 sensor */
+		if(sensorValueInt > sensorNoticeStandardInt) {
+		
+			int sensorStatus = sensorService.changeSensorStatus(sensorId);
+			System.out.println("sensorI-In : " + sensorId);
+			System.out.println("sensorStatus-In : " + sensorStatus);
+			
+				if(sensorStatus==1) {
+					
+				} else {
+					result.setResultCode("400");
+					result.setResultMessage("sensorStatus Fail");
+				}
+			
+		} else {
+			return null;
+		}
 		
 		
 		
