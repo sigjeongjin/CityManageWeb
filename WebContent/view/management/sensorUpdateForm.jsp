@@ -80,7 +80,7 @@ if (sensorTypes != null && sensorTypes != "") {
 			options.append("<option value=" + sensorArray[i] + ">" + "불꽃감지센서" +"</option>");
 		}
 		if (sensorArray[i]==="lr") {
-			options.append("<option value=" + sensorArray[i] + ">" + "짐금" +"</option>");
+			options.append("<option value=" + sensorArray[i] + ">" + "잠금" +"</option>");
 		}
 		// 수질 관리
 		if (sensorArray[i]==="wq") {

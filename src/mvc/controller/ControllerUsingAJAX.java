@@ -20,6 +20,8 @@ import com.city.ajax.command.CommandJsonHandler;
 
 public class ControllerUsingAJAX extends HttpServlet {
 	
+	private static final long serialVersionUID = 1L;
+	
 	private Map<String, CommandJsonHandler> commandHandlerMap = new HashMap<>();
 	
 	public void init() throws ServletException {

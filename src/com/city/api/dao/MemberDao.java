@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.city.model.City;
 import com.city.model.Member;
+import com.city.model.MemberAPI;
 import com.city.model.State;
 
 import jdbc.JdbcUtil;
@@ -17,14 +18,14 @@ import jdbc.JdbcUtil;
 public class MemberDao {
 
 	// 로그인
-	public String selectByIdAndPwd(Connection conn, String memberId, String memberPwd) throws SQLException {
+	public MemberAPI selectByIdAndPwd(Connection conn, String memberId, String memberPwd) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String resultCode = null;
+		MemberAPI member = new MemberAPI();
 		
 		try {
 			pstmt = conn
-					.prepareStatement("select member_id, member_pwd, member_photo_original from member "
+					.prepareStatement("select member_id, member_name, member_photo_original from member "
 							+ "where member_id=? and member_pwd=? "
 							+ "and member_authorization='app_user'"
 							+ "and member_delete_code='N'");
@@ -33,8 +34,9 @@ public class MemberDao {
 			
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				resultCode = "200";
-				return resultCode;
+				member.setMemberId(rs.getString("member_id"));
+				member.setMemberName(rs.getString("member_name"));
+				member.setMemberPhotoOriginal(rs.getString("member_photo_original"));
 			} 					
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -42,7 +44,7 @@ public class MemberDao {
 		}finally {
 			JdbcUtil.close(pstmt);
 		}
-		return resultCode;
+		return member;
 	}
 	
 	// 아이디 조회

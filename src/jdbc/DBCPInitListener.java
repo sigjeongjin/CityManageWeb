@@ -17,8 +17,6 @@ import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
 public class DBCPInitListener implements ServletContextListener {
-	private static final long serialVersionUID = 1L;
-
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		String poolConfig = sce.getServletContext().getInitParameter("poolConfig");

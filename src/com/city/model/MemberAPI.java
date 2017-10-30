@@ -7,11 +7,20 @@ public class MemberAPI extends Result{
 	private String memberPhone;	
 	private String memberEmail;
 	private String memberPhoto;
+	private String memberPhotoOriginal;
 	private String memberAuthorization;
 	private String memberDeleteCode;
 	private String cityCode;
 	private String stateCode;
 	
+	public String getMemberPhotoOriginal() {
+		return memberPhotoOriginal;
+	}
+
+	public void setMemberPhotoOriginal(String memberPhotoOriginal) {
+		this.memberPhotoOriginal = memberPhotoOriginal;
+	}
+
 	public String getMemberId() {
 		return memberId;
 	}

@@ -3,8 +3,9 @@ package com.city.api.service;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import com.city.model.Member;
 import com.city.api.dao.MemberDao;
+import com.city.model.Member;
+import com.city.model.MemberAPI;
 
 import jdbc.JdbcUtil;
 import jdbc.connection.ConnectionProvider;
@@ -24,8 +25,9 @@ public class MemberManageService {
 	private MemberDao memberDao = new MemberDao();
 
 	// memberLogin 로그인 mL
-	public String memberLogin(String memberId, String memberPwd) {
+	public MemberAPI memberLogin(String memberId, String memberPwd) {
 
+		MemberAPI member = new MemberAPI();
 		Connection conn = null;
 		String mL = "";
 
@@ -33,23 +35,14 @@ public class MemberManageService {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 
-			String resultCode = memberDao.selectByIdAndPwd(conn, memberId, memberPwd);
-
-			if (resultCode == "200") {
-				mL = "Y";
-				return mL;
-			} else {
-				mL = "N";
-				return mL;
-			}
-
+			member = memberDao.selectByIdAndPwd(conn, memberId, memberPwd);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);
 		} finally {
 			JdbcUtil.close(conn);
 		}
-		return null;
+		return member;
 	}
 
 	// memberLogin 아이디 조회 mIC

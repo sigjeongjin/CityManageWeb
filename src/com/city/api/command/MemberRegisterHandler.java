@@ -58,7 +58,7 @@ public class MemberRegisterHandler implements CommandJsonHandler {
 			member.setMemberEmail(multi.getParameter("memberEmail"));
 			member.setMemberPhoto(multi.getParameter("memberPhoto"));
 			member.setMemberAuthorization("app_user");
-			member.setMemberPhotoOriginal(dbSaveFolder + "\\" + saveFolder + "\\" + multi.getParameter("memberPhoto"));
+			member.setMemberPhotoOriginal(dbSaveFolder + "/" + saveFolder + "/" + multi.getParameter("memberPhoto"));
 								
 			String mR = memberManageService.memberRegister(member);
 			if (mR == "Y") {
