@@ -192,4 +192,22 @@ public class SensorService {
 		}
 		return sensorStatus;
 	}
+
+	/* 센서 종류 가져오기*/
+	public String readSensorType(String sensorId) {
+		Connection conn = null;
+		String sensorType = null;
+		try {
+			conn = ConnectionProvider.getConnection();
+			conn.setAutoCommit(false);
+			sensorType = managementDao.selectBySensorType(conn, sensorId);	
+			conn.commit();		
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+		return sensorType;
+	}
 }

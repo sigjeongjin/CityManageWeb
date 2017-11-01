@@ -56,7 +56,7 @@ public class PushSendMessageHandle implements CommandJsonHandler{
 		if(sensorValueInt > sensorNoticeStandardInt) {
 		
 			/* 5. 값을 비교하여 조건에 맞으면 sensorStatus N -> Y */
-			String sensorStatus = sensorService.changeSensorStatus(sensorId);
+			String sensorStatus = sensorService.SensorStatuschangeY(sensorId);
 			System.out.println("sensorI-In : " + sensorId);
 			System.out.println("sensorStatus-In : " + sensorStatus);
 			

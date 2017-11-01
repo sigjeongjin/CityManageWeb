@@ -369,4 +369,28 @@ public class ManagementDao {
 		}
 		return sensorStaus;
 	}
+
+	public String selectBySensorType(Connection conn, String sensorId) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sensorType = null;
+		
+		try {
+			
+			pstmt = conn.prepareStatement("select sensor_type from sensor_info where sensor_id=?");
+			pstmt.setString(1, sensorId);
+			rs = pstmt.executeQuery();
+		
+			while(rs.next()) {
+				sensorType = rs.getString("sensor_type");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(rs);	
+			JdbcUtil.close(pstmt);		
+		}
+		return sensorType;
+	}
 }
