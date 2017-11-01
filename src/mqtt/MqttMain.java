@@ -21,7 +21,7 @@ public class MqttMain implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
 		// TODO Auto-generated method stub
-		final String MQTT_BROKER_IP = "tcp://192.168.0.155:1883";
+		final String MQTT_BROKER_IP = "tcp://192.168.0.18:1883";
 		// 연결
 		try
 		{
@@ -47,7 +47,7 @@ public class MqttMain implements ServletContextListener {
 				}
 
 			});
-			client.subscribe("outTopic", 1); // 구독
+			client.subscribe("sensorId/sensorValue", 2); // 구독
 			// sub 구독 , pub 보내기
 			//
 

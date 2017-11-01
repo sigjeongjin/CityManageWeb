@@ -17,7 +17,7 @@
 	
 	<!-- MQTT Client Setting -->
 	<listener>
-    	<listener-class>mqtt.MqttMain</listener-class> 
+    	<listener-class>com.city.mqtt.TmMqtt</listener-class> 
 	</listener>
   
   	<!-- DATABASE value Setting -->
@@ -39,7 +39,15 @@
   		</param-value>
 	</context-param>
 	
-		<!-- character Setting -->
+	<!-- MQTT value Setting -->
+		<context-param>
+    	<param-name>mqttConfig</param-name>
+    	<param-value>
+  			mqttBrokerServer=tcp://192.168.0.155:1883
+  		</param-value>
+	</context-param>
+	
+	<!-- character Setting -->
 	<filter>
 	<filter-name>encodingFilter</filter-name>
 	<filter-class>util.CharacterEncodingFilter</filter-class>
