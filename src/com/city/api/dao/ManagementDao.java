@@ -330,16 +330,17 @@ public class ManagementDao {
 		return sensorNoticeStandard;
 	}
 
-	public String updateBySensorStatusY(Connection conn, String sensorId) {
+	public String updateBySensorStatus(Connection conn, String sensorId, String Status) {
 		PreparedStatement pstmt = null;
 		int resultCode = 0;
 		String sensorStaus = null;
 		try {
-			pstmt = conn.prepareStatement("update sensor_info set sensor_status ='Y' where sensor_id=?");
-			pstmt.setString(1, sensorId);
+			pstmt = conn.prepareStatement("update sensor_info set sensor_status =? where sensor_id=?");
+			pstmt.setString(1, Status);
+			pstmt.setString(2, sensorId);
 			resultCode = pstmt.executeUpdate();
 			if (resultCode == 1) {
-				sensorStaus = "Y";
+				sensorStaus = Status;
 			}
 		} catch (SQLException e) {
 			JdbcUtil.rollback(conn);
@@ -350,26 +351,6 @@ public class ManagementDao {
 		return sensorStaus;
 	}
 	
-	public String updateBySensorStatusN(Connection conn, String sensorId) {
-		PreparedStatement pstmt = null;
-		int resultCode = 0;
-		String sensorStaus = null;
-		try {
-			pstmt = conn.prepareStatement("update sensor_info set sensor_status ='N' where sensor_id=?");
-			pstmt.setString(1, sensorId);
-			resultCode = pstmt.executeUpdate();
-			if (resultCode == 1) {
-				sensorStaus = "Y";
-			}
-		} catch (SQLException e) {
-			JdbcUtil.rollback(conn);
-			e.printStackTrace();
-		} finally {
-			JdbcUtil.close(pstmt);
-		}
-		return sensorStaus;
-	}
-
 	public String selectBySensorType(Connection conn, String sensorId) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -392,5 +373,25 @@ public class ManagementDao {
 			JdbcUtil.close(pstmt);		
 		}
 		return sensorType;
+	}
+
+	public String updateByOperationStatus(Connection conn, String sensorId) {
+		PreparedStatement pstmt = null;
+		int resultCode = 0;
+		String sensorStaus = null;
+		try {
+			pstmt = conn.prepareStatement("update sensor_info set operation_status ='Y' where sensor_id=?");
+			pstmt.setString(1, sensorId);
+			resultCode = pstmt.executeUpdate();
+			if (resultCode == 1) {
+				sensorStaus = "Y";
+			}
+		} catch (SQLException e) {
+			JdbcUtil.rollback(conn);
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(pstmt);
+		}
+		return sensorStaus;
 	}
 }

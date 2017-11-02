@@ -52,7 +52,6 @@ public class SessionCheck implements Filter {
 		noFilterUrl.add("/pushHistoryList.app");
 		noFilterUrl.add("/pushTokenRegister.app");
 		noFilterUrl.add("/pushTokenUpdate.app");
-		noFilterUrl.add("/pushSendMessage.app");
 		noFilterUrl.add("/sensorList.app");
 		noFilterUrl.add("/stateSearchSensorList.app");
 		noFilterUrl.add("/favoritesWhether.app");

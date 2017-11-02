@@ -167,7 +167,7 @@ public class PushService {
 				List<Result> resultList = result.getResults();
 				
 				for(Result result2: resultList){
-					System.out.println(result2.getErrorCodeName());
+					//System.out.println(result2.getErrorCodeName());
 				}
 			}
 		} catch (Exception e) {
