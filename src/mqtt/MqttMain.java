@@ -11,8 +11,16 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 public class MqttMain implements ServletContextListener {
-
-
+	
+	private String sensorId;
+	private String sensorValue;
+//	
+//	
+//	public MqttMain(String sensorId, String sensorValue) { 
+//		this.sensorId = sensorId;
+//		this.sensorValue = sensorValue;
+//	}
+//	
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
 		// TODO Auto-generated method stub
@@ -44,10 +52,20 @@ public class MqttMain implements ServletContextListener {
 				@Override
 				public void messageArrived(String arg0, MqttMessage arg1) throws Exception {
 					System.out.println(arg1.toString());
+					
+
+					//저장 및 처리 부분
+					
 				}
 
 			});
+
 			client.subscribe("sensorId/sensorValue", 2); // 구독
+
+//			client.subscribe("sensorId/sensorValue", 1);
+			client.subscribe("sm", 1); // 구독
+			
+		
 			// sub 구독 , pub 보내기
 			//
 
@@ -56,12 +74,10 @@ public class MqttMain implements ServletContextListener {
 		{
 			e.printStackTrace();
 		}
-		
-		
+
 	}
 }
 
-
-
-
-
+//select X form X where X = "";
+//update X set X = Y where X "";
+//update X set X = N where X "";
