@@ -21,10 +21,11 @@ import jdbc.connection.ConnectionProvider;
 public class SensorService {
 
 	private ManagementDao managementDao = new ManagementDao();
+	Connection conn = null;
 
 	public List<SensorResultInfo> getSensorList(String memberId, String manageType) {
 		List<SensorResultInfo> sensorRsultInfoList = new ArrayList<SensorResultInfo>();
-		Connection conn = null;
+
 		try {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
@@ -42,7 +43,7 @@ public class SensorService {
 
 	public List<SensorResultInfo> getSensorListByState(String memberId, String manageType, String searchText) {
 		List<SensorResultInfo> sensorRsultInfoList = new ArrayList<SensorResultInfo>();
-		Connection conn = null;
+
 		try {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
@@ -63,7 +64,6 @@ public class SensorService {
 
 		WmResultInfo wmResultInfo = new WmResultInfo();
 
-		Connection conn = null;
 		try {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
@@ -80,12 +80,10 @@ public class SensorService {
 	}
 
 	public TmResultInfo getTmInfo(String manageId, String memberId) {
-
 		TmResultInfo tmResultInfo = new TmResultInfo();
 
-		Connection conn = null;
 		try {
-			conn = ConnectionProvider.getConnection(); // transaction
+			conn = ConnectionProvider.getConnection(); 
 			conn.setAutoCommit(false);
 			tmResultInfo = managementDao.selectTmInfobyManageId(conn, manageId, memberId);
 			conn.commit();
@@ -103,7 +101,6 @@ public class SensorService {
 
 		GmResultInfo gmResultInfo = new GmResultInfo();
 
-		Connection conn = null;
 		try {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
@@ -123,7 +120,6 @@ public class SensorService {
 
 		SmResultInfo smResultInfo = new SmResultInfo();
 
-		Connection conn = null;
 		try {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
@@ -139,15 +135,15 @@ public class SensorService {
 		return smResultInfo;
 	}
 
-	/* 센서 알림 값 가져오기*/
+	/* 센서 알림 값 가져오기 */
 	public String readNoticeStandard(String sensorId) {
-		Connection conn = null;
+
 		String sensorNoticeStandard = null;
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
-			sensorNoticeStandard = managementDao.selectByNoticeStandard(conn, sensorId);	
-			conn.commit();		
+			sensorNoticeStandard = managementDao.selectByNoticeStandard(conn, sensorId);
+			conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);
@@ -157,15 +153,15 @@ public class SensorService {
 		return sensorNoticeStandard;
 	}
 
-	/* 센서 이상 상태 변경  */ 
+	/* 센서 이상 상태 변경 */
 	public String sensorStatusChange(String sensorId, String status) {
-		Connection conn = null;
-		 String sensorStatus = null;
+
+		String sensorStatus = null;
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
-			sensorStatus = managementDao.updateBySensorStatus(conn, sensorId, status);	
-			conn.commit();				
+			sensorStatus = managementDao.updateBySensorStatus(conn, sensorId, status);
+			conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);
@@ -174,16 +170,16 @@ public class SensorService {
 		}
 		return sensorStatus;
 	}
-	
-	/* 센서 종류 가져오기*/
+
+	/* 센서 종류 가져오기 */
 	public String readSensorType(String sensorId) {
-		Connection conn = null;
+
 		String sensorType = null;
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
-			sensorType = managementDao.selectBySensorType(conn, sensorId);	
-			conn.commit();		
+			sensorType = managementDao.selectBySensorType(conn, sensorId);
+			conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);
@@ -194,13 +190,13 @@ public class SensorService {
 	}
 
 	public String operationStatusCahnge(String sensorId) {
-		Connection conn = null;
-		 String sensorStatus = null;
+		
+		String sensorStatus = "";
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
-			sensorStatus = managementDao.updateByOperationStatus(conn, sensorId);	
-			conn.commit();				
+			sensorStatus = managementDao.updateByOperationStatus(conn, sensorId);
+			conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);

@@ -8,6 +8,6 @@ import com.google.gson.Gson;
 
 public interface CommandJsonHandler {
 	public Gson gson = new Gson();
-	Result result = new Result();
+	public Result result = new Result();
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

@@ -29,12 +29,13 @@ public class SensorListHandler implements CommandJsonHandler {
 
 	private String processSubmit(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
+		SensorResultListJSON sensorResultListJSON = new SensorResultListJSON();
+		
 		String memberId = req.getParameter("memberId");
 		String manageType = req.getParameter("manageType");
 
 		List<SensorResultInfo> sensorResultInfoList = sensorService.getSensorList(memberId, manageType);
-
-		SensorResultListJSON sensorResultListJSON = new SensorResultListJSON();
+		
 		sensorResultListJSON.setSensorList(sensorResultInfoList);
 
 		return gson.toJson(sensorResultListJSON);
