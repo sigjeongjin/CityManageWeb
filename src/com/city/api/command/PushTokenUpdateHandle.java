@@ -6,8 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.city.api.service.MemberManageService;
 import com.city.api.service.PushService;
 import com.city.model.PushInfo;
-import com.city.model.Result;
-import com.google.gson.Gson;
 
 public class PushTokenUpdateHandle implements CommandJsonHandler{
 
@@ -36,9 +34,6 @@ public class PushTokenUpdateHandle implements CommandJsonHandler{
 	 * @throws Exception
 	 */
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		Gson gson = new Gson();
-		Result result = new Result();
 		
 		// Android에서 pushToken, memberId 가져옴
 		String memberId = request.getParameter("memberId");

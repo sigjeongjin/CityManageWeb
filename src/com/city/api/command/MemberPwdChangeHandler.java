@@ -4,8 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.city.api.service.MemberManageService;
-import com.city.model.Result;
-import com.google.gson.Gson;
 
 public class MemberPwdChangeHandler implements CommandJsonHandler {
 	
@@ -28,9 +26,6 @@ public class MemberPwdChangeHandler implements CommandJsonHandler {
 	}
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		Gson gson = new Gson();
-		Result result = new Result();
 		
 		String memberId = request.getParameter("memberId");
 		String memberNewPwd = request.getParameter("memberChangePwd");

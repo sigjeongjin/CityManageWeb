@@ -5,8 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.city.api.service.AddressCityService;
-import com.city.model.Result;
-import com.google.gson.Gson;
 
 public class AddressCityInfoHandler implements CommandJsonHandler {
 
@@ -29,18 +27,13 @@ public class AddressCityInfoHandler implements CommandJsonHandler {
 	}
 
 	private String processSubmit(HttpServletRequest req, HttpServletResponse res) throws Exception {
-
-		Gson gson = new Gson();
-		Result result = new Result();
 		
 		String cityCode = req.getParameter("cityCode");
 		String stateCode = req.getParameter("stateCode");
 		String memberId = req.getParameter("memberId");
 		String memberPwd = req.getParameter("memberPwd");
 		
-		
-		String resultCode = addressCityService.cityStateInfo(cityCode, stateCode, memberId, memberPwd);
-		
+		String resultCode = addressCityService.getCityStateInfo(cityCode, stateCode, memberId, memberPwd);
 		
 		if(resultCode.equals("Y")){
 			result.setResultCode("200");

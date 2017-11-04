@@ -229,14 +229,12 @@ public class MemberDao {
 
 			while (rs.next()) {
 				city.add(new City(rs.getString("cityCode"), rs.getString("cityName")));
-
 			}
-
-			return city;
 		} finally {
 			JdbcUtil.close(rs);
 			JdbcUtil.close(pstmt);
 		}
+		return city;
 	}
 
 	public String updateBymemberIdAndmemberPhoto(Connection conn, String memberId, String memberPhoto)

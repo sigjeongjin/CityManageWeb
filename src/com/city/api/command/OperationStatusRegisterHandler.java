@@ -4,8 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.city.api.service.SensorRegisterService;
-import com.city.model.Result;
-import com.google.gson.Gson;
 
 public class OperationStatusRegisterHandler implements CommandJsonHandler {
 
@@ -32,12 +30,10 @@ public class OperationStatusRegisterHandler implements CommandJsonHandler {
 		String sensorId = request.getParameter("sensorId");
 		String operationStatus = request.getParameter("operationStatus");
 		String resultCode = sensorRegisterService.operationStatus(sensorId, operationStatus);
-		Result result = new Result();
 
 		result.setResultCode(resultCode);
 		result.setResultMessage("저장되었습니다.");
 
-		Gson gson = new Gson();
 		return gson.toJson(result);
 
 	}

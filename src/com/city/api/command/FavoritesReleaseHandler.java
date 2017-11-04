@@ -4,8 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.city.api.service.FavoritesService;
-import com.city.model.Result;
-import com.google.gson.Gson;
 
 public class FavoritesReleaseHandler implements CommandJsonHandler {
 	private FavoritesService favoritesService = new FavoritesService();
@@ -28,8 +26,6 @@ public class FavoritesReleaseHandler implements CommandJsonHandler {
 
 	private String processSubmit(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
-		Result result = new Result();
-
 		String memberId = req.getParameter("memberId");
 		String manageId = req.getParameter("manageId");
 
@@ -43,9 +39,7 @@ public class FavoritesReleaseHandler implements CommandJsonHandler {
 			result.setResultMessage("즐겨찾기 해제에 실패 하였습니다.");
 		}
 
-		Gson gson = new Gson();
 		return gson.toJson(result);
-
 	}
 
 }

@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.city.api.service.SensorService;
 import com.city.model.SmResultInfo;
-import com.google.gson.Gson;
 
 public class SmInfoHandler implements CommandJsonHandler {
 	private SensorService sensorService = new SensorService();
@@ -28,11 +27,11 @@ public class SmInfoHandler implements CommandJsonHandler {
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String manageId = request.getParameter("manageId");
+		
 		SmResultInfo smResultInfo = sensorService.getSmInfo(manageId);
 		smResultInfo.setResultCode("200");
 		smResultInfo.setResultMessage("센서 정보가 조회 되었습니다.");
-		
-		Gson gson = new Gson();
+
 		return gson.toJson(smResultInfo);
 	}
 }

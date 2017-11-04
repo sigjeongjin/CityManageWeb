@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.city.api.service.AddressCityService;
 import com.city.model.City;
 import com.city.model.CityJSON;
-import com.google.gson.Gson;
 
 public class AddressCityHandler implements CommandJsonHandler {
 
@@ -40,10 +39,9 @@ public class AddressCityHandler implements CommandJsonHandler {
 		cityjson.setResultCode("200");
 		cityjson.setResultMessage("정보가 조회되었습니다.");
 		
-		city = addressCityService.addressCityCode();
+		city = addressCityService.getAddressCityCode();
 		cityjson.setCity(city);
 		
-		Gson gson = new Gson();
 		return gson.toJson(cityjson);
 
 	}

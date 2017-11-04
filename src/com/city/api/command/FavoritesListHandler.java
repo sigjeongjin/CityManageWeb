@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.city.api.service.FavoritesService;
 import com.city.model.FavoritesResultInfo;
 import com.city.model.FavoritesResultListJSON;
-import com.google.gson.Gson;
 
 public class FavoritesListHandler implements CommandJsonHandler {
 	private FavoritesService favoritesRegisterService = new FavoritesService();
@@ -45,7 +44,6 @@ public class FavoritesListHandler implements CommandJsonHandler {
 		favoritesInfoJSON.setResultMessage("조회되었습니다.");
 		favoritesInfoJSON.setFavoritesList(favoritesList);
 
-		Gson gson = new Gson();
 		return gson.toJson(favoritesInfoJSON);
 
 	}

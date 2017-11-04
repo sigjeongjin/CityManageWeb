@@ -8,9 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.city.api.service.SensorService;
 import com.city.model.SensorResultInfo;
 import com.city.model.SensorResultListJSON;
-import com.google.gson.Gson;
 
-public class SensorListHandler implements CommandJsonHandler{
+public class SensorListHandler implements CommandJsonHandler {
 	private SensorService sensorService = new SensorService();
 
 	public String process(HttpServletRequest req, HttpServletResponse res) throws Exception {
@@ -32,15 +31,12 @@ public class SensorListHandler implements CommandJsonHandler{
 
 		String memberId = req.getParameter("memberId");
 		String manageType = req.getParameter("manageType");
-		
-		System.out.println("member id : " + memberId);
-		System.out.println("manage type : " + manageType);
-		
+
 		List<SensorResultInfo> sensorResultInfoList = sensorService.getSensorList(memberId, manageType);
-		
+
 		SensorResultListJSON sensorResultListJSON = new SensorResultListJSON();
 		sensorResultListJSON.setSensorList(sensorResultInfoList);
-		Gson gson = new Gson();
+
 		return gson.toJson(sensorResultListJSON);
 	}
 }

@@ -16,7 +16,7 @@ public class AddressCityService {
 
 	private MemberDao memberDao = new MemberDao();
 	
-	public String cityStateInfo(String cityCode, String stateCode,String memberId, String memberPwd) {
+	public String getCityStateInfo(String cityCode, String stateCode,String memberId, String memberPwd) {
 		int cityStateInfo = 0;
 		String resultCode ="";
 		Connection conn = null;
@@ -45,7 +45,7 @@ public class AddressCityService {
 		
 	}
 	
-	public List<City> addressCityCode() {
+	public List<City> getAddressCityCode() {
 		
 		Connection conn = null;
 		List<City> city = new ArrayList<City>();

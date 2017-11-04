@@ -7,8 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.city.api.service.MemberManageService;
 import com.city.model.MemberAPI;
-import com.city.model.Result;
-import com.google.gson.Gson;
 
 public class MemberLoginHandler implements CommandJsonHandler {
 
@@ -32,15 +30,12 @@ public class MemberLoginHandler implements CommandJsonHandler {
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		Gson gson = new Gson();
-		
 		String memberId = request.getParameter("memberId");
 		String memberPwd = request.getParameter("memberPwd");
-		
-		MemberAPI member = new MemberAPI();
-		
-		try {
 
+		MemberAPI member = new MemberAPI();
+
+		try {
 			member = memberManageService.memberLogin(memberId, memberPwd);
 			if (StringUtils.isNotEmpty(member.getMemberId())) {
 				member.setResultCode("200");

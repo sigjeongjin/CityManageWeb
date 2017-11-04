@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.city.api.service.SensorService;
 import com.city.model.GmResultInfo;
-import com.google.gson.Gson;
 
 public class GmInfoHandler implements CommandJsonHandler {
 	private SensorService sensorService = new SensorService();
@@ -32,7 +31,6 @@ public class GmInfoHandler implements CommandJsonHandler {
 		gmResultInfo.setResultCode("200");
 		gmResultInfo.setResultMessage("센서 정보가 조회 되었습니다.");
 		
-		Gson gson = new Gson();
 		return gson.toJson(gmResultInfo);
 	}
 }
