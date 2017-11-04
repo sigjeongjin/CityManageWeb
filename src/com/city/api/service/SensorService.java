@@ -139,32 +139,17 @@ public class SensorService {
 		return smResultInfo;
 	}
 
-	/* 센서 알림 값 가져오기*/
-	public String readNoticeStandard(String sensorId) {
-		Connection conn = null;
-		String sensorNoticeStandard = null;
-		try {
-			conn = ConnectionProvider.getConnection();
-			conn.setAutoCommit(false);
-			sensorNoticeStandard = managementDao.selectByNoticeStandard(conn, sensorId);	
-			conn.commit();		
-		} catch (SQLException e) {
-			e.printStackTrace();
-			JdbcUtil.rollback(conn);
-		} finally {
-			JdbcUtil.close(conn);
-		}
-		return sensorNoticeStandard;
-	}
-
-	/* 센서 이상 상태 변경  */ 
-	public String sensorStatusChange(String sensorId, String status) {
+	/**
+	 * @param sensorId
+	 * @return
+	 */
+	public String modifyOperationStatus(String sensorId) {
 		Connection conn = null;
 		 String sensorStatus = null;
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
-			sensorStatus = managementDao.updateBySensorStatus(conn, sensorId, status);	
+			sensorStatus = managementDao.updateOperationStatus(conn, sensorId);	
 			conn.commit();				
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -175,14 +160,17 @@ public class SensorService {
 		return sensorStatus;
 	}
 	
-	/* 센서 종류 가져오기*/
-	public String readSensorType(String sensorId) {
+	/**
+	 * @param sensorId
+	 * @return
+	 */
+	public String getNoticeStandard(String sensorId) {
 		Connection conn = null;
-		String sensorType = null;
+		String sensorNoticeStandard = null;
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
-			sensorType = managementDao.selectBySensorType(conn, sensorId);	
+			sensorNoticeStandard = managementDao.selectNoticeStandard(conn, sensorId);	
 			conn.commit();		
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -190,16 +178,21 @@ public class SensorService {
 		} finally {
 			JdbcUtil.close(conn);
 		}
-		return sensorType;
+		return sensorNoticeStandard;
 	}
-
-	public String operationStatusCahnge(String sensorId) {
+	
+	/**
+	 * @param sensorId
+	 * @param status
+	 * @return
+	 */
+	public String modifySensorStatus(String sensorId, String status) {
 		Connection conn = null;
 		 String sensorStatus = null;
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
-			sensorStatus = managementDao.updateByOperationStatus(conn, sensorId);	
+			sensorStatus = managementDao.updateSensorStatus(conn, sensorId, status);	
 			conn.commit();				
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -209,5 +202,25 @@ public class SensorService {
 		}
 		return sensorStatus;
 	}
-
+	
+	/**
+	 * @param sensorId
+	 * @return
+	 */
+	public String getSensorType(String sensorId) {
+		Connection conn = null;
+		String sensorType = null;
+		try {
+			conn = ConnectionProvider.getConnection();
+			conn.setAutoCommit(false);
+			sensorType = managementDao.selectSensorType(conn, sensorId);	
+			conn.commit();		
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+		return sensorType;
+	}
 }

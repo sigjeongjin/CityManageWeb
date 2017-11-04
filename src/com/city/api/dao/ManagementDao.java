@@ -23,20 +23,16 @@ public class ManagementDao {
 		PreparedStatement pstmt = null;
 		int resultcode = 0;
 		
-		try {
-		
+		try {	
 			pstmt = conn.prepareStatement("update sensor_info set sensor_status=? where sensor_id=?");
 			pstmt.setString(1, senssorInfo);
 			pstmt.setString(2, sensorId);
 
 			resultcode = pstmt.executeUpdate();
-
-			return resultcode;
-
 		} finally {
-		
 			JdbcUtil.close(pstmt);
 		}
+		return resultcode;
 	}
 
 	public String updateBySensorIdAndOperationStatus(Connection conn, String sensorId, String operationStatus)
@@ -45,7 +41,6 @@ public class ManagementDao {
 		Statement stmt = null;
 		ResultSet rs = null;
 		
-		//String Resultcode = "200";
 		try {
 			
 			pstmt = conn.prepareStatement("update sensor_info set sensor_status=? where operation_status=?");
@@ -53,7 +48,6 @@ public class ManagementDao {
 			pstmt.setString(2, operationStatus);
 
 			return Integer.toString(pstmt.executeUpdate());
-
 		} finally {
 			JdbcUtil.close(rs);
 			JdbcUtil.close(stmt);
@@ -305,8 +299,37 @@ public class ManagementDao {
 		return sb.toString();
 	}
 
-	// 센서아이디로 센서 알림 기준값 가져오기
-	public String selectByNoticeStandard(Connection conn, String sensorId) {
+	/**
+	 * @param conn
+	 * @param sensorId
+	 * @return
+	 */
+	public String updateOperationStatus(Connection conn, String sensorId) {
+		PreparedStatement pstmt = null;
+		int resultCode = 0;
+		String sensorStaus = null;
+		try {
+			pstmt = conn.prepareStatement("update sensor_info set operation_status ='Y' where sensor_id=?");
+			pstmt.setString(1, sensorId);
+			resultCode = pstmt.executeUpdate();
+			if (resultCode == 1) {
+				sensorStaus = "Y";
+			}
+		} catch (SQLException e) {
+			JdbcUtil.rollback(conn);
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(pstmt);
+		}
+		return sensorStaus;
+	}
+	
+	/**
+	 * @param conn
+	 * @param sensorId
+	 * @return
+	 */
+	public String selectNoticeStandard(Connection conn, String sensorId) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sensorNoticeStandard = null;
@@ -330,7 +353,13 @@ public class ManagementDao {
 		return sensorNoticeStandard;
 	}
 
-	public String updateBySensorStatus(Connection conn, String sensorId, String Status) {
+	/**
+	 * @param conn
+	 * @param sensorId
+	 * @param Status
+	 * @return
+	 */
+	public String updateSensorStatus(Connection conn, String sensorId, String Status) {
 		PreparedStatement pstmt = null;
 		int resultCode = 0;
 		String sensorStaus = null;
@@ -351,7 +380,12 @@ public class ManagementDao {
 		return sensorStaus;
 	}
 	
-	public String selectBySensorType(Connection conn, String sensorId) {
+	/**
+	 * @param conn
+	 * @param sensorId
+	 * @return
+	 */
+	public String selectSensorType(Connection conn, String sensorId) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sensorType = null;
@@ -373,25 +407,5 @@ public class ManagementDao {
 			JdbcUtil.close(pstmt);		
 		}
 		return sensorType;
-	}
-
-	public String updateByOperationStatus(Connection conn, String sensorId) {
-		PreparedStatement pstmt = null;
-		int resultCode = 0;
-		String sensorStaus = null;
-		try {
-			pstmt = conn.prepareStatement("update sensor_info set operation_status ='Y' where sensor_id=?");
-			pstmt.setString(1, sensorId);
-			resultCode = pstmt.executeUpdate();
-			if (resultCode == 1) {
-				sensorStaus = "Y";
-			}
-		} catch (SQLException e) {
-			JdbcUtil.rollback(conn);
-			e.printStackTrace();
-		} finally {
-			JdbcUtil.close(pstmt);
-		}
-		return sensorStaus;
 	}
 }

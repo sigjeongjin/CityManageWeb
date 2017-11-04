@@ -14,7 +14,7 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
-public class TmMqtt implements ServletContextListener {
+public class Mqtt implements ServletContextListener {
 	
 	MqttController mqttController = new MqttController();
 	
@@ -64,8 +64,10 @@ public class TmMqtt implements ServletContextListener {
 				}
 			});
 			
-			client.subscribe("tm", 1); // topic, qos						
-
+			client.subscribe("wm", 1); // topic, qos
+			client.subscribe("tm", 1); // topic, qos
+			client.subscribe("gm", 1); // topic, qos
+			client.subscribe("sm", 1); // topic, qos
 			
 			String pubTopic = "민정이가 왕이다";
 			MqttMessage message = new MqttMessage(pubTopic.getBytes());
