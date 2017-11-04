@@ -4,11 +4,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import com.city.api.service.PushService;
 import com.city.api.service.SensorService;
 
+/**
+ * @author minjeong
+ *
+ */
 public class MqttController {
 	
 	private PushService pushService = new PushService();
@@ -16,43 +21,40 @@ public class MqttController {
 
 	public void transferTopicAndMessag(String topic, MqttMessage message) {
 				
+		String topicMessage = message.toString();
 		String sensorId = "";
 		String sensorValue = "";
 		String operationStatus = "";
 		String sensorStatus = "";
-		
-		// data가 오면 message 동작상태 N -> Y
-		if(message.toString() != null && message.toString() != "") {
-			
-			// message에서 sensorId 값과 sensorValue 값 받아오기
-			sensorId = tokenizerMessage(message.toString(), 1);
-			sensorValue = tokenizerMessage(message.toString(), 2);		
-			operationStatus = sensorService.operationStatusCahnge(sensorId);	
+
+		if(StringUtils.isNotEmpty(topicMessage)) {		
+			sensorId = getTokenizerMessage(message.toString(), 1);	  		 // message에서 sensorId 받아오기
+			sensorValue = getTokenizerMessage(message.toString(), 2); 		 // message에서 sensorValue 받아오기		
+			operationStatus = sensorService.modifyOperationStatus(sensorId); // 센서 동작을 N -> Y로 변경
 		}	
 		
-		System.out.println("topic: " + topic);
-		System.out.println("sensorId: " + sensorId + ", sensorValue: " + sensorValue);
+		System.out.println("topic: " + topic + ", sensorId: " + sensorId + ", sensorValue: " + sensorValue);
 		
-		if(operationStatus == "Y" && sensorId != null) {
-			// 아두이노로 받은 센서 데이터와 데이터베이스에 있는 기준알림 비교하기
+		if(StringUtils.isNotEmpty(sensorId) && operationStatus.equals("Y")) {
+			
 			sensorStatus = noticeAndValueCompare(sensorId, sensorValue);
 			
-			if (sensorStatus == "Y") {
-				String title = psuhTitle(topic); 		  // topic으로 title 정하기
-				String contents = psuhContents(sensorId); // sensorId으로 contents 정하기
-	
+			if (sensorStatus.equals("Y")) {
+				String title = getPsuhTitle(topic); 		 // topic(wm, tm, gm, sm) title 값 받아오기
+				String contents = getPsuhContents(sensorId); // sensorId로 contents 값 받아오기
 				System.out.println("title: " + title + ", contenst: " + contents);
 				
-				sendPushMessage(title, contents); // PUSH
-							
-			} else {
-				return;
-			}	
+				sendPushMessage(title, contents); // PUSH 보내기						
+			}
 		}
 	}
 	
-	/* message를 받아서 tokenizer (message -> mqtt message / data -> 메세지 순서) */ 	
-	private String tokenizerMessage(String message, int data) {
+	/** message에서 값을 받아오는 메소드
+	 * @param message
+	 * @param data
+	 * @return
+	 */
+	private String getTokenizerMessage(String message, int data) {
 		
 		 StringTokenizer tokens = new StringTokenizer(message.toString());						
 		 String tokenData = null;
@@ -63,31 +65,38 @@ public class MqttController {
 		return tokenData;
 	}
 	
-	/* sensorValue을 받아 sensorNoticeStandard를 비교하여 이상 상태 업데이트 */
+	/** DB에 있는 기준 알림값과 MQTT로 받은 센서값과 비교하는 메소드
+	 * @param sensorId
+	 * @param sensorValue
+	 * @return
+	 */
 	private String noticeAndValueCompare(String sensorId, String sensorValue) {
 		
 		String sensorStatus = "";
 		// 센서 알림 기준값 가져오기
-		String sensorNoticeStandard = sensorService.readNoticeStandard(sensorId);
+		String sensorNoticeStandard = sensorService.getNoticeStandard(sensorId);
 		if (sensorNoticeStandard != null) {
 			
-			int sensorValueInt = Integer.parseInt(sensorValue);
-			int sensorNoticeStandardInt = Integer.parseInt(sensorNoticeStandard);
+			int iSensorValue = Integer.parseInt(sensorValue);
+			int iSensorNoticeStandard = Integer.parseInt(sensorNoticeStandard);
 			
-			if(sensorValueInt > sensorNoticeStandardInt) {
+			if(iSensorValue > iSensorNoticeStandard) {
 				// mqtt로 받은 센서 값이 센서 알림보다 높으면 이상 상태를 Y로 해줌(이상)
-				sensorStatus = sensorService.sensorStatusChange(sensorId, "Y");
+				sensorStatus = sensorService.modifySensorStatus(sensorId, "Y");
 		
 			} else {
 				// mqtt로 받은 센서 값이 센서 알림보다 낮으면 이상 상태를 N로 해줌(정상)
-				sensorStatus = sensorService.sensorStatusChange(sensorId, "N");
+				sensorStatus = sensorService.modifySensorStatus(sensorId, "N");
 			}
 		}	
 		return sensorStatus;
 	}
 	
-	/* topic으로 title message 정하기  */
-	private String psuhTitle(String topic) {
+	/** topic(wm, tm, gm, sm) title 값 받아오기
+	 * @param topic
+	 * @return
+	 */
+	private String getPsuhTitle(String topic) {
 		
 		String tilte = "";
 		
@@ -103,10 +112,13 @@ public class MqttController {
 		return tilte;
 	}
 	
-	/* sensorId으로 sensorType 조회하여 contents message 정하기  */
-	private String psuhContents(String sensorId) {
+	/** sensorId으로 sensorType 조회하여 contents 값 가져오기
+	 * @param sensorId
+	 * @return
+	 */
+	private String getPsuhContents(String sensorId) {
 		
-		String sensorType = sensorService.readSensorType(sensorId);
+		String sensorType = sensorService.getSensorType(sensorId);
 		String contents = "";
 		
 		if (sensorType.equals("wl")) {
@@ -131,7 +143,10 @@ public class MqttController {
 		return contents;
 	}	
 	
-	/* title, contents를 이용해 push message 전송  */
+	/** title, contents를 이용해 push message 전송
+	 * @param title
+	 * @param contents
+	 */
 	private void sendPushMessage(String title, String contents) {
 		
 		ArrayList<String> tokenList; // tokenList 불러오기
