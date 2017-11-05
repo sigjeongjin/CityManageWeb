@@ -27,6 +27,7 @@ public interface CommandJsonHandler {
 	public final String MEMBER_PWD = "memberPwd";
 	public final String CITY_CODE = "cityCode";
 	public final String STATE_CODE = "stateCode";
+	public final String MANAGE_TYPE = "manageType";
 	
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }
