@@ -30,7 +30,7 @@ public interface CommandJsonHandler {
 	public final String STATE_CODE = "stateCode";
 	public final String MANAGE_TYPE = "manageType";
 	public final String MANAGE_ID = "manageId";
-	
+	public final String SEARCH_TEXT = "searchText";
 	
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }
