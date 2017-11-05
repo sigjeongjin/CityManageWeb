@@ -224,7 +224,7 @@ public class MemberDao {
 		List<City> city = new ArrayList<City>();
 
 		try {
-			pstmt = conn.prepareStatement("select city_code as cityCode,city_name as cityName from address_city");
+			pstmt = conn.prepareStatement("SELECT city_code cityCode,city_name cityName FROM address_city");
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {

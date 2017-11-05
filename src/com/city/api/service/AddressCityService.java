@@ -14,46 +14,24 @@ import jdbc.connection.ConnectionProvider;
 
 public class AddressCityService {
 
+	private Connection conn = null;
 	private MemberDao memberDao = new MemberDao();
-	
-	public String getCityStateInfo(String cityCode, String stateCode,String memberId, String memberPwd) {
+
+	public String getCityStateInfo(String cityCode, String stateCode, String memberId, String memberPwd) {
 		int cityStateInfo = 0;
-		String resultCode ="";
-		Connection conn = null;
-		
-		
-		try { 
-			conn = ConnectionProvider.getConnection();
-			conn.setAutoCommit(false);
-			
-			cityStateInfo = memberDao.updateCityStateInfoRegiste(conn, cityCode, stateCode, memberId, memberPwd);
-			
-			if(cityStateInfo == 1) {
-				resultCode = "Y";
-			} else {
-				throw new SQLException();
-			}			
-			conn.commit();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("정보를 불러오지 못했습니다.");
-			JdbcUtil.rollback(conn);
-		} finally {
-			JdbcUtil.close(conn);
-		}	
-			return resultCode; 
-		
-	}
-	
-	public List<City> getAddressCityCode() {
-		
-		Connection conn = null;
-		List<City> city = new ArrayList<City>();
+		String resultCode = "";
+
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 
-			city = memberDao.selectCityInfo(conn);
+			cityStateInfo = memberDao.updateCityStateInfoRegiste(conn, cityCode, stateCode, memberId, memberPwd);
+
+			if (cityStateInfo == 1) {
+				resultCode = "Y";
+			} else {
+				throw new SQLException();
+			}
 			conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -62,13 +40,30 @@ public class AddressCityService {
 		} finally {
 			JdbcUtil.close(conn);
 		}
+		return resultCode;
+	}
+
+	public List<City> getAddressCityCode() {
+
+		List<City> city = new ArrayList<City>();
+		try {
+			conn = ConnectionProvider.getConnection();
+			conn.setAutoCommit(false);
+
+			city = memberDao.selectCityInfo(conn);
+			
+			conn.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
+		}
 		return city;
 	}
-	public List<State> getStateList(String cityCode) {
-		
-		List<State> state = new ArrayList<State>();
-		Connection conn = null;
 
+	public List<State> getStateList(String cityCode) {
+		List<State> state = new ArrayList<State>();
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);

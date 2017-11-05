@@ -10,26 +10,14 @@ import com.city.model.MemberAPI;
 import jdbc.JdbcUtil;
 import jdbc.connection.ConnectionProvider;
 
-/* 
- *  memberLogin	       	로그인 				mL
- *  memberIdCheck  		아이디 조회			mIC
- *  memberRegister 		회원가입 				mR
- *  memberPwdConfirm	맴버 비밀번호 확인 		mPC
- * 	memberPwdChange		맴버 비밀번호 변경 		mPC
- * 	memberPhotoChange	맴버 사진 변경 			mPC
- * 	memberPhone			맴버 휴대폰 번호 가져오기 	mPC
- */
-
 public class MemberManageService {
 
 	private MemberDao memberDao = new MemberDao();
-
-	// memberLogin 로그인 mL
+	private Connection conn = null;
+	
 	public MemberAPI memberLogin(String memberId, String memberPwd) {
 
 		MemberAPI member = new MemberAPI();
-		Connection conn = null;
-		String mL = "";
 
 		try {
 			conn = ConnectionProvider.getConnection();
@@ -45,10 +33,8 @@ public class MemberManageService {
 		return member;
 	}
 
-	// memberLogin 아이디 조회 mIC
 	public String memberIdCheck(String memberId) {
 
-		Connection conn = null;
 		String mIC = "";
 
 		try {
@@ -75,7 +61,6 @@ public class MemberManageService {
 		return null;
 	}
 
-	// RegisterRegister 회원가입 mR
 	public String memberRegister(Member member) {
 
 		Connection conn = null;
@@ -86,7 +71,7 @@ public class MemberManageService {
 			conn.setAutoCommit(false);
 
 			int resultCode = memberDao.insertMember(conn, member);
-			
+
 			if (resultCode == 1) {
 				mR = "Y";
 			} else {
@@ -102,8 +87,7 @@ public class MemberManageService {
 		}
 		return mR;
 	}
-	
-	// memberPwdConfirm	맴버 비밀번호 확인 mPC
+
 	public String memberPwdConfirm(String memberId, String memberPwd) {
 
 		Connection conn = null;
@@ -118,10 +102,8 @@ public class MemberManageService {
 
 			if (resultCode == "200") {
 				mPC = "Y";
-				return mPC;
 			} else {
 				mPC = "N";
-				return mPC;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -129,15 +111,14 @@ public class MemberManageService {
 		} finally {
 			JdbcUtil.close(conn);
 		}
-		return null;
+		return mPC;
 	}
 
 	// memberPwdChange 맴버 비밀번호 변경 mPC
 	public String memberPwdChange(String memberId, String memberNewPwd) {
-		
-		Connection conn = null;
+
 		String mPC = "";
-		
+
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
@@ -147,7 +128,6 @@ public class MemberManageService {
 
 			if (resultCode == 1) {
 				mPC = "Y";
-				return mPC;
 			} else {
 				mPC = "N";
 				throw new SQLException();
@@ -158,15 +138,14 @@ public class MemberManageService {
 		} finally {
 			JdbcUtil.close(conn);
 		}
-			return null;
+		return mPC;
 	}
-	
+
 	// memberPhotoChange 맴버 사진 변경 mPC
 	public String memberPhotoChange(String memberId, String memberPhoto) {
 
-		Connection conn = null;
 		String mPC = "";
-		
+
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
@@ -176,7 +155,6 @@ public class MemberManageService {
 
 			if (resultCode == 1) {
 				mPC = "Y";
-				return mPC;
 			} else {
 				mPC = "N";
 				throw new SQLException();
@@ -187,25 +165,21 @@ public class MemberManageService {
 		} finally {
 			JdbcUtil.close(conn);
 		}
-			return null;
+		return mPC;
 	}
 
 	public String memberPhoneSelect(String memberId) {
-		Connection conn = null;
-		String mP = "";
-
+		String memberPhone = "";
+		
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 
-			String memberPhone = memberDao.selectPhone(conn, memberId);
+			memberPhone = memberDao.selectPhone(conn, memberId);
 			conn.commit();
 
-			if (memberPhone != null) {
-				return memberPhone;
-			} else {
-				mP = "N";
-				return mP;
+			if (memberPhone == null) {
+				memberPhone = "N";
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -213,6 +187,6 @@ public class MemberManageService {
 		} finally {
 			JdbcUtil.close(conn);
 		}
-		return null;
+		return memberPhone;
 	}
 }

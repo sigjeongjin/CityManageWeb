@@ -36,10 +36,16 @@ public class AddressCityHandler implements CommandJsonHandler {
 		List<City> city = new ArrayList<City>();
 		CityJSON cityjson = new CityJSON();
 		
-		cityjson.setResultCode("200");
-		cityjson.setResultMessage("정보가 조회되었습니다.");
-		
 		city = addressCityService.getAddressCityCode();
+		
+		if(city != null) {
+			cityjson.setResultCode(RESULT_SUCCESS);
+			cityjson.setResultMessage(RESULT_SUCCESS_MESSAGE);
+		} else {
+			cityjson.setResultCode(RESULT_FAIL);
+			cityjson.setResultMessage(RESULT_FAIL_MESSAGE);
+		}
+		
 		cityjson.setCity(city);
 		
 		return gson.toJson(cityjson);
