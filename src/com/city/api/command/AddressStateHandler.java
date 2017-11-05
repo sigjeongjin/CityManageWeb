@@ -29,17 +29,20 @@ public class AddressStateHandler implements CommandJsonHandler {
 	}
 
 	private String processSubmit(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		String cityCode = req.getParameter("cityCode");
-		
-		List<State> state = addressCityService.getStateList(cityCode);
+		String cityCode = req.getParameter(CITY_CODE);
 		
 		StateJSON stateJson = new StateJSON();
 		
-		stateJson.setResultCode("200");
-		stateJson.setResultMessage("조회되었습니다.");
-		stateJson.setState(state);
+		List<State> state = addressCityService.getStateList(cityCode);
 		
+		if(state != null) {
+			stateJson.setResultCode(RESULT_SUCCESS);
+			stateJson.setResultMessage(SEARCH_SUCCESS_MESSAGE);
+			stateJson.setState(state);	
+		} else {
+			stateJson.setResultCode(RESULT_FAIL);
+			stateJson.setResultMessage(SEARCH_FAIL_MESSAGE);
+		}
 		return gson.toJson(stateJson);
-
 	}
 }

@@ -41,13 +41,11 @@ public class AddressCityHandler implements CommandJsonHandler {
 		if(city != null) {
 			cityjson.setResultCode(RESULT_SUCCESS);
 			cityjson.setResultMessage(SEARCH_SUCCESS_MESSAGE);
+			cityjson.setCity(city);
 		} else {
 			cityjson.setResultCode(RESULT_FAIL);
 			cityjson.setResultMessage(SEARCH_FAIL_MESSAGE);
 		}
-		
-		cityjson.setCity(city);
-		
 		return gson.toJson(cityjson);
 
 	}
