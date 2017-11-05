@@ -222,10 +222,11 @@ public class ManagementDao {
 		installationDateTime;
 	 */
 	public GmResultInfo selectGmInfobyManageId(Connection conn, 
-			String manageId)throws SQLException {
+			String manageId, GmResultInfo gmResultInfo)throws SQLException {
+		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		GmResultInfo gmResultInfo = new GmResultInfo();
+		
 		try {
 			pstmt = conn.prepareStatement(this.commonQuery(
 				"(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='gd') gasDensity, "
@@ -234,6 +235,9 @@ public class ManagementDao {
 			pstmt.setString(1, manageId);
 			pstmt.setString(2, manageId);
 			pstmt.setString(3, manageId);
+			pstmt.setString(4, manageId);
+			pstmt.setString(5, manageId);
+			
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
@@ -242,13 +246,13 @@ public class ManagementDao {
 				gmResultInfo.setGasDensity(rs.getString("gasDensity"));
 				gmResultInfo.setShockDetection(rs.getString("shockDetection"));
 				gmResultInfo.setInstallationDateTime(rs.getString("installationDateTime"));
+				gmResultInfo.setBookmark(rs.getString("bookmark"));
 			}
-
-			return gmResultInfo;
 		} finally {
 			JdbcUtil.close(rs);
 			JdbcUtil.close(pstmt);
 		}
+		return gmResultInfo;
 	}
 	
 	/**

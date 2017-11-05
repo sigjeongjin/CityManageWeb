@@ -9,6 +9,7 @@ public class GmResultInfo extends Result {
 	private String gasDensity;
 	private String shockDetection;
 	private String installationDateTime;
+	private String bookmark;
 
 	public String getManageId() {
 		return manageId;
@@ -50,4 +51,11 @@ public class GmResultInfo extends Result {
 		this.installationDateTime = installationDateTime;
 	}
 
+	public String getBookmark() {
+		return bookmark;
+	}
+
+	public void setBookmark(String bookmark) {
+		this.bookmark = bookmark;
+	}
 }

@@ -97,18 +97,17 @@ public class SensorService {
 		return tmResultInfo;
 	}
 
-	public GmResultInfo getGmInfo(String manageId) {
-
-		GmResultInfo gmResultInfo = new GmResultInfo();
+	public GmResultInfo getGmInfo(String manageId, GmResultInfo gmResultInfo) {
 
 		try {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
-			gmResultInfo = managementDao.selectGmInfobyManageId(conn, manageId);
+			
+			gmResultInfo = managementDao.selectGmInfobyManageId(conn, manageId, gmResultInfo);
+			
 			conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("센서 검색에 실패했습니다.");
 			JdbcUtil.rollback(conn);
 		} finally {
 			JdbcUtil.close(conn);
