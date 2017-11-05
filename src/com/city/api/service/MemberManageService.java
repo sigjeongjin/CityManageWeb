@@ -85,29 +85,22 @@ public class MemberManageService {
 		return mR;
 	}
 
-	public String memberPwdConfirm(String memberId, String memberPwd) {
+	public int getMemberPwdConfirm(String memberId, String memberPwd) {
 
-		String mPC = "";
-
+		int resultCode = 0;
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 
-			String resultCode = memberDao.selectPwdConfirm(conn, memberId, memberPwd);
+			resultCode = memberDao.selectPwdConfirm(conn, memberId, memberPwd);
 			conn.commit();
-
-			if (resultCode == "200") {
-				mPC = "Y";
-			} else {
-				mPC = "N";
-			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);
 		} finally {
 			JdbcUtil.close(conn);
 		}
-		return mPC;
+		return resultCode;
 	}
 
 	/**

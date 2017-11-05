@@ -99,24 +99,20 @@ public class MemberDao {
 	}
 
 	// 맴버 비밀번호 확인
-	public String selectPwdConfirm(Connection conn, String memberId, String memberPwd) throws SQLException {
+	public int selectPwdConfirm(Connection conn, String memberId, String memberPwd) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String resultCode = null;
+		int selectCount = 0;
 
 		try {
 			pstmt = conn.prepareStatement("select count(*) as count from member where member_id=? and member_pwd=?");
 			pstmt.setString(1, memberId);
 			pstmt.setString(2, memberPwd);
+			
 			rs = pstmt.executeQuery();
+			
 			if (rs.next()) {
-				String count = rs.getString("count");
-				if (count.equals("1")) {
-					resultCode = "200";
-					return resultCode;
-				} else {
-					return resultCode;
-				}
+				selectCount = Integer.parseInt(rs.getString("count"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -124,7 +120,7 @@ public class MemberDao {
 		} finally {
 			JdbcUtil.close(pstmt);
 		}
-		return resultCode;
+		return selectCount;
 	}
 
 	// 맴버 비밀번호 변경
