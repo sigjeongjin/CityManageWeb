@@ -128,19 +128,20 @@ public class MemberDao {
 	}
 
 	// 맴버 비밀번호 변경
-	public int updatePwdChange(Connection conn, String memberId, String memberNewPwd) throws SQLException {
+	public int updatePwdChange(Connection conn, String memberId, String memberPwd, String memberNewPwd) 
+			throws SQLException {
 		PreparedStatement pstmt = null;
 		int resultCode = 0;
 
 		try {
-			pstmt = conn.prepareStatement("update member set member_pwd=? where member_id=? ");
+			pstmt = conn.prepareStatement("update member set member_pwd=? where member_id=? and member_pwd=?");
 
 			pstmt.setString(1, memberNewPwd);
 			pstmt.setString(2, memberId);
+			pstmt.setString(3, memberPwd);
 
 			resultCode = pstmt.executeUpdate();
 
-			return resultCode;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);

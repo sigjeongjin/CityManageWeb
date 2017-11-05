@@ -31,23 +31,23 @@ public class MemberProfileImageChangeHandler implements CommandJsonHandler {
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		MultipartRequest multi;
+		MultipartRequest multiRequest;
 		String saveFolder = "/upload";
 		String realFolder = request.getServletContext().getRealPath(saveFolder); // saveFilepath
 		int maxSize = 5 * 1024 * 1024; // 최대 업로될 파일크기 5Mb
 
 		try {
-			multi = new MultipartRequest(request, realFolder, maxSize, "utf-8", new DefaultFileRenamePolicy());
-			String memberId = multi.getParameter("memberId");
-			String memberPhoto = multi.getParameter("memberPhoto");
+			multiRequest = new MultipartRequest(request, realFolder, maxSize, "utf-8", new DefaultFileRenamePolicy());
+			String memberId = multiRequest.getParameter(MEMBER_ID);
+			String memberPhoto = multiRequest.getParameter("memberPhoto");
 			String mPC = memberManageService.memberPhotoChange(memberId, memberPhoto);
 
 			if (mPC == "Y") {
-				result.setResultCode("200");
-				result.setResultMessage("변경성공");
+				result.setResultCode(RESULT_SUCCESS);
+				result.setResultMessage(UPDATE_SUCCESS_MESSAGE);
 			} else {
-				result.setResultCode("400");
-				result.setResultMessage("변경실패");
+				result.setResultCode(RESULT_FAIL);
+				result.setResultMessage(UPDATE_FAIL_MESSAGE);
 			}
 			return gson.toJson(result);
 

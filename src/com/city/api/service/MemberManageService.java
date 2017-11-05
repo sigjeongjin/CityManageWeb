@@ -110,31 +110,30 @@ public class MemberManageService {
 		return mPC;
 	}
 
-	// memberPwdChange 맴버 비밀번호 변경 mPC
-	public String memberPwdChange(String memberId, String memberNewPwd) {
+	/**
+	 * 회원 패스 워드 변경
+	 * @param memberId
+	 * @param memberPwd
+	 * @param memberNewPwd
+	 * @return
+	 */
+	public int setMemberPwdChange(String memberId, String memberPwd, String memberNewPwd) {
 
-		String mPC = "";
+		int resultCode = 0;
 
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 
-			int resultCode = memberDao.updatePwdChange(conn, memberId, memberNewPwd);
+			resultCode = memberDao.updatePwdChange(conn, memberId, memberPwd, memberNewPwd);
 			conn.commit();
-
-			if (resultCode == 1) {
-				mPC = "Y";
-			} else {
-				mPC = "N";
-				throw new SQLException();
-			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);
 		} finally {
 			JdbcUtil.close(conn);
 		}
-		return mPC;
+		return resultCode;
 	}
 
 	// memberPhotoChange 맴버 사진 변경 mPC

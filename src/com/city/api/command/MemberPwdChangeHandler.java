@@ -27,17 +27,18 @@ public class MemberPwdChangeHandler implements CommandJsonHandler {
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String memberId = request.getParameter("memberId");
-		String memberNewPwd = request.getParameter("memberChangePwd");
+		String memberId = request.getParameter(MEMBER_ID);
+		String memberPwd = request.getParameter(MEMBER_PWD);
+		String memberNewPwd = request.getParameter(MEMBER_CHANGE_PWD);
 	
-		String mNP = memberManageService.memberPwdChange(memberId, memberNewPwd);
+		int resultCode = memberManageService.setMemberPwdChange(memberId, memberPwd, memberNewPwd);
 		
-		if (mNP == "Y"){
-			result.setResultCode("200");
-			result.setResultMessage("변경성공");
+		if (resultCode == 1){
+			result.setResultCode(RESULT_SUCCESS);
+			result.setResultMessage(UPDATE_SUCCESS_MESSAGE);
 		} else {
-			result.setResultCode("400");
-			result.setResultMessage("변경실패");
+			result.setResultCode(RESULT_FAIL);
+			result.setResultMessage(UPDATE_FAIL_MESSAGE);
 		}
 		return gson.toJson(result);
 	}
