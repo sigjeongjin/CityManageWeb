@@ -29,15 +29,21 @@ public class SensorListHandler implements CommandJsonHandler {
 
 	private String processSubmit(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
-		SensorResultListJSON sensorResultListJSON = new SensorResultListJSON();
+		String memberId = req.getParameter(MEMBER_ID);
+		String manageType = req.getParameter(MANAGE_TYPE);
 		
-		String memberId = req.getParameter("memberId");
-		String manageType = req.getParameter("manageType");
+		SensorResultListJSON sensorResultListJSON = new SensorResultListJSON();
 
 		List<SensorResultInfo> sensorResultInfoList = sensorService.getSensorList(memberId, manageType);
 		
-		sensorResultListJSON.setSensorList(sensorResultInfoList);
-
+		if(sensorResultInfoList != null) {
+			sensorResultListJSON.setResultCode(RESULT_SUCCESS);
+			sensorResultListJSON.setResultMessage(SEARCH_SUCCESS_MESSAGE);
+			sensorResultListJSON.setSensorList(sensorResultInfoList);
+		} else {
+			sensorResultListJSON.setResultCode(RESULT_FAIL);
+			sensorResultListJSON.setResultMessage(SEARCH_FAIL_MESSAGE);
+		}
 		return gson.toJson(sensorResultListJSON);
 	}
 }

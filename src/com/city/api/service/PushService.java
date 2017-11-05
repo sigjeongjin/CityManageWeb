@@ -26,11 +26,15 @@ import jdbc.connection.ConnectionProvider;
 public class PushService {
 
 	private PushDao pushDao = new PushDao();
+	
 	private static final String ApiKey = "AAAA1ij4yDw:APA91bFGrAK0yYTqjiwkeevKztPKSTbqqYM45_Mm2m1Uhgk-9JyFEEmaeJP-JgHVd5ueXfQlctRM6dcqEoPrb4-YqdywJ3lLw6GOgm3lNP34QLrcQdAWIMJAJ25pLK6BOStbOUq4Gfl-";
-	String MESSAGE_ID = String.valueOf(Math.random() % 100 + 1);
-	boolean SHOW_ON_IDLE = true;
-	int LIVE_TIME = 1;
-	int RETRY = 2;
+	
+	private String MESSAGE_ID = String.valueOf(Math.random() % 100 + 1);
+	private boolean SHOW_ON_IDLE = true;
+	private int LIVE_TIME = 1;
+	private int RETRY = 2;
+	
+	private Connection conn = null;
 	
 	/**
 	 * @param memberId
@@ -39,7 +43,6 @@ public class PushService {
 	 */
 	public List<PushResultInfo> getPushHistoryList(String memberId, String manageType) {
 		List<PushResultInfo> pushInfoList = new ArrayList<PushResultInfo>();
-		Connection conn = null;
 
 		try {
 			conn = ConnectionProvider.getConnection();
@@ -50,7 +53,6 @@ public class PushService {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("PUSH 이력 조회 실패");
 			JdbcUtil.rollback(conn);
 		} finally {
 			JdbcUtil.close(conn);
@@ -62,63 +64,45 @@ public class PushService {
 	 * @param PushInfo
 	 * @return
 	 */
-	public String pushTokenRegister(PushInfo pushInfo) throws SQLException{
-		Connection conn = null;
+	public int pushTokenRegister(PushInfo pushInfo) throws SQLException{
 		int resultCode = 0;
-		String ptr = "";
 
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 
 			resultCode = pushDao.insertPushToken(conn, pushInfo);
-			
 			conn.commit();
-			
-			if (resultCode == 1) {
-				ptr = "Y";
-			} else {
-				throw new SQLException();
-			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);
 		} finally {
 			JdbcUtil.close(conn);
 		}
-		return ptr;
+		return resultCode;
 	}
 	
 	/**
 	 * @param PushInfo
 	 * @return
 	 */
-	public String pushTokenUpdate(PushInfo pushInfo) {
-		Connection conn = null;
-		String ptu = "";
-
+	public int pushTokenUpdate(PushInfo pushInfo) {
+		
+		int resultCode = 0;
+		
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 
-			int resultCode = pushDao.updatePushToken(conn, pushInfo);
-			
+			resultCode = pushDao.updatePushToken(conn, pushInfo);
 			conn.commit();
-			
-			if (resultCode == 1) {
-				ptu = "Y";
-			} else {
-				throw new SQLException();
-			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);
 		} finally {
 			JdbcUtil.close(conn);
 		}
-		return ptu;
+		return resultCode;
 	}
 
 	public ArrayList<String> sendTokenList() throws SQLException{
@@ -166,6 +150,7 @@ public class PushService {
 			if(result != null){
 				List<Result> resultList = result.getResults();
 				
+				//이것은 뭔 해괴 망측한 소스코드일까요.....
 				for(Result result2: resultList){
 					//System.out.println(result2.getErrorCodeName());
 				}

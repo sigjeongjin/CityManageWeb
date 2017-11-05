@@ -3,6 +3,8 @@ package com.city.api.command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.city.api.service.SensorService;
 import com.city.model.SmResultInfo;
 
@@ -26,12 +28,17 @@ public class SmInfoHandler implements CommandJsonHandler {
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String manageId = request.getParameter("manageId");
+		String manageId = request.getParameter(MANAGE_ID);
 		
 		SmResultInfo smResultInfo = sensorService.getSmInfo(manageId);
-		smResultInfo.setResultCode("200");
-		smResultInfo.setResultMessage("센서 정보가 조회 되었습니다.");
-
+		
+		if(StringUtils.isNotEmpty(smResultInfo.getManageId())) {
+			smResultInfo.setResultCode(RESULT_SUCCESS);
+			smResultInfo.setResultMessage(SEARCH_SUCCESS_MESSAGE);
+		} else {
+			smResultInfo.setResultCode(RESULT_FAIL);
+			smResultInfo.setResultMessage(SEARCH_FAIL_MESSAGE);
+		}
 		return gson.toJson(smResultInfo);
 	}
 }
