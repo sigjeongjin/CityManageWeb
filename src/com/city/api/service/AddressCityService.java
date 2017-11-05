@@ -17,25 +17,18 @@ public class AddressCityService {
 	private Connection conn = null;
 	private MemberDao memberDao = new MemberDao();
 
-	public String getCityStateInfo(String cityCode, String stateCode, String memberId, String memberPwd) {
-		int cityStateInfo = 0;
-		String resultCode = "";
+	public int getCityStateInfo(String cityCode, String stateCode, String memberId, String memberPwd) {
+		int resultCode = 0;
 
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 
-			cityStateInfo = memberDao.updateCityStateInfoRegiste(conn, cityCode, stateCode, memberId, memberPwd);
-
-			if (cityStateInfo == 1) {
-				resultCode = "Y";
-			} else {
-				throw new SQLException();
-			}
+			resultCode = memberDao.updateCityStateInfoRegiste(conn, cityCode, stateCode, memberId, memberPwd);
+			
 			conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("정보를 불러오지 못했습니다.");
 			JdbcUtil.rollback(conn);
 		} finally {
 			JdbcUtil.close(conn);

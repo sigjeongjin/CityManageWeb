@@ -40,10 +40,10 @@ public class AddressCityHandler implements CommandJsonHandler {
 		
 		if(city != null) {
 			cityjson.setResultCode(RESULT_SUCCESS);
-			cityjson.setResultMessage(RESULT_SUCCESS_MESSAGE);
+			cityjson.setResultMessage(SEARCH_SUCCESS_MESSAGE);
 		} else {
 			cityjson.setResultCode(RESULT_FAIL);
-			cityjson.setResultMessage(RESULT_FAIL_MESSAGE);
+			cityjson.setResultMessage(SEARCH_FAIL_MESSAGE);
 		}
 		
 		cityjson.setCity(city);
