@@ -35,14 +35,20 @@ public class FavoritesListHandler implements CommandJsonHandler {
 	 */
 	private String processSubmit(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
-		String memberId = req.getParameter("memberId");
-		String manageType = req.getParameter("manageType");
+		String memberId = req.getParameter(MEMBER_ID);
+		String manageType = req.getParameter(MANAGE_TYPE);
 		
 		List<FavoritesResultInfo> favoritesList = favoritesRegisterService.getFavoritesList(memberId,manageType);
 		FavoritesResultListJSON favoritesInfoJSON = new FavoritesResultListJSON();
-		favoritesInfoJSON.setResultCode("200");
-		favoritesInfoJSON.setResultMessage("조회되었습니다.");
-		favoritesInfoJSON.setFavoritesList(favoritesList);
+		
+		if(favoritesList != null) {
+			favoritesInfoJSON.setResultCode(RESULT_SUCCESS);
+			favoritesInfoJSON.setResultMessage(SEARCH_SUCCESS_MESSAGE);
+			favoritesInfoJSON.setFavoritesList(favoritesList);
+		} else {
+			favoritesInfoJSON.setResultCode(RESULT_FAIL);
+			favoritesInfoJSON.setResultMessage(SEARCH_FAIL_MESSAGE);
+		}
 
 		return gson.toJson(favoritesInfoJSON);
 
