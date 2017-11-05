@@ -247,6 +247,8 @@ public class ManagementDao {
 				gmResultInfo.setShockDetection(rs.getString("shockDetection"));
 				gmResultInfo.setInstallationDateTime(rs.getString("installationDateTime"));
 				gmResultInfo.setBookmark(rs.getString("bookmark"));
+			} else {
+				gmResultInfo = null;
 			}
 		} finally {
 			JdbcUtil.close(rs);

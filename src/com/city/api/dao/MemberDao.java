@@ -18,10 +18,9 @@ import jdbc.JdbcUtil;
 public class MemberDao {
 
 	// 로그인
-	public MemberAPI selectByIdAndPwd(Connection conn, String memberId, String memberPwd) throws SQLException {
+	public MemberAPI selectByIdAndPwd(Connection conn, String memberId, String memberPwd, MemberAPI memberAPI) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		MemberAPI member = new MemberAPI();
 
 		try {
 			pstmt = conn.prepareStatement("select member_id, member_name, member_photo_original from member "
@@ -32,9 +31,9 @@ public class MemberDao {
 
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				member.setMemberId(rs.getString("member_id"));
-				member.setMemberName(rs.getString("member_name"));
-				member.setMemberPhotoOriginal(rs.getString("member_photo_original"));
+				memberAPI.setMemberId(rs.getString("member_id"));
+				memberAPI.setMemberName(rs.getString("member_name"));
+				memberAPI.setMemberPhotoOriginal(rs.getString("member_photo_original"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -42,7 +41,7 @@ public class MemberDao {
 		} finally {
 			JdbcUtil.close(pstmt);
 		}
-		return member;
+		return memberAPI;
 	}
 
 	// 아이디 조회
@@ -208,12 +207,11 @@ public class MemberDao {
 			while (rs.next()) {
 				state.add(new State(rs.getString("stateCode"), rs.getString("stateName")));
 			}
-			return state;
-
 		} finally {
 			JdbcUtil.close(rs);
 			JdbcUtil.close(pstmt);
 		}
+		return state;
 	}
 
 	public List<City> selectCityInfo(Connection conn) throws SQLException {

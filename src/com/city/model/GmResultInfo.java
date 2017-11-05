@@ -4,6 +4,22 @@ package com.city.model;
  * @author com 센서아이디,주소,압력,충격,설치날짜
  */
 public class GmResultInfo extends Result {
+	
+	public GmResultInfo() {
+		super();
+	}
+	
+	public GmResultInfo(String manageId, String locationName, String gasDensity, String shockDetection,
+			String installationDateTime, String bookmark) {
+		super();
+		this.manageId = manageId;
+		this.locationName = locationName;
+		this.gasDensity = gasDensity;
+		this.shockDetection = shockDetection;
+		this.installationDateTime = installationDateTime;
+		this.bookmark = bookmark;
+	}
+
 	private String manageId;
 	private String locationName;
 	private String gasDensity;

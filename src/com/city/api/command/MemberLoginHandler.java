@@ -33,20 +33,17 @@ public class MemberLoginHandler implements CommandJsonHandler {
 		String memberId = request.getParameter("memberId");
 		String memberPwd = request.getParameter("memberPwd");
 
-		MemberAPI member = new MemberAPI();
+		MemberAPI memberAPI = new MemberAPI();
 
-		try {
-			member = memberManageService.memberLogin(memberId, memberPwd);
-			if (StringUtils.isNotEmpty(member.getMemberId())) {
-				member.setResultCode("200");
-				member.setResultMessage("로그인을 환영 합니다.");
-			} else {
-				member.setResultCode("204");
-				member.setResultMessage("아이디 또는 비밀번호를 다시 확인하세요.");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		memberAPI = memberManageService.memberLogin(memberId, memberPwd, memberAPI);
+		
+		if (StringUtils.isNotEmpty(memberAPI.getMemberId())) {
+			memberAPI.setResultCode(RESULT_SUCCESS);
+			memberAPI.setResultMessage("로그인을 환영 합니다.");
+		} else {
+			memberAPI.setResultCode(RESULT_FAIL);
+			memberAPI.setResultMessage("아이디 또는 비밀번호를 다시 확인하세요.");
 		}
-		return gson.toJson(member);
+		return gson.toJson(memberAPI);
 	}
 }

@@ -3,6 +3,8 @@ package com.city.api.command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.city.api.service.SensorService;
 import com.city.model.GmResultInfo;
 
@@ -27,20 +29,19 @@ public class GmInfoHandler implements CommandJsonHandler {
 
 	private String processSubmit(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
+		GmResultInfo gmResultInfo = new GmResultInfo();
+		
 		String manageId = req.getParameter(MANAGE_ID);
 		
-		GmResultInfo gmResultInfo = new GmResultInfo(); 
-				
 		gmResultInfo = sensorService.getGmInfo(manageId, gmResultInfo);
 		
-		if(gmResultInfo != null) {
+		if(StringUtils.isNotEmpty(gmResultInfo.getManageId())) {
 			gmResultInfo.setResultCode(RESULT_SUCCESS);
 			gmResultInfo.setResultMessage(SEARCH_SUCCESS_MESSAGE);
 		} else {
 			gmResultInfo.setResultCode(RESULT_FAIL);
 			gmResultInfo.setResultMessage(SEARCH_FAIL_MESSAGE);
 		}
-		
 		return gson.toJson(gmResultInfo);
 	}
 }

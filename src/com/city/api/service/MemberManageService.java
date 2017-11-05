@@ -15,22 +15,20 @@ public class MemberManageService {
 	private MemberDao memberDao = new MemberDao();
 	private Connection conn = null;
 	
-	public MemberAPI memberLogin(String memberId, String memberPwd) {
-
-		MemberAPI member = new MemberAPI();
+	public MemberAPI memberLogin(String memberId, String memberPwd, MemberAPI memberAPI) {
 
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 
-			member = memberDao.selectByIdAndPwd(conn, memberId, memberPwd);
+			memberAPI = memberDao.selectByIdAndPwd(conn, memberId, memberPwd, memberAPI);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);
 		} finally {
 			JdbcUtil.close(conn);
 		}
-		return member;
+		return memberAPI;
 	}
 
 	public String memberIdCheck(String memberId) {
@@ -63,7 +61,6 @@ public class MemberManageService {
 
 	public String memberRegister(Member member) {
 
-		Connection conn = null;
 		String mR = "";
 
 		try {
@@ -90,7 +87,6 @@ public class MemberManageService {
 
 	public String memberPwdConfirm(String memberId, String memberPwd) {
 
-		Connection conn = null;
 		String mPC = "";
 
 		try {
