@@ -87,6 +87,7 @@ public class MemberDao {
 			pstmt.setString(6, member.getMemberPhoto());
 			pstmt.setString(7, member.getMemberAuthorization());
 			pstmt.setString(8, member.getMemberPhotoOriginal());
+			
 			resultCode = pstmt.executeUpdate();
 
 		} catch (SQLException e) {

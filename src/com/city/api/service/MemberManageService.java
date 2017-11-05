@@ -59,22 +59,15 @@ public class MemberManageService {
 		return null;
 	}
 
-	public String memberRegister(Member member) {
+	public int memberRegister(Member member) {
 
-		String mR = "";
+		int resultCode = 0;
 
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 
-			int resultCode = memberDao.insertMember(conn, member);
-
-			if (resultCode == 1) {
-				mR = "Y";
-			} else {
-				mR = "N";
-				throw new SQLException();
-			}
+			resultCode = memberDao.insertMember(conn, member);
 			conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -82,7 +75,7 @@ public class MemberManageService {
 		} finally {
 			JdbcUtil.close(conn);
 		}
-		return mR;
+		return resultCode;
 	}
 
 	public int getMemberPwdConfirm(String memberId, String memberPwd) {

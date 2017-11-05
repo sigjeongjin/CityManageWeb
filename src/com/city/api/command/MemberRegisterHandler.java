@@ -52,16 +52,17 @@ public class MemberRegisterHandler implements CommandJsonHandler {
 			member.setMemberAuthorization("app_user");
 			member.setMemberPhotoOriginal(dbSaveFolder + "/" + saveFolder + "/" + multi.getParameter("memberPhoto"));
 								
-			String mR = memberManageService.memberRegister(member);
-			if (mR == "Y") {
-				result.setResultCode("200");
+			int resultCode = memberManageService.memberRegister(member);
+			if (resultCode == 1) {
+				result.setResultCode(RESULT_SUCCESS);
 				result.setResultMessage("회원가입을 환영합니다.");
+			} else {
+				result.setResultCode(RESULT_FAIL);
+				result.setResultMessage("회원가입에 실패 하였습니다.");
 			}
-			return gson.toJson(result);
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return gson.toJson(result);	
 	}
 }
