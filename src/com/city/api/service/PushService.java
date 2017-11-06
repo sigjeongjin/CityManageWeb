@@ -144,17 +144,9 @@ public class PushService {
 				.addData("contents", content)
 				.build();
 		
-		MulticastResult result;
 		try {
+			MulticastResult result; 
 			result = sender.send(message, tokenList, RETRY);
-			if(result != null){
-				List<Result> resultList = result.getResults();
-				
-				//이것은 뭔 해괴 망측한 소스코드일까요.....
-				for(Result result2: resultList){
-					//System.out.println(result2.getErrorCodeName());
-				}
-			}
 		} catch (Exception e) {
 			throw new RuntimeException();
 		}	

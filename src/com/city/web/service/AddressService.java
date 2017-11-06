@@ -38,7 +38,7 @@ public class AddressService {
 		return addressCityList;
 	}
 
-	public List<Address> addressState(String cityCode) {
+	public List<Address> getAddressState(String cityCode) {
 
 		List<Address> addressStateList = new ArrayList<>();
 		try {

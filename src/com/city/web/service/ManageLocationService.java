@@ -16,8 +16,10 @@ public class ManageLocationService {
 
 	private ManagementDao managementDao = new ManagementDao();
 
+	private Connection conn = null;
+	
 	public String managementRegister(LocationManagement locationManagement) {
-		Connection conn = null;
+		
 		String managementAreaStr = null;
 
 		try {
@@ -41,8 +43,10 @@ public class ManageLocationService {
 	}
 
 	public LocationManagement managementInfo(String manageId) {
-		try (Connection conn = ConnectionProvider.getConnection()) {
-
+		try {
+			conn = ConnectionProvider.getConnection(); // transaction
+			conn.setAutoCommit(false);
+			
 			LocationManagement locationManagement = new LocationManagement();
 
 			locationManagement = managementDao.selectManagementInfo(conn, manageId);
