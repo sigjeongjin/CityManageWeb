@@ -28,9 +28,10 @@ public class MemberInfoHandler implements CommandHandler {
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String memberId = request.getParameter("memberId");
+		String memberId = request.getParameter(MEMBER_ID);
 
-		Member member = memberManageService.memberSelect(memberId);
+		Member member = memberManageService.getMemberInfo(memberId);
+		
 		request.getSession().setAttribute("memberInfo", member);
 		
 		

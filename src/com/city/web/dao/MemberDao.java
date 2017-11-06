@@ -229,35 +229,33 @@ public class MemberDao {
 	public Member selectById(Connection conn, String memberId) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		
+		Member member = new Member();
+		
 		try {
-			pstmt = conn.prepareStatement("select * from member where member_id=?");
+			pstmt = conn.prepareStatement("SELECT * FROM member WHERE member_id=?");
 			pstmt.setString(1, memberId);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				return makeMemberFromResultSet(rs);
-			} else {
-				return null;
-			}
+				member.setMemberId(rs.getString("member_id"));
+				member.setMemberPwd(rs.getString("member_pwd"));
+				member.setMemberName(rs.getString("member_name"));
+				member.setMemberPhone(rs.getString("member_phone"));
+				member.setMemberEmail(rs.getString("member_email"));
+				member.setMemberPhoto(rs.getString("member_photo"));
+				member.setMemberAuthorization(rs.getString("member_authorization"));
+				member.setCityCode(rs.getString("city_code"));
+				member.setStateCode(rs.getString("state_code"));
+			} 
+			
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);
 		}
-	}
-	
-	private Member makeMemberFromResultSet(ResultSet rs) throws SQLException {
-		Member member = new Member();
-		member.setMemberId(rs.getString("member_id"));
-		member.setMemberPwd(rs.getString("member_pwd"));
-		member.setMemberName(rs.getString("member_name"));
-		member.setMemberPhone(rs.getString("member_phone"));
-		member.setMemberEmail(rs.getString("member_email"));
-		member.setMemberPhoto(rs.getString("member_photo"));
-		member.setMemberAuthorization(rs.getString("member_authorization"));
-		member.setCityCode(rs.getString("city_code"));
-		member.setStateCode(rs.getString("state_code"));
+		
 		return member;
 	}
-
+	
 	public List<Member> selecMemberNameList(Connection conn) throws SQLException{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
