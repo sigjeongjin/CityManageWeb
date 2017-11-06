@@ -185,3 +185,7 @@ CHANGE COLUMN `sensor_info` `sensor_status` VARCHAR(1) NOT NULL DEFAULT 'N' COMM
 -- 2017.11.06 colum 추가
 ALTER TABLE `citymanage`.`member` 
 ADD COLUMN `member_register_complete` VARCHAR(1) NULL DEFAULT 'N' AFTER `member_photo_original`;
+
+ALTER TABLE `citymanage`.`push_history_info` 
+ADD COLUMN `push_retry` INT(10) NULL AFTER `location_name`,
+ADD COLUMN `push_message_id` VARCHAR(100) NULL AFTER `push_retry`;

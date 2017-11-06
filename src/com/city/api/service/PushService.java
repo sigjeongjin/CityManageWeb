@@ -10,6 +10,7 @@ import com.city.model.PushInfo;
 import com.city.model.PushResultInfo;
 import com.google.android.gcm.server.Message;
 import com.google.android.gcm.server.MulticastResult;
+import com.google.android.gcm.server.Result;
 import com.google.android.gcm.server.Sender;
 
 import jdbc.JdbcUtil;
@@ -128,7 +129,7 @@ public class PushService {
 	 * @param title
 	 * @param content
 	 */
-	public void senJdPush(ArrayList<String> tokenList, String title, String content) {
+	public void sendPush(ArrayList<String> tokenList, String title, String content) {
 		// ApiKey → FireBase에서 가져온 서버 키
 		// MESSAGE_ID → 메세지 고유 ID
 		// SHOW_ON_IDLE → 앱이 비활성화 상태일때 PUSH를 보여줄 것인지 
@@ -147,7 +148,15 @@ public class PushService {
 		
 		try {
 			MulticastResult multicastResult = sender.send(message, tokenList, RETRY);
+			List<Result> test = multicastResult.getResults();
 			
+			System.out.println(test.toString());
+			
+			for(Result result : test) {
+				System.out.println(result.getErrorCodeName());
+				System.out.println(result.getCanonicalRegistrationId());
+				System.out.println(result.getMessageId());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	
