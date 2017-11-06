@@ -10,13 +10,13 @@ import javax.servlet.http.HttpServletResponse;
 import com.city.model.CityAjaxJSON;
 import com.city.model.Member;
 import com.city.web.service.AddressService;
-import com.city.web.service.RegisterService;
+import com.city.web.service.MemberManageService;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 public class RegisterHandler implements CommandHandler {
 
-	private RegisterService registerService = new RegisterService();
+	private MemberManageService memberManageService = new MemberManageService();
 
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -63,7 +63,7 @@ public class RegisterHandler implements CommandHandler {
 			member.setCityCode(multi.getParameter("cityCode"));
 			member.setMemberAuthorization("admin");
 			
-			registerService.setMember(member);
+			memberManageService.setMember(member);
 			
 		} catch (IOException e) {
 			e.printStackTrace();

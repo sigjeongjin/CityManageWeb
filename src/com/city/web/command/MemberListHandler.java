@@ -28,8 +28,6 @@ public class MemberListHandler implements CommandHandler{
 		MemberListPage memberListPage = memberManageService.getMemberListPage(pageNo, selectBox, searchText, cityCode);
 		request.setAttribute("memberListPage", memberListPage);
 		
-
 		return "/view/member/memberListView.jsp";
 	}
 }
-

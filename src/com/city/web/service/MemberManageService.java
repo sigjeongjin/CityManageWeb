@@ -20,10 +20,35 @@ public class MemberManageService {
 	
 	private MemberDao memberDao = new MemberDao();
 	
-	private int size = 10;
+	private int size = 10; // memberListPage
+	
+	/** 회원가입
+	 * @param member
+	 * @return
+	 */
+	public int setMember(Member member) {
+		
+		int resultCode = 0;
+
+		try {
+			conn = ConnectionProvider.getConnection(); // transaction
+			conn.setAutoCommit(false);
+
+			resultCode = memberDao.insertMember(conn, member);
+			
+			conn.commit();	
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+		return resultCode;
+	}
 	
 	/** 
-	 * 아이디와 비밀번호로 아이디와 이름 가져오기
+	 * 로그인
 	 * @param memberId
 	 * @param memberPwd
 	 * @return
@@ -42,6 +67,7 @@ public class MemberManageService {
 				memberInfo.put("error", "등록 되지 않은 회원 이거나 로그인 정보를 잘못 입력하셨습니다.");
 			}
 			conn.commit();
+			
 		}  catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);
@@ -51,37 +77,34 @@ public class MemberManageService {
 		return memberInfo;
 	}
 
-	/**
+	/** 
+	 * 회원정보 수정
 	 * @param member
 	 * @return
 	 */
-	public String MemberUpdate(Member member) {
+	public int modifyMember(Member member) {
 
 		Connection conn = null;
-		String mU = null;
+		int resultCode = 0;
 
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 
-			String strId = memberDao.update(conn, member);
+			resultCode = memberDao.updateMember(conn, member);
+			
 			conn.commit();
-			if (strId != null) {
-				mU = "Y";
-				return mU;
-			} else {
-				mU = "N";
-				throw new SQLException();
-			}
+			
 		} catch (SQLException e) {
 			JdbcUtil.rollback(conn);
-			throw new RuntimeException(e);
 		} finally {
 			JdbcUtil.close(conn);
 		}
+		return resultCode;
 	}
 
 	/**
+	 * 회원정보 리스트
 	 * @param pageNum
 	 * @param selectBox
 	 * @param searchText
@@ -94,12 +117,10 @@ public class MemberManageService {
 		
 		try {		
 			conn  = ConnectionProvider.getConnection();
-			conn.setAutoCommit(false);
 			
-			total = memberDao.selectCount(conn, selectBox, searchText, cityCode);
-			conn.commit();
+			total = memberDao.selectMemberCount(conn, selectBox, searchText, cityCode);
 			
-			content = memberDao.searchMemberList(conn, (pageNum - 1) * size, size, selectBox, searchText, cityCode);			
+			content = memberDao.selectMemberList(conn, (pageNum - 1) * size, size, selectBox, searchText, cityCode);			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);
@@ -110,6 +131,7 @@ public class MemberManageService {
 	}
 
 	/**
+	 * 멤버 상세정보
 	 * @param memberId
 	 * @return
 	 */
@@ -120,8 +142,10 @@ public class MemberManageService {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 
-			member = memberDao.selectById(conn, memberId);	
+			member = memberDao.selectMemberInfo(conn, memberId);	
+			
 			conn.commit();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);
@@ -141,7 +165,7 @@ public class MemberManageService {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 			
-			memberName = memberDao.selecMemberNameList(conn);
+			memberName = memberDao.selectMemberNameList(conn);
 			conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();

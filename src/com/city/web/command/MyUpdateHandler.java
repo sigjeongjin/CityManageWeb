@@ -45,7 +45,7 @@ public class MyUpdateHandler implements CommandHandler {
 		member.setMemberEmail(multi.getParameter("newEmail"));
 		member.setMemberPhoto(multi.getFilesystemName("newPhoto"));
 
-		memberManageService.MemberUpdate(member);
+		memberManageService.modifyMember(member);
 
 		request.getSession().setAttribute("authMemberName", member.getMemberName());
 
