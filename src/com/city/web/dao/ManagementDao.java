@@ -20,29 +20,44 @@ import jdbc.JdbcUtil;
 
 public class ManagementDao {
 
-	public String searchBySensorTypes(Connection conn, String manageId) throws SQLException {
-		PreparedStatement pstmt = null;
+	/** 
+	 * 관리아이디 자동넘버링
+	 * @param conn : 커넥션
+	 * @return String
+	 */
+	public String selectManageId(Connection conn) {
+		
 		ResultSet rs = null;
-		String sensorTypes = null;
+		PreparedStatement pstmt = null;
+		String manageId = null;
+		
 		try {
-			pstmt = conn.prepareStatement("select sensor_types sensorTypes from location_management where manage_id = ?");
-			pstmt.setString(1, manageId);
-			
+			pstmt = conn.prepareStatement("select CONCAT('M', LPAD((select(select cast((select right((select max(manage_id) from location_management), 14)) as unsigned) as mInt) + 1 mSum), 14, '0')) manageId FROM DUAL");
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				sensorTypes =  rs.getString("sensorTypes");
-				return sensorTypes;
-			}
-		} finally {
-			JdbcUtil.close(pstmt);
+				manageId = rs.getString(1);
+			} 
+		}catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.close(conn);
+		}finally {
 			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
 		}
-		return null;
+		return manageId;
 	}
 	
-	/** management 정보 등록 INSERT문 */
-	public String insertManagement(Connection conn, LocationManagement locationManagement) throws SQLException {
+	/** 관리 정보 등록
+	 * @param conn
+	 * @param locationManagement
+	 * @return int
+	 * @throws SQLException
+	 */
+	public int insertManagement(Connection conn, LocationManagement locationManagement) throws SQLException {
+		
 		PreparedStatement pstmt = null;
+		int resultCode = 0;
+		
 		try {
 			pstmt = conn.prepareStatement("insert into location_management"
 					+ "(manage_id, latitude, longitude, manage_type, sensor_types, memo, city_code, state_code, create_datetime) "
@@ -55,11 +70,72 @@ public class ManagementDao {
 			pstmt.setString(6, locationManagement.getMemo());
 			pstmt.setString(7, locationManagement.getCityCode());
 			pstmt.setString(8, locationManagement.getStateCode());
-			return Integer.toString(pstmt.executeUpdate());
+			resultCode = pstmt.executeUpdate();
+			
 		} finally {
 			JdbcUtil.close(pstmt);
 		}
+		return resultCode;
 	}
+	
+	/**
+	 * 관리 정보 수정
+	 * @param conn : 커넥션
+	 * @param locationManagement : 관리정보
+	 * @return int
+	 * @throws SQLException
+	 */
+	public int updateManagement(Connection conn, LocationManagement locationManagement) throws SQLException {
+		
+		PreparedStatement pstmt = null;
+		int resultCode = 0;
+		
+		try {
+			pstmt = conn.prepareStatement("update location_management "
+					+ "set latitude = ?, longitude = ?, memo = ?, city_code = ?, state_code = ? , sensor_types = ? where manage_id = ?");
+			pstmt.setDouble(1, locationManagement.getLatitude());
+			pstmt.setDouble(2, locationManagement.getLongitude());
+			pstmt.setString(3, locationManagement.getMemo());
+			pstmt.setString(4, locationManagement.getCityCode());
+			pstmt.setString(5, locationManagement.getStateCode());
+			pstmt.setString(6, locationManagement.getSensorTypes());
+			pstmt.setString(7, locationManagement.getManageId());
+			
+			resultCode = pstmt.executeUpdate();
+		} finally {
+			JdbcUtil.close(pstmt);
+		}	
+		return resultCode;
+	}
+	
+	/**
+	 * 관리아이디로 센서타입들 조회
+	 * @param conn : 커넥션
+	 * @param manageId : 관리 아이디
+	 * @return String
+	 * @throws SQLException
+	 */
+	public String selectSensorTypes(Connection conn, String manageId) throws SQLException {
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sensorTypes = null;
+		
+		try {
+			pstmt = conn.prepareStatement("select sensor_types sensorTypes from location_management where manage_id = ?");
+			pstmt.setString(1, manageId);	
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				sensorTypes =  rs.getString("sensorTypes");
+			}
+		} finally {
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(rs);
+		}
+		return sensorTypes;
+	}
+	
+
 	
 	/** LIST INFO manageId로 정보검색 SELECT문 */
 	public LocationManagement selectManagementInfo(Connection conn, String manageId) throws SQLException {
@@ -95,54 +171,8 @@ public class ManagementDao {
 		return null;
 	}
 
-	/** LIST INFO manageId로 정보수정 UPDATE문 */
-	public int updateManagementInfo(Connection conn, LocationManagement locationManagement) throws SQLException {
-		PreparedStatement pstmt = null;
-		
-		int resultCode = 0;
-		
-		try {
-			pstmt = conn.prepareStatement("update location_management "
-					+ "set latitude = ?, longitude = ?, memo = ?, city_code = ?, state_code = ? , sensor_types = ? where manage_id = ?");
-			pstmt.setDouble(1, locationManagement.getLatitude());
-			pstmt.setDouble(2, locationManagement.getLongitude());
-			pstmt.setString(3, locationManagement.getMemo());
-			pstmt.setString(4, locationManagement.getCityCode());
-			pstmt.setString(5, locationManagement.getStateCode());
-			pstmt.setString(6, locationManagement.getSensorTypes());
-			pstmt.setString(7, locationManagement.getManageId());
-			
-			resultCode = pstmt.executeUpdate();
-		} finally {
-			JdbcUtil.close(pstmt);
-		}
-		
-		return resultCode;
-	}
-	
-	/** manageId에 auto numbering을 위한 select문
-	 * @param conn
-	 * @return
-	 */
-	public String selectManageId(Connection conn) {
-		ResultSet rs = null;
-		PreparedStatement pstmt = null;
-		String manageId = null;
-		try {
-			pstmt = conn.prepareStatement("select CONCAT('M', LPAD((select(select cast((select right((select max(manage_id) from location_management), 14)) as unsigned) as mInt) + 1 mSum), 14, '0')) manageId FROM DUAL");
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				manageId = rs.getString(1);
-			} 
-		}catch (SQLException e) {
-			e.printStackTrace();
-			JdbcUtil.close(conn);
-		}finally {
-			JdbcUtil.close(rs);
-			JdbcUtil.close(pstmt);
-		}
-		return manageId;
-	}
+
+
 
 	/** LIST SELECT문 */
 	// 쓰레기통관리 리스트

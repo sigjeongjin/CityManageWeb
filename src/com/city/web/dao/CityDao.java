@@ -14,38 +14,44 @@ import jdbc.JdbcUtil;
 
 public class CityDao {
 
-	public List<Address> selectByCityCode(Connection conn) throws SQLException {
+	/**  
+	 * cityCode로 cityName 조회
+	 * @param conn
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Address> selectCityCode(Connection conn) throws SQLException {
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		
+		List<Address> addressCityList = new ArrayList<>();
 
 		try {
 			pstmt = conn.prepareStatement("SELECT city_code, city_name FROM address_city");
 			rs = pstmt.executeQuery();
-
-			List<Address> addressCityList = new ArrayList<>();
+			
 			while (rs.next()) {
 				Address address = new Address();
 				address.setCityCode(rs.getString("city_code"));
 				address.setCityName(rs.getString("city_name"));
 				addressCityList.add(address);
-			}
-			return addressCityList;
+			}		
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);
 		}
-
+		return addressCityList;
 	}
-
 	
-	/** stateCode로 stateName 조회
+	/** 
+	 * stateCode로 stateName 조회
 	 * @param conn
 	 * @param cityCode
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<Address> selectStateCode(Connection conn, String cityCode) {
+	public List<Address> selectStateCode(Connection conn, String cityCode) throws SQLException {
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -63,9 +69,6 @@ public class CityDao {
 				address.setStateName(rs.getString("state_name"));
 				addressCityList.add(address);
 			}		
-		} catch (Exception e) {
-			e.printStackTrace();
-			JdbcUtil.rollback(conn);
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);
@@ -73,7 +76,11 @@ public class CityDao {
 		return addressCityList;
 	}
 	
-	
+	/**
+	 * @param conn : 커넥션
+	 * @return List<CityAjaxJSON>
+	 * @throws SQLException
+	 */
 	public List<CityAjaxJSON> selectCityList(Connection conn) throws SQLException {
 		
 		PreparedStatement pstmt = null;
@@ -90,8 +97,7 @@ public class CityDao {
 				city.setCityCode(rs.getString("cityCode"));
 				city.setCityName(rs.getString("cityName"));
 				addressCityList.add(city);
-			}
-			
+			}	
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);

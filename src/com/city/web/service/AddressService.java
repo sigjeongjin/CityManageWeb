@@ -18,7 +18,11 @@ public class AddressService {
 
 	private Connection conn = null;
 
-	public List<Address> addressCity() {
+	/**
+	 * city의 주소값 가져오기
+	 * @return List<Address>
+	 */
+	public List<Address> getAddressCity() {
 
 		List<Address> addressCityList = new ArrayList<>();
 
@@ -26,7 +30,7 @@ public class AddressService {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 
-			addressCityList = cityDao.selectByCityCode(conn);
+			addressCityList = cityDao.selectCityCode(conn);
 
 			conn.commit();
 		} catch (SQLException e) {
@@ -38,13 +42,15 @@ public class AddressService {
 		return addressCityList;
 	}
 
-	/** state의 주소값 가져오기
+	/** 
+	 * state의 주소값 가져오기
 	 * @param cityCode
-	 * @return
+	 * @return List<Address>
 	 */
 	public List<Address> getAddressState(String cityCode) {
 
 		List<Address> addressStateList = new ArrayList<>();
+		
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
@@ -61,6 +67,9 @@ public class AddressService {
 		return addressStateList;
 	}
 
+	/**
+	 * @return List<CityAjaxJSON>
+	 */
 	public List<CityAjaxJSON> getCityList() {
 
 		List<CityAjaxJSON> addressCityList = new ArrayList<>();
@@ -69,6 +78,7 @@ public class AddressService {
 			conn.setAutoCommit(false);
 
 			addressCityList = cityDao.selectCityList(conn);
+			
 			conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();

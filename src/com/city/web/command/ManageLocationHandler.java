@@ -38,7 +38,7 @@ public class ManageLocationHandler implements CommandHandler{
 		request.setAttribute(MANAGE_ID, manageId);
 		
 		
-		addressCityList = addressService.addressCity();
+		addressCityList = addressService.getAddressCity();
 		request.setAttribute("addressCityList", addressCityList);
 		return "/view/management/manageRegisterForm.jsp";
 	}

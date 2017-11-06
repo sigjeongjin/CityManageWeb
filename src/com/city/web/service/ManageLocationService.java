@@ -16,55 +16,13 @@ import jdbc.connection.ConnectionProvider;
 
 public class ManageLocationService {
 
-	private ManagementDao managementDao = new ManagementDao();
-
 	private Connection conn = null;
 	
-	public String managementRegister(LocationManagement locationManagement) {
-		
-		String managementAreaStr = null;
+	private ManagementDao managementDao = new ManagementDao();
 
-		try {
-			conn = ConnectionProvider.getConnection(); // transaction
-			conn.setAutoCommit(false);
-			managementAreaStr = managementDao.insertManagement(conn, locationManagement);
-			conn.commit();
-			if (managementAreaStr != null) {
-				return managementAreaStr;
-			} else {
-				throw new SQLException();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println(e);
-			JdbcUtil.rollback(conn);
-		} finally {
-			JdbcUtil.close(conn);
-		}
-		return null;
-	}
-
-	public LocationManagement managementInfo(String manageId) {
-
-		LocationManagement locationManagement = new LocationManagement();
-		
-		try {
-			conn = ConnectionProvider.getConnection(); // transaction
-			conn.setAutoCommit(false);
-			
-			locationManagement = managementDao.selectManagementInfo(conn, manageId);
-			conn.commit();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			JdbcUtil.rollback(conn);
-		} finally {
-			JdbcUtil.close(conn);
-		}
-		return locationManagement;
-	}
-
-	/** manageId setting
-	 * @return
+	/** 
+	 * 관리아이디 자동넘버링
+	 * @return String
 	 */
 	public String setManageId() {
 		String manageId = "";
@@ -88,8 +46,39 @@ public class ManageLocationService {
 		}
 		return manageId;
 	}
+	
+	/** 
+	 * 관리 정보
+	 * @param locationManagement : 관리 정보
+	 * @return int
+	 */
+	public int setManagement(LocationManagement locationManagement) {
+		
+		int resultCode = 0;
 
-	public void managementUpdate(LocationManagement locationManagement) {
+		try {
+			conn = ConnectionProvider.getConnection(); // transaction
+			conn.setAutoCommit(false);
+			
+			resultCode = managementDao.insertManagement(conn, locationManagement);
+			
+			conn.commit();
+	
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+		return resultCode;
+	}
+	
+	/**
+	 * 관리 수정 정보
+	 * @param locationManagement  : 관리 정보
+	 * @return int
+	 */
+	public int modifiyManagement(LocationManagement locationManagement) {
 
 		int resultCode = 0;
 		
@@ -97,36 +86,64 @@ public class ManageLocationService {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 
-			resultCode = managementDao.updateManagementInfo(conn, locationManagement);
-
-			if(resultCode != 1) {
-				throw new SQLException("정보 변경에 실패 하였습니다.");
-			}
+			resultCode = managementDao.updateManagement(conn, locationManagement);
 			
 			conn.commit();
 		} catch (SQLException e) {
+			e.printStackTrace();
 			JdbcUtil.rollback(conn);
-			throw new RuntimeException(e);
 		} finally {
 			JdbcUtil.close(conn);
 		}
+		return resultCode;
 	}
-
-	public String sensorTypesSelect(String manageId) {
-		try (Connection conn = ConnectionProvider.getConnection()) {
-
-			String sensorTypes = managementDao.searchBySensorTypes(conn, manageId);
-
-			if (sensorTypes == null) {
-				throw new NullPointerException();
-			}
-
-			return sensorTypes;
+	
+	/**
+	 * 센서타입들 가져오기
+	 * @param manageId : 관리아이디
+	 * @return String
+	 */
+	public String getSensorTypes(String manageId) {
+		
+		String sensorTypes = null;
+		
+		try {
+			conn = ConnectionProvider.getConnection();
+			conn.setAutoCommit(false);
+			
+			sensorTypes = managementDao.selectSensorTypes(conn, manageId);
+	
+			conn.commit();		
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
+		}	
+		return sensorTypes;
 	}
+
+	public LocationManagement managementInfo(String manageId) {
+
+		LocationManagement locationManagement = new LocationManagement();
+		
+		try {
+			conn = ConnectionProvider.getConnection(); // transaction
+			conn.setAutoCommit(false);
+			
+			locationManagement = managementDao.selectManagementInfo(conn, manageId);
+			conn.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+		return locationManagement;
+	}
+
+
 
 	/** 최근 등록 된 센서등록을 가져오기
 	 * @param manageType

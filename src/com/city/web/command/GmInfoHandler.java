@@ -46,7 +46,7 @@ public class GmInfoHandler implements CommandHandler {
 
 		sensorInfo = sensorManageService.getSensorInfo(manageId);
 
-		addressCityList = addressService.addressCity();
+		addressCityList = addressService.getAddressCity();
 
 		request.getSession().setAttribute("sensorInfoList", sensorInfo);
 		request.getSession().setAttribute("manageInfo", manageInfo);
