@@ -120,8 +120,11 @@ public class ManagementDao {
 		return resultCode;
 	}
 	
-	/** manageId NUMBER AUTO SELECT문 */
-	public String searchById(Connection conn) throws SQLException {
+	/** manageId에 auto numbering을 위한 select문
+	 * @param conn
+	 * @return
+	 */
+	public String selectManageId(Connection conn) {
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
 		String manageId = null;
@@ -130,8 +133,11 @@ public class ManagementDao {
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				manageId = rs.getString(1);
-			}
-		} finally {
+			} 
+		}catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.close(conn);
+		}finally {
 			JdbcUtil.close(rs);
 			JdbcUtil.close(pstmt);
 		}
@@ -477,25 +483,36 @@ public class ManagementDao {
 		return query;
 	}
 
-	public List<SensorRegister> selectTmRegisterList(Connection conn, String manageType) throws SQLException{
+	/** 최근 등록 된 센서정보을 최근순으로 3개 조회
+	 * @param conn
+	 * @param manageType
+	 * @return
+	 */
+	public List<SensorRegister> selectRegisterList(Connection conn, String manageType) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		
+		List<SensorRegister> registerList = new ArrayList<>();
+		
 		try {
-				pstmt = conn.prepareStatement("select CONCAT((select city_name from address_city where city_code=lm.city_code),' ',(select state_name from address_state where state_code=lm.state_code)) locationName, "
-						+ "si.sensor_id sensorId from location_management lm  right join sensor_info si on si.manage_id=lm.manage_id where manage_type = ? limit 0,3;");
-				pstmt.setString(1, manageType);
-				rs = pstmt.executeQuery();
-				List<SensorRegister> RegisterList = new ArrayList<>();
+			pstmt = conn.prepareStatement("select CONCAT((select city_name from address_city where city_code=lm.city_code),' ',(select state_name from address_state where state_code=lm.state_code)) locationName, "
+					+ "si.sensor_id sensorId from location_management lm  right join sensor_info si on si.manage_id=lm.manage_id where manage_type = ? limit 0,3;");
+			pstmt.setString(1, manageType);
+			rs = pstmt.executeQuery();			
+							
 			while (rs.next()) {
 				SensorRegister manageList = new SensorRegister();
 				manageList.setLocationName(rs.getString("locationName"));
 				manageList.setSensorId(rs.getString("sensorId"));
-				RegisterList.add(manageList);
-			}
-			return RegisterList;
+				registerList.add(manageList);
+			}	
+		} catch (Exception e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);
 		}
+		return registerList;
 	}
 }

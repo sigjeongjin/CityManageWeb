@@ -39,6 +39,5 @@ public class AddressStateHandler implements CommandHandler{
 		request.setAttribute("addressStateList", addressStateList);
 		
 		return "/view/ManageRegisterForm.jsp";
-
 	}
 }

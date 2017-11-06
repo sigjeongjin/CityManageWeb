@@ -23,9 +23,14 @@ public class RegisterService {
 
 	private MemberDao memberDao = new MemberDao();
 
-	public String register(Member member) {
+	Connection conn = null;
+	
+	/**
+	 * @param member
+	 * @return
+	 */
+	public String setMember(Member member) {
 
-		Connection conn = null;
 		String rs = null;
 
 		try {
@@ -34,6 +39,7 @@ public class RegisterService {
 
 			int resultCode = memberDao.insertMember(conn, member);
 			conn.commit();
+			
 			if (resultCode == 1) {
 				rs = "Y";
 				return rs;

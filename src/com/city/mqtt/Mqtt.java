@@ -64,10 +64,11 @@ public class Mqtt implements ServletContextListener {
 				}
 			});
 			
-			client.subscribe("wm", 1); // topic, qos
-			client.subscribe("tm", 1); // topic, qos
-			client.subscribe("gm", 1); // topic, qos
-			client.subscribe("sm", 1); // topic, qos
+			// topic, qos
+			client.subscribe("wm", 1);
+			client.subscribe("tm", 1);
+			client.subscribe("gm", 1);
+			client.subscribe("sm", 1);
 			
 			String pubTopic = "민정이가 왕이다";
 			MqttMessage message = new MqttMessage(pubTopic.getBytes());

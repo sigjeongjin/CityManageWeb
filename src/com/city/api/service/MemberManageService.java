@@ -22,6 +22,8 @@ public class MemberManageService {
 			conn.setAutoCommit(false);
 
 			memberAPI = memberDao.selectByIdAndPwd(conn, memberId, memberPwd, memberAPI);
+			conn.commit();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);

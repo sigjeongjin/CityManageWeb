@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.city.model.LocationManagement;
 import com.city.model.SensorRegister;
 import com.city.web.dao.ManagementDao;
@@ -61,21 +63,26 @@ public class ManageLocationService {
 		return locationManagement;
 	}
 
-	public String manageIdSet() {
+	/** manageId setting
+	 * @return
+	 */
+	public String setManageId() {
 		String manageId = "";
 		
 		try {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
-			manageId = managementDao.searchById(conn);
+			
+			manageId = managementDao.selectManageId(conn);
 
-			if (manageId == null) {
+			// 처음 등록 시 등록 된 아이디가 없을 경우
+			if (StringUtils.isAllEmpty(manageId)) {
 				manageId = "M00000000000001";
 			}
 			conn.commit();
 		} catch (SQLException e) {
+			e.printStackTrace();
 			JdbcUtil.rollback(conn);
-			throw new RuntimeException(e);
 		} finally {
 			JdbcUtil.close(conn);
 		}
@@ -121,16 +128,26 @@ public class ManageLocationService {
 		}
 	}
 
-	public List<SensorRegister> RegisterList(String manageType) {
-		List<SensorRegister> tmRegisterList = new ArrayList<>();
-		try (Connection conn = ConnectionProvider.getConnection()) {
+	/** 최근 등록 된 센서등록을 가져오기
+	 * @param manageType
+	 * @return
+	 */
+	public List<SensorRegister> getRegisterList(String manageType) {
+		
+		List<SensorRegister> RegisterList = new ArrayList<>();
+		
+		try {
+			conn = ConnectionProvider.getConnection();
+			conn.setAutoCommit(false);
 			
-			tmRegisterList = managementDao.selectTmRegisterList(conn, manageType);
-			
-			return tmRegisterList;
+			RegisterList = managementDao.selectRegisterList(conn, manageType);
+			conn.commit();			
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new RuntimeException(e);
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
 		}
+		return RegisterList;
 	}
 }

@@ -38,6 +38,10 @@ public class AddressService {
 		return addressCityList;
 	}
 
+	/** state의 주소값 가져오기
+	 * @param cityCode
+	 * @return
+	 */
 	public List<Address> getAddressState(String cityCode) {
 
 		List<Address> addressStateList = new ArrayList<>();
@@ -45,7 +49,7 @@ public class AddressService {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 
-			addressStateList = cityDao.selectByStateCode(conn, cityCode);
+			addressStateList = cityDao.selectStateCode(conn, cityCode);
 
 			conn.commit();
 		} catch (SQLException e) {

@@ -38,7 +38,14 @@ public class CityDao {
 
 	}
 
-	public List<Address> selectByStateCode(Connection conn, String cityCode) throws SQLException {
+	
+	/** stateCode로 stateName 조회
+	 * @param conn
+	 * @param cityCode
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Address> selectStateCode(Connection conn, String cityCode) {
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -55,8 +62,10 @@ public class CityDao {
 				address.setStateCode(rs.getString("state_code"));
 				address.setStateName(rs.getString("state_name"));
 				addressCityList.add(address);
-			}
-			
+			}		
+		} catch (Exception e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);

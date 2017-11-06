@@ -36,18 +36,6 @@ public class RegisterHandler implements CommandHandler {
 		
 		List<CityAjaxJSON> addressCityList = new ArrayList<>();
 		addressCityList = addressService.getCityList();
-//
-//		JSONArray jr = new JSONArray();
-//		for (int i = 0; i < addressCityList.size(); i++) {
-//			JSONObject object = new JSONObject();
-//
-//			object.put("stateCode", addressCityList.get(i).getCityCode());
-//			object.put("stateName", addressCityList.get(i).getCityName());
-//			jr.add(object);
-//		}
-//
-//		JSONObject objectCity = new JSONObject();
-//		objectCity.put("cityList", jr);
 		
 		request.setAttribute("city", addressCityList);
 		
@@ -75,7 +63,7 @@ public class RegisterHandler implements CommandHandler {
 			member.setCityCode(multi.getParameter("cityCode"));
 			member.setMemberAuthorization("admin");
 			
-			registerService.register(member);
+			registerService.setMember(member);
 			
 		} catch (IOException e) {
 			e.printStackTrace();

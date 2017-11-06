@@ -3,7 +3,6 @@ package com.city.web.command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 import com.city.web.service.SensorManageService;
 import com.city.web.service.SmSensorListPage;
 
@@ -14,20 +13,19 @@ public class SmListHandler  implements CommandHandler {
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String selectBox = (request.getParameter("selectBox"));
-		String searchText = (request.getParameter("searchText"));
-		
-		String manageType = "sm";
+		String selectBox = request.getParameter("selectBox");
+		String searchText = request.getParameter("searchText");
 		String pageNoVal = request.getParameter("pageNo");
+			
 		int pageNo = 1;
 		if (pageNoVal != null) {
 			pageNo = Integer.parseInt(pageNoVal);
 		}
 
-		SmSensorListPage smSensorListPage = sensorManageService.getSmSensorListPage(pageNo, manageType,  selectBox, searchText);
+		SmSensorListPage smSensorListPage = sensorManageService.getSmSensorListPage(pageNo, SM,  selectBox, searchText);
 		request.setAttribute("SmListPage", smSensorListPage);
 
-		request.getSession().setAttribute("manageType", manageType);
+		request.getSession().setAttribute("manageType", SM);
 
 		return "/view/management/smListView.jsp";
 	}

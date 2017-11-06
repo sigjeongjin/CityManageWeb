@@ -14,7 +14,7 @@ pageEncoding = "UTF-8"%>
 <div class="container">
 
 <form action="memberList.do" method="post">
-	<select id="memberSelect" name="memberSelect">
+	<select id="selectBox" name="selectBox">
 		<option value="all">전체</option>
 		<option value="member_authorization">구분</option>
 		<option value="member_name">이름</option>
@@ -24,7 +24,7 @@ pageEncoding = "UTF-8"%>
 		<option value="city_code">시/도</option>
 		<option value="state_code">시/군/구</option>
     </select>
-    <input type="text" id="memberInput" placeholder="Search for names.." name="memberInput">  
+    <input type="text" id="searchText" placeholder="Search for names.." name="searchText">  
 <button type ="submit" value="선택">선택</button>
 </form> 
 <table>

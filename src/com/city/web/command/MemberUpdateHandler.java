@@ -9,7 +9,7 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 public class MemberUpdateHandler implements CommandHandler {
-	
+
 	MemberManageService memberManageService = new MemberManageService();
 
 	@Override
@@ -23,19 +23,19 @@ public class MemberUpdateHandler implements CommandHandler {
 			return null;
 		}
 	}
-	
+
 	private String processForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		return this.processSubmit(request, response);
 	}
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+
 		String saveFolder = "/upload";
 		String realFolder = request.getServletContext().getRealPath(saveFolder); // saveFilepath
 		int maxSize = 5 * 1024 * 1024; // 최대 업로될 파일크기 5Mb
 		MultipartRequest multi = new MultipartRequest(request, realFolder, maxSize, "utf-8",
 				new DefaultFileRenamePolicy());
-		
+
 		Member member = new Member();
 		member.setMemberId(request.getParameter("memberId"));
 		member.setMemberPwd(multi.getParameter("memberPwd"));
@@ -46,6 +46,6 @@ public class MemberUpdateHandler implements CommandHandler {
 
 		memberManageService.MemberUpdate(member);
 
-		return "/wmList.do";	
+		return "/memberList.do";
 	}
 }

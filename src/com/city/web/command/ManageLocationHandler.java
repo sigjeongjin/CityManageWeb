@@ -34,13 +34,12 @@ public class ManageLocationHandler implements CommandHandler{
 
 		List<Address> addressCityList = new ArrayList<>();
 		
-		String manageId = manageLocationService.manageIdSet();
-		request.setAttribute("manageId", manageId);
+		String manageId = manageLocationService.setManageId();
+		request.setAttribute(MANAGE_ID, manageId);
 		
 		
 		addressCityList = addressService.addressCity();
 		request.setAttribute("addressCityList", addressCityList);
 		return "/view/management/manageRegisterForm.jsp";
-
 	}
 }

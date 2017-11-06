@@ -46,9 +46,16 @@ public class MemberDao {
 		return resultCode;
 	}
 
-	/*login을 위한 ID, PASSWORD matching*/
-	public HashMap<String, String> selectByIdAndPwd(Connection conn, String memberId, String memberPwd)
-			throws SQLException {
+	/** 
+	 * login을 위한 ID, PASSWORD 조회
+	 * @param conn
+	 * @param memberId
+	 * @param memberPwd
+	 * @return
+	 * @throws SQLException
+	 */
+	public HashMap<String, String> selectIdAndName(Connection conn, String memberId, String memberPwd) {
+		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
@@ -68,6 +75,9 @@ public class MemberDao {
 				memberInfo.put("cityCode", rs.getString("city_code"));
 			}
 			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);

@@ -19,6 +19,6 @@ public interface CommandHandler {
 	public final String MANAGE_ID 			= "manageId";
 	public final String SEARCH_TEXT 		= "searchText";
 	
-	public String process(HttpServletRequest req, HttpServletResponse res) throws Exception;
+	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }
 

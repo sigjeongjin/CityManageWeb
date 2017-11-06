@@ -14,15 +14,14 @@ public class PushHistoryListHandler implements CommandHandler {
 		String pageNoVal = request.getParameter("pageNo");
 		String searchText = request.getParameter("searchText");
 		String searchSelect = request.getParameter("searchSelect");
-		
+
 		int pageNo = 1;
 		if (pageNoVal != null) {
 			pageNo = Integer.parseInt(pageNoVal);
 		}
-		
-		PushHistoryListPage pushHistoryListPage = pushService.getPushHistoryListPage(pageNo,searchText, searchSelect);
+
+		PushHistoryListPage pushHistoryListPage = pushService.getPushHistoryListPage(pageNo, searchText, searchSelect);
 		request.setAttribute("pushHistoryListPage", pushHistoryListPage);
-		
 
 		return "/view/push/pushHistoryListView.jsp";
 	}

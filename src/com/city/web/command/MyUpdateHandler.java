@@ -9,7 +9,7 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 public class MyUpdateHandler implements CommandHandler {
-	
+
 	MemberManageService memberManageService = new MemberManageService();
 
 	@Override
@@ -23,20 +23,20 @@ public class MyUpdateHandler implements CommandHandler {
 			return null;
 		}
 	}
-	
+
 	private String processForm(HttpServletRequest request, HttpServletResponse response) {
 		return "view/member/memberUpdateForm.jsp";
 	}
 
-	private String processSubmit(HttpServletRequest request, HttpServletResponse response)throws Exception {
-		
+	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
 		String saveFolder = "/upload";
 		String realFolder = request.getServletContext().getRealPath(saveFolder); // saveFilepath
 		int maxSize = 5 * 1024 * 1024; // 최대 업로될 파일크기 5Mb
 		MultipartRequest multi = new MultipartRequest(request, realFolder, maxSize, "utf-8",
 				new DefaultFileRenamePolicy());
 
-		Member member = new Member();	
+		Member member = new Member();
 		String memberId = (String) request.getSession().getAttribute("userId");
 		member.setMemberId(memberId);
 		member.setMemberPwd(multi.getParameter("newPwd"));
@@ -46,11 +46,9 @@ public class MyUpdateHandler implements CommandHandler {
 		member.setMemberPhoto(multi.getFilesystemName("newPhoto"));
 
 		memberManageService.MemberUpdate(member);
-		
-		//request.getSession().setAttribute("authMemberName", multi.getParameter("newName"));
+
 		request.getSession().setAttribute("authMemberName", member.getMemberName());
-		
+
 		return "index.jsp";
-		
 	}
 }

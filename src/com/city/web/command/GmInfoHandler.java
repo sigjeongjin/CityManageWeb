@@ -38,21 +38,20 @@ public class GmInfoHandler implements CommandHandler {
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String manageId = request.getParameter(MANAGE_ID);
-		
+
 		LocationManagement manageInfo = manageLocationService.managementInfo(manageId);
-		
+
 		List<SensorInfo> sensorInfo = new ArrayList<>();
 		List<Address> addressCityList = new ArrayList<>();
-		
-		sensorInfo = sensorManageService.selectSensor(manageId);
-		
+
+		sensorInfo = sensorManageService.getSensorInfo(manageId);
+
 		addressCityList = addressService.addressCity();
-		
+
 		request.getSession().setAttribute("sensorInfoList", sensorInfo);
 		request.getSession().setAttribute("manageInfo", manageInfo);
 		request.setAttribute("addressCityList", addressCityList);
 
 		return "/view/management/manageInfoForm.jsp";
 	}
-
 }

@@ -13,9 +13,10 @@ public class MemberListHandler implements CommandHandler{
 
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		String selectBox = request.getParameter("selectBox");
+		String searchText = request.getParameter("searchText");
 		String pageNoVal = request.getParameter("pageNo");
-		String memberSelect = request.getParameter("memberSelect");
-		String memberInput = request.getParameter("memberInput");
 		
 		int pageNo = 1;
 		if (pageNoVal != null) {
@@ -24,7 +25,7 @@ public class MemberListHandler implements CommandHandler{
 		
 		String cityCode = request.getSession().getAttribute("cityCode").toString();
 		
-		MemberListPage memberListPage = memberManageService.getMemberListPage(pageNo,memberSelect,memberInput,cityCode);
+		MemberListPage memberListPage = memberManageService.getMemberListPage(pageNo, selectBox, searchText, cityCode);
 		request.setAttribute("memberListPage", memberListPage);
 		
 

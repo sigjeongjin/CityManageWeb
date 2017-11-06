@@ -37,18 +37,19 @@ public class TmInfoHandler implements CommandHandler {
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		// 상세 정보 들어갈때 해당 manageId에 locationManagementInfo
-		String manageId = request.getParameter("manageId");
+		String manageId = request.getParameter(MANAGE_ID);
+		
 		LocationManagement manageInfo = manageLocationService.managementInfo(manageId);
-		request.getSession().setAttribute("manageInfo", manageInfo);
-
-		// 상세 정보 들어갈때 해당 manageId에 setting 되어있는 sensorInfo
+		
 		List<SensorInfo> sensorInfo = new ArrayList<>();
-		sensorInfo = sensorManageService.selectSensor(manageId);
-		request.getSession().setAttribute("sensorInfoList", sensorInfo);
-
 		List<Address> addressCityList = new ArrayList<>();
+		
+		sensorInfo = sensorManageService.getSensorInfo(manageId);
+		
 		addressCityList = addressService.addressCity();
+		
+		request.getSession().setAttribute("sensorInfoList", sensorInfo);
+		request.getSession().setAttribute("manageInfo", manageInfo);
 		request.setAttribute("addressCityList", addressCityList);
 
 		return "/view/management/manageInfoForm.jsp";

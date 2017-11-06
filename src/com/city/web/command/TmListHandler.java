@@ -13,20 +13,19 @@ public class TmListHandler implements CommandHandler {
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String selectBox = (request.getParameter("selectBox"));
-		String searchText = (request.getParameter("searchText"));
-		
-		String manageType = TM;
+		String selectBox = request.getParameter("selectBox");
+		String searchText = request.getParameter("searchText");
 		String pageNoVal = request.getParameter("pageNo");
+			
 		int pageNo = 1;
 		if (pageNoVal != null) {
 			pageNo = Integer.parseInt(pageNoVal);
 		}
 
-		TmSensorListPage tmSensorListPage = sensorManageService.getTmSensorListPage(pageNo, manageType,  selectBox, searchText);
+		TmSensorListPage tmSensorListPage = sensorManageService.getTmSensorListPage(pageNo, TM,  selectBox, searchText);
 		request.setAttribute("TmListPage", tmSensorListPage);
 
-		request.getSession().setAttribute("manageType", manageType);
+		request.getSession().setAttribute("manageType", TM);
 
 		return "/view/management/tmListView.jsp";
 	}

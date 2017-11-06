@@ -7,7 +7,7 @@ import com.city.model.Member;
 import com.city.web.service.MemberManageService;
 
 public class MemberInfoHandler implements CommandHandler {
-	
+
 	private MemberManageService memberManageService = new MemberManageService();
 
 	@Override
@@ -21,21 +21,19 @@ public class MemberInfoHandler implements CommandHandler {
 			return null;
 		}
 	}
-	
+
 	private String processForm(HttpServletRequest request, HttpServletResponse response) {
 		return "/view/member/memberListView.jsp";
 	}
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+
 		String memberId = request.getParameter(MEMBER_ID);
 
 		Member member = memberManageService.getMemberInfo(memberId);
-		
+
 		request.getSession().setAttribute("memberInfo", member);
-		
-		
-		return "/view/member/memberInfoForm.jsp";	
+
+		return "/view/member/memberInfoForm.jsp";
 	}
 }
-

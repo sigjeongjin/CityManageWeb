@@ -34,8 +34,10 @@ public class SensorDao {
 
 	/** sensorId NUMBER AUTO SELECT문 */
 	public String searchById(Connection conn, String manageType) throws SQLException {
+		
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
+		
 		String manageId = null;
 		
 		try {
@@ -67,51 +69,36 @@ public class SensorDao {
 		return manageId;
 	}
 
-/*	public List<SensorInfo> searchByType(Connection conn, String sensorManageId) throws SQLException {
+	/** manageId로 sensorInfo 정보를 조회
+	 * @param conn
+	 * @param manageId
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<SensorInfo> selectSensorInfo(Connection conn, String manageId) {
+		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		try {
-			pstmt = conn.prepareStatement("select sensor_type from sensor_info where manage_id =?");
-			pstmt.setString(1, sensorManageId);
-			rs = pstmt.executeQuery();
-			List<SensorInfo> sensorInfoList = new ArrayList<>();
-			while (rs.next()) {
-
-				sensorInfoList.add(makeSensorTypeFromResultSet(rs));
-			}
-			return sensorInfoList;
-
-		} finally {
-			JdbcUtil.close(pstmt);
-			JdbcUtil.close(rs);
-		}
-	}*/
-	
-/*	private SensorInfo makeSensorTypeFromResultSet(ResultSet rs) throws SQLException {
-		SensorInfo sensorInfo = new SensorInfo();
-		sensorInfo.setSensorType(rs.getString("sensor_type"));
-		return sensorInfo;
-	}*/
-
-	// 해당 manageId sensorInfo 정보를 불러오기 위한 select문
-	public List<SensorInfo> selectByManageId(Connection conn, String manageId) throws SQLException {
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		
+		List<SensorInfo> sensorInfoList = new ArrayList<>();
+		
 		try {
 			pstmt = conn.prepareStatement("select * from sensor_info where manage_id =?");
 			pstmt.setString(1, manageId);
 			rs = pstmt.executeQuery();
-			List<SensorInfo> sensorInfoList = new ArrayList<>();
+			
 			while (rs.next()) {
 
 				sensorInfoList.add(makeSensorFromResultSet(rs));
 			}
-			return sensorInfoList;
-
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);
-		}
+		}		
+		return sensorInfoList;
 	}
 	
 	// 해당 manageId sensorInfo 정보를 불러오기 위한 select문

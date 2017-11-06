@@ -16,63 +16,129 @@ import com.city.web.dao.SensorDao;
 import jdbc.JdbcUtil;
 import jdbc.connection.ConnectionProvider;
 
-/*
- *  Tm,Wm,Sm,Gm List 각 쓰레기통,수질관리,금연구역관리,도시가스 관리 리스트		 	tl,wl,sl,gl
- * 	Tm,Wm,Sm,Gm Info 각 쓰레기통,수질관리,금연구역관리,도시가스 상세 정보 조회 		ti,wi,si,gi
- *  Tm,Wm,Sm,Gm sensorRegister 각 쓰레기통,수질관리,금연구역관리,도시가스 센서정보	tsr,wsr,ssr,gsr
- *  Tm,Wm,Sm,Gm sensorUpdate 각 쓰레기통,수질관리,금연구역관리,도시가스 정보 업데이트	tsu,wsu,ssu,gsu
- *  sensorDelete 센서정보 삭제												sd
- */
-
 public class SensorManageService {
 
+	private Connection conn = null;
+
 	private ManagementDao managementDao = new ManagementDao();
+
 	private SensorDao sensorDao = new SensorDao();
+
 	private int size = 10;
-	
-	// manageType: tm, wm, gm, sm
-	// manageType: tm
-	public TmSensorListPage getTmSensorListPage(int pageNum, String manageType, String selectBox, String searchText) {
-		try (Connection conn = ConnectionProvider.getConnection()) {
-			int total = managementDao.selectCount(conn, manageType, selectBox, searchText);
-			List<TmManagementInfo> content = managementDao.tmSensorList(conn, (pageNum - 1) * size, size, manageType, selectBox, searchText);
-			return new TmSensorListPage(total, pageNum, size, content);
+
+	/** Wm List
+	 * @param pageNum
+	 * @param manageType
+	 * @param selectBox
+	 * @param searchText
+	 * @return
+	 */
+	public WmSensorListPage getWmSensorListPage(int pageNum, String manageType, String selectBox, String searchText) {
+
+		int total = 0;
+		List<WmManagementInfo> content = new ArrayList<>();
+
+		try {
+			conn = ConnectionProvider.getConnection();
+
+			total = managementDao.selectCount(conn, manageType, selectBox, searchText);
+
+			content = managementDao.wmSensorList(conn, (pageNum - 1) * size, size, manageType, selectBox, searchText);
+
 		} catch (SQLException e) {
-			throw new RuntimeException(e);
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
 		}
+		return new WmSensorListPage(total, pageNum, size, content);
+	}
+	
+	/** Tm List
+	 * @param pageNum
+	 * @param manageType
+	 * @param selectBox
+	 * @param searchText
+	 * @return
+	 */
+	public TmSensorListPage getTmSensorListPage(int pageNum, String manageType, String selectBox, String searchText) {
+
+		int total = 0;
+		List<TmManagementInfo> content = new ArrayList<>();
+
+		try {
+			conn = ConnectionProvider.getConnection();
+
+			total = managementDao.selectCount(conn, manageType, selectBox, searchText);
+
+			content = managementDao.tmSensorList(conn, (pageNum - 1) * size, size, manageType, selectBox, searchText);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+		return new TmSensorListPage(total, pageNum, size, content);
 	}
 
-	// manageType: wm
-	public WmSensorListPage getWmSensorListPage(int pageNum, String manageType, String selectBox, String searchText) {
-		try (Connection conn = ConnectionProvider.getConnection()) {
-			int total = managementDao.selectCount(conn, manageType, selectBox, searchText);
-			List<WmManagementInfo> content = managementDao.wmSensorList(conn, (pageNum - 1) * size, size, manageType, selectBox, searchText);
-			return new WmSensorListPage(total, pageNum, size, content);
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
-	}
-	// manageType: gm
+	/** Gm List
+	 * @param pageNum
+	 * @param manageType
+	 * @param selectBox
+	 * @param searchText
+	 * @return
+	 */
 	public GmSensorListPage getGmSensorListPage(int pageNum, String manageType, String selectBox, String searchText) {
-		try (Connection conn = ConnectionProvider.getConnection()) {
-			int total = managementDao.selectCount(conn, manageType, selectBox, searchText);
-			List<GmManagementInfo> content = managementDao.gmSensorList(conn, (pageNum - 1) * size, size, manageType, selectBox, searchText);
-			return new GmSensorListPage(total, pageNum, size, content);
+
+		int total = 0;
+		List<GmManagementInfo> content = new ArrayList<>();
+
+		try {
+			conn = ConnectionProvider.getConnection();
+
+			total = managementDao.selectCount(conn, manageType, selectBox, searchText);
+
+			content = managementDao.gmSensorList(conn, (pageNum - 1) * size, size, manageType, selectBox, searchText);
+
 		} catch (SQLException e) {
-			throw new RuntimeException(e);
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
 		}
+		return new GmSensorListPage(total, pageNum, size, content);
 	}
-	// manageType: sm
+
+	/** Sm List
+	 * @param pageNum
+	 * @param manageType
+	 * @param selectBox
+	 * @param searchText
+	 * @return
+	 */
 	public SmSensorListPage getSmSensorListPage(int pageNum, String manageType, String selectBox, String searchText) {
-		try (Connection conn = ConnectionProvider.getConnection()) {
-			int total = managementDao.selectCount(conn, manageType, selectBox, searchText);
-			List<SmManagementInfo> content = managementDao.smSensorList(conn, (pageNum - 1) * size, size, manageType, selectBox, searchText);
-			return new SmSensorListPage(total, pageNum, size, content);
+
+		int total = 0;
+		List<SmManagementInfo> content = new ArrayList<>();
+
+		try {
+			conn = ConnectionProvider.getConnection();
+
+			total = managementDao.selectCount(conn, manageType, selectBox, searchText);
+
+			content = managementDao.smSensorList(conn, (pageNum - 1) * size, size, manageType, selectBox, searchText);
+
 		} catch (SQLException e) {
-			throw new RuntimeException(e);
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
 		}
+		return new SmSensorListPage(total, pageNum, size, content);
 	}
-		
+
+
 	public String sensorRegister(SensorInfo sensorInfo) {
 		Connection conn = null;
 		String sensorRegister = null;
@@ -96,7 +162,7 @@ public class SensorManageService {
 		}
 		return null;
 	}
-	
+
 	public String sensorIdSet(String manageType) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
 
@@ -105,11 +171,11 @@ public class SensorManageService {
 			if (sensorId == null) {
 				if (manageType.equals("tm")) {
 					sensorId = "T00000000000001";
-				} else if(manageType.equals("wm")) {
+				} else if (manageType.equals("wm")) {
 					sensorId = "W00000000000001";
-				} else if(manageType.equals("gm")) {
+				} else if (manageType.equals("gm")) {
 					sensorId = "G00000000000001";
-				} else if(manageType.equals("sm")) {
+				} else if (manageType.equals("sm")) {
 					sensorId = "S00000000000001";
 				}
 			}
@@ -138,23 +204,27 @@ public class SensorManageService {
 		}
 	}
 
-	public List<SensorInfo> selectSensor(String manageId) {
-		try (Connection conn = ConnectionProvider.getConnection()) {
-
-			List<SensorInfo> sensorInfo = new ArrayList<>();
-			sensorInfo = sensorDao.selectByManageId(conn, manageId);
-
-			if (sensorInfo == null) {
-				throw new NullPointerException();
-			}
-
-			return sensorInfo;
+	/** manageId로 센서 정보 가져오기
+	 * @param manageId
+	 * @return
+	 */
+	public List<SensorInfo> getSensorInfo(String manageId) {
+		
+		List<SensorInfo> sensorInfo = new ArrayList<>();
+		
+		try {
+			conn = ConnectionProvider.getConnection();
+			conn.setAutoCommit(false);
+			
+			sensorInfo = sensorDao.selectSensorInfo(conn, manageId);
+		
+			conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);	
+		} 
+			return sensorInfo;		
 	}
 }
-
-
-

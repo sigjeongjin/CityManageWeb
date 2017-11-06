@@ -36,25 +36,23 @@ public class AllListHandler implements CommandHandler {
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		List<Member> memberNameList = new ArrayList<>();
-		memberNameList = memberManageService.memberNameList();	
-		request.setAttribute("memberNameList", memberNameList);
-		
-		List <SensorRegister> tmRegisterList =  new ArrayList<>();
-		tmRegisterList = manageLocationService.RegisterList("tm");
-		request.setAttribute("tmRegisterList", tmRegisterList);
-		
-		List <SensorRegister> wmRegisterList =  new ArrayList<>();
-		wmRegisterList = manageLocationService.RegisterList("wm");
+		List<SensorRegister> wmRegisterList = new ArrayList<>();
+		List<SensorRegister> tmRegisterList = new ArrayList<>();
+		List<SensorRegister> gmRegisterList = new ArrayList<>();
+		List<SensorRegister> smRegisterList = new ArrayList<>();
+
+		memberNameList = memberManageService.getMemberNameList();
+		wmRegisterList = manageLocationService.getRegisterList(WM);
+		tmRegisterList = manageLocationService.getRegisterList(TM);
+		gmRegisterList = manageLocationService.getRegisterList(GM);
+		smRegisterList = manageLocationService.getRegisterList(SM);
+
 		request.setAttribute("wmRegisterList", wmRegisterList);
-		
-		List <SensorRegister> gmRegisterList =  new ArrayList<>();
-		gmRegisterList = manageLocationService.RegisterList("gm");
+		request.setAttribute("tmRegisterList", tmRegisterList);
 		request.setAttribute("gmRegisterList", gmRegisterList);
-		
-		List <SensorRegister> smRegisterList =  new ArrayList<>();
-		smRegisterList = manageLocationService.RegisterList("sm");
 		request.setAttribute("smRegisterList", smRegisterList);
-		
+		request.setAttribute("memberNameList", memberNameList);
+
 		return "index.jsp";
 	}
 }
