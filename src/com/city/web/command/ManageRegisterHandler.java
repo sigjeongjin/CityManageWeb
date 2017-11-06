@@ -54,7 +54,7 @@ public class ManageRegisterHandler implements CommandHandler {
 		locationManagement.setStateCode(request.getParameter("stateCode"));
 
 		// 관리지역의 센서 정보를 저장 한다.
-		manageLocationService.setManagement(locationManagement);
+		manageLocationService.setManagementInfo(locationManagement);
 
 		if (manageType.equals(TM)) {
 			TmSensorListPage tmSensorListPage = sensorManageService.getTmSensorListPage(1, manageType, "all", "");

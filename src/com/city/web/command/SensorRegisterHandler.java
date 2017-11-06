@@ -41,7 +41,7 @@ public class SensorRegisterHandler implements CommandHandler {
 		sensorInfo.setOperationStatus("Y");
 		sensorInfo.setSensorNoticeStandard(request.getParameter("sensorNoticeStandard"));
 
-		sensorManageService.sensorRegister(sensorInfo);
+		sensorManageService.setSensorInfo(sensorInfo);
 
 		if(manageType.equals(TM)) {
 			TmSensorListPage tmSensorListPage = sensorManageService.getTmSensorListPage(1, manageType,  "all", "");

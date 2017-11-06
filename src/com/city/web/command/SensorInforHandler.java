@@ -39,7 +39,7 @@ public class SensorInforHandler implements CommandHandler {
 		// 도시가스관리 ListView에서는 manageType: gm
 		// 금역구역관리 ListView에서는 manageType: sm
 
-		String sensorId = sensorManageService.sensorIdSet(manageType);
+		String sensorId = sensorManageService.setSensorId(manageType);
 		request.setAttribute("sensorId", sensorId);
 		// select문을 통해 다음 센서ID값 가져옴
 		// manageType은 센서ID 조건을 위해 넣어줌

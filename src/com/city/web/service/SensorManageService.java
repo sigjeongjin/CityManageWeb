@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.city.model.GmManagementInfo;
 import com.city.model.SensorInfo;
 import com.city.model.SmManagementInfo;
@@ -137,38 +139,25 @@ public class SensorManageService {
 		}
 		return new SmSensorListPage(total, pageNum, size, content);
 	}
-
-
-	public String sensorRegister(SensorInfo sensorInfo) {
-		Connection conn = null;
-		String sensorRegister = null;
-
-		try {
-			conn = ConnectionProvider.getConnection(); // transaction
+	
+	/**
+	 * 센서아이디 자동넘버링
+	 * @param manageType
+	 * @return
+	 */
+	public String setSensorId(String manageType) {
+		
+		String sensorId = null;
+		
+		try {		
+			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
-			sensorRegister = sensorDao.insertSensor(conn, sensorInfo);
+
+			sensorId = sensorDao.searchById(conn, manageType);
+
 			conn.commit();
-			if (sensorRegister != null) {
-				return sensorRegister;
-			} else {
-				throw new SQLException();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println(e);
-			JdbcUtil.rollback(conn);
-		} finally {
-			JdbcUtil.close(conn);
-		}
-		return null;
-	}
-
-	public String sensorIdSet(String manageType) {
-		try (Connection conn = ConnectionProvider.getConnection()) {
-
-			String sensorId = sensorDao.searchById(conn, manageType);
-
-			if (sensorId == null) {
+			
+			if (StringUtils.isAllEmpty(sensorId)) {
 				if (manageType.equals("tm")) {
 					sensorId = "T00000000000001";
 				} else if (manageType.equals("wm")) {
@@ -179,12 +168,37 @@ public class SensorManageService {
 					sensorId = "S00000000000001";
 				}
 			}
-
-			return sensorId;
+	
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new RuntimeException(e);
+			JdbcUtil.rollback(conn);
 		}
+		return sensorId;
+	}
+	
+	/** 센서 정보
+	 * @param sensorInfo
+	 * @return
+	 */
+	public int setSensorInfo(SensorInfo sensorInfo) {
+
+		int resultCode = 0;
+
+		try {
+			conn = ConnectionProvider.getConnection(); // transaction
+			conn.setAutoCommit(false);
+			
+			resultCode = sensorDao.insertSensorInfo(conn, sensorInfo);
+			
+			conn.commit();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+		return resultCode;
 	}
 
 	public List<String> sensorTypeSelect(String manageId) {

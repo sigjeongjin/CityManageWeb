@@ -12,27 +12,14 @@ import com.city.model.SensorInfo;
 import jdbc.JdbcUtil;
 
 public class SensorDao {
-	
-	// sensor 등록 insert문
-	public String insertSensor(Connection conn, SensorInfo sensorInfo) throws SQLException {
-		PreparedStatement pstmt = null;
-		try {
-			pstmt = conn.prepareStatement("insert into sensor_info"
-					+ "(manage_id, sensor_id, sensor_type, operation_status, sensor_notice_standard, installation_datetime) "
-					+ "values (?, ?, ?, ? ,? , now())");
-			pstmt.setString(1, sensorInfo.getManageId());
-			pstmt.setString(2, sensorInfo.getSensorId());
-			pstmt.setString(3, sensorInfo.getSensorType());
-			pstmt.setString(4, sensorInfo.getOperationStatus());
-			pstmt.setString(5, sensorInfo.getSensorNoticeStandard());
-			return Integer.toString(pstmt.executeUpdate());
-		} finally {
-			JdbcUtil.close(pstmt);
-		}
-	}
-
-
-	/** sensorId NUMBER AUTO SELECT문 */
+		
+	/**
+	 * 센서아이디 자동넘버링
+	 * @param conn
+	 * @param manageType
+	 * @return
+	 * @throws SQLException
+	 */
 	public String searchById(Connection conn, String manageType) throws SQLException {
 		
 		ResultSet rs = null;
@@ -68,8 +55,40 @@ public class SensorDao {
 		}
 		return manageId;
 	}
+	/**
+	 * 센서 정보 등록
+	 * @param conn
+	 * @param sensorInfo
+	 * @return int
+	 * @throws SQLException
+	 */
+	public int insertSensorInfo(Connection conn, SensorInfo sensorInfo) throws SQLException {
+		
+		PreparedStatement pstmt = null;
+		int resultCode = 0;
+		
+		try {
+			pstmt = conn.prepareStatement("insert into sensor_info"
+					+ "(manage_id, sensor_id, sensor_type, operation_status, sensor_notice_standard, installation_datetime) "
+					+ "values (?, ?, ?, ? ,? , now())");
+			pstmt.setString(1, sensorInfo.getManageId());
+			pstmt.setString(2, sensorInfo.getSensorId());
+			pstmt.setString(3, sensorInfo.getSensorType());
+			pstmt.setString(4, sensorInfo.getOperationStatus());
+			pstmt.setString(5, sensorInfo.getSensorNoticeStandard());
+			resultCode = pstmt.executeUpdate();
+			
+		} finally {
+			JdbcUtil.close(pstmt);
+		}
+		return resultCode;
+	}
 
-	/** manageId로 sensorInfo 정보를 조회
+
+
+
+	/** 
+	 * manageId로 sensorInfo 정보를 조회
 	 * @param conn
 	 * @param manageId
 	 * @return

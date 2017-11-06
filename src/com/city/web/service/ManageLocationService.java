@@ -52,7 +52,7 @@ public class ManageLocationService {
 	 * @param locationManagement : 관리 정보
 	 * @return int
 	 */
-	public int setManagement(LocationManagement locationManagement) {
+	public int setManagementInfo(LocationManagement locationManagement) {
 		
 		int resultCode = 0;
 
@@ -60,7 +60,7 @@ public class ManageLocationService {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
 			
-			resultCode = managementDao.insertManagement(conn, locationManagement);
+			resultCode = managementDao.insertManagementInfo(conn, locationManagement);
 			
 			conn.commit();
 	

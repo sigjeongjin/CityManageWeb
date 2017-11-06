@@ -53,7 +53,7 @@ public class ManagementDao {
 	 * @return int
 	 * @throws SQLException
 	 */
-	public int insertManagement(Connection conn, LocationManagement locationManagement) throws SQLException {
+	public int insertManagementInfo(Connection conn, LocationManagement locationManagement) throws SQLException {
 		
 		PreparedStatement pstmt = null;
 		int resultCode = 0;
