@@ -1,6 +1,7 @@
 package com.city.model;
 
 public class MemberAPI extends Result{
+	
 	private String memberId;
 	private String memberPwd;
 	private String memberName;
@@ -12,6 +13,7 @@ public class MemberAPI extends Result{
 	private String memberDeleteCode;
 	private String cityCode;
 	private String stateCode;
+	private String memberRegisterComplete;
 	
 	public String getMemberPhotoOriginal() {
 		return memberPhotoOriginal;
@@ -107,5 +109,13 @@ public class MemberAPI extends Result{
 
 	public void changePassword(String newPwd) {
 		this.memberPwd = newPwd;
+	}
+
+	public String getMemberRegisterComplete() {
+		return memberRegisterComplete;
+	}
+
+	public void setMemberRegisterComplete(String memberRegisterComplete) {
+		this.memberRegisterComplete = memberRegisterComplete;
 	}
 }

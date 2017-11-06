@@ -28,9 +28,10 @@ public class SmInfoHandler implements CommandJsonHandler {
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+		String memberId = request.getParameter(MEMBER_ID);
 		String manageId = request.getParameter(MANAGE_ID);
 		
-		SmResultInfo smResultInfo = sensorService.getSmInfo(manageId);
+		SmResultInfo smResultInfo = sensorService.getSmInfo(memberId, manageId);
 		
 		if(StringUtils.isNotEmpty(smResultInfo.getManageId())) {
 			smResultInfo.setResultCode(RESULT_SUCCESS);

@@ -21,7 +21,8 @@ import jdbc.connection.ConnectionProvider;
 public class SensorService {
 
 	private ManagementDao managementDao = new ManagementDao();
-	Connection conn = null;
+	
+	private Connection conn = null;
 
 	public List<SensorResultInfo> getSensorList(String memberId, String manageType) {
 		List<SensorResultInfo> sensorRsultInfoList = new ArrayList<SensorResultInfo>();
@@ -29,7 +30,9 @@ public class SensorService {
 		try {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
+			
 			sensorRsultInfoList = managementDao.selectSensorListByMemberIdAndManageType(conn, memberId, manageType);
+			
 			conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -47,8 +50,10 @@ public class SensorService {
 		try {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
+			
 			sensorRsultInfoList = managementDao.selectSensorListByMemberIdAndManageTypeAndSearchText(conn, memberId,
 					manageType, searchText);
+			
 			conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -97,13 +102,13 @@ public class SensorService {
 		return tmResultInfo;
 	}
 
-	public GmResultInfo getGmInfo(String manageId, GmResultInfo gmResultInfo) {
+	public GmResultInfo getGmInfo(String memberId, String manageId, GmResultInfo gmResultInfo) {
 
 		try {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
 			
-			gmResultInfo = managementDao.selectGmInfobyManageId(conn, manageId, gmResultInfo);
+			gmResultInfo = managementDao.selectGmInfobyManageId(conn, memberId, manageId,gmResultInfo);
 			
 			conn.commit();
 		} catch (SQLException e) {
@@ -115,14 +120,16 @@ public class SensorService {
 		return gmResultInfo;
 	}
 
-	public SmResultInfo getSmInfo(String manageId) {
+	public SmResultInfo getSmInfo(String memberId, String manageId) {
 
 		SmResultInfo smResultInfo = new SmResultInfo();
 
 		try {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
-			smResultInfo = managementDao.selectSmInfobyManageId(conn, manageId);
+			
+			smResultInfo = managementDao.selectSmInfobyManageId(conn,memberId, manageId);
+			
 			conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -138,22 +145,23 @@ public class SensorService {
 	 * @param sensorId
 	 * @return
 	 */
-	public String modifyOperationStatus(String sensorId) {
+	public int modifyOperationStatus(String sensorId) {
 		Connection conn = null;
-		 String sensorStatus = null;
+		int resultCode = 0;
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
-			sensorStatus = managementDao.updateOperationStatus(conn, sensorId);	
+			
+			resultCode = managementDao.updateOperationStatus(conn, sensorId);	
+			
 			conn.commit();				
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);
 		} finally {
 			JdbcUtil.close(conn);
 		}
-		return sensorStatus;
+		return resultCode;
 	}
 	
 	/**
@@ -182,22 +190,23 @@ public class SensorService {
 	 * @param status
 	 * @return
 	 */
-	public String modifySensorStatus(String sensorId, String status) {
+	public int modifySensorStatus(String sensorId, String status) {
 		Connection conn = null;
-		 String sensorStatus = null;
+		int resultCode = 0;
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
-			sensorStatus = managementDao.updateSensorStatus(conn, sensorId, status);	
+			
+			resultCode = managementDao.updateSensorStatus(conn, sensorId, status);	
+			
 			conn.commit();				
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);
 		} finally {
 			JdbcUtil.close(conn);
 		}
-		return sensorStatus;
+		return resultCode;
 	}
 	
 	/**

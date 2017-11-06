@@ -30,10 +30,10 @@ public class MemberLoginHandler implements CommandJsonHandler {
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String memberId = request.getParameter("memberId");
-		String memberPwd = request.getParameter("memberPwd");
-
 		MemberAPI memberAPI = new MemberAPI();
+		
+		String memberId = request.getParameter(MEMBER_ID);
+		String memberPwd = request.getParameter(MEMBER_PWD);
 
 		memberAPI = memberManageService.memberLogin(memberId, memberPwd, memberAPI);
 		

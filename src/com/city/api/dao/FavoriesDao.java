@@ -107,12 +107,11 @@ public class FavoriesDao {
 				favoritesInfo.setLocationName(rs.getString("locationName"));
 				favoritesList.add(favoritesInfo);
 			}
-			return favoritesList;
-
 		} finally {
 			JdbcUtil.close(rs);
 			JdbcUtil.close(pstmt);
 		}
+		return favoritesList;
 	}
 
 	public String selectFavoritesWhetherByMemberIdAndManageId(Connection conn, String memberId, String manageId)

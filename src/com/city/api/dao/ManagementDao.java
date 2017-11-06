@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,14 +18,22 @@ import jdbc.JdbcUtil;
 public class ManagementDao {
 
 
-	public int updateBySensorInfo(Connection conn, String sensorId, String senssorInfo)
+	/**
+	 * 센서 상태 변경
+	 * @param conn : 커넥션
+	 * @param sensorId : 센서 아이디(primary key)
+	 * @param senssorstatus : 센서 상태
+	 * @return int
+	 * @throws SQLException
+	 */
+	public int updateBySensorInfo(Connection conn, String sensorId, String senssorstatus)
 			throws SQLException {
 		PreparedStatement pstmt = null;
 		int resultcode = 0;
 		
 		try {	
 			pstmt = conn.prepareStatement("update sensor_info set sensor_status=? where sensor_id=?");
-			pstmt.setString(1, senssorInfo);
+			pstmt.setString(1, senssorstatus);
 			pstmt.setString(2, sensorId);
 
 			resultcode = pstmt.executeUpdate();
@@ -36,28 +43,15 @@ public class ManagementDao {
 		return resultcode;
 	}
 
-	public String updateBySensorIdAndOperationStatus(Connection conn, String sensorId, String operationStatus)
-			throws SQLException {
-		PreparedStatement pstmt = null;
-		Statement stmt = null;
-		ResultSet rs = null;
-		
-		try {
-			
-			pstmt = conn.prepareStatement("update sensor_info set sensor_status=? where operation_status=?");
-			pstmt.setString(1, sensorId);
-			pstmt.setString(2, operationStatus);
-
-			return Integer.toString(pstmt.executeUpdate());
-		} finally {
-			JdbcUtil.close(rs);
-			JdbcUtil.close(stmt);
-			JdbcUtil.close(pstmt);
-		}
-	}
-	
-
-	public List<SensorResultInfo>selectSensorListByMemberIdAndManageType(Connection conn, 
+	/**
+	 * 센서 정보 리스트 조회
+	 * @param conn : 커넥션 
+	 * @param memberId : 멤버 아이디
+	 * @param manageType : 센서 타입
+	 * @return List<SensorResultInfo>
+	 * @throws SQLException
+	 */
+	public List<SensorResultInfo> selectSensorListByMemberIdAndManageType(Connection conn, 
 			String memberId, String manageType)throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -70,6 +64,7 @@ public class ManagementDao {
 						+" from location_management lm "
 						+" join member m on lm.state_code = m.state_code "
 						+" where lm.manage_type=? and m.member_id=?");
+			
 			pstmt.setString(1, manageType);
 			pstmt.setString(2, memberId);
 			rs = pstmt.executeQuery();
@@ -80,12 +75,11 @@ public class ManagementDao {
 				sensorRsultInfo.setLocationName(rs.getString("locationName"));
 				sensorResultInfoList.add(sensorRsultInfo);
 			}
-
-			return sensorResultInfoList;
 		} finally {
 			JdbcUtil.close(rs);
 			JdbcUtil.close(pstmt);
 		}
+		return sensorResultInfoList;
 	}
 	
 	public List<SensorResultInfo>selectSensorListByMemberIdAndManageTypeAndSearchText(Connection conn, 
@@ -98,7 +92,7 @@ public class ManagementDao {
 						+" CONCAT((select city_name cityName from address_city where city_code=lm.city_code)"
 						+ ",' ',(select state_name stateName from address_state where state_code=lm.state_code)) locationName,"
 						+" lm.manage_id manageId "
-						+" from location_management lm join sensor_info si on lm.manage_id = si.manage_id "
+						+" from location_management lm "
 						+" join member m on lm.state_code = m.state_code "
 						+" where lm.manage_type=? and m.member_id=? and lm.manage_id like ?");
 			pstmt.setString(1, manageType);
@@ -112,28 +106,30 @@ public class ManagementDao {
 				sensorRsultInfo.setLocationName(rs.getString("locationName"));
 				sensorResultInfoList.add(sensorRsultInfo);
 			}
-
-			return sensorResultInfoList;
+			
 		} finally {
 			JdbcUtil.close(rs);
 			JdbcUtil.close(pstmt);
 		}
+		return sensorResultInfoList;
 	}
 	
+	
 	/**
-	 * @author com
-	 * 센서아이디,주소,수질,수위,설치날짜
-	 * manageId;              
-		locationName;          
-		waterQuality;          
-		waterLevel;            
-		installationDateTime;  
+	 * @param conn
+	 * @param manageId
+	 * @param memberId
+	 * @return WmResultInfo
+	 * @throws SQLException
 	 */
 	public WmResultInfo selectWmInfobyManageId(Connection conn, 
 			String manageId, String memberId)throws SQLException {
+		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		
 		WmResultInfo wmResultInfo = new WmResultInfo();
+		
 		try {
 			pstmt = conn.prepareStatement(this.commonQuery(
 				"(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='wq') waterQuality, "
@@ -142,6 +138,9 @@ public class ManagementDao {
 			pstmt.setString(1, manageId);
 			pstmt.setString(2, manageId);
 			pstmt.setString(3, manageId);
+			pstmt.setString(4, memberId);
+			pstmt.setString(5, manageId);
+			
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
@@ -150,31 +149,23 @@ public class ManagementDao {
 				wmResultInfo.setWaterLevel(rs.getString("waterLevel"));
 				wmResultInfo.setWaterQuality(rs.getString("waterQuality"));
 				wmResultInfo.setInstallationDateTime(rs.getString("installationDateTime"));
+				wmResultInfo.setBookmark(rs.getString("bookmark"));
 			}
-
-			return wmResultInfo;
 		} finally {
 			JdbcUtil.close(rs);
 			JdbcUtil.close(pstmt);
 		}
+		return wmResultInfo;
 	}
 	
-	/**
-	 * @author com
-	 * 센서아이디,주소,불꽃,악취,쓰레기량,잠금,설치날짜
-	 * 	String manageId;
-		String locationName;
-		String flameDetection;
-		String stink;
-		String generous;
-		String lock;
-		String installation;
-	 */
 	public TmResultInfo selectTmInfobyManageId(Connection conn, 
 			String manageId, String memberId)throws SQLException {
+		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		
 		TmResultInfo tmResultInfo = new TmResultInfo();
+		
 		try {
 			pstmt = conn.prepareStatement(this.commonQuery(
 				"(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='fd') flameDetection, "
@@ -182,6 +173,7 @@ public class ManagementDao {
 				+"(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='g') generous, "
 				+"(select case sensor_status when 'Y' then '잠김' when 'N' then '열림' end from sensor_info where manage_id=? and sensor_type='l') lockStatus, "
 				,"tm"));
+			
 			pstmt.setString(1, manageId);
 			pstmt.setString(2, manageId);
 			pstmt.setString(3, manageId);
@@ -189,6 +181,7 @@ public class ManagementDao {
 			pstmt.setString(5, manageId);
 			pstmt.setString(6, memberId);
 			pstmt.setString(7, manageId);
+			
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
@@ -201,24 +194,24 @@ public class ManagementDao {
 				tmResultInfo.setInstallationDateTime(rs.getString("installationDateTime"));
 				tmResultInfo.setBookmark(rs.getString("bookmark"));
 			}
-			return tmResultInfo;
+			
 		} finally {
 			JdbcUtil.close(rs);
 			JdbcUtil.close(pstmt);
 		}
+		return tmResultInfo;
 	}
 	
+	
 	/**
-	 * @author com
-	 * 센서아이디,주소,압력,충격,설치날짜
-	 * manageId;            
-		locationName;        
-		gasDensity;          
-		shockDetection;      
-		installationDateTime;
+	 * @param conn
+	 * @param manageId
+	 * @param gmResultInfo
+	 * @return GmResultInfo
+	 * @throws SQLException
 	 */
 	public GmResultInfo selectGmInfobyManageId(Connection conn, 
-			String manageId, GmResultInfo gmResultInfo)throws SQLException {
+			 String memberId, String manageId,GmResultInfo gmResultInfo)throws SQLException {
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -231,7 +224,7 @@ public class ManagementDao {
 			pstmt.setString(1, manageId);
 			pstmt.setString(2, manageId);
 			pstmt.setString(3, manageId);
-			pstmt.setString(4, manageId);
+			pstmt.setString(4, memberId);
 			pstmt.setString(5, manageId);
 			
 			rs = pstmt.executeQuery();
@@ -253,17 +246,15 @@ public class ManagementDao {
 		return gmResultInfo;
 	}
 	
+	
 	/**
-	 * @author com
-	 * 센서아이디,주소,불꽃,연기,설치날짜
-	 * manageId;             
-		locationName;         
-		flameDetection;       
-		smokeDetection;       
-		installationDateTime; 
+	 * @param conn
+	 * @param manageId
+	 * @return SmResultInfo
+	 * @throws SQLException
 	 */
 	public SmResultInfo selectSmInfobyManageId(Connection conn, 
-			String manageId)throws SQLException {
+			String memberId, String manageId)throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		SmResultInfo smResultInfo = new SmResultInfo();
@@ -276,6 +267,9 @@ public class ManagementDao {
 			pstmt.setString(1, manageId);
 			pstmt.setString(2, manageId);
 			pstmt.setString(3, manageId);
+			pstmt.setString(4, memberId);
+			pstmt.setString(5, manageId);
+			
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
@@ -284,15 +278,22 @@ public class ManagementDao {
 				smResultInfo.setFlameDetection(rs.getString("flameDetection"));
 				smResultInfo.setSmokeDetection(rs.getString("smokeDetection"));
 				smResultInfo.setInstallationDateTime(rs.getString("installationDatetime"));
+				smResultInfo.setBookmark(rs.getString("bookmark"));
 			}
-
-			return smResultInfo;
 		} finally {
 			JdbcUtil.close(rs);
 			JdbcUtil.close(pstmt);
 		}
+		return smResultInfo;
 	}
 	
+	
+	/**
+	 * 공통되는 sql문
+	 * @param query
+	 * @param manageType
+	 * @return
+	 */
 	public String commonQuery(String query, String manageType) {
 		StringBuilder sb = new StringBuilder();
 		
@@ -312,24 +313,23 @@ public class ManagementDao {
 	 * @param sensorId
 	 * @return
 	 */
-	public String updateOperationStatus(Connection conn, String sensorId) {
+	public int updateOperationStatus(Connection conn, String sensorId) {
 		PreparedStatement pstmt = null;
 		int resultCode = 0;
-		String sensorStaus = null;
+		
 		try {
 			pstmt = conn.prepareStatement("update sensor_info set operation_status ='Y' where sensor_id=?");
 			pstmt.setString(1, sensorId);
+			
 			resultCode = pstmt.executeUpdate();
-			if (resultCode == 1) {
-				sensorStaus = "Y";
-			}
+			
 		} catch (SQLException e) {
 			JdbcUtil.rollback(conn);
 			e.printStackTrace();
 		} finally {
 			JdbcUtil.close(pstmt);
 		}
-		return sensorStaus;
+		return resultCode;
 	}
 	
 	/**
@@ -338,9 +338,11 @@ public class ManagementDao {
 	 * @return
 	 */
 	public String selectNoticeStandard(Connection conn, String sensorId) {
+
+		String sensorNoticeStandard = null;
+		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sensorNoticeStandard = null;
 		
 		try {
 			
@@ -367,25 +369,24 @@ public class ManagementDao {
 	 * @param Status
 	 * @return
 	 */
-	public String updateSensorStatus(Connection conn, String sensorId, String Status) {
+	public int updateSensorStatus(Connection conn, String sensorId, String Status) {
 		PreparedStatement pstmt = null;
+		
 		int resultCode = 0;
-		String sensorStaus = null;
+		
 		try {
 			pstmt = conn.prepareStatement("update sensor_info set sensor_status =? where sensor_id=?");
 			pstmt.setString(1, Status);
 			pstmt.setString(2, sensorId);
+			
 			resultCode = pstmt.executeUpdate();
-			if (resultCode == 1) {
-				sensorStaus = Status;
-			}
 		} catch (SQLException e) {
 			JdbcUtil.rollback(conn);
 			e.printStackTrace();
 		} finally {
 			JdbcUtil.close(pstmt);
 		}
-		return sensorStaus;
+		return resultCode;
 	}
 	
 	/**

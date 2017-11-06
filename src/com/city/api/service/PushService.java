@@ -16,13 +16,6 @@ import com.google.android.gcm.server.Sender;
 import jdbc.JdbcUtil;
 import jdbc.connection.ConnectionProvider;
 
-
-/**
- * @author park
- * PushList조회	
- *
- */
-
 public class PushService {
 
 	private PushDao pushDao = new PushDao();
@@ -37,9 +30,10 @@ public class PushService {
 	private Connection conn = null;
 	
 	/**
+	 * PUSH 히스토리 리스트 조회
 	 * @param memberId
 	 * @param manageType
-	 * @return
+	 * @return List<PushResultInfo>
 	 */
 	public List<PushResultInfo> getPushHistoryList(String memberId, String manageType) {
 		List<PushResultInfo> pushInfoList = new ArrayList<PushResultInfo>();
@@ -61,8 +55,9 @@ public class PushService {
 	}
 
 	/**
+	 * PUSH 토큰 저장
 	 * @param PushInfo
-	 * @return
+	 * @return resultCode
 	 */
 	public int pushTokenRegister(PushInfo pushInfo) throws SQLException{
 		int resultCode = 0;
@@ -83,8 +78,9 @@ public class PushService {
 	}
 	
 	/**
+	 * PUSH 토큰 업데이트
 	 * @param PushInfo
-	 * @return
+	 * @return resultCode
 	 */
 	public int pushTokenUpdate(PushInfo pushInfo) {
 		
@@ -126,16 +122,22 @@ public class PushService {
 		return pushTokenList;
 	}
 
-
-	/* ApiKey → FireBase에서 가져온 서버 키
-	 * MESSAGE_ID → 메세지 고유 ID
-	 * SHOW_ON_IDLE → 앱이 비활성화 상태일때 PUSH를 보여줄 것인지 
-	 * LIVE_TIME → 비활성화 상태일때 FCM가 메시지를 유효화하는 시간
-	 * RETRY → 메시지 전송실패시 재시도 횟수
-	 * */
 	
+	/**
+	 * PUSH 보내기
+	 * @param tokenList
+	 * @param title
+	 * @param content
+	 */
 	public void sendPush(ArrayList<String> tokenList, String title, String content) {
+		// ApiKey → FireBase에서 가져온 서버 키
+		// MESSAGE_ID → 메세지 고유 ID
+		// SHOW_ON_IDLE → 앱이 비활성화 상태일때 PUSH를 보여줄 것인지 
+		// LIVE_TIME → 비활성화 상태일때 FCM가 메시지를 유효화하는 시간
+		// RETRY → 메시지 전송실패시 재시도 횟수
+		 
 		Sender sender = new Sender(ApiKey);
+		
 		Message message = new Message.Builder()
 				.collapseKey(MESSAGE_ID)
 				.delayWhileIdle(SHOW_ON_IDLE)
@@ -145,10 +147,18 @@ public class PushService {
 				.build();
 		
 		try {
-			MulticastResult result; 
-			result = sender.send(message, tokenList, RETRY);
+			MulticastResult multicastResult = sender.send(message, tokenList, RETRY);
+			List<Result> test = multicastResult.getResults();
+			
+			System.out.println(test.toString());
+			
+			for(Result result : test) {
+				System.out.println(result.getErrorCodeName());
+				System.out.println(result.getCanonicalRegistrationId());
+				System.out.println(result.getMessageId());
+			}
 		} catch (Exception e) {
-			throw new RuntimeException();
+			e.printStackTrace();
 		}	
 	}
 }
