@@ -102,13 +102,13 @@ public class SensorService {
 		return tmResultInfo;
 	}
 
-	public GmResultInfo getGmInfo(String manageId, GmResultInfo gmResultInfo) {
+	public GmResultInfo getGmInfo(String memberId, String manageId, GmResultInfo gmResultInfo) {
 
 		try {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
 			
-			gmResultInfo = managementDao.selectGmInfobyManageId(conn, manageId, gmResultInfo);
+			gmResultInfo = managementDao.selectGmInfobyManageId(conn, memberId, manageId,gmResultInfo);
 			
 			conn.commit();
 		} catch (SQLException e) {
@@ -120,14 +120,16 @@ public class SensorService {
 		return gmResultInfo;
 	}
 
-	public SmResultInfo getSmInfo(String manageId) {
+	public SmResultInfo getSmInfo(String memberId, String manageId) {
 
 		SmResultInfo smResultInfo = new SmResultInfo();
 
 		try {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
-			smResultInfo = managementDao.selectSmInfobyManageId(conn, manageId);
+			
+			smResultInfo = managementDao.selectSmInfobyManageId(conn,memberId, manageId);
+			
 			conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();

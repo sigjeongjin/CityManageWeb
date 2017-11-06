@@ -32,8 +32,9 @@ public class GmInfoHandler implements CommandJsonHandler {
 		GmResultInfo gmResultInfo = new GmResultInfo();
 		
 		String manageId = req.getParameter(MANAGE_ID);
+		String memberId = req.getParameter(MEMBER_ID);
 		
-		gmResultInfo = sensorService.getGmInfo(manageId, gmResultInfo);
+		gmResultInfo = sensorService.getGmInfo(memberId, manageId, gmResultInfo);
 		
 		if(StringUtils.isNotEmpty(gmResultInfo.getManageId())) {
 			gmResultInfo.setResultCode(RESULT_SUCCESS);

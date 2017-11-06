@@ -211,7 +211,7 @@ public class ManagementDao {
 	 * @throws SQLException
 	 */
 	public GmResultInfo selectGmInfobyManageId(Connection conn, 
-			String manageId, GmResultInfo gmResultInfo)throws SQLException {
+			 String memberId, String manageId,GmResultInfo gmResultInfo)throws SQLException {
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -224,7 +224,7 @@ public class ManagementDao {
 			pstmt.setString(1, manageId);
 			pstmt.setString(2, manageId);
 			pstmt.setString(3, manageId);
-			pstmt.setString(4, manageId);
+			pstmt.setString(4, memberId);
 			pstmt.setString(5, manageId);
 			
 			rs = pstmt.executeQuery();
@@ -254,7 +254,7 @@ public class ManagementDao {
 	 * @throws SQLException
 	 */
 	public SmResultInfo selectSmInfobyManageId(Connection conn, 
-			String manageId)throws SQLException {
+			String memberId, String manageId)throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		SmResultInfo smResultInfo = new SmResultInfo();
@@ -267,7 +267,7 @@ public class ManagementDao {
 			pstmt.setString(1, manageId);
 			pstmt.setString(2, manageId);
 			pstmt.setString(3, manageId);
-			pstmt.setString(4, manageId);
+			pstmt.setString(4, memberId);
 			pstmt.setString(5, manageId);
 			
 			rs = pstmt.executeQuery();
