@@ -32,10 +32,12 @@ public class ManageLocationHandler implements CommandHandler{
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+		List<Address> addressCityList = new ArrayList<>();
+		
 		String manageId = manageLocationService.manageIdSet();
 		request.setAttribute("manageId", manageId);
 		
-		List<Address> addressCityList = new ArrayList<>();
+		
 		addressCityList = addressService.addressCity();
 		request.setAttribute("addressCityList", addressCityList);
 		return "/view/management/manageRegisterForm.jsp";

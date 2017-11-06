@@ -3,9 +3,10 @@ package com.city.api.command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.city.api.service.SensorService;
 import com.city.model.WmResultInfo;
-import com.google.gson.Gson;
 
 public class WmInfoHandler implements CommandJsonHandler {
 	private SensorService sensorService = new SensorService();
@@ -27,14 +28,18 @@ public class WmInfoHandler implements CommandJsonHandler {
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String manageId = request.getParameter("manageId");
-		String memberId = request.getParameter("memberId");
+		String memberId = request.getParameter(MEMBER_ID);
+		String manageId = request.getParameter(MANAGE_ID);
 		
 		WmResultInfo wmResultInfo = sensorService.getWmInfo(manageId, memberId);
-		wmResultInfo.setResultCode("200");
-		wmResultInfo.setResultMessage("센서 정보가 조회 되었습니다.");
 
-		Gson gson = new Gson();
+		if(StringUtils.isNotEmpty(wmResultInfo.getManageId())) {
+			wmResultInfo.setResultCode(RESULT_SUCCESS);
+			wmResultInfo.setResultMessage(SEARCH_SUCCESS_MESSAGE);
+		} else {
+			wmResultInfo.setResultCode(RESULT_FAIL);
+			wmResultInfo.setResultMessage(SEARCH_FAIL_MESSAGE);
+		}
 		return gson.toJson(wmResultInfo);
 	}
 }

@@ -16,8 +16,10 @@ public class ManageLocationService {
 
 	private ManagementDao managementDao = new ManagementDao();
 
+	private Connection conn = null;
+	
 	public String managementRegister(LocationManagement locationManagement) {
-		Connection conn = null;
+		
 		String managementAreaStr = null;
 
 		try {
@@ -41,63 +43,66 @@ public class ManageLocationService {
 	}
 
 	public LocationManagement managementInfo(String manageId) {
-		try (Connection conn = ConnectionProvider.getConnection()) {
 
-			LocationManagement locationManagement = new LocationManagement();
-
+		LocationManagement locationManagement = new LocationManagement();
+		
+		try {
+			conn = ConnectionProvider.getConnection(); // transaction
+			conn.setAutoCommit(false);
+			
 			locationManagement = managementDao.selectManagementInfo(conn, manageId);
-
-			if (locationManagement == null) {
-				throw new NullPointerException();
-			}
-
-			return locationManagement;
+			conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new RuntimeException(e);
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
 		}
+		return locationManagement;
 	}
 
 	public String manageIdSet() {
-		try (Connection conn = ConnectionProvider.getConnection()) {
-
-			String manageId = managementDao.searchById(conn);
+		String manageId = "";
+		
+		try {
+			conn = ConnectionProvider.getConnection(); // transaction
+			conn.setAutoCommit(false);
+			manageId = managementDao.searchById(conn);
 
 			if (manageId == null) {
 				manageId = "M00000000000001";
 			}
-
-			return manageId;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
-	}
-
-	public String managementUpdate(LocationManagement locationManagement) {
-		Connection conn = null;
-		String mU = null;
-
-		try {
-			conn = ConnectionProvider.getConnection();
-			conn.setAutoCommit(false);
-
-			String strId = managementDao.updateManagementInfo(conn, locationManagement);
 			conn.commit();
-			if (strId != null) {
-				mU = "Y";
-				return mU;
-			} else {
-				mU = "N";
-				throw new SQLException();
-			}
 		} catch (SQLException e) {
 			JdbcUtil.rollback(conn);
 			throw new RuntimeException(e);
 		} finally {
 			JdbcUtil.close(conn);
 		}
-	
+		return manageId;
+	}
+
+	public void managementUpdate(LocationManagement locationManagement) {
+
+		int resultCode = 0;
+		
+		try {
+			conn = ConnectionProvider.getConnection();
+			conn.setAutoCommit(false);
+
+			resultCode = managementDao.updateManagementInfo(conn, locationManagement);
+
+			if(resultCode != 1) {
+				throw new SQLException("정보 변경에 실패 하였습니다.");
+			}
+			
+			conn.commit();
+		} catch (SQLException e) {
+			JdbcUtil.rollback(conn);
+			throw new RuntimeException(e);
+		} finally {
+			JdbcUtil.close(conn);
+		}
 	}
 
 	public String sensorTypesSelect(String manageId) {

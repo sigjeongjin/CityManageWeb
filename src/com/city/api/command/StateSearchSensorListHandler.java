@@ -8,13 +8,12 @@ import javax.servlet.http.HttpServletResponse;
 import com.city.api.service.SensorService;
 import com.city.model.SensorResultInfo;
 import com.city.model.SensorResultListJSON;
-import com.google.gson.Gson;
 
 /**
  * @author com
  *
  */
-public class StateSearchSensorListHandler implements CommandJsonHandler{
+public class StateSearchSensorListHandler implements CommandJsonHandler {
 	private SensorService sensorService = new SensorService();
 
 	public String process(HttpServletRequest req, HttpServletResponse res) throws Exception {
@@ -32,7 +31,6 @@ public class StateSearchSensorListHandler implements CommandJsonHandler{
 		return this.processSubmit(req, res);
 	}
 
-	
 	/**
 	 * @param memberId
 	 * @param manageType
@@ -42,17 +40,23 @@ public class StateSearchSensorListHandler implements CommandJsonHandler{
 	 */
 	private String processSubmit(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
-		String memberId = req.getParameter("memberId");
-		String manageType = req.getParameter("manageType");
-		String searchText = req.getParameter("searchText");
-		
-		List<SensorResultInfo> sensorResultInfoList = sensorService.getSensorListByState(memberId, manageType, searchText);
-		
+		String memberId = req.getParameter(MEMBER_ID);
+		String manageType = req.getParameter(MANAGE_TYPE);
+		String searchText = req.getParameter(SEARCH_TEXT);
+
+		List<SensorResultInfo> sensorResultInfoList = sensorService.getSensorListByState(memberId, manageType,
+				searchText);
+
 		SensorResultListJSON sensorResultListJSON = new SensorResultListJSON();
-		sensorResultListJSON.setSensorList(sensorResultInfoList);
-		sensorResultListJSON.setResultCode("200");
-		sensorResultListJSON.setResultMessage("조회 되었습니다.");
-		Gson gson = new Gson();
+		
+		if(sensorResultInfoList != null ) {
+			sensorResultListJSON.setResultCode(RESULT_SUCCESS);
+			sensorResultListJSON.setResultMessage(SEARCH_SUCCESS_MESSAGE);
+			sensorResultListJSON.setSensorList(sensorResultInfoList);
+		} else {
+			sensorResultListJSON.setResultCode(RESULT_FAIL);
+			sensorResultListJSON.setResultMessage(SEARCH_FAIL_MESSAGE);
+		}
 		return gson.toJson(sensorResultListJSON);
 	}
 }

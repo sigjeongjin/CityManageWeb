@@ -4,8 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.city.api.service.MemberManageService;
-import com.city.model.Result;
-import com.google.gson.Gson;
 
 public class MemberPwdConfirmHandler implements CommandJsonHandler {
 
@@ -29,19 +27,16 @@ public class MemberPwdConfirmHandler implements CommandJsonHandler {
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		Gson gson = new Gson();
-		Result result = new Result();
-
-		String memberId = request.getParameter("memberId");
-		String memberPwd = request.getParameter("memberPwd");
+		String memberId = request.getParameter(MEMBER_ID);
+		String memberPwd = request.getParameter(MEMBER_PWD);
 		
-		String mPC = memberManageService.memberPwdConfirm(memberId, memberPwd);
+		int selectCount = memberManageService.getMemberPwdConfirm(memberId, memberPwd);
 
-		if (mPC == "Y") {
-			result.setResultCode("200");
+		if (selectCount == 1) {
+			result.setResultCode(RESULT_SUCCESS);
 			result.setResultMessage("확인성공");
 		} else {
-			result.setResultCode("400");
+			result.setResultCode(RESULT_FAIL);
 			result.setResultMessage("확인실패");
 		}
 		return gson.toJson(result);

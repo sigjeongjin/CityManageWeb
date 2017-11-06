@@ -6,8 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.city.api.service.MemberManageService;
 import com.city.api.service.PushService;
 import com.city.model.PushInfo;
-import com.city.model.Result;
-import com.google.gson.Gson;
 
 public class PushTokenRegisterHandler implements CommandJsonHandler{
 
@@ -37,25 +35,25 @@ public class PushTokenRegisterHandler implements CommandJsonHandler{
 	 */
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		Gson gson = new Gson();
-		Result result = new Result();
-		
 		// Android에서 pushToken, memberId 가져옴
-		String memberId = request.getParameter("memberId");
+		String memberId = request.getParameter(MEMBER_ID);
+		
 		//memberId로 조회하여 memberPhone가져옴
 		String memberPhone = memberManageService.memberPhoneSelect(memberId); 
 		
 		PushInfo pushInfo = new PushInfo();
+		
 		pushInfo.setPushToken(request.getParameter("pushToken"));
 		pushInfo.setMemberId(request.getParameter("memberId"));
 		pushInfo.setMemberPhone(memberPhone);
 		
-		String pushRegister = pushService.pushTokenRegister(pushInfo);
-		if (pushRegister == "Y") {
-			result.setResultCode("200");
+		int resultCode = pushService.pushTokenRegister(pushInfo);
+		
+		if (resultCode == 1) {
+			result.setResultCode(RESULT_SUCCESS);
 			result.setResultMessage("push Register success");
 		} else {
-			result.setResultCode("400");
+			result.setResultCode(RESULT_FAIL);
 			result.setResultMessage("push Register fail");
 		}
 		return gson.toJson(result);

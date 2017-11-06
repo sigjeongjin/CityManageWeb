@@ -4,8 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.city.api.service.FavoritesService;
-import com.city.model.Result;
-import com.google.gson.Gson;
 
 public class FavoritesRegisterHandler implements CommandJsonHandler {
 	private FavoritesService favoritesRegisterService = new FavoritesService();
@@ -28,22 +26,19 @@ public class FavoritesRegisterHandler implements CommandJsonHandler {
 
 	private String processSubmit(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
-		Result result = new Result();
+		String memberId = req.getParameter(MEMBER_ID);
+		String manageId = req.getParameter(MANAGE_ID);
 
-		String memberId = req.getParameter("memberId");
-		String manageId = req.getParameter("manageId");
+		int resultCode = favoritesRegisterService.setFavoritesRegister(memberId, manageId);
 
-		String resultCode = favoritesRegisterService.setFavoritesRegister(memberId, manageId);
-
-		if (resultCode.equals("Y")) {
-			result.setResultCode("200");
+		if (resultCode == 1) {
+			result.setResultCode(RESULT_SUCCESS);
 			result.setResultMessage("즐겨찾기로 등록 되었습니다.");
 		} else {
-			result.setResultCode("400");
+			result.setResultCode(RESULT_FAIL);
 			result.setResultMessage("즐겨찾기 등록에 실패 하였습니다.");
 		}
 
-		Gson gson = new Gson();
 		return gson.toJson(result);
 
 	}

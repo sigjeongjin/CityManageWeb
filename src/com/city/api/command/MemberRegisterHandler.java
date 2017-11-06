@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.city.api.service.MemberManageService;
 import com.city.model.Member;
-import com.city.model.Result;
-import com.google.gson.Gson;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
@@ -34,18 +32,12 @@ public class MemberRegisterHandler implements CommandJsonHandler {
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {		
 	
-		Gson gson = new Gson();
-		Result result = new Result();
-		
 		MultipartRequest multi;
 		String saveFolder = "/upload";
 		String realFolder = "/home/pi/apache-tomcat-8.5.20/webapps";
 		String dbSaveFolder = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 		
 		int maxSize = 5 * 1024 * 1024; // 최대 업로될 파일크기 5Mb
-		
-		System.out.println("realFolder : " + realFolder);
-		System.out.println("dbSaveFolder : " + dbSaveFolder);
 		
 		Member member = new Member();
 		try {
@@ -60,16 +52,17 @@ public class MemberRegisterHandler implements CommandJsonHandler {
 			member.setMemberAuthorization("app_user");
 			member.setMemberPhotoOriginal(dbSaveFolder + "/" + saveFolder + "/" + multi.getParameter("memberPhoto"));
 								
-			String mR = memberManageService.memberRegister(member);
-			if (mR == "Y") {
-				result.setResultCode("200");
+			int resultCode = memberManageService.memberRegister(member);
+			if (resultCode == 1) {
+				result.setResultCode(RESULT_SUCCESS);
 				result.setResultMessage("회원가입을 환영합니다.");
+			} else {
+				result.setResultCode(RESULT_FAIL);
+				result.setResultMessage("회원가입에 실패 하였습니다.");
 			}
-			return gson.toJson(result);
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return gson.toJson(result);	
 	}
 }

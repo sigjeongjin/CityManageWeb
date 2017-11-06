@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.city.api.service.PushService;
 import com.city.model.PushResultInfo;
 import com.city.model.PushResultListJSON;
-import com.google.gson.Gson;
 
 public class PushHistoryListHandler implements CommandJsonHandler {
 
@@ -36,17 +35,21 @@ public class PushHistoryListHandler implements CommandJsonHandler {
 	 * @throws Exception
 	 */
 	private String processSubmit(HttpServletRequest req, HttpServletResponse res) throws Exception {
-		String memberId = req.getParameter("memberId");
-		String manageType = req.getParameter("manageType");
+		String memberId = req.getParameter(MEMBER_ID);
+		String manageType = req.getParameter(MANAGE_TYPE);
 		
 		List<PushResultInfo> pushInfoList = pushService.getPushHistoryList(memberId,manageType);
 		PushResultListJSON pushListJSON = new PushResultListJSON();
 		
-		pushListJSON.setResultCode("200");
-		pushListJSON.setResultMessage("조회되었습니다.");
-		pushListJSON.setPushHistoryList(pushInfoList);
+		if(pushInfoList != null) {
+			pushListJSON.setResultCode(RESULT_SUCCESS);
+			pushListJSON.setResultMessage(SEARCH_SUCCESS_MESSAGE);
+			pushListJSON.setPushHistoryList(pushInfoList);
+		} else {
+			pushListJSON.setResultCode(RESULT_FAIL);
+			pushListJSON.setResultMessage(SEARCH_FAIL_MESSAGE);
+		}
 		
-		Gson gson = new Gson();
 		return gson.toJson(pushListJSON);
 	}
 }

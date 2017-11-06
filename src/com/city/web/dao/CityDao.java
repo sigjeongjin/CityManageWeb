@@ -20,7 +20,7 @@ public class CityDao {
 		ResultSet rs = null;
 
 		try {
-			pstmt = conn.prepareStatement("select * from address_city");
+			pstmt = conn.prepareStatement("SELECT city_code, city_name FROM address_city");
 			rs = pstmt.executeQuery();
 
 			List<Address> addressCityList = new ArrayList<>();
@@ -38,29 +38,30 @@ public class CityDao {
 
 	}
 
-	public List<Address> selectByStateCode(Connection conn, String citycode) throws SQLException {
+	public List<Address> selectByStateCode(Connection conn, String cityCode) throws SQLException {
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		
+		List<Address> addressCityList = new ArrayList<>();
 
 		try {
-			pstmt = conn.prepareStatement("select * from address_state where city_code=?");
-			pstmt.setString(1, citycode);
+			pstmt = conn.prepareStatement("SELECT state_code, state_name FROM address_state WHERE city_code=?");
+			pstmt.setString(1, cityCode);
 			rs = pstmt.executeQuery();
 
-			List<Address> addressCityList = new ArrayList<>();
-			
 			while (rs.next()) {
 				Address address = new Address();
 				address.setStateCode(rs.getString("state_code"));
 				address.setStateName(rs.getString("state_name"));
 				addressCityList.add(address);
 			}
-			return addressCityList;
+			
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);
 		}
+		return addressCityList;
 	}
 	
 	
@@ -72,7 +73,7 @@ public class CityDao {
 		List<CityAjaxJSON> addressCityList = new ArrayList<CityAjaxJSON>();
 		
 		try {
-			pstmt = conn.prepareStatement("select city_code cityCode, city_name cityName from address_city");
+			pstmt = conn.prepareStatement("SELECT city_code cityCode, city_name cityName FROM address_city");
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
@@ -81,10 +82,11 @@ public class CityDao {
 				city.setCityName(rs.getString("cityName"));
 				addressCityList.add(city);
 			}
-			return addressCityList;
+			
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);
 		}
+		return addressCityList;
 	}
 }

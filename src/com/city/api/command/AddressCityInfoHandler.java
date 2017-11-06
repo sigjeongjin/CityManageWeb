@@ -5,8 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.city.api.service.AddressCityService;
-import com.city.model.Result;
-import com.google.gson.Gson;
 
 public class AddressCityInfoHandler implements CommandJsonHandler {
 
@@ -29,25 +27,20 @@ public class AddressCityInfoHandler implements CommandJsonHandler {
 	}
 
 	private String processSubmit(HttpServletRequest req, HttpServletResponse res) throws Exception {
-
-		Gson gson = new Gson();
-		Result result = new Result();
 		
-		String cityCode = req.getParameter("cityCode");
-		String stateCode = req.getParameter("stateCode");
-		String memberId = req.getParameter("memberId");
-		String memberPwd = req.getParameter("memberPwd");
+		String cityCode = req.getParameter(CITY_CODE);
+		String stateCode = req.getParameter(STATE_CODE);
+		String memberId = req.getParameter(MEMBER_ID);
+		String memberPwd = req.getParameter(MEMBER_PWD);
 		
+		int resultCode = addressCityService.getCityStateInfo(cityCode, stateCode, memberId, memberPwd);
 		
-		String resultCode = addressCityService.cityStateInfo(cityCode, stateCode, memberId, memberPwd);
-		
-		
-		if(resultCode.equals("Y")){
-			result.setResultCode("200");
-			result.setResultMessage("변경되었습니다.");
+		if(resultCode == 1){
+			result.setResultCode(RESULT_SUCCESS);
+			result.setResultMessage(UPDATE_SUCCESS_MESSAGE);
 		} else {
-			result.setResultCode("400");
-			result.setResultMessage("조회실패");
+			result.setResultCode(RESULT_FAIL);
+			result.setResultMessage(UPDATE_FAIL_MESSAGE);
 		}
 
 		return gson.toJson(result);

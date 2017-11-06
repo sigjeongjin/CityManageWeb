@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.city.api.service.AddressCityService;
 import com.city.model.City;
 import com.city.model.CityJSON;
-import com.google.gson.Gson;
 
 public class AddressCityHandler implements CommandJsonHandler {
 
@@ -37,13 +36,16 @@ public class AddressCityHandler implements CommandJsonHandler {
 		List<City> city = new ArrayList<City>();
 		CityJSON cityjson = new CityJSON();
 		
-		cityjson.setResultCode("200");
-		cityjson.setResultMessage("정보가 조회되었습니다.");
+		city = addressCityService.getAddressCityCode();
 		
-		city = addressCityService.addressCityCode();
-		cityjson.setCity(city);
-		
-		Gson gson = new Gson();
+		if(city != null) {
+			cityjson.setResultCode(RESULT_SUCCESS);
+			cityjson.setResultMessage(SEARCH_SUCCESS_MESSAGE);
+			cityjson.setCity(city);
+		} else {
+			cityjson.setResultCode(RESULT_FAIL);
+			cityjson.setResultMessage(SEARCH_FAIL_MESSAGE);
+		}
 		return gson.toJson(cityjson);
 
 	}

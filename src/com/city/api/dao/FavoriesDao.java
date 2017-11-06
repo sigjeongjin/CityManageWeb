@@ -14,47 +14,45 @@ import jdbc.JdbcUtil;
 
 public class FavoriesDao {
 
-	public int insertFavories(Connection conn, String memberId , String manageId) throws SQLException {
+	public int insertFavories(Connection conn, String memberId, String manageId) throws SQLException {
 
 		PreparedStatement pstmt = null;
 		int resultcode = 0;
 
 		try {
-			pstmt = conn.prepareStatement("insert into favorites_info" +
-											"(member_id, bookmark, manage_id)" + 
-											"values (?, 'Y', ?)");
+			pstmt = conn.prepareStatement(
+					"insert into favorites_info" 
+					+ "(member_id, bookmark, manage_id)" 
+					+ "values (?, 'Y', ?)");
 			pstmt.setString(1, memberId);
 			pstmt.setString(2, manageId);
-			
-			resultcode = pstmt.executeUpdate();
 
-			return resultcode;
+			resultcode = pstmt.executeUpdate();
 		} finally {
 			JdbcUtil.close(pstmt);
 		}
+		return resultcode;
 	}
-	
-	public int updateFavories(Connection conn, String memberId , String manageId)
-			throws SQLException {
+
+	public int updateFavories(Connection conn, String memberId, String manageId) throws SQLException {
 
 		PreparedStatement pstmt = null;
-		int resultcode = 0;
+		int resultCode = 0;
 
 		try {
-			pstmt = conn.prepareStatement("delete from favorites_info " +
-											" where member_id=? and manage_id=? ");
+			pstmt = conn.prepareStatement("delete from favorites_info " 
+											+ " where member_id=? and manage_id=? ");
 			pstmt.setString(1, memberId);
 			pstmt.setString(2, manageId);
-			
-			resultcode = pstmt.executeUpdate();
 
-			return resultcode;
+			resultCode = pstmt.executeUpdate();
 		} finally {
 			JdbcUtil.close(pstmt);
 		}
+		return resultCode;
 	}
-	
-	public Favorites selectFavoritesByMemberIdAndManageId(Connection conn, String memberId , String manageId)
+
+	public Favorites selectFavoritesByMemberIdAndManageId(Connection conn, String memberId, String manageId)
 			throws SQLException {
 
 		PreparedStatement pstmt = null;
@@ -62,16 +60,11 @@ public class FavoriesDao {
 		Favorites favorites = new Favorites();
 
 		try {
-			//출력 결과 : manageId, locationName(시티 + 스테이트)
+			// 출력 결과 : manageId, locationName(시티 + 스테이트)
 			pstmt = conn.prepareStatement(
-					"SELECT " + 
-					" favorites_id favoritesId, " + 
-					" manage_id manageId, " +
-					" bookmark, " +
-					" member_id memberId " + 
-					" FROM favorites_info " + 
-					" WHERE member_id=? and manage_id=?");
-		
+					"SELECT " + " favorites_id favoritesId, " + " manage_id manageId, " + " bookmark, "
+							+ " member_id memberId " + " FROM favorites_info " + " WHERE member_id=? and manage_id=?");
+
 			pstmt.setString(1, memberId);
 			pstmt.setString(2, manageId);
 			rs = pstmt.executeQuery();
@@ -89,23 +82,21 @@ public class FavoriesDao {
 			JdbcUtil.close(pstmt);
 		}
 	}
-	
-	public List<FavoritesResultInfo> selectFavoritesInfoByMemberId(Connection conn, String memberId, 
-			String manageType) throws SQLException {
+
+	public List<FavoritesResultInfo> selectFavoritesInfoByMemberId(Connection conn, String memberId, String manageType)
+			throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<FavoritesResultInfo> favoritesList = new ArrayList<FavoritesResultInfo>();
 
 		try {
-			//출력 결과 : manageId, locationName(시티 + 스테이트)
-			pstmt = conn.prepareStatement(
-					"SELECT " + 
-					" fi.manage_id manageId, " + 
-					" CONCAT((SELECT city_name cityName FROM address_city WHERE city_code=lm.city_code)" +
-					",' ',(SELECT state_name stateName FROM address_state WHERE state_code=lm.state_code)) locationName" + 
-					" FROM favorites_info fi JOIN location_management lm on fi.manage_id=lm.manage_id " + 
-					" WHERE lm.manage_type=? and fi.bookmark='Y' and fi.member_id=? ");
-		
+			// 출력 결과 : manageId, locationName(시티 + 스테이트)
+			pstmt = conn.prepareStatement("SELECT " + " fi.manage_id manageId, "
+					+ " CONCAT((SELECT city_name cityName FROM address_city WHERE city_code=lm.city_code)"
+					+ ",' ',(SELECT state_name stateName FROM address_state WHERE state_code=lm.state_code)) locationName"
+					+ " FROM favorites_info fi JOIN location_management lm on fi.manage_id=lm.manage_id "
+					+ " WHERE lm.manage_type=? and fi.bookmark='Y' and fi.member_id=? ");
+
 			pstmt.setString(1, manageType);
 			pstmt.setString(2, memberId);
 			rs = pstmt.executeQuery();
@@ -123,9 +114,8 @@ public class FavoriesDao {
 			JdbcUtil.close(pstmt);
 		}
 	}
-	
-	
-	public String selectFavoritesWhetherByMemberIdAndManageId(Connection conn, String memberId , String manageId)
+
+	public String selectFavoritesWhetherByMemberIdAndManageId(Connection conn, String memberId, String manageId)
 			throws SQLException {
 
 		PreparedStatement pstmt = null;
@@ -133,13 +123,12 @@ public class FavoriesDao {
 		String result = "";
 
 		try {
-			//출력 결과 : manageId, locationName(시티 + 스테이트)
+			// 출력 결과 : manageId, locationName(시티 + 스테이트)
 			pstmt = conn.prepareStatement(
-					"SELECT " 
-					+ " count(*) count "
+					"SELECT " + " count(*) count " 
 					+ " FROM favorites_info " 
 					+ " WHERE member_id=? and manage_id=?");
-		
+
 			pstmt.setString(1, memberId);
 			pstmt.setString(2, manageId);
 			rs = pstmt.executeQuery();
@@ -147,11 +136,11 @@ public class FavoriesDao {
 			while (rs.next()) {
 				result = rs.getString("count");
 			}
-			return result;
 
 		} finally {
 			JdbcUtil.close(rs);
 			JdbcUtil.close(pstmt);
 		}
+		return result;
 	}
 }

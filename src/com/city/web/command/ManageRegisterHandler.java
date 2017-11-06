@@ -37,12 +37,13 @@ public class ManageRegisterHandler implements CommandHandler {
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) {
 
+		LocationManagement locationManagement = new LocationManagement();
+		
 		String manageType = (String) request.getSession().getAttribute("manageType");
 		
 		String sensorTypes = Arrays.toString(request.getParameterValues("sensorTypes"));	
 		sensorTypes = sensorTypes.substring(1, sensorTypes.length()-1);
 
-		LocationManagement locationManagement = new LocationManagement();
 		locationManagement.setManageId(request.getParameter("manageId"));
 		locationManagement.setLatitude(Double.parseDouble(request.getParameter("latitude")));
 		locationManagement.setLongitude(Double.parseDouble(request.getParameter("longitude")));
