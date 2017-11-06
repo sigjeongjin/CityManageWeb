@@ -96,8 +96,11 @@ public class ManagementDao {
 	}
 
 	/** LIST INFO manageId로 정보수정 UPDATE문 */
-	public String updateManagementInfo(Connection conn, LocationManagement locationManagement) throws SQLException {
+	public int updateManagementInfo(Connection conn, LocationManagement locationManagement) throws SQLException {
 		PreparedStatement pstmt = null;
+		
+		int resultCode = 0;
+		
 		try {
 			pstmt = conn.prepareStatement("update location_management "
 					+ "set latitude = ?, longitude = ?, memo = ?, city_code = ?, state_code = ? , sensor_types = ? where manage_id = ?");
@@ -108,10 +111,13 @@ public class ManagementDao {
 			pstmt.setString(5, locationManagement.getStateCode());
 			pstmt.setString(6, locationManagement.getSensorTypes());
 			pstmt.setString(7, locationManagement.getManageId());
-			return Integer.toString(pstmt.executeUpdate());
+			
+			resultCode = pstmt.executeUpdate();
 		} finally {
 			JdbcUtil.close(pstmt);
 		}
+		
+		return resultCode;
 	}
 	
 	/** manageId NUMBER AUTO SELECT문 */

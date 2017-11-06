@@ -56,8 +56,4 @@ public class LoginHandler implements CommandHandler {
 			return "/view/member/loginForm.jsp";
 		}
 	}
-
-	private String trim(String str) {
-		return str == null ? null : str.trim();
-	}
 }
