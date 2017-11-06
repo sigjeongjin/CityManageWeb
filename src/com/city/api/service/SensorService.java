@@ -21,7 +21,8 @@ import jdbc.connection.ConnectionProvider;
 public class SensorService {
 
 	private ManagementDao managementDao = new ManagementDao();
-	Connection conn = null;
+	
+	private Connection conn = null;
 
 	public List<SensorResultInfo> getSensorList(String memberId, String manageType) {
 		List<SensorResultInfo> sensorRsultInfoList = new ArrayList<SensorResultInfo>();
@@ -29,7 +30,9 @@ public class SensorService {
 		try {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
+			
 			sensorRsultInfoList = managementDao.selectSensorListByMemberIdAndManageType(conn, memberId, manageType);
+			
 			conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -47,8 +50,10 @@ public class SensorService {
 		try {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
+			
 			sensorRsultInfoList = managementDao.selectSensorListByMemberIdAndManageTypeAndSearchText(conn, memberId,
 					manageType, searchText);
+			
 			conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -138,13 +143,13 @@ public class SensorService {
 	 * @param sensorId
 	 * @return
 	 */
-	public String modifyOperationStatus(String sensorId) {
+	public int modifyOperationStatus(String sensorId) {
 		Connection conn = null;
-		 String sensorStatus = null;
+		int resultCode = 0;
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
-			sensorStatus = managementDao.updateOperationStatus(conn, sensorId);	
+			resultCode = managementDao.updateOperationStatus(conn, sensorId);	
 			conn.commit();				
 
 		} catch (SQLException e) {
@@ -153,7 +158,7 @@ public class SensorService {
 		} finally {
 			JdbcUtil.close(conn);
 		}
-		return sensorStatus;
+		return resultCode;
 	}
 	
 	/**

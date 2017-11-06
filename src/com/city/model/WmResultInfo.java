@@ -9,6 +9,7 @@ public class WmResultInfo extends Result {
 	private String waterQuality;
 	private String waterLevel;
 	private String installationDateTime;
+	private String bookmark;
 
 	public String getManageId() {
 		return manageId;
@@ -50,4 +51,11 @@ public class WmResultInfo extends Result {
 		this.installationDateTime = installationDateTime;
 	}
 
+	public String getBookmark() {
+		return bookmark;
+	}
+
+	public void setBookmark(String bookmark) {
+		this.bookmark = bookmark;
+	}
 }

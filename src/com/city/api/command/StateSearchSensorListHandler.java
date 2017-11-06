@@ -40,14 +40,14 @@ public class StateSearchSensorListHandler implements CommandJsonHandler {
 	 */
 	private String processSubmit(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
+		SensorResultListJSON sensorResultListJSON = new SensorResultListJSON();
+		
 		String memberId = req.getParameter(MEMBER_ID);
 		String manageType = req.getParameter(MANAGE_TYPE);
 		String searchText = req.getParameter(SEARCH_TEXT);
 
 		List<SensorResultInfo> sensorResultInfoList = sensorService.getSensorListByState(memberId, manageType,
 				searchText);
-
-		SensorResultListJSON sensorResultListJSON = new SensorResultListJSON();
 		
 		if(sensorResultInfoList != null ) {
 			sensorResultListJSON.setResultCode(RESULT_SUCCESS);
@@ -57,6 +57,7 @@ public class StateSearchSensorListHandler implements CommandJsonHandler {
 			sensorResultListJSON.setResultCode(RESULT_FAIL);
 			sensorResultListJSON.setResultMessage(SEARCH_FAIL_MESSAGE);
 		}
+		
 		return gson.toJson(sensorResultListJSON);
 	}
 }

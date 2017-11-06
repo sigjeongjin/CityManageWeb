@@ -24,7 +24,7 @@ public class MqttController {
 		String topicMessage = message.toString();
 		String sensorId = "";
 		String sensorValue = "";
-		String operationStatus = "";
+		int operationStatus = 0;
 		String sensorStatus = "";
 
 		if(StringUtils.isNotEmpty(topicMessage)) {		
@@ -35,7 +35,7 @@ public class MqttController {
 		
 		System.out.println("topic: " + topic + ", sensorId: " + sensorId + ", sensorValue: " + sensorValue);
 		
-		if(StringUtils.isNotEmpty(sensorId) && operationStatus.equals("Y")) {
+		if(StringUtils.isNotEmpty(sensorId) && (operationStatus == 1)) {
 			
 			sensorStatus = noticeAndValueCompare(sensorId, sensorValue);
 			
