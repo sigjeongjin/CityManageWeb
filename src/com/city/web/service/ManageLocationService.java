@@ -43,23 +43,22 @@ public class ManageLocationService {
 	}
 
 	public LocationManagement managementInfo(String manageId) {
+
+		LocationManagement locationManagement = new LocationManagement();
+		
 		try {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
 			
-			LocationManagement locationManagement = new LocationManagement();
-
 			locationManagement = managementDao.selectManagementInfo(conn, manageId);
-
-			if (locationManagement == null) {
-				throw new NullPointerException();
-			}
-
-			return locationManagement;
+			conn.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new RuntimeException(e);
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
 		}
+		return locationManagement;
 	}
 
 	public String manageIdSet() {

@@ -5,10 +5,10 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface CommandHandler {
 	
-	final String TM = "tm"; 
-	final String GM = "gm";
-	final String SM = "sm";
-	final String WM = "wm";
+	public final String TM = "tm"; 
+	public final String GM = "gm";
+	public final String SM = "sm";
+	public final String WM = "wm";
 	
 	public final String MEMBER_ID 			= "memberId";
 	public final String MEMBER_PWD 			= "memberPwd";

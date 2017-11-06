@@ -52,7 +52,7 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		HashMap<String, String> idAndName = new HashMap<String, String>();
+		HashMap<String, String> memberInfo = new HashMap<String, String>();
 		try {
 			pstmt = conn
 					.prepareStatement("select member_id, member_name, city_code from member "
@@ -61,16 +61,18 @@ public class MemberDao {
 			pstmt.setString(1, memberId);
 			pstmt.setString(2, memberPwd);
 			rs = pstmt.executeQuery();
+			
 			if (rs.next()) {
-				idAndName.put("memberId", rs.getString("member_id"));
-				idAndName.put("memberName", rs.getString("member_name"));
-				idAndName.put("cityCode", rs.getString("city_code"));
+				memberInfo.put("memberId", rs.getString("member_id"));
+				memberInfo.put("memberName", rs.getString("member_name"));
+				memberInfo.put("cityCode", rs.getString("city_code"));
 			}
-			return idAndName;
+			
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);
 		}
+		return memberInfo;
 	}
 
 	/*정보 수정 및 상세정보 클릭 시 member 업데이트*/

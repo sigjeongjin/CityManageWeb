@@ -34,27 +34,25 @@ public class AddressStateHandler implements CommandJsonHandler {
 	@SuppressWarnings("unchecked")
 	private JSONObject processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String cityCode = request.getParameter("cityCode");
-
-		System.out.println("cityCode : " + cityCode);
-
 		List<Address> addressStateList = new ArrayList<>();
-		addressStateList = addressService.addressState(cityCode);
-		// request.setAttribute("addressStateList", addressStateList);
+		JSONArray stateJsonArray = new JSONArray();
+		
+		String cityCode = request.getParameter(CITY_CODE);
 
-		JSONArray jr = new JSONArray();
+		addressStateList = addressService.getAddressState(cityCode);
+		
 		for (int i = 0; i < addressStateList.size(); i++) {
-			JSONObject object = new JSONObject();
+			JSONObject stateJsonObj = new JSONObject();
 
-			object.put("stateCode", addressStateList.get(i).getStateCode());
-			object.put("stateName", addressStateList.get(i).getStateName());
-			jr.add(object);
+			stateJsonObj.put("stateCode", addressStateList.get(i).getStateCode());
+			stateJsonObj.put("stateName", addressStateList.get(i).getStateName());
+			stateJsonArray.add(stateJsonObj);
 		}
 
-		JSONObject objectState = new JSONObject();
-		objectState.put("state", jr);
+		JSONObject stateJsonObj = new JSONObject();
+		stateJsonObj.put("state", stateJsonArray);
 
-		return objectState;
+		return stateJsonObj;
 
 	}
 }

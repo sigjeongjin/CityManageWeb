@@ -30,10 +30,12 @@ public class LoginHandler implements CommandHandler {
 	}
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String memberId = trim(request.getParameter("memberId"));
-		String memberPwd = trim(request.getParameter("memberPwd"));
 		
 		HashMap<String, String> idAndName = new HashMap<String, String>();
+		
+		String memberId = request.getParameter(MEMBER_ID);
+		String memberPwd = request.getParameter(MEMBER_PWD);
+		
 		try {
 			idAndName = loginService.login(memberId, memberPwd);
 			
