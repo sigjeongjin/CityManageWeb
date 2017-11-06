@@ -149,9 +149,10 @@ public class SensorService {
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
+			
 			resultCode = managementDao.updateOperationStatus(conn, sensorId);	
+			
 			conn.commit();				
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);
@@ -187,22 +188,23 @@ public class SensorService {
 	 * @param status
 	 * @return
 	 */
-	public String modifySensorStatus(String sensorId, String status) {
+	public int modifySensorStatus(String sensorId, String status) {
 		Connection conn = null;
-		 String sensorStatus = null;
+		int resultCode = 0;
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
-			sensorStatus = managementDao.updateSensorStatus(conn, sensorId, status);	
+			
+			resultCode = managementDao.updateSensorStatus(conn, sensorId, status);	
+			
 			conn.commit();				
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);
 		} finally {
 			JdbcUtil.close(conn);
 		}
-		return sensorStatus;
+		return resultCode;
 	}
 	
 	/**

@@ -25,7 +25,7 @@ public class MqttController {
 		String sensorId = "";
 		String sensorValue = "";
 		int operationStatus = 0;
-		String sensorStatus = "";
+		int sensorStatus = 0;
 
 		if(StringUtils.isNotEmpty(topicMessage)) {		
 			sensorId = getTokenizerMessage(message.toString(), 1);	  		 // message에서 sensorId 받아오기
@@ -39,7 +39,7 @@ public class MqttController {
 			
 			sensorStatus = noticeAndValueCompare(sensorId, sensorValue);
 			
-			if (sensorStatus.equals("Y")) {
+			if (sensorStatus == 1) {
 				String title = getPsuhTitle(topic); 		 // topic(wm, tm, gm, sm) title 값 받아오기
 				String contents = getPsuhContents(sensorId); // sensorId로 contents 값 받아오기
 				System.out.println("title: " + title + ", contenst: " + contents);
@@ -70,9 +70,9 @@ public class MqttController {
 	 * @param sensorValue
 	 * @return
 	 */
-	private String noticeAndValueCompare(String sensorId, String sensorValue) {
+	private int noticeAndValueCompare(String sensorId, String sensorValue) {
 		
-		String sensorStatus = "";
+		int sensorStatus = 0;
 		// 센서 알림 기준값 가져오기
 		String sensorNoticeStandard = sensorService.getNoticeStandard(sensorId);
 		if (sensorNoticeStandard != null) {

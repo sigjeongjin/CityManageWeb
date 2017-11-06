@@ -338,9 +338,11 @@ public class ManagementDao {
 	 * @return
 	 */
 	public String selectNoticeStandard(Connection conn, String sensorId) {
+
+		String sensorNoticeStandard = null;
+		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sensorNoticeStandard = null;
 		
 		try {
 			
@@ -367,25 +369,24 @@ public class ManagementDao {
 	 * @param Status
 	 * @return
 	 */
-	public String updateSensorStatus(Connection conn, String sensorId, String Status) {
+	public int updateSensorStatus(Connection conn, String sensorId, String Status) {
 		PreparedStatement pstmt = null;
+		
 		int resultCode = 0;
-		String sensorStaus = null;
+		
 		try {
 			pstmt = conn.prepareStatement("update sensor_info set sensor_status =? where sensor_id=?");
 			pstmt.setString(1, Status);
 			pstmt.setString(2, sensorId);
+			
 			resultCode = pstmt.executeUpdate();
-			if (resultCode == 1) {
-				sensorStaus = Status;
-			}
 		} catch (SQLException e) {
 			JdbcUtil.rollback(conn);
 			e.printStackTrace();
 		} finally {
 			JdbcUtil.close(pstmt);
 		}
-		return sensorStaus;
+		return resultCode;
 	}
 	
 	/**
