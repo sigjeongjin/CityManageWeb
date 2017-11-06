@@ -39,7 +39,7 @@ public class WmInfoHandler implements CommandHandler {
 		
 		String manageId = request.getParameter(MANAGE_ID);
 		
-		LocationManagement manageInfo = manageLocationService.managementInfo(manageId);
+		LocationManagement manageInfo = manageLocationService.getManagementInfo(manageId);
 		
 		List<SensorInfo> sensorInfo = new ArrayList<>();
 		List<Address> addressCityList = new ArrayList<>();

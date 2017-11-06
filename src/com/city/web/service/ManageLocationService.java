@@ -124,7 +124,12 @@ public class ManageLocationService {
 		return sensorTypes;
 	}
 
-	public LocationManagement managementInfo(String manageId) {
+	/**
+	 * 관리 정보
+	 * @param manageId
+	 * @return
+	 */
+	public LocationManagement getManagementInfo(String manageId) {
 
 		LocationManagement locationManagement = new LocationManagement();
 		
@@ -142,8 +147,6 @@ public class ManageLocationService {
 		}
 		return locationManagement;
 	}
-
-
 
 	/** 최근 등록 된 센서등록을 가져오기
 	 * @param manageType

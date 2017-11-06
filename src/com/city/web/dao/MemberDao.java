@@ -172,8 +172,8 @@ public class MemberDao {
 	 * @param conn : 커넥션
 	 * @param startRow
 	 * @param size
-	 * @param selectBox  : View Page 콤보 받스
-	 * @param searchText : View Page 검색어
+	 * @param selectBox  : 콤보 박스
+	 * @param searchText : 검색어
 	 * @param cityCode : 씨티코드
 	 * @return
 	 * @throws SQLException
@@ -241,7 +241,9 @@ public class MemberDao {
 	 * @throws SQLException
 	 */
 	private Member joinMemberFromResultSet(ResultSet rs) throws SQLException {
+		
 		Member member = new Member();
+		
 		member.setMemberId(rs.getString("member_id"));
 		member.setMemberPwd(rs.getString("member_pwd"));
 		member.setMemberName(rs.getString("member_name"));
@@ -251,6 +253,7 @@ public class MemberDao {
 		member.setMemberAuthorization(rs.getString("member_authorization"));
 		member.setCityCode(rs.getString("city_name"));	// code로 name 가져오기
 		member.setStateCode(rs.getString("state_name"));// code로 name 가져오기
+		
 		return member;
 	}
 
@@ -262,6 +265,7 @@ public class MemberDao {
 	 * @throws SQLException
 	 */
 	public Member selectMemberInfo(Connection conn, String memberId) throws SQLException {
+		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		

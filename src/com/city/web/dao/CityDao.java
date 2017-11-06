@@ -36,7 +36,8 @@ public class CityDao {
 				address.setCityCode(rs.getString("city_code"));
 				address.setCityName(rs.getString("city_name"));
 				addressCityList.add(address);
-			}		
+			}
+			
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);
@@ -69,6 +70,7 @@ public class CityDao {
 				address.setStateName(rs.getString("state_name"));
 				addressCityList.add(address);
 			}		
+			
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);
@@ -98,6 +100,7 @@ public class CityDao {
 				city.setCityName(rs.getString("cityName"));
 				addressCityList.add(city);
 			}	
+			
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);

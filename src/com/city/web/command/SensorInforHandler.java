@@ -34,10 +34,6 @@ public class SensorInforHandler implements CommandHandler {
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String manageType = (String) request.getSession().getAttribute("manageType");
-		// 쓰레기통관리 ListView에서는 manageType: tm
-		// 수질관리 ListView에서는 manageType: wm
-		// 도시가스관리 ListView에서는 manageType: gm
-		// 금역구역관리 ListView에서는 manageType: sm
 
 		String sensorId = sensorManageService.setSensorId(manageType);
 		request.setAttribute("sensorId", sensorId);
@@ -48,7 +44,7 @@ public class SensorInforHandler implements CommandHandler {
 		request.setAttribute("sensorManageId", sensorManageId);
 		// 내가 click한 리스트 목록에 있는 manageId 가져옴
 
-		List<String> sensorTypeList = sensorManageService.sensorTypeSelect(sensorManageId);
+		List<String> sensorTypeList = sensorManageService.getSensorType(sensorManageId);
 		String temp = StringUtils.removeStart(sensorTypeList.toString(), "[");
 		temp = StringUtils.removeEnd(temp, "]");
 		request.setAttribute("sensorTypeList", temp);

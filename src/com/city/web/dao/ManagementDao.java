@@ -34,9 +34,11 @@ public class ManagementDao {
 		try {
 			pstmt = conn.prepareStatement("select CONCAT('M', LPAD((select(select cast((select right((select max(manage_id) from location_management), 14)) as unsigned) as mInt) + 1 mSum), 14, '0')) manageId FROM DUAL");
 			rs = pstmt.executeQuery();
+			
 			while (rs.next()) {
 				manageId = rs.getString(1);
 			} 
+			
 		}catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.close(conn);
@@ -102,6 +104,7 @@ public class ManagementDao {
 			pstmt.setString(7, locationManagement.getManageId());
 			
 			resultCode = pstmt.executeUpdate();
+			
 		} finally {
 			JdbcUtil.close(pstmt);
 		}	
@@ -125,9 +128,11 @@ public class ManagementDao {
 			pstmt = conn.prepareStatement("select sensor_types sensorTypes from location_management where manage_id = ?");
 			pstmt.setString(1, manageId);	
 			rs = pstmt.executeQuery();
+			
 			while (rs.next()) {
 				sensorTypes =  rs.getString("sensorTypes");
 			}
+			
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);
@@ -135,12 +140,19 @@ public class ManagementDao {
 		return sensorTypes;
 	}
 	
-
 	
-	/** LIST INFO manageId로 정보검색 SELECT문 */
+	/**
+	 * 관리 정보 조회
+	 * @param conn
+	 * @param manageId
+	 * @return
+	 * @throws SQLException
+	 */
 	public LocationManagement selectManagementInfo(Connection conn, String manageId) throws SQLException {
+		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		
 		try {
 			pstmt = conn.prepareStatement("select manage_id manageId, "
 					+ "(select city_name from address_city where city_code=lm.city_code) cityName, "
@@ -152,6 +164,7 @@ public class ManagementDao {
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				LocationManagement manageInfo = new LocationManagement();
+				
 				manageInfo.setManageId(rs.getString("manageId"));
 				manageInfo.setLatitude(rs.getDouble("latitude"));
 				manageInfo.setLongitude(rs.getDouble("longitude"));
@@ -162,8 +175,10 @@ public class ManagementDao {
 				manageInfo.setStateCode(rs.getString("stateCode"));
 				manageInfo.setSensorTypes(rs.getString("sensorTypes"));
 				manageInfo.setManageType(rs.getString("manageType"));
+				
 				return manageInfo;
 			}
+			
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);
@@ -171,12 +186,19 @@ public class ManagementDao {
 		return null;
 	}
 
-
-
-
-	/** LIST SELECT문 */
-	// 쓰레기통관리 리스트
+	/**
+	 * 쓰레기통 리스트
+	 * @param conn
+	 * @param startRow
+	 * @param size
+	 * @param manageType
+	 * @param selectBox
+	 * @param searchText
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<TmManagementInfo> tmSensorList(Connection conn, int startRow, int size, String manageType, String selectBox, String searchText) throws SQLException {
+		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
@@ -226,6 +248,7 @@ public class ManagementDao {
 			rs = pstmt.executeQuery();
 
 			List<TmManagementInfo> tmManagementInfoList = new ArrayList<>();
+			
 			while (rs.next()) {
 				TmManagementInfo tmManagementInfo = new TmManagementInfo();
 				tmManagementInfo.setManageId(rs.getString("manageId"));
@@ -239,16 +262,28 @@ public class ManagementDao {
 				tmManagementInfo.setMemo(rs.getString("memo"));
 				tmManagementInfoList.add(tmManagementInfo);
 			}
+			
 			return tmManagementInfoList;
+			
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);
 		}
 	}
 	
-	// 수질관리 리스트
-	public List<WmManagementInfo> wmSensorList(Connection conn, int startRow, int size, String manageType, String selectBox,
-			String searchText) throws SQLException {
+	/**
+	 * 수질관리 리스트
+	 * @param conn
+	 * @param startRow
+	 * @param size
+	 * @param manageType
+	 * @param selectBox
+	 * @param searchText
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<WmManagementInfo> wmSensorList(Connection conn, int startRow, int size, String manageType, String selectBox, String searchText) throws SQLException {
+		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
@@ -293,6 +328,7 @@ public class ManagementDao {
 			rs = pstmt.executeQuery();
 
 			List<WmManagementInfo> wmManagementInfoList = new ArrayList<>();
+			
 			while (rs.next()) {
 				WmManagementInfo wmManagementInfo = new WmManagementInfo();
 				wmManagementInfo.setManageId(rs.getString("manageId"));
@@ -304,15 +340,28 @@ public class ManagementDao {
 				wmManagementInfo.setMemo(rs.getString("memo"));
 				wmManagementInfoList.add(wmManagementInfo);
 			}
+			
 			return wmManagementInfoList;
+			
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);
 		}
 	}
 	
-	// 도시가스관리 리스트
+	/**
+	 * 도시가스관리 리스트
+	 * @param conn
+	 * @param startRow
+	 * @param size
+	 * @param manageType
+	 * @param selectBox
+	 * @param searchText
+	 * @return
+	 * @throws SQLException
+	 */
 	public List<GmManagementInfo> gmSensorList(Connection conn, int startRow, int size, String manageType, String selectBox, String searchText) throws SQLException {
+		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
@@ -353,10 +402,11 @@ public class ManagementDao {
 					pstmt.setInt(4, size);
 				}
 			}
+			
 			rs = pstmt.executeQuery();
-
-
+	
 			List<GmManagementInfo> gmManagementInfoList = new ArrayList<>();
+			
 			while (rs.next()) {
 				GmManagementInfo gmManagementInfo = new GmManagementInfo();
 				gmManagementInfo.setManageId(rs.getString("manageId"));
@@ -368,16 +418,28 @@ public class ManagementDao {
 				gmManagementInfo.setMemo(rs.getString("memo"));
 				gmManagementInfoList.add(gmManagementInfo);
 			}
+			
 			return gmManagementInfoList;
+			
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);
 		}
 	}
 	
-	// 금연구역관리  리스트
-	public List<SmManagementInfo> smSensorList(Connection conn, int startRow, int size, String manageType, String selectBox,
-			String searchText) throws SQLException {
+	/**
+	 * 금연구역관리  리스트
+	 * @param conn
+	 * @param startRow
+	 * @param size
+	 * @param manageType
+	 * @param selectBox
+	 * @param searchText
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<SmManagementInfo> smSensorList(Connection conn, int startRow, int size, String manageType, String selectBox, String searchText) throws SQLException {
+		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
@@ -418,9 +480,11 @@ public class ManagementDao {
 					pstmt.setInt(4, size);
 				}
 			}	
+			
 			rs = pstmt.executeQuery();
 
 			List<SmManagementInfo> smManagementInfoList = new ArrayList<>();
+			
 			while (rs.next()) {
 				SmManagementInfo smManagementInfo = new SmManagementInfo();
 				smManagementInfo.setManageId(rs.getString("manageId"));
@@ -432,33 +496,25 @@ public class ManagementDao {
 				smManagementInfo.setMemo(rs.getString("memo"));
 				smManagementInfoList.add(smManagementInfo);
 			}
+			
 			return smManagementInfoList;
+			
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);
 		}
-	}
-
-	/** management count를 위한 SELECT문 */
-	public int selectCount(Connection conn, String manageType) throws SQLException {
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			pstmt = conn.prepareStatement("select count(*) from location_management where manage_type = ?");
-			pstmt.setString(1, manageType);
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				return rs.getInt(1);
-			}
-		} finally {
-			JdbcUtil.close(pstmt);
-			JdbcUtil.close(rs);
-		}
-		return 0;
 	}
 	
-	/** 검색한 management count를 위한 SELECT문 */
-	public int selectCount(Connection conn, String manageType, String selectBox, String searchText) throws SQLException {
+	/**
+	 * 매니지먼트 리스트를 위한 카운트
+	 * @param conn
+	 * @param manageType
+	 * @param selectBox
+	 * @param searchText
+	 * @return
+	 * @throws SQLException
+	 */
+	public int selectManagementCount(Connection conn, String manageType, String selectBox, String searchText) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String query = selectCountQuery(manageType);
@@ -481,10 +537,13 @@ public class ManagementDao {
 					pstmt.setString(2, "%" + searchText + "%");
 				}		
 			}
+			
 			rs = pstmt.executeQuery();
+			
 			while (rs.next()) {
 				return rs.getInt(1);
 			}
+			
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);

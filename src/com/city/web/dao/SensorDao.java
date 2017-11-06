@@ -46,15 +46,18 @@ public class SensorDao {
 						+ "where sensor_id like 'S%'), 14)) as unsigned) as mInt) + 1 mSum), 14, '0')) sesorId FROM DUAL");
 			}
 			rs = pstmt.executeQuery();
+			
 			while (rs.next()) {
 				manageId = rs.getString(1);
 			}
+			
 		} finally {
 			JdbcUtil.close(rs);
 			JdbcUtil.close(pstmt);
 		}
 		return manageId;
 	}
+	
 	/**
 	 * 센서 정보 등록
 	 * @param conn
@@ -84,9 +87,6 @@ public class SensorDao {
 		return resultCode;
 	}
 
-
-
-
 	/** 
 	 * manageId로 sensorInfo 정보를 조회
 	 * @param conn
@@ -107,9 +107,9 @@ public class SensorDao {
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-
 				sensorInfoList.add(makeSensorFromResultSet(rs));
 			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);
@@ -120,34 +120,45 @@ public class SensorDao {
 		return sensorInfoList;
 	}
 	
-	// 해당 manageId sensorInfo 정보를 불러오기 위한 select문
-	public List<String> searchByType(Connection conn, String manageId) throws SQLException {
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			pstmt = conn.prepareStatement("select sensor_type from sensor_info where manage_id = ? ");
-			pstmt.setString(1, manageId);
-			rs = pstmt.executeQuery();
-			List<String> sensorTypeList = new ArrayList<>();
-			while (rs.next()) {
-
-				sensorTypeList.add(rs.getString("sensor_type"));
-			}
-			return sensorTypeList;
-
-		} finally {
-			JdbcUtil.close(pstmt);
-			JdbcUtil.close(rs);
-		}
-	}
-	
 	private SensorInfo makeSensorFromResultSet(ResultSet rs) throws SQLException {
+		
 		SensorInfo sensorInfo = new SensorInfo();
 		sensorInfo.setManageId(rs.getString("manage_id"));
 		sensorInfo.setSensorId(rs.getString("sensor_id"));
 		sensorInfo.setSensorType(rs.getString("sensor_type"));
 		sensorInfo.setOperationStatus(rs.getString("operation_status"));
 		sensorInfo.setSensorNoticeStandard(rs.getString("sensor_notice_standard"));
+		
 		return sensorInfo;
+	}
+	
+	/**
+	 * 해당 관리 아이디에 대한 센서 타입 조회
+	 * @param conn
+	 * @param manageId
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<String> selectSensorType(Connection conn, String manageId) throws SQLException {
+		
+		List<String> sensorTypeList = new ArrayList<>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			pstmt = conn.prepareStatement("select sensor_type from sensor_info where manage_id = ? ");
+			pstmt.setString(1, manageId);
+			rs = pstmt.executeQuery();
+				
+			while (rs.next()) {
+				sensorTypeList.add(rs.getString("sensor_type"));
+			}
+			
+		} finally {
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(rs);
+		}
+		return sensorTypeList;
 	}
 }

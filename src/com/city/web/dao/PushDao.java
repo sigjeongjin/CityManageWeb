@@ -25,8 +25,10 @@ public class PushDao {
 	 * @throws SQLException
 	 */
 	public int selectPushCount(Connection conn, String selectBox, String searchText) throws SQLException {
+		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		
 		try {
 			
 			StringBuilder sb = new StringBuilder();
@@ -133,7 +135,8 @@ public class PushDao {
 						, rs.getString("pushSendTime")
 						, rs.getString("installationDateTime")
 						, rs.getString("location")));
-			}		
+			}	
+			
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);

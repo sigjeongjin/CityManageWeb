@@ -43,7 +43,7 @@ public class SensorManageService {
 		try {
 			conn = ConnectionProvider.getConnection();
 
-			total = managementDao.selectCount(conn, manageType, selectBox, searchText);
+			total = managementDao.selectManagementCount(conn, manageType, selectBox, searchText);
 
 			content = managementDao.wmSensorList(conn, (pageNum - 1) * size, size, manageType, selectBox, searchText);
 
@@ -71,7 +71,7 @@ public class SensorManageService {
 		try {
 			conn = ConnectionProvider.getConnection();
 
-			total = managementDao.selectCount(conn, manageType, selectBox, searchText);
+			total = managementDao.selectManagementCount(conn, manageType, selectBox, searchText);
 
 			content = managementDao.tmSensorList(conn, (pageNum - 1) * size, size, manageType, selectBox, searchText);
 
@@ -99,7 +99,7 @@ public class SensorManageService {
 		try {
 			conn = ConnectionProvider.getConnection();
 
-			total = managementDao.selectCount(conn, manageType, selectBox, searchText);
+			total = managementDao.selectManagementCount(conn, manageType, selectBox, searchText);
 
 			content = managementDao.gmSensorList(conn, (pageNum - 1) * size, size, manageType, selectBox, searchText);
 
@@ -127,7 +127,7 @@ public class SensorManageService {
 		try {
 			conn = ConnectionProvider.getConnection();
 
-			total = managementDao.selectCount(conn, manageType, selectBox, searchText);
+			total = managementDao.selectManagementCount(conn, manageType, selectBox, searchText);
 
 			content = managementDao.smSensorList(conn, (pageNum - 1) * size, size, manageType, selectBox, searchText);
 
@@ -176,7 +176,8 @@ public class SensorManageService {
 		return sensorId;
 	}
 	
-	/** 센서 정보
+	/** 
+	 * 센서 정보
 	 * @param sensorInfo
 	 * @return
 	 */
@@ -200,22 +201,31 @@ public class SensorManageService {
 		}
 		return resultCode;
 	}
+	
+	/**
+	 * 해당 관리 아이디에 대한 센서 타입 가져오기
+	 * @param manageId
+	 * @return
+	 */
+	public List<String> getSensorType(String manageId) {
+		
+		List<String> sensorTypeList = new ArrayList<>();
+		
+		try {
+			conn = ConnectionProvider.getConnection();
+			conn.setAutoCommit(false);
+			
+			sensorTypeList = sensorDao.selectSensorType(conn, manageId);
 
-	public List<String> sensorTypeSelect(String manageId) {
-		try (Connection conn = ConnectionProvider.getConnection()) {
-
-			List<String> sensorTypeList = new ArrayList<>();
-			sensorTypeList = sensorDao.searchByType(conn, manageId);
-
-			if (sensorTypeList == null) {
-				throw new NullPointerException();
-			}
-
-			return sensorTypeList;
+			conn.commit();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
+			JdbcUtil.rollback(conn);
+		}finally {
+			JdbcUtil.close(conn);	
+		} 
+		return sensorTypeList;
 	}
 
 	/** manageId로 센서 정보 가져오기
@@ -233,6 +243,7 @@ public class SensorManageService {
 			sensorInfo = sensorDao.selectSensorInfo(conn, manageId);
 		
 			conn.commit();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);
