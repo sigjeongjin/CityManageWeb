@@ -151,13 +151,13 @@ public class ManageLocationService {
 	 */
 	public List<SensorRegister> getRegisterList(String manageType) {
 		
-		List<SensorRegister> RegisterList = new ArrayList<>();
+		List<SensorRegister> sensorRegister = new ArrayList<>();
 		
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 			
-			RegisterList = managementDao.selectRegisterList(conn, manageType);
+			sensorRegister = managementDao.selectRegisterList(conn, manageType);
 			conn.commit();			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -165,6 +165,6 @@ public class ManageLocationService {
 		} finally {
 			JdbcUtil.close(conn);
 		}
-		return RegisterList;
+		return sensorRegister;
 	}
 }

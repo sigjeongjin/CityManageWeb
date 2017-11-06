@@ -15,8 +15,16 @@ import jdbc.JdbcUtil;
 
 public class PushDao {
 
-	/* paging을 위한 member count */
-	public int selectCount(Connection conn, String searchText, String searchSelect) throws SQLException {
+
+	/**
+	 * push 정보 수 조회
+	 * @param conn
+	 * @param selectBox
+	 * @param searchText
+	 * @return
+	 * @throws SQLException
+	 */
+	public int selectPushCount(Connection conn, String selectBox, String searchText) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
@@ -28,26 +36,26 @@ public class PushDao {
 					+"concat(lm.latitude,' ' ,lm.longitude) location " 
 					+"from push_history_info phi join location_management lm on phi.manage_id = lm.manage_id) tbl ");
 			
-			if(StringUtils.isNotEmpty(searchSelect))
+			if(StringUtils.isNotEmpty(selectBox))
 			{
-				if(searchSelect.equals("manageId")) {
+				if(selectBox.equals("manageId")) {
 					sb.append("where tbl.manageId like ?");
-				} else if(searchSelect.equals("locationName")) {
+				} else if(selectBox.equals("locationName")) {
 					sb.append("where tbl.locationName like ?");
-				} else if(searchSelect.equals("pushContents")) {
+				} else if(selectBox.equals("pushContents")) {
 					sb.append("where tbl.pushContents like ?");
 				}
 			}
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			
-			if(StringUtils.isNotEmpty(searchSelect))
+			if(StringUtils.isNotEmpty(selectBox))
 			{
-				if(searchSelect.equals("manageId")) {
+				if(selectBox.equals("manageId")) {
 					pstmt.setString(1, "'%" + searchText + "%'");
-				} else if(searchSelect.equals("locationName")) {
+				} else if(selectBox.equals("locationName")) {
 					pstmt.setString(1, "'%" + searchText + "%'");
-				} else if(searchSelect.equals("pushContents")) {
+				} else if(selectBox.equals("pushContents")) {
 					pstmt.setString(1, "'%" + searchText + "%'");
 				}
 			}
@@ -68,10 +76,12 @@ public class PushDao {
 	 * @param conn
 	 * @param startRow
 	 * @param size
+	 * @param selectBox
+	 * @param searchText
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<Push> selectPushHistoryList(Connection conn, int startRow, int size, String searchText, String searchSelect) throws SQLException {
+	public List<Push> selectPushHistoryList(Connection conn, int startRow, int size, String selectBox, String searchText) throws SQLException {
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -90,26 +100,26 @@ public class PushDao {
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			
-			if(StringUtils.isNotEmpty(searchSelect))
+			if(StringUtils.isNotEmpty(selectBox))
 			{
-				if(searchSelect.equals("manageId")) {
+				if(selectBox.equals("manageId")) {
 					sb.append("where tbl.manageId like ?");
-				} else if(searchSelect.equals("locationName")) {
+				} else if(selectBox.equals("locationName")) {
 					sb.append("where tbl.locationName like ?");
-				} else if(searchSelect.equals("pushContents")) {
+				} else if(selectBox.equals("pushContents")) {
 					sb.append("where tbl.pushContents like ?");
 				}
 			}
 			pstmt.setInt(1, startRow);
 			pstmt.setInt(2, size);
 			
-			if(StringUtils.isNotEmpty(searchSelect))
+			if(StringUtils.isNotEmpty(selectBox))
 			{
-				if(searchSelect.equals("manageId")) {
+				if(selectBox.equals("manageId")) {
 					pstmt.setString(3, "'%" + searchText + "%'");
-				} else if(searchSelect.equals("locationName")) {
+				} else if(selectBox.equals("locationName")) {
 					pstmt.setString(3, "'%" + searchText + "%'");
-				} else if(searchSelect.equals("pushContents")) {
+				} else if(selectBox.equals("pushContents")) {
 					pstmt.setString(3, "'%" + searchText + "%'");
 				}
 			}
@@ -117,14 +127,17 @@ public class PushDao {
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				pushHistoryList.add(new Push(rs.getString("manageId"),
-						rs.getString("locationName"), rs.getString("pushContents"),
-						rs.getString("pushSendTime"), rs.getString("installationDateTime"), rs.getString("location")));
-			}
-			return pushHistoryList;
+				pushHistoryList.add(new Push(rs.getString("manageId")
+						, rs.getString("locationName")
+						, rs.getString("pushContents")
+						, rs.getString("pushSendTime")
+						, rs.getString("installationDateTime")
+						, rs.getString("location")));
+			}		
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);
 		}
+		return pushHistoryList;
 	}
 }

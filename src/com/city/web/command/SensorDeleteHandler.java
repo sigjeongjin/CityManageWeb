@@ -6,12 +6,10 @@ import javax.servlet.http.HttpServletResponse;
 public class SensorDeleteHandler implements CommandHandler{
 
 	@Override
-	public String process(HttpServletRequest req, HttpServletResponse res)
+	public String process(HttpServletRequest request, HttpServletResponse response)
 	throws Exception {
 		
 		return null;
 	}
 
 }
-
-
