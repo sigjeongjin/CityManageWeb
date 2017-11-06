@@ -143,7 +143,8 @@ public class MqttController {
 		return contents;
 	}	
 	
-	/** title, contents를 이용해 push message 전송
+	/** 
+	 * PUSH 메시지 전송
 	 * @param title
 	 * @param contents
 	 */

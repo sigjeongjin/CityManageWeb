@@ -56,12 +56,12 @@ public class PushDao {
 	}
 
 	/**
+	 * 토큰 등록
 	 * @param conn
 	 * @param PushInfo
 	 * @return
 	 * @throws SQLException
 	 */
-	/* 로그인 시 pushToken 저장 */
 	public int insertPushToken(Connection conn, PushInfo pushInfo) {
 		PreparedStatement pstmt = null;
 		int resultCode = 0;
@@ -86,12 +86,12 @@ public class PushDao {
 	}
 
 	/**
+	 * 토큰 업데이트
 	 * @param conn
 	 * @param PushInfo
 	 * @return
 	 * @throws SQLException
 	 */
-	/* 토큰이 새로 생성될 때 토큰을 업데이트 */
 	public int updatePushToken(Connection conn, PushInfo pushInfo) {
 		PreparedStatement pstmt = null;
 		int resultCode = 0;
@@ -135,8 +135,6 @@ public class PushDao {
 				pushList.add(rs.getString(1));
 			}
 			
-			return pushList;
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);
@@ -144,6 +142,6 @@ public class PushDao {
 			JdbcUtil.close(rs);
 			JdbcUtil.close(pstmt);
 		}
-			return pushList;
+		return pushList;
 	}
 }
