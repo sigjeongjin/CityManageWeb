@@ -17,7 +17,7 @@
 	
 	<!-- MQTT Client Setting -->
 	<listener>
-    	<listener-class>com.city.mqtt.TmMqtt</listener-class> 
+    	<listener-class>com.city.mqtt.Mqtt</listener-class> 
 	</listener>
   
   	<!-- DATABASE value Setting -->

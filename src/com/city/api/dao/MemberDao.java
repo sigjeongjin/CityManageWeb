@@ -23,9 +23,11 @@ public class MemberDao {
 		ResultSet rs = null;
 
 		try {
-			pstmt = conn.prepareStatement("select member_id, member_name, member_photo_original from member "
-					+ "where member_id=? and member_pwd=? " + "and member_authorization='app_user'"
-					+ "and member_delete_code='N'");
+			pstmt = conn.prepareStatement("SELECT member_id, member_name"
+					+ ", member_photo_original, member_register_complete FROM member "
+					+ " WHERE member_id=? AND member_pwd=? " 
+					+ " AND member_authorization='app_user'"
+					+ " AND member_delete_code='N'");
 			pstmt.setString(1, memberId);
 			pstmt.setString(2, memberPwd);
 
@@ -34,6 +36,7 @@ public class MemberDao {
 				memberAPI.setMemberId(rs.getString("member_id"));
 				memberAPI.setMemberName(rs.getString("member_name"));
 				memberAPI.setMemberPhotoOriginal(rs.getString("member_photo_original"));
+				memberAPI.setMemberRegisterComplete(rs.getString("member_register_complete"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
