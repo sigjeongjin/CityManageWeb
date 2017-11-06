@@ -138,7 +138,7 @@ public class ManagementDao {
 			pstmt.setString(1, manageId);
 			pstmt.setString(2, manageId);
 			pstmt.setString(3, manageId);
-			pstmt.setString(4, manageId);
+			pstmt.setString(4, memberId);
 			pstmt.setString(5, manageId);
 			
 			rs = pstmt.executeQuery();
