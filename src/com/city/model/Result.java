@@ -1,6 +1,7 @@
 package com.city.model;
 
 public class Result {
+	
 	String resultCode;
 	String resultMessage;
 	

@@ -1,12 +1,16 @@
 package com.city.api.command;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.city.api.service.SensorService;
-import com.city.model.TmResultInfo;
+import com.city.model.SensorInfo;
+import com.city.model.SensorMapInfoList;
 
 public class SensorMapInfoListHandler  implements CommandJsonHandler {
 
@@ -29,18 +33,24 @@ public class SensorMapInfoListHandler  implements CommandJsonHandler {
 
 	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+		List<SensorInfo> sensorMapInfoList = new ArrayList<SensorInfo>();
+		
+		SensorMapInfoList sensorMapInfoListObj = new SensorMapInfoList();
+		
 		String memberId = request.getParameter(MEMBER_ID);
 		String manageId = request.getParameter(MANAGE_ID);
 
-		TmResultInfo tmResultInfo = sensorService.getSensorMapInfoList(manageId, memberId);
+		sensorMapInfoList = sensorService.getSensorMapInfoList(manageId, memberId);
 		
-		if(StringUtils.isNotEmpty(tmResultInfo.getManageId())) {
-			tmResultInfo.setResultCode(RESULT_SUCCESS);
-			tmResultInfo.setResultMessage(SEARCH_SUCCESS_MESSAGE);
+		sensorMapInfoListObj.setSensorMapInfoList(sensorMapInfoList);
+		
+		if(sensorMapInfoList != null) {
+			sensorMapInfoListObj.setResultCode(RESULT_SUCCESS);
+			sensorMapInfoListObj.setResultMessage(SEARCH_SUCCESS_MESSAGE);
 		} else {
-			tmResultInfo.setResultCode(RESULT_FAIL);
-			tmResultInfo.setResultMessage(SEARCH_FAIL_MESSAGE);
+			sensorMapInfoListObj.setResultCode(RESULT_FAIL);
+			sensorMapInfoListObj.setResultMessage(SEARCH_FAIL_MESSAGE);
 		}
-		return gson.toJson(tmResultInfo);
+		return gson.toJson(sensorMapInfoList);
 	}
 }

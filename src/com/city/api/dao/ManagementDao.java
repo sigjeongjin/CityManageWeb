@@ -420,16 +420,16 @@ public class ManagementDao {
 	}
 	
 	/**
-	 * 센서의 정보를 가져온다
+	 * 센서의 맵 정보를 가져온다
 	 * @param memberId
 	 * @param manageId
 	 * @return SensorInfo
 	 */
-	public SensorInfo selectSensorInfoByMemberIdAndManageId (Connection conn, String memberId, String manageId) {
+	public List<SensorInfo> selectSensorMapInfoListByMemberIdAndManageId (Connection conn, String memberId, String manageId) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		SensorInfo sensorInfo = new SensorInfo();
+		List<SensorInfo> sensorMapInfoList = new ArrayList<SensorInfo>();
 		
 		try {
 			pstmt = conn.prepareStatement(this.commonQuery(
@@ -449,10 +449,14 @@ public class ManagementDao {
 			
 			rs = pstmt.executeQuery();
 
-			if (rs.next()) {
+			while (rs.next()) {
+				SensorInfo sensorInfo = new SensorInfo();
+				
 				sensorInfo.setManageId(rs.getString("manageId"));
 				sensorInfo.setLatitude(rs.getString("latitude"));
 				sensorInfo.setLongitude(rs.getString("longitude"));
+				
+				sensorMapInfoList.add(sensorInfo);
 			}
 			
 		} catch(SQLException e) {
@@ -462,6 +466,6 @@ public class ManagementDao {
 			JdbcUtil.close(rs);
 			JdbcUtil.close(pstmt);
 		}
-		return sensorInfo;
+		return sensorMapInfoList;
 	}
 }
