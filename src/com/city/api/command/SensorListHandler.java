@@ -29,10 +29,10 @@ public class SensorListHandler implements CommandJsonHandler {
 
 	private String processSubmit(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
+		SensorResultListJSON sensorResultListJSON = new SensorResultListJSON();
+		
 		String memberId = req.getParameter(MEMBER_ID);
 		String manageType = req.getParameter(MANAGE_TYPE);
-		
-		SensorResultListJSON sensorResultListJSON = new SensorResultListJSON();
 
 		List<SensorResultInfo> sensorResultInfoList = sensorService.getSensorList(memberId, manageType);
 		

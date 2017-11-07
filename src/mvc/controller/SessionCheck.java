@@ -59,6 +59,7 @@ public class SessionCheck implements Filter {
 		noFilterUrl.add("/tmInfo.app");
 		noFilterUrl.add("/gmInfo.app");
 		noFilterUrl.add("/smInfo.app");
+		noFilterUrl.add("/sensorMapInfoList.app");
 		
 		
         resourcePath = new ArrayList<String>();

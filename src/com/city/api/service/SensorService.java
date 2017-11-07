@@ -237,15 +237,15 @@ public class SensorService {
 	 * @param manageId : 관리지역 아이디
 	 * @return SensorInfo
 	 */
-	public List<SensorInfo> getSensorMapInfoList(String memberId, String manageId) {
+	public List<SensorResultInfo> getSensorMapInfoList(String memberId, String manageType) {
 		
-		List<SensorInfo> sensorMapInfoList = new ArrayList<SensorInfo>();
+		List<SensorResultInfo> sensorMapInfoList = new ArrayList<SensorResultInfo>();
 
 		try {
 			conn = ConnectionProvider.getConnection(); // transaction
 			conn.setAutoCommit(false);
 			
-			sensorMapInfoList = managementDao.selectSensorMapInfoListByMemberIdAndManageId(conn, memberId, manageId);
+			sensorMapInfoList = managementDao.selectSensorMapInfoListByMemberIdAndManageId(conn, memberId, manageType);
 			
 			conn.commit();
 		} catch (SQLException e) {

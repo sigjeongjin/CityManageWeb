@@ -425,38 +425,35 @@ public class ManagementDao {
 	 * @param manageId
 	 * @return SensorInfo
 	 */
-	public List<SensorInfo> selectSensorMapInfoListByMemberIdAndManageId (Connection conn, String memberId, String manageId) {
+	public List<SensorResultInfo> selectSensorMapInfoListByMemberIdAndManageId (Connection conn, String memberId, String manageType) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		List<SensorInfo> sensorMapInfoList = new ArrayList<SensorInfo>();
+		List<SensorResultInfo> sensorMapInfoList = new ArrayList<SensorResultInfo>();
 		
 		try {
-			pstmt = conn.prepareStatement(this.commonQuery(
-				"(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='fd') flameDetection, "
-				+"(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='s') stink, "
-				+"(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='g') generous, "
-				+"(select case sensor_status when 'Y' then '잠김' when 'N' then '열림' end from sensor_info where manage_id=? and sensor_type='l') lockStatus, "
-				,"tm"));
+			pstmt = conn.prepareStatement("SELECT lm.manage_id manageId, "
+					+ " CONCAT((select city_name from address_city where city_code=lm.city_code),' ',(select state_name from address_state where state_code=lm.state_code)) locationName "
+					+ " ,lm.latitude latitude "
+					+ " ,lm.longitude longitude "
+					+ " FROM location_management lm "
+					+ " JOIN member m ON lm.state_code=m.state_code "
+					+ " WHERE member_id=? AND lm.manage_type=?"
+					);
 			
-			pstmt.setString(1, manageId);
-			pstmt.setString(2, manageId);
-			pstmt.setString(3, manageId);
-			pstmt.setString(4, manageId);
-			pstmt.setString(5, manageId);
-			pstmt.setString(6, memberId);
-			pstmt.setString(7, manageId);
+			pstmt.setString(1, memberId);
+			pstmt.setString(2, manageType);
 			
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				SensorInfo sensorInfo = new SensorInfo();
+				SensorResultInfo sensorResultInfo = new SensorResultInfo();
 				
-				sensorInfo.setManageId(rs.getString("manageId"));
-				sensorInfo.setLatitude(rs.getString("latitude"));
-				sensorInfo.setLongitude(rs.getString("longitude"));
+				sensorResultInfo.setManageId(rs.getString("manageId"));
+				sensorResultInfo.setLatitude(rs.getString("latitude"));
+				sensorResultInfo.setLongitude(rs.getString("longitude"));
 				
-				sensorMapInfoList.add(sensorInfo);
+				sensorMapInfoList.add(sensorResultInfo);
 			}
 			
 		} catch(SQLException e) {

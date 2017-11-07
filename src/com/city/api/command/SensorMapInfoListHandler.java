@@ -1,16 +1,13 @@
 package com.city.api.command;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.city.api.service.SensorService;
-import com.city.model.SensorInfo;
-import com.city.model.SensorMapInfoList;
+import com.city.model.SensorResultInfo;
+import com.city.model.SensorResultListJSON;
 
 public class SensorMapInfoListHandler  implements CommandJsonHandler {
 
@@ -31,26 +28,23 @@ public class SensorMapInfoListHandler  implements CommandJsonHandler {
 		return this.processSubmit(request, response);
 	}
 
-	private String processSubmit(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	private String processSubmit(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		
-		List<SensorInfo> sensorMapInfoList = new ArrayList<SensorInfo>();
+		SensorResultListJSON sensorResultListJSON = new SensorResultListJSON();
 		
-		SensorMapInfoList sensorMapInfoListObj = new SensorMapInfoList();
-		
-		String memberId = request.getParameter(MEMBER_ID);
-		String manageId = request.getParameter(MANAGE_ID);
+		String memberId = req.getParameter(MEMBER_ID);
+		String manageType = req.getParameter(MANAGE_TYPE);
 
-		sensorMapInfoList = sensorService.getSensorMapInfoList(manageId, memberId);
+		List<SensorResultInfo> sensorResultInfo = sensorService.getSensorMapInfoList(memberId, manageType);
 		
-		sensorMapInfoListObj.setSensorMapInfoList(sensorMapInfoList);
-		
-		if(sensorMapInfoList != null) {
-			sensorMapInfoListObj.setResultCode(RESULT_SUCCESS);
-			sensorMapInfoListObj.setResultMessage(SEARCH_SUCCESS_MESSAGE);
+		if(sensorResultInfo != null) {
+			sensorResultListJSON.setResultCode(RESULT_SUCCESS);
+			sensorResultListJSON.setResultMessage(SEARCH_SUCCESS_MESSAGE);
+			sensorResultListJSON.setSensorList(sensorResultInfo);
 		} else {
-			sensorMapInfoListObj.setResultCode(RESULT_FAIL);
-			sensorMapInfoListObj.setResultMessage(SEARCH_FAIL_MESSAGE);
+			sensorResultListJSON.setResultCode(RESULT_FAIL);
+			sensorResultListJSON.setResultMessage(SEARCH_FAIL_MESSAGE);
 		}
-		return gson.toJson(sensorMapInfoList);
+		return gson.toJson(sensorResultInfo);
 	}
 }
