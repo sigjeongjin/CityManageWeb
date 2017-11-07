@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.city.api.dao.ManagementDao;
 import com.city.model.GmResultInfo;
+import com.city.model.SensorInfo;
 import com.city.model.SensorResultInfo;
 import com.city.model.SmResultInfo;
 import com.city.model.TmResultInfo;
@@ -228,5 +229,31 @@ public class SensorService {
 			JdbcUtil.close(conn);
 		}
 		return sensorType;
+	}
+	
+	/**
+	 * 로그인한 사람의 관리 지역에 해당하는 센서 정보를 가져오기
+	 * @param memberId : 회원 아이디
+	 * @param manageId : 관리지역 아이디
+	 * @return SensorInfo
+	 */
+	public SensorInfo getSensorMapInfoList(String memberId, String manageId) {
+		SensorInfo sensorInfo = new SensorInfo();
+
+		try {
+			conn = ConnectionProvider.getConnection(); // transaction
+			conn.setAutoCommit(false);
+			
+			sensorInfo = managementDao.selectSensorInfoByMemberIdAndManageId(conn, memberId, manageId);
+			
+			conn.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("센서 검색에 실패했습니다.");
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+		return sensorInfo;
 	}
 }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.city.model.GmResultInfo;
+import com.city.model.SensorInfo;
 import com.city.model.SensorResultInfo;
 import com.city.model.SmResultInfo;
 import com.city.model.TmResultInfo;
@@ -416,5 +417,51 @@ public class ManagementDao {
 			JdbcUtil.close(pstmt);		
 		}
 		return sensorType;
+	}
+	
+	/**
+	 * 센서의 정보를 가져온다
+	 * @param memberId
+	 * @param manageId
+	 * @return SensorInfo
+	 */
+	public SensorInfo selectSensorInfoByMemberIdAndManageId (Connection conn, String memberId, String manageId) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		SensorInfo sensorInfo = new SensorInfo();
+		
+		try {
+			pstmt = conn.prepareStatement(this.commonQuery(
+				"(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='fd') flameDetection, "
+				+"(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='s') stink, "
+				+"(select case sensor_status when 'Y' then '위험' when 'N' then '정상' end from sensor_info where manage_id=? and sensor_type='g') generous, "
+				+"(select case sensor_status when 'Y' then '잠김' when 'N' then '열림' end from sensor_info where manage_id=? and sensor_type='l') lockStatus, "
+				,"tm"));
+			
+			pstmt.setString(1, manageId);
+			pstmt.setString(2, manageId);
+			pstmt.setString(3, manageId);
+			pstmt.setString(4, manageId);
+			pstmt.setString(5, manageId);
+			pstmt.setString(6, memberId);
+			pstmt.setString(7, manageId);
+			
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				sensorInfo.setManageId(rs.getString("manageId"));
+				sensorInfo.setLatitude(rs.getString("latitude"));
+				sensorInfo.setLongitude(rs.getString("longitude"));
+			}
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+		}
+		return sensorInfo;
 	}
 }

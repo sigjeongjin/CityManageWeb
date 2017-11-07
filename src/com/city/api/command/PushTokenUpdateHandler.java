@@ -7,7 +7,7 @@ import com.city.api.service.MemberManageService;
 import com.city.api.service.PushService;
 import com.city.model.PushInfo;
 
-public class PushTokenUpdateHandle implements CommandJsonHandler{
+public class PushTokenUpdateHandler implements CommandJsonHandler{
 
 	private PushService pushService = new PushService();
 	private MemberManageService memberManageService = new MemberManageService();
