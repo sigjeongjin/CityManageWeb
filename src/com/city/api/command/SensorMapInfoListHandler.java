@@ -9,7 +9,7 @@ import com.city.api.service.SensorService;
 import com.city.model.SensorResultInfo;
 import com.city.model.SensorResultListJSON;
 
-public class SensorMapInfoListHandler  implements CommandJsonHandler {
+public class SensorMapInfoListHandler implements CommandJsonHandler {
 
 	private SensorService sensorService = new SensorService();
 
@@ -35,16 +35,16 @@ public class SensorMapInfoListHandler  implements CommandJsonHandler {
 		String memberId = req.getParameter(MEMBER_ID);
 		String manageType = req.getParameter(MANAGE_TYPE);
 
-		List<SensorResultInfo> sensorResultInfo = sensorService.getSensorMapInfoList(memberId, manageType);
+		List<SensorResultInfo> sensorResultInfoList = sensorService.getSensorMapInfoList(memberId, manageType);
 		
-		if(sensorResultInfo != null) {
+		if(sensorResultInfoList != null) {
 			sensorResultListJSON.setResultCode(RESULT_SUCCESS);
 			sensorResultListJSON.setResultMessage(SEARCH_SUCCESS_MESSAGE);
-			sensorResultListJSON.setSensorList(sensorResultInfo);
+			sensorResultListJSON.setSensorList(sensorResultInfoList);
 		} else {
 			sensorResultListJSON.setResultCode(RESULT_FAIL);
 			sensorResultListJSON.setResultMessage(SEARCH_FAIL_MESSAGE);
 		}
-		return gson.toJson(sensorResultInfo);
+		return gson.toJson(sensorResultListJSON);
 	}
 }
