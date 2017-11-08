@@ -189,3 +189,8 @@ ADD COLUMN `member_register_complete` VARCHAR(1) NULL DEFAULT 'N' AFTER `member_
 ALTER TABLE `citymanage`.`push_history_info` 
 ADD COLUMN `push_retry` INT(10) NULL AFTER `location_name`,
 ADD COLUMN `push_message_id` VARCHAR(100) NULL AFTER `push_retry`;
+
+-- 2017.11.08 colum 추가
+ALTER TABLE `citymanage`.`sensor_info` 
+ADD COLUMN `sensor_compare` VARCHAR(10) NULL DEFAULT 'over' AFTER `sensor_notice_standard`;
+CHANGE COLUMN `sensor_compare` `sensor_compare` VARCHAR(10) NULL DEFAULT 'over' COMMENT 'sensor_compare : over and under' ;

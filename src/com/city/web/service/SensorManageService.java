@@ -228,11 +228,12 @@ public class SensorManageService {
 		return sensorTypeList;
 	}
 
-	/** manageId로 센서 정보 가져오기
+	/** 
+	 * manageId로 센서 정보 리스트 가져오기
 	 * @param manageId
 	 * @return
 	 */
-	public List<SensorInfo> getSensorInfo(String manageId) {
+	public List<SensorInfo> getSensorInfoList(String manageId) {
 		
 		List<SensorInfo> sensorInfo = new ArrayList<>();
 		
@@ -240,7 +241,7 @@ public class SensorManageService {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 			
-			sensorInfo = sensorDao.selectSensorInfo(conn, manageId);
+			sensorInfo = sensorDao.selectSensorInfoList(conn, manageId);
 		
 			conn.commit();
 			

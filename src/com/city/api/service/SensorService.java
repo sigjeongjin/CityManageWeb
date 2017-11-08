@@ -167,27 +167,6 @@ public class SensorService {
 	
 	/**
 	 * @param sensorId
-	 * @return
-	 */
-	public String getNoticeStandard(String sensorId) {
-		Connection conn = null;
-		String sensorNoticeStandard = null;
-		try {
-			conn = ConnectionProvider.getConnection();
-			conn.setAutoCommit(false);
-			sensorNoticeStandard = managementDao.selectNoticeStandard(conn, sensorId);	
-			conn.commit();		
-		} catch (SQLException e) {
-			e.printStackTrace();
-			JdbcUtil.rollback(conn);
-		} finally {
-			JdbcUtil.close(conn);
-		}
-		return sensorNoticeStandard;
-	}
-	
-	/**
-	 * @param sensorId
 	 * @param status
 	 * @return
 	 */
@@ -256,5 +235,31 @@ public class SensorService {
 			JdbcUtil.close(conn);
 		}
 		return sensorMapInfoList;
+	}
+	
+	/** 
+	 * sensorId 로 센서 정보 조회 
+	 * @param sensorId
+	 * @return SensorInfo
+	 */
+	public SensorInfo getSensorInfo(String sensorId) {
+		
+		SensorInfo sensorInfo = new SensorInfo();
+		
+		try {
+			conn = ConnectionProvider.getConnection();
+			conn.setAutoCommit(false);
+			
+			sensorInfo = managementDao.selectSensorInfo(conn, sensorId);
+		
+			conn.commit();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);	
+		} 
+			return sensorInfo;		
 	}
 }

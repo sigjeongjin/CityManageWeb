@@ -44,7 +44,7 @@ public class WmInfoHandler implements CommandHandler {
 		List<SensorInfo> sensorInfo = new ArrayList<>();
 		List<Address> addressCityList = new ArrayList<>();
 		
-		sensorInfo = sensorManageService.getSensorInfo(manageId);
+		sensorInfo = sensorManageService.getSensorInfoList(manageId);
 		
 		addressCityList = addressService.getAddressCity();
 		

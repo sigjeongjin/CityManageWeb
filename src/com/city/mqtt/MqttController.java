@@ -1,14 +1,6 @@
 package com.city.mqtt;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-
-import com.city.api.service.PushService;
-import com.city.api.service.SensorService;
 
 /**
  * @author minjeong
@@ -36,5 +28,4 @@ public class MqttController {
 			
 		}
 	}
-	
 }

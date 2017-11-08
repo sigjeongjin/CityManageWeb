@@ -88,13 +88,13 @@ public class SensorDao {
 	}
 
 	/** 
-	 * manageId로 sensorInfo 정보를 조회
+	 * manageId로 sensorInfoList 를 조회
 	 * @param conn
 	 * @param manageId
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<SensorInfo> selectSensorInfo(Connection conn, String manageId) {
+	public List<SensorInfo> selectSensorInfoList(Connection conn, String manageId) {
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

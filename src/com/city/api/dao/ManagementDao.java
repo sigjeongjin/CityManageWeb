@@ -336,37 +336,6 @@ public class ManagementDao {
 	/**
 	 * @param conn
 	 * @param sensorId
-	 * @return
-	 */
-	public String selectNoticeStandard(Connection conn, String sensorId) {
-
-		String sensorNoticeStandard = null;
-		
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		try {
-			
-			pstmt = conn.prepareStatement("select sensor_notice_standard from sensor_info where sensor_id=?");
-			pstmt.setString(1, sensorId);
-			rs = pstmt.executeQuery();
-		
-			while(rs.next()) {
-				sensorNoticeStandard = rs.getString("sensor_notice_standard");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			JdbcUtil.rollback(conn);
-		} finally {
-			JdbcUtil.close(rs);	
-			JdbcUtil.close(pstmt);		
-		}
-		return sensorNoticeStandard;
-	}
-
-	/**
-	 * @param conn
-	 * @param sensorId
 	 * @param Status
 	 * @return
 	 */
@@ -464,5 +433,50 @@ public class ManagementDao {
 			JdbcUtil.close(pstmt);
 		}
 		return sensorMapInfoList;
+	}
+	
+	/** 
+	 * sensorId 로 sensorInfo 조회
+	 * @param conn
+	 * @param sensorId
+	 * @return SensorInfo
+	 * @throws SQLException
+	 */
+	public SensorInfo selectSensorInfo(Connection conn, String sensorId) {
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		SensorInfo sensorInfo = new SensorInfo();
+		
+		try {
+			pstmt = conn.prepareStatement("SELECT lm.manage_id manageId" 
+					+ ", si.sensor_id sensorId"
+					+ ", si.sensor_status sensorStatus"
+					+ ", si.operation_status operationStatus"
+					+ ", si.sensor_notice_standard sensorNoticeStandard"
+					+ ", si.sensor_compare sensorCompare"
+					+ "FROM sensor_info si "
+					+ "JOIN location_management lm ON si.manage_id=lm.manage_id "
+					+ "WHERE si.sensor_id = ? ");
+			pstmt.setString(1, sensorId);
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				sensorInfo.setManageId(rs.getString("manageId"));
+				sensorInfo.setSensorStatus(rs.getString("snsorId"));
+				sensorInfo.setOperationStatus(rs.getString("operationStatus"));
+				sensorInfo.setSensorNoticeStandard(rs.getString("sensorNoticeStandard"));
+				sensorInfo.setSensorCompare(rs.getString("sensorCompare"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(rs);
+		}		
+		return sensorInfo;
 	}
 }

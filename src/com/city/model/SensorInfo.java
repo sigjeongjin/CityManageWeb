@@ -6,13 +6,14 @@ public class SensorInfo {
 	
 	private String sensorId;				// 센서ID
 	private String manageId;				// 관리ID
-	private String sensorInfo;				// 센서 이상상태
+	private String sensorStatus;				// 센서 이상상태
 	private Date installationDatetime;		// 설치 날짜
 	private String sensorType;				// 센서 타입
 	private String operationStatus;			// 센서 동작상태
 	private String sensorNoticeStandard;	// push 알림 기준
 	private String latitude; 				// 위도
 	private String longitude; 				// 경도
+	private String sensorCompare;			// 위험 수준이 over 인지 under 인지 저장 하는 변수
 	
 	public String getSensorId() {
 		return sensorId;
@@ -30,12 +31,12 @@ public class SensorInfo {
 		this.manageId = manageId;
 	}
 
-	public String getSensorInfo() {
-		return sensorInfo;
+	public String getSensorStatus() {
+		return sensorStatus;
 	}
 
-	public void setSensorInfo(String sensorInfo) {
-		this.sensorInfo = sensorInfo;
+	public void setSensorStatus(String sensorStatus) {
+		this.sensorStatus = sensorStatus;
 	}
 
 	public Date getInstallationDatetime() {
@@ -84,5 +85,13 @@ public class SensorInfo {
 
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
+	}
+
+	public String getSensorCompare() {
+		return sensorCompare;
+	}
+
+	public void setSensorCompare(String sensorCompare) {
+		this.sensorCompare = sensorCompare;
 	}
 }
