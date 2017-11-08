@@ -23,6 +23,7 @@ public class MqttController {
 	
 	
 	public TmController tmController = new TmController();
+
 	
 	public void transferTopicAndMessag(String topic, MqttMessage message) {
 		
@@ -33,7 +34,7 @@ public class MqttController {
 		} else if(topic.equals("GM")) {
 			
 		} else if(topic.equals("SM")) {
-			
+	
 		}
 	}
 	
