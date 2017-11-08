@@ -6,6 +6,7 @@ import java.util.StringTokenizer;
 
 import com.city.api.service.PushService;
 import com.city.api.service.SensorService;
+import com.city.model.SensorInfo;
 
 public class CommonMqttUtil {
 	
@@ -35,25 +36,29 @@ public class CommonMqttUtil {
 	 * @param sensorValue
 	 * @return
 	 */
-	public int noticeAndValueCompare(String sensorId, String sensorValue) {
+	public int noticeAndValueCompare(SensorInfo sensorInfo, int arduinoSensorValue) {
 		
 		int sensorStatus = 0;
-		// 센서 알림 기준값 가져오기
-		String sensorNoticeStandard = sensorService.getNoticeStandard(sensorId);
-		if (sensorNoticeStandard != null) {
-			
-			int iSensorValue = Integer.parseInt(sensorValue);
-			int iSensorNoticeStandard = Integer.parseInt(sensorNoticeStandard);
-			
-			if(iSensorValue > iSensorNoticeStandard) {
-				// mqtt로 받은 센서 값이 센서 알림보다 높으면 이상 상태를 Y로 해줌(이상)
-				sensorStatus = sensorService.modifySensorStatus(sensorId, "Y");
+		int noticeStandardSensorValue = Integer.parseInt(sensorInfo.getSensorNoticeStandard());
+		String sensorId = sensorInfo.getSensorId();
 		
+		if(sensorInfo.getSensorCompare().equals("under")) { // 낮을 경우 이상상태 (sensor compare : under)
+			if(arduinoSensorValue < noticeStandardSensorValue) {
+				//아두이노에서 보낸 값이 db에 저장된 기준값보다 작을때 이상 상태(이상)
+				sensorStatus = sensorService.modifySensorStatus(sensorId, "Y");
 			} else {
-				// mqtt로 받은 센서 값이 센서 알림보다 낮으면 이상 상태를 N로 해줌(정상)
+				//아두이노에서 보낸 값이 db에 저장된 기준값보다 클때 정상 상태(정상)
 				sensorStatus = sensorService.modifySensorStatus(sensorId, "N");
 			}
-		}	
+		} else { // 클 경우 이상상태 (sensor compare : over)
+			if(arduinoSensorValue > noticeStandardSensorValue) {
+				//아두이노에서 보낸 값이 db에 저장된 기준값보다 클 때 이상 상태(이상)
+				sensorStatus = sensorService.modifySensorStatus(sensorId, "Y");
+			} else {
+				//아두이노에서 보낸 값이 db에 저장된 기준값보다 작을 때 정상 상태(정상)
+				sensorStatus = sensorService.modifySensorStatus(sensorId, "N");
+			}
+		}
 		return sensorStatus;
 	}
 	
@@ -125,5 +130,15 @@ public class CommonMqttUtil {
 			System.out.println("PUSH Exception");
 			e.printStackTrace();
 		}
+	}
+	
+	public SensorInfo getSensorInfo(String sensorId, SensorInfo sensorInfo) {
+		try {
+			sensorInfo = sensorService.getSensorInfo(sensorId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("센서 검색 : getSensorInfo");
+		}
+		return sensorInfo;
 	}
 }
