@@ -456,15 +456,15 @@ public class ManagementDao {
 					+ ", si.operation_status operationStatus"
 					+ ", si.sensor_notice_standard sensorNoticeStandard"
 					+ ", si.sensor_compare sensorCompare"
-					+ "FROM sensor_info si "
-					+ "JOIN location_management lm ON si.manage_id=lm.manage_id "
-					+ "WHERE si.sensor_id = ? ");
+					+ " FROM sensor_info si "
+					+ " JOIN location_management lm ON si.manage_id=lm.manage_id "
+					+ " WHERE si.sensor_id = ? ");
 			pstmt.setString(1, sensorId);
 			rs = pstmt.executeQuery();
 			
 			if (rs.next()) {
 				sensorInfo.setManageId(rs.getString("manageId"));
-				sensorInfo.setSensorStatus(rs.getString("snsorId"));
+				sensorInfo.setSensorStatus(rs.getString("sensorId"));
 				sensorInfo.setOperationStatus(rs.getString("operationStatus"));
 				sensorInfo.setSensorNoticeStandard(rs.getString("sensorNoticeStandard"));
 				sensorInfo.setSensorCompare(rs.getString("sensorCompare"));
