@@ -54,11 +54,15 @@ public class WmController {
 			sensorStatus = commonMqttUtil.noticeAndValueCompare(sensorInfo, arduinoSensorValue );
 			
 			if (sensorStatus == 1) {
-				String title = commonMqttUtil.getPsuhTitle(topic); 		 // topic(wm, tm, gm, sm) title 값 받아오기
-				String contents = commonMqttUtil.getPsuhContents(arduinoSensorId); // sensorId로 contents 값 받아오기
-				System.out.println("title: " + title + ", contenst: " + contents);
+				sensorInfo = commonMqttUtil.getSensorInfo(arduinoSensorId, sensorInfo);
 				
-				commonMqttUtil.sendPushMessage(title, contents); // PUSH 보내기						
+				if(sensorInfo.getSensorStatus().equals("Y")) {
+					String title = commonMqttUtil.getPsuhTitle(topic); 		 // topic(wm, tm, gm, sm) title 값 받아오기
+					String contents = commonMqttUtil.getPsuhContents(arduinoSensorId); // sensorId로 contents 값 받아오기
+					System.out.println("title: " + title + ", contenst: " + contents);
+					
+					commonMqttUtil.sendPushMessage(title, contents); // PUSH 보내기		
+				}
 			}
 		} else {
 			throw new Exception("센서 상태 변경 오류");
