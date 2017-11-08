@@ -52,17 +52,12 @@ public class MqttController {
 		
 		System.out.println("topic: " + topic + ", sensorId: " + arduinoSensorId + ", sensorValue: " + arduinoSensorValue);
 		
-		
 		if(sensorStatusUpdateResultCode == 1) {
 			//DB의 센서 기준값과 아두이노에서 보내준 센서 값을 비교
 			sensorStatus = commonMqttUtil.noticeAndValueCompare(sensorInfo, arduinoSensorValue );
 			
-			System.out.println("sensorStatus : " + sensorStatus);
-			
 			if (sensorStatus == 1) {
 				sensorInfo = commonMqttUtil.getSensorInfo(arduinoSensorId, sensorInfo);
-				
-				System.out.println("sensor info :  " + sensorInfo.toString());
 				
 				if(sensorInfo.getSensorStatus().equals("Y")) {
 					String title = commonMqttUtil.getPsuhTitle(topic); 		 // topic(wm, tm, gm, sm) title 값 받아오기

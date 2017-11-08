@@ -339,17 +339,22 @@ public class ManagementDao {
 	 * @param Status
 	 * @return
 	 */
-	public int updateSensorStatus(Connection conn, String sensorId, String Status) {
+	public int updateSensorStatus(Connection conn, String sensorId, String status) {
 		PreparedStatement pstmt = null;
 		
 		int resultCode = 0;
 		
 		try {
 			pstmt = conn.prepareStatement("update sensor_info set sensor_status =? where sensor_id=?");
-			pstmt.setString(1, Status);
+			pstmt.setString(1, status);
 			pstmt.setString(2, sensorId);
 			
 			resultCode = pstmt.executeUpdate();
+			
+			System.out.println("sensor id : " + sensorId );
+			System.out.println("sensor status : " + status);
+			
+			System.out.println("DAO RESULT CODE : " +resultCode);
 		} catch (SQLException e) {
 			JdbcUtil.rollback(conn);
 			e.printStackTrace();
@@ -463,13 +468,14 @@ public class ManagementDao {
 			rs = pstmt.executeQuery();
 			
 			if (rs.next()) {
+				
 				sensorInfo.setManageId(rs.getString("manageId"));
-				sensorInfo.setSensorStatus(rs.getString("sensorId"));
+				sensorInfo.setSensorId(rs.getString("sensorId"));
+				sensorInfo.setSensorStatus(rs.getString("sensorStatus"));
 				sensorInfo.setOperationStatus(rs.getString("operationStatus"));
 				sensorInfo.setSensorNoticeStandard(rs.getString("sensorNoticeStandard"));
 				sensorInfo.setSensorCompare(rs.getString("sensorCompare"));
 			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);

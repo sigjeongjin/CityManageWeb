@@ -178,7 +178,7 @@ public class SensorService {
 			conn.setAutoCommit(false);
 			
 			resultCode = managementDao.updateSensorStatus(conn, sensorId, status);	
-			
+			System.out.println("result code : " + resultCode);
 			conn.commit();				
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -253,7 +253,6 @@ public class SensorService {
 			sensorInfo = managementDao.selectSensorInfo(conn, sensorId);
 		
 			conn.commit();
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);
