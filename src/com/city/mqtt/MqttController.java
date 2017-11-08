@@ -58,7 +58,7 @@ public class MqttController {
 			
 			if (sensorStatus == 1) {
 				sensorInfo = commonMqttUtil.getSensorInfo(arduinoSensorId, sensorInfo);
-				
+				                  
 				if(sensorInfo.getSensorStatus().equals("Y")) {
 					String title = commonMqttUtil.getPsuhTitle(topic); 		 // topic(wm, tm, gm, sm) title 값 받아오기
 					String contents = commonMqttUtil.getPsuhContents(arduinoSensorId); // sensorId로 contents 값 받아오기

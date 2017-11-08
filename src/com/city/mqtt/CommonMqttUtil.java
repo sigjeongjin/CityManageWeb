@@ -55,6 +55,10 @@ public class CommonMqttUtil {
 				System.out.println("under N");
 			}
 		} else { // 클 경우 이상상태 (sensor compare : over)
+			
+			System.out.println("arduinoSensorValue : " + arduinoSensorValue);
+			System.out.println("noticeStandardSensorValue : " + noticeStandardSensorValue);
+			
 			if(arduinoSensorValue > noticeStandardSensorValue) {
 				//아두이노에서 보낸 값이 db에 저장된 기준값보다 클 때 이상 상태(이상)
 				sensorStatus = sensorService.modifySensorStatus(sensorId, "Y");
