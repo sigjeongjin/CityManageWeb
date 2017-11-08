@@ -145,7 +145,7 @@ public class SensorManageService {
 	 * @param manageType
 	 * @return
 	 */
-	public String setSensorId(String manageType) {
+	public String setSensorIdNumbering(String manageType) {
 		
 		String sensorId = null;
 		
@@ -153,7 +153,7 @@ public class SensorManageService {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 
-			sensorId = sensorDao.searchById(conn, manageType);
+			sensorId = sensorDao.selectSensorIdNumbering(conn, manageType);
 
 			conn.commit();
 			

@@ -35,7 +35,7 @@ public class SensorInforHandler implements CommandHandler {
 
 		String manageType = (String) request.getSession().getAttribute("manageType");
 
-		String sensorId = sensorManageService.setSensorId(manageType);
+		String sensorId = sensorManageService.setSensorIdNumbering(manageType);
 		request.setAttribute("sensorId", sensorId);
 		// select문을 통해 다음 센서ID값 가져옴
 		// manageType은 센서ID 조건을 위해 넣어줌

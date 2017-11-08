@@ -20,7 +20,7 @@ public class SensorDao {
 	 * @return
 	 * @throws SQLException
 	 */
-	public String searchById(Connection conn, String manageType) throws SQLException {
+	public String selectSensorIdNumbering(Connection conn, String manageType) throws SQLException {
 		
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
@@ -28,21 +28,21 @@ public class SensorDao {
 		String manageId = null;
 		
 		try {
-			if(manageType.equals("tm")) {
-				pstmt = conn.prepareStatement("select CONCAT('T', LPAD((select(select cast((select right((select max(sensor_id) from sensor_info "
-						+ "where sensor_id like 'T%'), 14)) "
+			if(manageType.equals("wm")) {
+				pstmt = conn.prepareStatement("select CONCAT('W', LPAD((select(select cast((select right((select max(sensor_id) from sensor_info "
+						+ "where sensor_id like 'W%'), 14)) "
 						+ "as unsigned) as mInt) + 1 mSum), 14, '0')) sesorId FROM DUAL");
 			}
-			else if(manageType.equals("wm")) {
-				pstmt = conn.prepareStatement("select CONCAT('W', LPAD((select(select cast((select right((select max(sensor_id) from sensor_info "
-						+ "where sensor_id like 'W%'), 14)) as unsigned) as mInt) + 1 mSum), 14, '0')) sesorId FROM DUAL");
+			else if(manageType.equals("tm")) {
+				pstmt = conn.prepareStatement("select CONCAT('T', LPAD((select(select cast((select right((select max(sensor_id) from sensor_info "
+						+ "where sensor_id like 'T%'), 14)) as unsigned) as mInt) + 1 mSum), 14, '0')) sesorId FROM DUAL");
 			}
 			else if(manageType.equals("gm")) {
-				pstmt = conn.prepareStatement("select CONCAT('T', LPAD((select(select cast((select right((select max(sensor_id) from sensor_info "
+				pstmt = conn.prepareStatement("select CONCAT('G', LPAD((select(select cast((select right((select max(sensor_id) from sensor_info "
 						+ "where sensor_id like 'G%'), 14)) as unsigned) as mInt) + 1 mSum), 14, '0')) sesorId FROM DUAL");
 			}
 			else if(manageType.equals("sm")) {
-				pstmt = conn.prepareStatement("select CONCAT('T', LPAD((select(select cast((select right((select max(sensor_id) from sensor_info "
+				pstmt = conn.prepareStatement("select CONCAT('S', LPAD((select(select cast((select right((select max(sensor_id) from sensor_info "
 						+ "where sensor_id like 'S%'), 14)) as unsigned) as mInt) + 1 mSum), 14, '0')) sesorId FROM DUAL");
 			}
 			rs = pstmt.executeQuery();
@@ -72,13 +72,14 @@ public class SensorDao {
 		
 		try {
 			pstmt = conn.prepareStatement("insert into sensor_info"
-					+ "(manage_id, sensor_id, sensor_type, operation_status, sensor_notice_standard, installation_datetime) "
-					+ "values (?, ?, ?, ? ,? , now())");
+					+ "(manage_id, sensor_id, sensor_type, operation_status, sensor_notice_standard, sensor_compare, installation_datetime) "
+					+ "values (?, ?, ?, ?, ?, ?, now())");
 			pstmt.setString(1, sensorInfo.getManageId());
 			pstmt.setString(2, sensorInfo.getSensorId());
 			pstmt.setString(3, sensorInfo.getSensorType());
 			pstmt.setString(4, sensorInfo.getOperationStatus());
 			pstmt.setString(5, sensorInfo.getSensorNoticeStandard());
+			pstmt.setString(6, sensorInfo.getSensorCompare());	
 			resultCode = pstmt.executeUpdate();
 			
 		} finally {

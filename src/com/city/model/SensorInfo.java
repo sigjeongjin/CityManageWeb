@@ -3,17 +3,18 @@ package com.city.model;
 import java.util.Date;
 
 public class SensorInfo {
-	
-	private String sensorId;				// 센서ID
-	private String manageId;				// 관리ID
-	private String sensorInfo;				// 센서 이상상태
-	private Date installationDatetime;		// 설치 날짜
-	private String sensorType;				// 센서 타입
-	private String operationStatus;			// 센서 동작상태
-	private String sensorNoticeStandard;	// push 알림 기준
-	private String latitude; 				// 위도
-	private String longitude; 				// 경도
-	
+
+	private String sensorId; // 센서ID
+	private String manageId; // 관리ID
+	private String sensorInfo; // 센서 이상상태
+	private Date installationDatetime; // 설치 날짜
+	private String sensorType; // 센서 타입
+	private String operationStatus; // 센서 동작상태
+	private String sensorNoticeStandard; // push 알림 기준
+	private String sensorCompare;
+	private String latitude; // 위도
+	private String longitude; // 경도
+
 	public String getSensorId() {
 		return sensorId;
 	}
@@ -68,6 +69,14 @@ public class SensorInfo {
 
 	public void setSensorNoticeStandard(String sensorNoticeStandard) {
 		this.sensorNoticeStandard = sensorNoticeStandard;
+	}
+
+	public String getSensorCompare() {
+		return sensorCompare;
+	}
+
+	public void setSensorCompare(String sensorCompare) {
+		this.sensorCompare = sensorCompare;
 	}
 
 	public String getLatitude() {

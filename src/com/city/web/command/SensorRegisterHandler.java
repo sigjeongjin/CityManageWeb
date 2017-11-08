@@ -40,7 +40,8 @@ public class SensorRegisterHandler implements CommandHandler {
 		sensorInfo.setSensorType(request.getParameter("sensorType"));
 		sensorInfo.setOperationStatus("Y");
 		sensorInfo.setSensorNoticeStandard(request.getParameter("sensorNoticeStandard"));
-
+		sensorInfo.setSensorCompare(request.getParameter("sensorCompare"));
+		
 		sensorManageService.setSensorInfo(sensorInfo);
 
 		if(manageType.equals(TM)) {

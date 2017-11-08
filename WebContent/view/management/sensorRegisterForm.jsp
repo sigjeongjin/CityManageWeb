@@ -30,8 +30,14 @@ pageEncoding = "UTF-8"%>
 	<tr>
 		<td><label><b>PUSH알림 기준값</b></label></td>
 		<td>	<input type="text" id="sensorNoticeStandard" name="sensorNoticeStandard" value="${param.sensorNoticeStandard}" required></td>
-	</tr>	
-		
+	</tr>
+	<tr>
+ 		<td><label><b>비교기준:</b></label></td>
+		<td><select id="sensorCompare" name="sensorCompare">
+			 <option value="over">이상</option>
+			 <option value="under">이하</option>
+	    </select></td>
+	</tr>		
 		</table>
 			<div class="btncenter">
     			<button type="submit" value="register">등록</button>
