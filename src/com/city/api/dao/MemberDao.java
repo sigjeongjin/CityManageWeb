@@ -181,7 +181,8 @@ public class MemberDao {
 
 		try {
 			pstmt = conn.prepareStatement("update member "
-					+ "set city_code=?, state_code=? where member_id=? and member_pwd=?");
+					+ " set city_code=?, state_code=?, member_register_complete='Y' "
+					+ " where member_id=? and member_pwd=?");
 			pstmt.setString(1, cityCode);
 			pstmt.setString(2, stateCode);
 			pstmt.setString(3, memberId);

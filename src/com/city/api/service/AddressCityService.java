@@ -17,7 +17,7 @@ public class AddressCityService {
 	private Connection conn = null;
 	private MemberDao memberDao = new MemberDao();
 
-	public int getCityStateInfo(String cityCode, String stateCode, String memberId, String memberPwd) {
+	public int setCityStateInfo(String cityCode, String stateCode, String memberId, String memberPwd) {
 		int resultCode = 0;
 
 		try {

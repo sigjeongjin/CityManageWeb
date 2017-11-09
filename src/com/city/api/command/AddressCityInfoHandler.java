@@ -33,7 +33,7 @@ public class AddressCityInfoHandler implements CommandJsonHandler {
 		String memberId = req.getParameter(MEMBER_ID);
 		String memberPwd = req.getParameter(MEMBER_PWD);
 		
-		int resultCode = addressCityService.getCityStateInfo(cityCode, stateCode, memberId, memberPwd);
+		int resultCode = addressCityService.setCityStateInfo(cityCode, stateCode, memberId, memberPwd);
 		
 		if(resultCode == 1){
 			result.setResultCode(RESULT_SUCCESS);
