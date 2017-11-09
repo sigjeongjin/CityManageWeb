@@ -157,7 +157,7 @@ public class MemberDao {
 		int resultCode = 0;
 
 		try {
-			pstmt = conn.prepareStatement("update member set member_photo=?, member_photo_original=? member_ where member_id=? ");
+			pstmt = conn.prepareStatement("update member set member_photo=?, member_photo_original=? where member_id=? ");
 
 			pstmt.setString(1, member.getMemberPhoto());
 			pstmt.setString(2, member.getMemberPhotoOriginal());
