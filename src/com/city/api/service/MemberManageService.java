@@ -10,6 +10,10 @@ import com.city.model.MemberAPI;
 import jdbc.JdbcUtil;
 import jdbc.connection.ConnectionProvider;
 
+/**
+ * @author com
+ *
+ */
 public class MemberManageService {
 
 	private MemberDao memberDao = new MemberDao();
@@ -124,31 +128,28 @@ public class MemberManageService {
 		return resultCode;
 	}
 
-	// memberPhotoChange 맴버 사진 변경 mPC
-	public String memberPhotoChange(String memberId, String memberPhoto) {
 
-		String mPC = "";
+	/**
+	 * 회원의 이미지를 변경 하는 기능
+	 * @param member
+	 * @return
+	 */
+	public int memberPhotoChange(Member member) {
 
+		int resultCode = 0;
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 
-			int resultCode = memberDao.memberPhotoChange(conn, memberId, memberPhoto);
+			resultCode = memberDao.memberPhotoChange(conn, member);
 			conn.commit();
-
-			if (resultCode == 1) {
-				mPC = "Y";
-			} else {
-				mPC = "N";
-				throw new SQLException();
-			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			JdbcUtil.rollback(conn);
 		} finally {
 			JdbcUtil.close(conn);
 		}
-		return mPC;
+		return resultCode;
 	}
 
 	public String memberPhoneSelect(String memberId) {

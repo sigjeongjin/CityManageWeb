@@ -152,15 +152,16 @@ public class MemberDao {
 	}
 
 	// 맴버 사진 변경
-	public int memberPhotoChange(Connection conn, String memberId, String memberPhoto) {
+	public int memberPhotoChange(Connection conn, Member member) {
 		PreparedStatement pstmt = null;
 		int resultCode = 0;
 
 		try {
-			pstmt = conn.prepareStatement("update member set member_Photo=? where member_id=? ");
+			pstmt = conn.prepareStatement("update member set member_photo=?, member_photo_original=? where member_id=? ");
 
-			pstmt.setString(1, memberPhoto);
-			pstmt.setString(2, memberId);
+			pstmt.setString(1, member.getMemberPhoto());
+			pstmt.setString(2, member.getMemberPhotoOriginal());
+			pstmt.setString(3, member.getMemberId());
 
 			resultCode = pstmt.executeUpdate();
 
