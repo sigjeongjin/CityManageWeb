@@ -25,7 +25,7 @@ public class PushService {
 	private String MESSAGE_ID = String.valueOf(Math.random() % 100 + 1);
 	private boolean SHOW_ON_IDLE = true;
 	private int LIVE_TIME = 1;
-	private int RETRY = 2;
+	private int RETRY = 1;
 	
 	private Connection conn = null;
 	
@@ -102,7 +102,7 @@ public class PushService {
 	}
 
 	public ArrayList<String> sendTokenList() throws SQLException{
-		Connection conn = null;
+		
 		ArrayList<String> pushTokenList = null;
 
 		try {
@@ -121,15 +121,15 @@ public class PushService {
 		}
 		return pushTokenList;
 	}
-
 	
 	/**
 	 * PUSH 보내기
 	 * @param tokenList
 	 * @param title
-	 * @param content
+	 * @param contents
+	 * @param arduinoSensorId
 	 */
-	public void sendPush(ArrayList<String> tokenList, String title, String content) {
+	public void sendPush(ArrayList<String> tokenList, String title, String contents, String arduinoSensorId) {
 		// ApiKey → FireBase에서 가져온 서버 키
 		// MESSAGE_ID → 메세지 고유 ID
 		// SHOW_ON_IDLE → 앱이 비활성화 상태일때 PUSH를 보여줄 것인지 
@@ -143,14 +143,18 @@ public class PushService {
 				.delayWhileIdle(SHOW_ON_IDLE)
 				.timeToLive(LIVE_TIME)
 				.addData("title", title)
-				.addData("contents", content)
+				.addData("contents", contents)
 				.build();
 		
 		try {
-			MulticastResult multicastResult = sender.send(message, tokenList, RETRY);
+			MulticastResult multicastResult = sender.send(message, tokenList, RETRY);			
 			List<Result> test = multicastResult.getResults();
 			
+			setPushHistory(contents, arduinoSensorId, MESSAGE_ID);
+			
 			System.out.println(test.toString());
+			
+			//setPushInfo
 			
 			for(Result result : test) {
 				System.out.println(result.getErrorCodeName());
@@ -160,5 +164,32 @@ public class PushService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	
+	}
+	
+	/**
+	 * pushHistory 등록하기
+	 * @param contents
+	 * @param arduinoSensorId
+	 * @param pushMessageId
+	 * @return
+	 */
+	public int setPushHistory(String contents, String arduinoSensorId, String pushMessageId) {
+		
+		int resultCode = 0;
+		
+		try {
+			conn = ConnectionProvider.getConnection();
+			conn.setAutoCommit(false);
+
+			resultCode = pushDao.insertPushHistory(conn, contents, arduinoSensorId, pushMessageId);
+			
+			conn.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+		return resultCode;
 	}
 }

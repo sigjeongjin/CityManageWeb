@@ -130,12 +130,12 @@ public class CommonMqttUtil {
 	 * @param title
 	 * @param contents
 	 */
-	public void sendPushMessage(String title, String contents) {
+	public void sendPushMessage(String title, String contents, String arduinoSensorId) {
 		
 		ArrayList<String> tokenList; // tokenList 불러오기
 		try {
 			tokenList = pushService.sendTokenList();
-			pushService.sendPush(tokenList, title, contents);
+			pushService.sendPush(tokenList, title, contents, arduinoSensorId);
 		} catch (SQLException e) {
 			System.out.println("PUSH Exception");
 			e.printStackTrace();

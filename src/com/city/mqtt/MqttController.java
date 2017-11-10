@@ -64,7 +64,7 @@ public class MqttController {
 					String contents = commonMqttUtil.getPsuhContents(arduinoSensorId); // sensorId로 contents 값 받아오기
 					System.out.println("title: " + title + ", contenst: " + contents);
 					
-					commonMqttUtil.sendPushMessage(title, contents); // PUSH 보내기		
+					commonMqttUtil.sendPushMessage(title, contents, arduinoSensorId); // PUSH 보내기		
 				}
 			}
 		} else {

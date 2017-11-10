@@ -56,11 +56,14 @@ CREATE TABLE `push_history_info` (
   PRIMARY KEY (`push_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `push_info` (
-  `push_token` 	 varchar(200) NOT NULL COMMENT '푸쉬 토큰키, firebase token key',
-  `member_id` 	 varchar(20)  NOT NULL COMMENT '회원 아이디',
-  `member_phone` varchar(15)  NOT NULL COMMENT '회원 휴대폰',
-  PRIMARY KEY (`push_token`)
+CREATE TABLE `push_history_info` (
+  `push_id` 		int(11) 	 NOT NULL AUTO_INCREMENT COMMENT 'PUSH 아이디',
+  `manage_id` 		varchar(15)  NOT NULL 				 COMMENT '센서 아이디',
+  `push_contents` 	varchar(200) NOT NULL 				 COMMENT 'PUSH내용',
+  `push_send_time`  datetime 	 NOT NULL 				 COMMENT 'PUSH발송 시간',
+  `location_name` 	varchar(100) NOT NULL,
+  `push_message_id` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`push_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `sensor_info` (

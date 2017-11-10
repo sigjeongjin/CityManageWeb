@@ -144,4 +144,35 @@ public class PushDao {
 		}
 		return pushList;
 	}
+
+	public int insertPushHistory(Connection conn, String contents, String arduinoSensorId, String pushMessageId) {
+
+		PreparedStatement pstmt = null;
+		int resultCode = 0;
+		
+		try {
+			pstmt = conn.prepareStatement("INSERT INTO push_history_info "
+					+ "(manage_id, location_name, push_contents, push_message_id, push_send_time) "
+					+ "values "
+					+ "((SELECT manage_id from sensor_info where sensor_id=?), "
+					+ "(SELECT CONCAT((select city_name from address_city where city_code=lm.city_code),' ',(select state_name from address_state where state_code=lm.state_code)) locationName " 
+					+ "FROM location_management lm JOIN sensor_info s ON lm.manage_id=s.manage_id where sensor_id=?), "
+					+ "?, "
+					+ "?, "
+					+ "now())");
+	
+			pstmt.setString(1, arduinoSensorId);
+			pstmt.setString(2, arduinoSensorId);
+			pstmt.setString(3, contents);
+			pstmt.setString(4, pushMessageId);
+			
+			resultCode = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(pstmt);
+		}
+		return resultCode;
+	}
 }

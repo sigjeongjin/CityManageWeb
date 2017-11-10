@@ -194,3 +194,7 @@ ADD COLUMN `push_message_id` VARCHAR(100) NULL AFTER `push_retry`;
 ALTER TABLE `citymanage`.`sensor_info` 
 ADD COLUMN `sensor_compare` VARCHAR(10) NULL DEFAULT 'over' AFTER `sensor_notice_standard`;
 CHANGE COLUMN `sensor_compare` `sensor_compare` VARCHAR(10) NULL DEFAULT 'over' COMMENT 'sensor_compare : over and under' ;
+
+-- 2017.11.10 colum 삭제
+ALTER TABLE `citymanage`.`push_history_info` 
+DROP COLUMN `push_retry`;
