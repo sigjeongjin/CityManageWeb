@@ -37,24 +37,17 @@ public class MemberManageService {
 		return memberAPI;
 	}
 
-	public String memberIdCheck(String memberId) {
+	public int memberIdCheck(String memberId) {
 
 		String mIC = "";
-
+		int resultCode = 0;
+		
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 
-			String resultCode = memberDao.selectById(conn, memberId);
+			resultCode = memberDao.selectById(conn, memberId);
 			conn.commit();
-
-			if (resultCode == "200") {
-				mIC = "Y";
-				return mIC;
-			} else {
-				mIC = "N";
-				throw new SQLException();
-			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -62,7 +55,7 @@ public class MemberManageService {
 		} finally {
 			JdbcUtil.close(conn);
 		}
-		return null;
+		return resultCode;
 	}
 
 	public int memberRegister(Member member) {

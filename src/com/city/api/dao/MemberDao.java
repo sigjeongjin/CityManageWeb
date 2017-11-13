@@ -48,20 +48,20 @@ public class MemberDao {
 	}
 
 	// 아이디 조회
-	public String selectById(Connection conn, String memberId) throws SQLException {
+	public int selectById(Connection conn, String memberId) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String resultCode = null;
+		int resultCode = 0;
 
 		try {
 			pstmt = conn.prepareStatement("select member_id memberId from member where member_id=?");
 			pstmt.setString(1, memberId);
+			
 			rs = pstmt.executeQuery();
+			
 			while (rs.next()) {
 				Member member = new Member();
 				member.setMemberId(rs.getString("memberId"));
-				resultCode = "200";
-				return resultCode;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
