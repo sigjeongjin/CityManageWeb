@@ -14,8 +14,8 @@ public class PushHistoryListHandler implements CommandHandler {
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		String pageNoVal = request.getParameter("pageNo");
-		String selectBox = request.getParameter("selectBox");
-		String searchText = request.getParameter("searchSelect");
+		String selectBox = request.getParameter("searchSelect");
+		String searchText = request.getParameter("searchText");
 
 		int pageNo = 1;
 		if (pageNoVal != null) {

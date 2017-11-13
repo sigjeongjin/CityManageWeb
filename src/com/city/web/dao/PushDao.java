@@ -112,8 +112,6 @@ public class PushDao {
 					sb.append("where tbl.pushContents like ?");
 				}
 			}
-			pstmt.setInt(1, startRow);
-			pstmt.setInt(2, size);
 			
 			if(StringUtils.isNotEmpty(selectBox))
 			{
