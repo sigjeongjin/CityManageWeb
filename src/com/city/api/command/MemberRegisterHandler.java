@@ -34,8 +34,8 @@ public class MemberRegisterHandler implements CommandJsonHandler {
 	
 		MultipartRequest multi;
 		String saveFolder = "/upload";
-		String realFolder = "/home/pi/apache-tomcat-8.5.20/webapps";
-		String dbSaveFolder = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+		String realFolder = request.getServletContext().getRealPath(saveFolder); // saveFilepath
+		String dbSaveFolder = "";
 		
 		int maxSize = 5 * 1024 * 1024; // 최대 업로될 파일크기 5Mb
 		
@@ -43,6 +43,14 @@ public class MemberRegisterHandler implements CommandJsonHandler {
 		try {
 			multi = new MultipartRequest(request, realFolder + saveFolder, maxSize, "utf-8",
 					new DefaultFileRenamePolicy());
+			
+			if(!realFolder.contains("workspace")) {
+				realFolder = "/home/pi/apache-tomcat-8.5.20/webapps";
+				dbSaveFolder = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+			} else {
+				dbSaveFolder = realFolder + "/" + multi.getFilesystemName("memberPhoto");
+			}
+			
 			member.setMemberId(multi.getParameter("memberId"));
 			member.setMemberPwd(multi.getParameter("memberPwd"));
 			member.setMemberName(multi.getParameter("memberName"));
