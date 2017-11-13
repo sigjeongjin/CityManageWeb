@@ -40,7 +40,6 @@ public class PushHistoryListPage {
 	}
 	
 	public boolean hasNoPushHistorys() {
-		System.out.println("nopushhistory");
 		return total == 0;
 	}
 

@@ -48,7 +48,6 @@ public class Mqtt implements ServletContextListener {
 				
 				@Override
 				public void messageArrived(String topic, MqttMessage message) throws Exception {
-					//System.out.println(topic + ": " + message.toString());
 					mqttController.transferTopicAndMessag(topic, message);
 				}
 				

@@ -43,30 +43,23 @@ public class CommonMqttUtil {
 		String sensorId = sensorInfo.getSensorId();
 		
 		if(sensorInfo.getSensorCompare().equals("under")) { // 낮을 경우 이상상태 (sensor compare : under)
-			System.out.println("under");
 			
 			if(arduinoSensorValue < noticeStandardSensorValue) {
 				//아두이노에서 보낸 값이 db에 저장된 기준값보다 작을때 이상 상태(이상)
 				sensorStatus = sensorService.modifySensorStatus(sensorId, "Y");
-				System.out.println("under Y");
 			} else {
 				//아두이노에서 보낸 값이 db에 저장된 기준값보다 클때 정상 상태(정상)
 				sensorStatus = sensorService.modifySensorStatus(sensorId, "N");
-				System.out.println("under N");
 			}
 		} else { // 클 경우 이상상태 (sensor compare : over)
 			
-			System.out.println("arduinoSensorValue : " + arduinoSensorValue);
-			System.out.println("noticeStandardSensorValue : " + noticeStandardSensorValue);
 			
 			if(arduinoSensorValue > noticeStandardSensorValue) {
 				//아두이노에서 보낸 값이 db에 저장된 기준값보다 클 때 이상 상태(이상)
 				sensorStatus = sensorService.modifySensorStatus(sensorId, "Y");
-				System.out.println("over Y");
 			} else {
 				//아두이노에서 보낸 값이 db에 저장된 기준값보다 작을 때 정상 상태(정상)
 				sensorStatus = sensorService.modifySensorStatus(sensorId, "N");
-				System.out.println("over N");
 			}
 		}
 		return sensorStatus;

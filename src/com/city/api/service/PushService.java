@@ -152,15 +152,6 @@ public class PushService {
 			
 			setPushHistory(contents, arduinoSensorId, MESSAGE_ID);
 			
-			System.out.println(test.toString());
-			
-			//setPushInfo
-			
-			for(Result result : test) {
-				System.out.println(result.getErrorCodeName());
-				System.out.println(result.getCanonicalRegistrationId());
-				System.out.println(result.getMessageId());
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	

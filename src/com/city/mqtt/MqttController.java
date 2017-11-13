@@ -50,8 +50,6 @@ public class MqttController {
 			sensorStatusUpdateResultCode = commonMqttUtil.sensorService.modifyOperationStatus(arduinoSensorId); // 센서 동작을 N -> Y로 변경
 		}
 		
-		System.out.println("topic: " + topic + ", sensorId: " + arduinoSensorId + ", sensorValue: " + arduinoSensorValue);
-		
 		if(sensorStatusUpdateResultCode == 1) {
 			//DB의 센서 기준값과 아두이노에서 보내준 센서 값을 비교
 			sensorStatus = commonMqttUtil.noticeAndValueCompare(sensorInfo, arduinoSensorValue );
@@ -62,7 +60,6 @@ public class MqttController {
 				if(sensorInfo.getSensorStatus().equals("Y")) {
 					String title = commonMqttUtil.getPsuhTitle(topic); 		 // topic(wm, tm, gm, sm) title 값 받아오기
 					String contents = commonMqttUtil.getPsuhContents(arduinoSensorId); // sensorId로 contents 값 받아오기
-					System.out.println("title: " + title + ", contenst: " + contents);
 					
 					commonMqttUtil.sendPushMessage(title, contents, arduinoSensorId); // PUSH 보내기		
 				}

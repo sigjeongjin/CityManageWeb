@@ -178,7 +178,6 @@ public class SensorService {
 			conn.setAutoCommit(false);
 			
 			resultCode = managementDao.updateSensorStatus(conn, sensorId, status);	
-			System.out.println("result code : " + resultCode);
 			conn.commit();				
 		} catch (SQLException e) {
 			e.printStackTrace();

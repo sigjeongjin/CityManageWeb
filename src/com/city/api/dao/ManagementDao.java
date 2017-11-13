@@ -351,10 +351,6 @@ public class ManagementDao {
 			
 			resultCode = pstmt.executeUpdate();
 			
-			System.out.println("sensor id : " + sensorId );
-			System.out.println("sensor status : " + status);
-			
-			System.out.println("DAO RESULT CODE : " +resultCode);
 		} catch (SQLException e) {
 			JdbcUtil.rollback(conn);
 			e.printStackTrace();
