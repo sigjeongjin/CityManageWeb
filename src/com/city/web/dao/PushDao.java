@@ -28,6 +28,7 @@ public class PushDao {
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		int total = 0;
 		
 		try {
 			
@@ -38,7 +39,8 @@ public class PushDao {
 					+"concat(lm.latitude,' ' ,lm.longitude) location " 
 					+"from push_history_info phi join location_management lm on phi.manage_id = lm.manage_id) tbl ");
 			
-			if(StringUtils.isNotEmpty(selectBox))
+			
+			if(StringUtils.isNotEmpty(selectBox) && !selectBox.equals("all"))
 			{
 				if(selectBox.equals("manageId")) {
 					sb.append("where tbl.manageId like ?");
@@ -51,26 +53,29 @@ public class PushDao {
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			
-			if(StringUtils.isNotEmpty(selectBox))
+			if(StringUtils.isNotEmpty(selectBox) && !selectBox.equals("all"))
 			{
 				if(selectBox.equals("manageId")) {
-					pstmt.setString(1, "'%" + searchText + "%'");
+					pstmt.setString(1, "%" + searchText + "%");
 				} else if(selectBox.equals("locationName")) {
-					pstmt.setString(1, "'%" + searchText + "%'");
+					pstmt.setString(1, "%" + searchText + "%");
 				} else if(selectBox.equals("pushContents")) {
-					pstmt.setString(1, "'%" + searchText + "%'");
+					pstmt.setString(1, "%" + searchText + "%");
 				}
 			}
 			
 			rs = pstmt.executeQuery();
+			
 			if (rs.next()) {
-				return rs.getInt(1);
+				total = rs.getInt(1);
 			}
-			return 0;
+			
 		} finally {
 			JdbcUtil.close(rs);
 			JdbcUtil.close(pstmt);
 		}
+		
+		return total;
 	}
 
 	/**
@@ -94,34 +99,45 @@ public class PushDao {
 			
 			StringBuilder sb = new StringBuilder();
 			
-			sb.append("select * from (select phi.manage_id manageId, location_name locationName, "
+			sb.append("select phi.manage_id manageId, location_name locationName, "
 					+"push_contents pushContents, DATE_FORMAT(phi.push_send_time, '%Y-%m-%d %H:%i:%s') pushSendTime , "
 					+"DATE_FORMAT(lm.create_datetime, '%Y-%m-%d %H:%i:%s') installationDateTime, "
 					+"concat(lm.latitude,' ' ,lm.longitude) location " 
-					+"from push_history_info phi join location_management lm on phi.manage_id = lm.manage_id limit ?, ?) tbl ");
+					+"from push_history_info phi join location_management lm on phi.manage_id = lm.manage_id ");
 			
-			pstmt = conn.prepareStatement(sb.toString());
 			
-			if(StringUtils.isNotEmpty(selectBox))
+			if(StringUtils.isNotEmpty(selectBox) && !selectBox.equals("all"))
 			{
 				if(selectBox.equals("manageId")) {
-					sb.append("where tbl.manageId like ?");
-				} else if(selectBox.equals("locationName")) {
-					sb.append("where tbl.locationName like ?");
+					sb.append("where phi.manage_id like ? ");
+				} else if(selectBox.equals("location_name")) {
+					sb.append("where phi.locationName like ? ");
 				} else if(selectBox.equals("pushContents")) {
-					sb.append("where tbl.pushContents like ?");
+					sb.append("where phi.push_contents like ? ");
 				}
 			}
 			
-			if(StringUtils.isNotEmpty(selectBox))
+			sb.append("limit ?, ? ");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			
+			
+			if(StringUtils.isNotEmpty(selectBox) && !selectBox.equals("all"))
 			{
 				if(selectBox.equals("manageId")) {
-					pstmt.setString(3, "'%" + searchText + "%'");
+					pstmt.setString(1, "%" + searchText + "%");
+					
 				} else if(selectBox.equals("locationName")) {
-					pstmt.setString(3, "'%" + searchText + "%'");
+					pstmt.setString(1, "%" + searchText + "%");
 				} else if(selectBox.equals("pushContents")) {
-					pstmt.setString(3, "'%" + searchText + "%'");
+					pstmt.setString(1, "%" + searchText + "%");
 				}
+				
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, size);
+			} else {
+				pstmt.setInt(1, startRow);
+				pstmt.setInt(2, size);
 			}
 			
 			rs = pstmt.executeQuery();
@@ -135,6 +151,9 @@ public class PushDao {
 						, rs.getString("location")));
 			}	
 			
+		} catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("푸쉬 이력 조회 실패");
 		} finally {
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);

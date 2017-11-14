@@ -59,7 +59,7 @@ pageEncoding = "UTF-8"%>
 			<c:forEach var="pNo" 
 					   begin="${pushHistoryListPage.startPage}" 
 					   end="${pushHistoryListPage.endPage}">
-			<a href="pushHistoryList.do?pageNo=${pNo}">[${pNo}]</a>
+			<a href="pushHistoryList.do?pageNo=${pNo}&searchText=${searchText}&searchSelect=${searchSelect}">[${pNo}]</a>
 			</c:forEach>
 			<c:if test="${pushHistoryListPage.endPage < pushHistoryListPage.totalPages}">
 			<a href="pushHistoryList.do?pageNo=${pushHistoryListPage.startPage + 5}">[다음]</a>
@@ -77,12 +77,27 @@ pageEncoding = "UTF-8"%>
 </body>
 <script src="../../js/jquery-1.11.0.min.js"></script>
 <script type="text/javascript">
-$(doucument).ready(function(){
+$(document).ready(function(){
     $("tr.memberList").click(function(){
      	$('#memberId').attr('value',$(this).find("td").eq(3).html());
-     		console.log(memberId);
      	$("#hiddenForm").submit();
     });
+    
+    var searchText = "${searchSelect}";
+    var searchSelect = "${searchText}";
+    
+    if(searchText != null && searchText != "" && searchText != " ") {
+    	console.log(" searchText null이 아닐때");
+    	console.log(searchText);
+    	$("#searchText").val("${searchText}");
+    }
+    
+    if(searchSelect != null && searchSelect != "" && searchSelect != " ") {
+    	console.log(" searchSelect null이 아닐때");
+    	console.log(searchSelect);
+    	$("#searchSelect").val("${searchSelect}").attr("selected", "selected");	
+    }
+    
 });
 </script>
 </html>

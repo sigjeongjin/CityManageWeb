@@ -443,12 +443,13 @@ public class ManagementDao {
 	 * @return SensorInfo
 	 * @throws SQLException
 	 */
+	@SuppressWarnings("null")
 	public SensorInfo selectSensorInfo(Connection conn, String sensorId) {
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		SensorInfo sensorInfo = new SensorInfo();
+		SensorInfo sensorInfo = null;
 		
 		try {
 			pstmt = conn.prepareStatement("SELECT lm.manage_id manageId" 

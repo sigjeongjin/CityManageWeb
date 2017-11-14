@@ -38,7 +38,9 @@ $(document).ready(function(){
 	
 	var err = $("#error").val();
 	
-	if(err > 0){
+	console.log(err);
+	
+	if(err.length > 0){
 		alert($("#error").val());	
 	}
 	
