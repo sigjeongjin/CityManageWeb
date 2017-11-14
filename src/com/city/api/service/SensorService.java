@@ -243,7 +243,7 @@ public class SensorService {
 	 */
 	public SensorInfo getSensorInfo(String sensorId) {
 		
-		SensorInfo sensorInfo = new SensorInfo();
+		SensorInfo sensorInfo = null;
 		
 		try {
 			conn = ConnectionProvider.getConnection();

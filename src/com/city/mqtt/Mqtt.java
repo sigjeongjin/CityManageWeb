@@ -74,11 +74,12 @@ public class Mqtt implements ServletContextListener {
 	    	message.setQos(2);
 	    	client.publish("CityManage", message);
 			
-			
 		} catch (MqttException e) {
-			// TODO: handle exception
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		} catch (Exception e ) {
+			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
-		
 	}
 }
