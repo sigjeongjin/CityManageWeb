@@ -21,6 +21,8 @@ public class MqttController {
 	 */
 	public void transferTopicAndMessag(String topic, MqttMessage message) throws Exception {
 				
+		System.out.println("Receive - topic : " + topic + " message : " + message);
+		
 		SensorInfo sensorInfo = new SensorInfo();
 		
 		String topicMessage = message.toString();
