@@ -124,10 +124,10 @@ public class PushDao {
 		
 		try {
 			// Test 용  select문
-			pstmt = conn.prepareStatement("select push_token from push_info");
+			//pstmt = conn.prepareStatement("select push_token from push_info");
 			
 			// 즐겨찾기 추가한 사람들만 push 전송되게 쿼리문 작성
-			// pstmt = conn.prepareStatement("select push_token from push_info p inner join favorites_info f on p.member_id = f.member_id where f.bookmark='Y'");
+			pstmt = conn.prepareStatement("select push_token from push_info p inner join favorites_info f on p.member_id = f.member_id where f.bookmark='Y'");
 
 			rs = pstmt.executeQuery();
 
