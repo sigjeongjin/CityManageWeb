@@ -258,6 +258,6 @@ public class SensorService {
 		} finally {
 			JdbcUtil.close(conn);	
 		} 
-			return sensorInfo;		
+		return sensorInfo;		
 	}
 }
