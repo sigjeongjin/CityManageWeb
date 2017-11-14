@@ -33,13 +33,13 @@ pageEncoding = "UTF-8"%>
 			<input type="password" placeholder="비밀번호 확인을 입력해주세요." id="conMemberPwd" name="conMemberPwd" maxlength="20" required>
 		
 		<label><b>이름</b></label>
-			<input type="text" placeholder="이름을 입력해주세요." id="memberName" name="memberName" maxlength="20" value="${param.memberName}" required>
+			<input type="text" placeholder="이름을 입력해주세요." id="memberName" name="memberName" maxlength="10" value="${param.memberName}" required>
 		
 		<label><b>휴대폰 번호</b></label>
-			<input type="text" placeholder="휴대폰 번호를 입력해주세요." id="memberPhone" name="memberPhone" maxlength="20" value="${param.memberPhone}" required>
+			<input type="text" placeholder="휴대폰 번호를 입력해주세요." id="memberPhone" name="memberPhone" maxlength="15" value="${param.memberPhone}" required>
 		
 		<label><b>E-mail</b></label>
-			<input type="email" placeholder="E-mail을 입력해주세요." id="memberEmail" name="memberEmail" maxlength="20" value="${param.memberEmail}" required>
+			<input type="email" placeholder="E-mail을 입력해주세요." id="memberEmail" name="memberEmail" maxlength="30" value="${param.memberEmail}" required>
 		<label><b>지역 선택</b></label>
 		
 		<select id="city" name="cityCode">

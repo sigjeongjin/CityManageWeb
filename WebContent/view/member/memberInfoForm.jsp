@@ -15,7 +15,7 @@ pageEncoding = "UTF-8"%>
 	<div class="container">
 	
 	<div class="memberPhoto_preview" id="memberPhoto_preview">
-<!--     <img src="#" width="100%" height="100%"/> -->
+	<!-- <img src="#" width="100%" height="100%"/> -->
     <img src="../../upload/${memberInfo.memberPhoto}" width="100%" height="100%"/>
 	</div>
 	

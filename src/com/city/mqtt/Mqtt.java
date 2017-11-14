@@ -39,7 +39,8 @@ public class Mqtt implements ServletContextListener {
 		try {
 			MqttClient client = new MqttClient(
 					prop.getProperty("mqttBrokerServer"), 
-					MqttClient.generateClientId(),
+					//MqttClient.generateClientId(),
+					"cityManage",
 					new MemoryPersistence());
 			
 			client.connect();
