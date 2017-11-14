@@ -465,6 +465,7 @@ public class ManagementDao {
 			rs = pstmt.executeQuery();
 			
 			if (rs.next()) {
+				sensorInfo = new SensorInfo();
 				
 				sensorInfo.setManageId(rs.getString("manageId"));
 				sensorInfo.setSensorId(rs.getString("sensorId"));
