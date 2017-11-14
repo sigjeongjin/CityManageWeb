@@ -2,10 +2,12 @@ package com.city.mqtt;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import com.city.api.service.PushService;
 import com.city.api.service.SensorService;
+import com.city.model.PushTokenAndMemberIdListInfo;
 import com.city.model.SensorInfo;
 
 public class CommonMqttUtil {
@@ -123,12 +125,12 @@ public class CommonMqttUtil {
 	 * @param title
 	 * @param contents
 	 */
-	public void sendPushMessage(String title, String contents, String arduinoSensorId) {
+	public void sendPushMessage(String title, String contents, String arduinoManageId, String arduinoSensorId) {
 		
-		ArrayList<String> tokenList; // tokenList 불러오기
+		List<PushTokenAndMemberIdListInfo> pushTokenAndMemberIdListInfoList = null;
 		try {
-			tokenList = pushService.sendTokenList();
-			pushService.sendPush(tokenList, title, contents, arduinoSensorId);
+			pushTokenAndMemberIdListInfoList = pushService.sendTokenList(arduinoManageId);
+			pushService.sendPush(pushTokenAndMemberIdListInfoList, title, contents, arduinoSensorId);
 		} catch (SQLException e) {
 			System.out.println("PUSH Exception");
 			e.printStackTrace();

@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.city.model.PushInfo;
 import com.city.model.PushResultInfo;
+import com.city.model.PushTokenAndMemberIdListInfo;
 
 import jdbc.JdbcUtil;
 
@@ -114,25 +115,31 @@ public class PushDao {
 		return resultCode;
 	}
 
-	/* 조건에 따른 토큰 리스트 생성 */
-	/* 조건 */
-	public ArrayList<String> selectPushList(Connection conn) {
+	public List<PushTokenAndMemberIdListInfo> selectPushList(Connection conn, String arduinoManageId) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		ArrayList<String> pushList = new ArrayList<>();
+		List<PushTokenAndMemberIdListInfo> pushTokenAndMemberIdListInfoList = new ArrayList<PushTokenAndMemberIdListInfo>();
 		
 		try {
 			// Test 용  select문
 			//pstmt = conn.prepareStatement("select push_token from push_info");
 			
 			// 즐겨찾기 추가한 사람들만 push 전송되게 쿼리문 작성
-			pstmt = conn.prepareStatement("select push_token from push_info p inner join favorites_info f on p.member_id = f.member_id where f.bookmark='Y'");
+			pstmt = conn.prepareStatement("select p.push_token, p.member_id  from push_info p "
+					+ "inner join favorites_info f on p.member_id = f.member_id where f.bookmark='Y' and manage_id = ? ");
 
+			pstmt.setString(1, arduinoManageId);
+			
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				pushList.add(rs.getString(1));
+				PushTokenAndMemberIdListInfo pushTokenAndMemberIdListInfo = new PushTokenAndMemberIdListInfo();
+				
+				pushTokenAndMemberIdListInfo.setToken(rs.getString(1));
+				pushTokenAndMemberIdListInfo.setMemberId(rs.getString(2));
+				
+				pushTokenAndMemberIdListInfoList.add(pushTokenAndMemberIdListInfo);
 			}
 			
 		} catch (SQLException e) {
@@ -142,17 +149,17 @@ public class PushDao {
 			JdbcUtil.close(rs);
 			JdbcUtil.close(pstmt);
 		}
-		return pushList;
+		return pushTokenAndMemberIdListInfoList;
 	}
 
-	public int insertPushHistory(Connection conn, String contents, String arduinoSensorId, String pushMessageId) {
+	public int insertPushHistory(Connection conn, String contents, String arduinoSensorId, String memberId) {
 
 		PreparedStatement pstmt = null;
 		int resultCode = 0;
 		
 		try {
 			pstmt = conn.prepareStatement("INSERT INTO push_history_info "
-					+ "(manage_id, location_name, push_contents, push_message_id, push_send_time) "
+					+ "(manage_id, location_name, push_contents, member_id, push_send_time) "
 					+ "values "
 					+ "((SELECT manage_id from sensor_info where sensor_id=?), "
 					+ "(SELECT CONCAT((select city_name from address_city where city_code=lm.city_code),' ',(select state_name from address_state where state_code=lm.state_code)) locationName " 
@@ -164,7 +171,7 @@ public class PushDao {
 			pstmt.setString(1, arduinoSensorId);
 			pstmt.setString(2, arduinoSensorId);
 			pstmt.setString(3, contents);
-			pstmt.setString(4, pushMessageId);
+			pstmt.setString(4, memberId);
 			
 			resultCode = pstmt.executeUpdate();
 			

@@ -8,6 +8,7 @@ import java.util.List;
 import com.city.api.dao.PushDao;
 import com.city.model.PushInfo;
 import com.city.model.PushResultInfo;
+import com.city.model.PushTokenAndMemberIdListInfo;
 import com.google.android.gcm.server.Message;
 import com.google.android.gcm.server.MulticastResult;
 import com.google.android.gcm.server.Result;
@@ -101,15 +102,15 @@ public class PushService {
 		return resultCode;
 	}
 
-	public ArrayList<String> sendTokenList() throws SQLException{
+	public List<PushTokenAndMemberIdListInfo> sendTokenList(String arduinoManageId) throws SQLException{
 		
-		ArrayList<String> pushTokenList = null;
+		List<PushTokenAndMemberIdListInfo> pushTokenAndMemberIdListInfoList = null;
 
 		try {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 
-			pushTokenList = pushDao.selectPushList(conn);
+			pushTokenAndMemberIdListInfoList = pushDao.selectPushList(conn, arduinoManageId);
 			
 			conn.commit();
 			
@@ -119,7 +120,7 @@ public class PushService {
 		} finally {
 			JdbcUtil.close(conn);
 		}
-		return pushTokenList;
+		return pushTokenAndMemberIdListInfoList;
 	}
 	
 	/**
@@ -129,7 +130,8 @@ public class PushService {
 	 * @param contents
 	 * @param arduinoSensorId
 	 */
-	public void sendPush(ArrayList<String> tokenList, String title, String contents, String arduinoSensorId) {
+	public void sendPush(List<PushTokenAndMemberIdListInfo>  pushTokenAndMemberIdListInfoList
+			, String title, String contents, String arduinoSensorId) {
 		// ApiKey → FireBase에서 가져온 서버 키
 		// MESSAGE_ID → 메세지 고유 ID
 		// SHOW_ON_IDLE → 앱이 비활성화 상태일때 PUSH를 보여줄 것인지 
@@ -147,10 +149,21 @@ public class PushService {
 				.build();
 		
 		try {
+			
+			ArrayList<String> tokenList = new ArrayList<>();
+			
+			for(int i = 0; i < pushTokenAndMemberIdListInfoList.size(); i ++ ) {
+				tokenList.add(pushTokenAndMemberIdListInfoList.get(i).getToken());
+			}
+			
 			MulticastResult multicastResult = sender.send(message, tokenList, RETRY);			
 			List<Result> test = multicastResult.getResults();
+				
 			
-			setPushHistory(contents, arduinoSensorId, MESSAGE_ID);
+			for(int i = 0; i < pushTokenAndMemberIdListInfoList.size(); i ++ ) {
+				setPushHistory(contents, arduinoSensorId, pushTokenAndMemberIdListInfoList.get(i).getMemberId());
+			}
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -164,7 +177,7 @@ public class PushService {
 	 * @param pushMessageId
 	 * @return
 	 */
-	public int setPushHistory(String contents, String arduinoSensorId, String pushMessageId) {
+	public int setPushHistory(String contents, String arduinoSensorId, String memberId) {
 		
 		int resultCode = 0;
 		
@@ -172,7 +185,7 @@ public class PushService {
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 
-			resultCode = pushDao.insertPushHistory(conn, contents, arduinoSensorId, pushMessageId);
+			resultCode = pushDao.insertPushHistory(conn, contents, arduinoSensorId, memberId);
 			
 			conn.commit();
 		} catch (SQLException e) {

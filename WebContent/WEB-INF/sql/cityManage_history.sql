@@ -198,3 +198,7 @@ CHANGE COLUMN `sensor_compare` `sensor_compare` VARCHAR(10) NULL DEFAULT 'over' 
 -- 2017.11.10 colum 삭제
 ALTER TABLE `citymanage`.`push_history_info` 
 DROP COLUMN `push_retry`;
+
+-- 2017.11.14 colum 변경
+ALTER TABLE `citymanage`.`push_history_info` 
+CHANGE COLUMN `push_message_id` `member_id` VARCHAR(100) NULL DEFAULT NULL ;
