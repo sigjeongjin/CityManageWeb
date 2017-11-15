@@ -113,7 +113,7 @@ public class CommonMqttUtil {
 		} else if (sensorType.equals("sm")) {
 			contents = sensorId + ":연기 감지";
 		} else if (sensorType.equals("sd")) {
-			contents = sensorId + ";충격 감지";
+			contents = sensorId + ":충격 감지";
 		} else if (sensorType.equals("gd")) {
 			contents = sensorId + ":압력 이상";
 		}
